@@ -1,0 +1,45 @@
+# Equivalent of .eslintrc.js for Flutter/Dart
+# Run: flutter analyze   ← must return 0 issues before committing
+#
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Treat these as errors (not just warnings)
+    missing_required_param: error
+    missing_return: error
+    dead_code: warning
+    unused_import: error
+    unused_local_variable: warning
+  exclude:
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - 'lib/generated/**'
+    - 'build/**'
+
+linter:
+  rules:
+    # ── Style ──────────────────────────────────────────────────────────────
+    prefer_single_quotes: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+    use_super_parameters: true
+
+    # ── Safety ─────────────────────────────────────────────────────────────
+    avoid_print: true           # use AppLogger / debugPrint instead
+    avoid_catches_without_on_clauses: true
+    cancel_subscriptions: true
+    close_sinks: true
+
+    # ── Null safety ─────────────────────────────────────────────────────────
+    avoid_null_checks_in_equality_operators: true
+
+    # ── Imports ─────────────────────────────────────────────────────────────
+    directives_ordering: true
+    avoid_relative_lib_imports: true
+
+    # ── Flutter-specific ────────────────────────────────────────────────────
+    use_key_in_widget_constructors: true
+    sized_box_for_whitespace: true
+    avoid_unnecessary_containers: true

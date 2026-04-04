@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../web"
+		}
+	],
+	"settings": {
+		"chat.tools.terminal.autoApprove": {
+			"xcodebuild": true,
+			"plutil": true,
+			"killall": true
+		}
+	}
+}

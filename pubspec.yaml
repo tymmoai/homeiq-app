@@ -1,0 +1,164 @@
+name: homeiq
+description: "BrandsMartUSA - Smart Home Management App"
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+4
+
+environment:
+  sdk: ^3.10.0
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Icons
+  cupertino_icons: ^1.0.8
+  
+  # State Management
+  flutter_riverpod: ^2.6.1
+  
+  # Navigation
+  go_router: ^14.2.0
+  
+  # HTTP Client
+  http: ^1.2.2
+  
+  # Local Storage
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2  # Encrypted keychain/keystore for auth tokens
+  
+  # Google Sign-In
+  google_sign_in: ^6.2.1
+  
+  # Network
+  connectivity_plus: ^6.1.2
+  multicast_dns: ^0.3.2+1
+  network_info_plus: ^6.1.1
+  
+  # Permissions
+  permission_handler: ^11.3.1
+  
+  # Date Formatting
+  intl: ^0.19.0
+  
+  # UI Components
+  flutter_svg: ^2.0.10+1
+  cached_network_image: ^3.3.1
+  
+  # File & Image Picker
+  image_picker: ^1.2.1
+  file_picker: ^10.3.8
+
+  # Barcode / QR Code Scanner
+  mobile_scanner: ^6.0.2
+  
+  # File Operations
+  url_launcher: ^6.3.1
+  share_plus: ^10.1.2
+  
+  # WebView for embedded content (e.g. YouTube DIY videos)
+  webview_flutter: ^4.8.0
+  webview_flutter_android: ^3.16.0
+  webview_flutter_wkwebview: ^3.14.0
+
+  # Deep Links (email invite links → app)
+  app_links: ^6.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Integration / E2E testing (equivalent of Playwright for Flutter)
+  integration_test:
+    sdk: flutter
+
+  # Linting
+  flutter_lints: ^6.0.0
+  
+  # Launcher Icons
+  flutter_launcher_icons: ^0.14.3
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  LAUNCHER ICONS — run: dart run flutter_launcher_icons
+# ═══════════════════════════════════════════════════════════════════════════
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "lib/asset_img/brandsmart_app_logo.jpg"
+  min_sdk_android: 21
+  adaptive_icon_foreground: "lib/asset_img/brandsmart_app_logo.jpg"
+  adaptive_icon_background: "#FFFFFF"
+  web:
+    generate: true
+    image_path: "lib/asset_img/brandsmart_app_logo.jpg"
+  windows:
+    generate: true
+    image_path: "lib/asset_img/brandsmart_app_logo.jpg"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "lib/asset_img/brandsmart_app_logo.jpg"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - lib/asset_img/
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font.
+  #
+  # NOTE: AllStateSans brand font files need to be obtained from Allstate/
+  # SquareTrade brand assets and placed in a fonts/ directory.
+  # Uncomment the section below once font files are available:
+  #
+  # fonts:
+  #   - family: AllStateSans
+  #     fonts:
+  #       - asset: fonts/AllStateSans-Regular.ttf
+  #       - asset: fonts/AllStateSans-Medium.ttf
+  #         weight: 500
+  #       - asset: fonts/AllStateSans-Bold.ttf
+  #         weight: 700
+  #       - asset: fonts/AllStateSans-Light.ttf
+  #         weight: 300
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package

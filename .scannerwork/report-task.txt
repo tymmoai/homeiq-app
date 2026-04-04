@@ -1,0 +1,6 @@
+projectKey=homeiq-flutter-app
+serverUrl=http://localhost:9000
+serverVersion=10.4.1.88267
+dashboardUrl=http://localhost:9000/dashboard?id=homeiq-flutter-app
+ceTaskId=ae011abd-208b-498d-9143-5193f37344f2
+ceTaskUrl=http://localhost:9000/api/ce/task?id=ae011abd-208b-498d-9143-5193f37344f2

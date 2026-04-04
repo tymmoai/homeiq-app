@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>BrandsMart</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>BrandsMart</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to take photos of your home assets and appliances.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to select images of your home assets and appliances.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need permission to save photos of your home assets to your photo library.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>HomeIQ scans your local Wi-Fi network to identify home appliances, TVs, printers and smart devices so you can manage them all in one place.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.tymmo.homeiq</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>homeiq</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_airplay._tcp</string>
+		<string>_googlecast._tcp</string>
+		<string>_sonos._tcp</string>
+		<string>_spotify-connect._tcp</string>
+		<string>_raop._tcp</string>
+		<string>_ipp._tcp</string>
+		<string>_printer._tcp</string>
+		<string>_hap._tcp</string>
+		<string>_hue._tcp</string>
+		<string>_http._tcp</string>
+		<string>_smb._tcp</string>
+		<string>_ssh._tcp</string>
+		<string>_device-info._tcp</string>
+		<string>_sleep-proxy._udp</string>
+	</array>
+</dict>
+</plist>

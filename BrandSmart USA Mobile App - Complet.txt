@@ -1,0 +1,1851 @@
+BrandSmart USA Mobile App - Complete Theme Implementation Guide
+Last Updated: February 10, 2026
+Version: 1.0
+Target Platform: React Native / Flutter / Native iOS/Android
+
+📋 Table of Contents
+Overview
+Color System
+Design Principles
+Component-by-Component Guide
+Screen-by-Screen Implementation
+Testing Checklist
+🎯 Overview
+Project Goal
+Transform the HomeIQ mobile app from a professional black/white theme to BrandSmart USA's bold retail brand identity with deep blue primary color and energetic red accents.
+
+Brand Identity
+Primary Color: Deep Blue #0057A0 (HSL: 207° 100% 31%)
+Accent Color: Bold Red #E31837 (HSL: 351° 78% 49%)
+Style: Bold, retail-focused, high-energy, trust-building
+Button Style: Rectangular with slight rounding (borderRadius: 4-6)
+Scope
+This guide covers ALL screens, components, and interactions in the mobile app, organized by feature area for systematic implementation.
+
+🎨 Color System
+Primary Colors
+// BrandSmart USA Color Palette
+const colors = {
+  // Primary - Deep Blue
+  primary: '#0057A0',              // Main brand color
+  primaryDark: '#004580',          // Hover/pressed states
+  primaryLight: '#0066B8',         // Light variant
+  
+  // Primary with opacity (for backgrounds, borders)
+  primary05: 'rgba(0, 87, 160, 0.05)',   // 5% opacity
+  primary10: 'rgba(0, 87, 160, 0.10)',   // 10% opacity
+  primary20: 'rgba(0, 87, 160, 0.20)',   // 20% opacity
+  primary30: 'rgba(0, 87, 160, 0.30)',   // 30% opacity
+  primary50: 'rgba(0, 87, 160, 0.50)',   // 50% opacity
+  
+  // Accent - Bold Red
+  accent: '#E31837',               // Accent/alerts
+  accentDark: '#C41230',           // Pressed state
+  
+  // Neutrals (keep existing)
+  background: '#FFFFFF',
+  backgroundSecondary: '#F8F9FA',
+  text: '#1A1A1A',
+  textSecondary: '#6B7280',
+  border: '#E5E7EB',
+  
+  // Status colors (keep existing)
+  success: '#10B981',
+  warning: '#F59E0B',
+  error: '#EF4444',
+  info: '#3B82F6',
+};
+Color Usage Guidelines
+Use Case	Color	Example
+Primary buttons	primary + white text	Book Service, Submit, Confirm
+Button pressed state	primaryDark	Touch feedback
+Selected items	primary10 background + primary border	Selected cards, active tabs
+Icon highlights	primary	Active icons, feature icons
+Links/clickable text	primary	"View Details", "Learn More"
+Focus indicators	primary50 border	Input focus, keyboard navigation
+Hover/touch areas	primary05 background	Card hover, button hover
+Alerts/badges	accent (red)	Notifications, urgent items
+Pricing/emphasis	primary	Price tags, important values
+🎨 Design Principles
+1. Button Design
+// Primary Button
+{
+  backgroundColor: colors.primary,
+  color: '#FFFFFF',
+  borderRadius: 6,  // Slightly rounded, not pill-shaped
+  paddingVertical: 12,
+  paddingHorizontal: 24,
+  fontWeight: '600',
+  
+  // Pressed state
+  pressedBackgroundColor: colors.primaryDark,
+  
+  // Shadow for depth
+  shadowColor: colors.primary,
+  shadowOpacity: 0.3,
+  shadowRadius: 8,
+  elevation: 4,  // Android
+}
+
+// Secondary Button (Outline)
+{
+  backgroundColor: 'transparent',
+  borderWidth: 2,
+  borderColor: colors.primary,
+  color: colors.primary,
+  borderRadius: 6,
+  
+  // Pressed state
+  pressedBackgroundColor: colors.primary05,
+}
+2. Selection States
+// Card Selection Pattern
+{
+  // Unselected
+  borderWidth: 1,
+  borderColor: colors.border,
+  backgroundColor: colors.background,
+  
+  // Selected
+  borderWidth: 2,
+  borderColor: colors.primary,
+  backgroundColor: colors.primary05,
+  
+  // With ring indicator
+  shadowColor: colors.primary,
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+}
+
+// Icon in Selected State
+{
+  backgroundColor: colors.primary10,
+  iconColor: colors.primary,
+}
+3. Input Focus States
+// Text Input
+{
+  // Default
+  borderWidth: 1,
+  borderColor: colors.border,
+  
+  // Focused
+  borderWidth: 2,
+  borderColor: colors.primary,
+  shadowColor: colors.primary,
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+}
+4. Typography Colors
+// Text Colors
+{
+  heading: colors.text,           // Primary headings
+  body: colors.text,              // Body text
+  secondary: colors.textSecondary, // Descriptions
+  link: colors.primary,           // Links, CTAs
+  price: colors.primary,          // Prices, values
+  label: colors.textSecondary,    // Form labels
+}
+🔧 Component-by-Component Guide
+1. Navigation Components
+Bottom Tab Navigator
+// Tab Bar Configuration
+<Tab.Navigator
+  screenOptions={{
+    tabBarActiveTintColor: colors.primary,      // Active icon/label
+    tabBarInactiveTintColor: colors.textSecondary,
+    tabBarStyle: {
+      backgroundColor: colors.background,
+      borderTopColor: colors.border,
+    },
+  }}
+>
+Changes: - Active tab color: #6B7280 → #0057A0 - Active tab indicator/underline: Use primary - Icons in active state: primary color
+
+Header/Navigation Bar
+// Header Styling
+{
+  headerStyle: {
+    backgroundColor: colors.primary,  // Blue header
+  },
+  headerTintColor: '#FFFFFF',        // White icons/text
+  headerTitleStyle: {
+    fontWeight: '600',
+  },
+}
+Changes: - Background: White/Gray → #0057A0 (deep blue) - Text/icons: Dark → White - Back button: Use white color - Optional: Keep white header with blue accent buttons
+
+Drawer Navigation (if applicable)
+// Drawer Styling
+{
+  drawerActiveBackgroundColor: colors.primary10,
+  drawerActiveTintColor: colors.primary,
+  drawerInactiveTintColor: colors.textSecondary,
+}
+2. Button Components
+Primary Button
+Before:
+
+{
+  backgroundColor: '#000000',
+  color: '#FFFFFF',
+}
+After:
+
+{
+  backgroundColor: colors.primary,    // #0057A0
+  color: '#FFFFFF',
+  borderRadius: 6,
+  
+  // Pressed state
+  android_ripple: { color: colors.primaryDark },
+  pressedStyle: {
+    backgroundColor: colors.primaryDark,  // #004580
+  },
+}
+Secondary/Outline Button
+After:
+
+{
+  backgroundColor: 'transparent',
+  borderWidth: 2,
+  borderColor: colors.primary,
+  color: colors.primary,
+  
+  // Pressed state
+  pressedStyle: {
+    backgroundColor: colors.primary05,
+  },
+}
+Icon Buttons
+// Active/Primary Icon Button
+{
+  iconColor: colors.primary,
+  backgroundColor: colors.primary10,
+  borderRadius: 8,
+  padding: 8,
+}
+3. Card Components
+Selectable Cards (Service Selection, Options)
+// Card Component Pattern
+const isSelected = /* selection logic */;
+
+// Style
+{
+  // Base
+  borderWidth: 1,
+  borderColor: colors.border,
+  backgroundColor: colors.background,
+  borderRadius: 12,
+  padding: 16,
+  
+  // When Selected
+  ...(isSelected && {
+    borderWidth: 2,
+    borderColor: colors.primary,
+    backgroundColor: colors.primary05,
+    shadowColor: colors.primary,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 2,
+  }),
+}
+
+// Icon Container in Selected Card
+{
+  backgroundColor: isSelected ? colors.primary10 : colors.backgroundSecondary,
+  width: 40,
+  height: 40,
+  borderRadius: 8,
+  alignItems: 'center',
+  justifyContent: 'center',
+}
+
+// Icon Color
+{
+  iconColor: isSelected ? colors.primary : colors.textSecondary,
+}
+Information Cards (Non-selectable)
+{
+  backgroundColor: colors.backgroundSecondary,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+}
+Info Box with Icon
+// Info/Alert Box
+{
+  backgroundColor: colors.primary05,
+  borderWidth: 1,
+  borderColor: colors.primary20,
+  borderRadius: 8,
+  padding: 12,
+  flexDirection: 'row',
+  alignItems: 'center',
+}
+
+// Icon
+{
+  iconColor: colors.primary,
+  marginRight: 12,
+}
+4. Form Components
+Text Input
+// TextInput Component
+const [isFocused, setIsFocused] = useState(false);
+
+<TextInput
+  style={{
+    borderWidth: isFocused ? 2 : 1,
+    borderColor: isFocused ? colors.primary : colors.border,
+    backgroundColor: colors.background,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: colors.text,
+  }}
+  onFocus={() => setIsFocused(true)}
+  onBlur={() => setIsFocused(false)}
+  placeholderTextColor={colors.textSecondary}
+/>
+Changes: - Focus border: Gray → #0057A0 (2px width) - Focus shadow: Add subtle blue glow
+
+Checkbox
+// Custom Checkbox or using library
+{
+  // Unchecked
+  borderColor: colors.border,
+  backgroundColor: 'transparent',
+  
+  // Checked
+  backgroundColor: colors.primary,
+  checkmarkColor: '#FFFFFF',
+}
+
+// React Native Checkbox (if using)
+<Checkbox
+  value={isChecked}
+  onValueChange={setChecked}
+  tintColors={{
+    true: colors.primary,    // Checked state
+    false: colors.border,    // Unchecked state
+  }}
+/>
+Radio Button
+{
+  // Outer circle
+  borderWidth: 2,
+  borderColor: isSelected ? colors.primary : colors.border,
+  width: 20,
+  height: 20,
+  borderRadius: 10,
+  alignItems: 'center',
+  justifyContent: 'center',
+  
+  // Inner dot (when selected)
+  innerDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.primary,
+  },
+}
+Switch/Toggle
+// React Native Switch
+<Switch
+  value={isEnabled}
+  onValueChange={setIsEnabled}
+  trackColor={{
+    false: colors.border,
+    true: colors.primary,
+  }}
+  thumbColor={isEnabled ? '#FFFFFF' : '#F3F4F6'}
+  ios_backgroundColor={colors.border}
+/>
+Dropdown/Picker
+{
+  borderWidth: 1,
+  borderColor: colors.border,
+  backgroundColor: colors.background,
+  borderRadius: 8,
+  
+  // Selected Option
+  selectedTextColor: colors.primary,
+  
+  // Dropdown Icon
+  iconColor: colors.primary,
+}
+5. List Components
+List Item (Touchable)
+// List Item Component
+<TouchableOpacity
+  style={{
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    flexDirection: 'row',
+    alignItems: 'center',
+  }}
+  // Pressed overlay
+  activeOpacity={0.7}
+  underlayColor={colors.primary05}
+>
+  {/* Icon */}
+  <View style={{
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: colors.primary10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  }}>
+    <Icon name="..." size={20} color={colors.primary} />
+  </View>
+  
+  {/* Content */}
+  <View style={{ flex: 1 }}>
+    <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+      Item Title
+    </Text>
+    <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+      Description
+    </Text>
+  </View>
+  
+  {/* Arrow */}
+  <Icon name="chevron-right" size={20} color={colors.textSecondary} />
+</TouchableOpacity>
+List with Selection
+// Selectable List Item
+{
+  // Selected state
+  backgroundColor: isSelected ? colors.primary05 : 'transparent',
+  borderLeftWidth: isSelected ? 4 : 0,
+  borderLeftColor: colors.primary,
+}
+6. Icon Components
+Feature Icons (Primary Color)
+// Icon with colored background
+<View style={{
+  width: 48,
+  height: 48,
+  borderRadius: 12,
+  backgroundColor: colors.primary10,
+  alignItems: 'center',
+  justifyContent: 'center',
+}}>
+  <Icon name="home" size={24} color={colors.primary} />
+</View>
+Changes for ALL icons in these contexts: - Service category icons - Feature highlight icons - Selected state icons - Active tab icons - Primary action icons
+
+Color: Gray/Black → #0057A0 Background (if circular/square): primary10 (light blue)
+
+7. Badge Components
+Notification Badge
+{
+  backgroundColor: colors.accent,  // #E31837 (red)
+  borderRadius: 10,
+  minWidth: 20,
+  height: 20,
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingHorizontal: 6,
+  
+  // Text
+  color: '#FFFFFF',
+  fontSize: 12,
+  fontWeight: '700',
+}
+Status Badge
+// Info Badge
+{
+  backgroundColor: colors.primary10,
+  borderWidth: 1,
+  borderColor: colors.primary20,
+  borderRadius: 12,
+  paddingHorizontal: 8,
+  paddingVertical: 4,
+}
+
+// Badge Text
+{
+  color: colors.primary,
+  fontSize: 12,
+  fontWeight: '600',
+}
+8. Loading & Progress Components
+Activity Indicator
+<ActivityIndicator 
+  size="large"
+  color={colors.primary}  // #0057A0 instead of default gray
+/>
+Progress Bar
+// Progress Track
+{
+  height: 6,
+  backgroundColor: colors.border,
+  borderRadius: 3,
+  overflow: 'hidden',
+}
+
+// Progress Fill
+{
+  height: 6,
+  backgroundColor: colors.primary,  // #0057A0
+  borderRadius: 3,
+}
+Skeleton Loader
+// Shimmering effect base color
+{
+  backgroundColor: colors.backgroundSecondary,
+  
+  // Shimmer highlight
+  shimmerColor: colors.primary10,
+}
+📱 Screen-by-Screen Implementation
+1. Authentication Screens
+Login Screen
+Components to Update: - [ ] Login button: Background #0057A0, white text - [ ] "Forgot Password" link: Text color #0057A0 - [ ] OTP input: Focus border #0057A0 - [ ] Phone number input: Focus border #0057A0 - [ ] Social login buttons: Outline style with #0057A0 border
+
+Code Pattern:
+
+// Login Button
+<TouchableOpacity style={{
+  backgroundColor: colors.primary,
+  paddingVertical: 14,
+  borderRadius: 6,
+  alignItems: 'center',
+}}>
+  <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+    Login
+  </Text>
+</TouchableOpacity>
+
+// Link Text
+<Text style={{ color: colors.primary, fontSize: 14, fontWeight: '600' }}>
+  Forgot Password?
+</Text>
+Registration Screen
+Components to Update: - [ ] All input fields: Focus border #0057A0 - [ ] Submit button: Background #0057A0 - [ ] Terms checkbox: Checked color #0057A0 - [ ] "Already have account?" link: Text color #0057A0
+
+2. Home Screen
+Search Bar
+{
+  borderWidth: 1,
+  borderColor: colors.border,
+  backgroundColor: colors.background,
+  borderRadius: 12,
+  
+  // Focus state
+  focusBorderColor: colors.primary,
+  focusShadowColor: colors.primary,
+}
+
+// Search Icon
+{
+  iconColor: colors.primary,
+}
+Service Category Cards
+// Category Card
+<TouchableOpacity style={{
+  backgroundColor: colors.background,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+  alignItems: 'center',
+  
+  // Pressed state
+  activeOpacity: 0.7,
+}}>
+  {/* Icon Container */}
+  <View style={{
+    width: 56,
+    height: 56,
+    borderRadius: 12,
+    backgroundColor: colors.primary10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  }}>
+    <Icon name="wrench" size={28} color={colors.primary} />
+  </View>
+  
+  <Text style={{ fontSize: 14, fontWeight: '600', color: colors.text }}>
+    Home Repair
+  </Text>
+</TouchableOpacity>
+Category Cards to Update: - [ ] Home Repair - [ ] Cleaning - [ ] Moving - [ ] Assembly - [ ] Smart Home - [ ] Outdoor Services - [ ] Mounting - [ ] Painting
+
+Changes: - Icon background: primary10 - Icon color: primary - Card hover: primary05 background
+
+Quick Actions
+// Quick Action Button
+{
+  backgroundColor: colors.primary,
+  borderRadius: 8,
+  paddingVertical: 12,
+  paddingHorizontal: 16,
+  flexDirection: 'row',
+  alignItems: 'center',
+}
+
+// Button Text
+{
+  color: '#FFFFFF',
+  fontSize: 14,
+  fontWeight: '600',
+  marginLeft: 8,
+}
+Recent Activity
+// Activity Item
+{
+  // Status indicator dot
+  dotColor: colors.primary,
+  
+  // Timestamp
+  timestampColor: colors.textSecondary,
+  
+  // Action link
+  linkColor: colors.primary,
+}
+3. Services Flow
+Service Selection Screen
+Components to Update: - [ ] Service type cards (selectable) - [ ] "Continue" button - [ ] Selected indicator
+
+// Service Card (when selected)
+{
+  borderWidth: 2,
+  borderColor: colors.primary,
+  backgroundColor: colors.primary05,
+  borderRadius: 12,
+  padding: 16,
+  
+  // Icon container
+  iconBackground: colors.primary10,
+  iconColor: colors.primary,
+  
+  // Checkmark indicator
+  checkmarkColor: colors.primary,
+}
+Service Details Input
+Forms to Update: - [ ] Issue description textarea - [ ] Photo upload button - [ ] Model number input - [ ] Warranty toggle switch - [ ] Urgency selection cards
+
+// Photo Upload Button
+<TouchableOpacity style={{
+  borderWidth: 2,
+  borderStyle: 'dashed',
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 32,
+  alignItems: 'center',
+  backgroundColor: colors.backgroundSecondary,
+}}>
+  {/* Upload Icon */}
+  <View style={{
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  }}>
+    <Icon name="camera" size={28} color={colors.primary} />
+  </View>
+  
+  <Text style={{ color: colors.primary, fontWeight: '600' }}>
+    Upload Photos
+  </Text>
+</TouchableOpacity>
+Schedule Selection
+// Date Selector Buttons
+const dateButtons = ['Today', 'Tomorrow', 'Choose Date'];
+
+dateButtons.map(label => (
+  <TouchableOpacity
+    key={label}
+    style={{
+      flex: 1,
+      borderWidth: 2,
+      borderColor: selectedDate === label ? colors.primary : colors.border,
+      backgroundColor: selectedDate === label ? colors.primary10 : colors.background,
+      borderRadius: 8,
+      paddingVertical: 12,
+      alignItems: 'center',
+      marginHorizontal: 4,
+    }}
+  >
+    <Text style={{
+      color: selectedDate === label ? colors.primary : colors.text,
+      fontWeight: '600',
+    }}>
+      {label}
+    </Text>
+  </TouchableOpacity>
+))
+
+// Time Slot Selection
+{
+  // Available slot
+  borderColor: colors.border,
+  backgroundColor: colors.background,
+  
+  // Selected slot
+  borderWidth: 2,
+  borderColor: colors.primary,
+  backgroundColor: colors.primary10,
+  
+  // Selected text color
+  textColor: colors.primary,
+}
+Payment Selection
+// Payment Method Card
+<TouchableOpacity style={{
+  borderWidth: 2,
+  borderColor: isSelected ? colors.primary : colors.border,
+  backgroundColor: isSelected ? colors.primary05 : colors.background,
+  borderRadius: 12,
+  padding: 16,
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 12,
+}}>
+  {/* Radio Button */}
+  <View style={{
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: isSelected ? colors.primary : colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  }}>
+    {isSelected && (
+      <View style={{
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: colors.primary,
+      }} />
+    )}
+  </View>
+  
+  {/* Icon */}
+  <View style={{
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: isSelected ? colors.primary10 : colors.backgroundSecondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  }}>
+    <Icon name="credit-card" size={20} color={isSelected ? colors.primary : colors.textSecondary} />
+  </View>
+  
+  <View style={{ flex: 1 }}>
+    <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+      Credit Card
+    </Text>
+    <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+      Pay securely with card
+    </Text>
+  </View>
+</TouchableOpacity>
+Booking Confirmation
+// Success Icon
+<View style={{
+  width: 80,
+  height: 80,
+  borderRadius: 40,
+  backgroundColor: colors.primary10,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: 16,
+}}>
+  <Icon name="check-circle" size={48} color={colors.primary} />
+</View>
+
+// Booking ID Display
+<View style={{
+  backgroundColor: colors.primary05,
+  borderWidth: 1,
+  borderColor: colors.primary20,
+  borderRadius: 8,
+  padding: 16,
+  alignItems: 'center',
+  marginBottom: 24,
+}}>
+  <Text style={{ fontSize: 14, color: colors.textSecondary, marginBottom: 4 }}>
+    Booking ID
+  </Text>
+  <Text style={{ fontSize: 20, fontWeight: '700', color: colors.primary }}>
+    #BK12345
+  </Text>
+</View>
+
+// View Booking Button
+<TouchableOpacity style={{
+  backgroundColor: colors.primary,
+  borderRadius: 6,
+  paddingVertical: 14,
+  alignItems: 'center',
+  marginBottom: 12,
+}}>
+  <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+    View Booking Details
+  </Text>
+</TouchableOpacity>
+4. Asset Management
+Asset List Screen
+// Asset Card
+<TouchableOpacity style={{
+  backgroundColor: colors.background,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+  flexDirection: 'row',
+  
+  // Pressed state
+  activeOpacity: 0.7,
+}}>
+  {/* Asset Image */}
+  <Image 
+    source={{ uri: asset.image }}
+    style={{ width: 64, height: 64, borderRadius: 8 }}
+  />
+  
+  {/* Content */}
+  <View style={{ flex: 1, marginLeft: 12 }}>
+    <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+      {asset.name}
+    </Text>
+    <Text style={{ fontSize: 14, color: colors.textSecondary, marginTop: 2 }}>
+      {asset.model}
+    </Text>
+    
+    {/* Health Score Badge */}
+    <View style={{
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 8,
+    }}>
+      <View style={{
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+        backgroundColor: colors.primary,
+        marginRight: 6,
+      }} />
+      <Text style={{ fontSize: 12, color: colors.primary, fontWeight: '600' }}>
+        Health Score: {asset.healthScore}/10
+      </Text>
+    </View>
+  </View>
+  
+  <Icon name="chevron-right" size={20} color={colors.textSecondary} />
+</TouchableOpacity>
+Add Asset Flow
+// Category Selection Cards
+{
+  borderWidth: 2,
+  borderColor: isSelected ? colors.primary : colors.border,
+  backgroundColor: isSelected ? colors.primary05 : colors.background,
+  
+  iconBackground: isSelected ? colors.primary10 : colors.backgroundSecondary,
+  iconColor: isSelected ? colors.primary : colors.textSecondary,
+}
+
+// Identification Method Selection
+const methods = ['Scan Label', 'Enter Manually'];
+
+methods.map(method => (
+  <TouchableOpacity
+    key={method}
+    style={{
+      borderWidth: 2,
+      borderColor: selected === method ? colors.primary : colors.border,
+      backgroundColor: selected === method ? colors.primary : 'transparent',
+      borderRadius: 8,
+      paddingVertical: 12,
+      flex: 1,
+      alignItems: 'center',
+      marginHorizontal: 4,
+    }}
+  >
+    <Text style={{
+      color: selected === method ? '#FFFFFF' : colors.text,
+      fontWeight: '600',
+    }}>
+      {method}
+    </Text>
+  </TouchableOpacity>
+))
+Asset Detail Screen
+// Health Score Circle
+<View style={{
+  width: 120,
+  height: 120,
+  borderRadius: 60,
+  borderWidth: 8,
+  borderColor: colors.primary,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: colors.primary05,
+}}>
+  <Text style={{ fontSize: 32, fontWeight: '700', color: colors.primary }}>
+    {asset.healthScore}
+  </Text>
+  <Text style={{ fontSize: 12, color: colors.textSecondary }}>
+    /10
+  </Text>
+</View>
+
+// Action Buttons
+const actions = [
+  { icon: 'wrench', label: 'Request Repair', bg: colors.primary },
+  { icon: 'calendar', label: 'Schedule Maintenance', bg: colors.background, border: colors.primary },
+  { icon: 'file-text', label: 'View Documents', bg: colors.background, border: colors.primary },
+];
+5. Bookings & Services
+Bookings List Screen
+// Booking Card
+<TouchableOpacity style={{
+  backgroundColor: colors.background,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+}}>
+  {/* Status Badge */}
+  <View style={{
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    backgroundColor: getStatusColor(booking.status),
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  }}>
+    <Text style={{ color: '#FFFFFF', fontSize: 11, fontWeight: '600' }}>
+      {booking.status}
+    </Text>
+  </View>
+  
+  {/* Service Icon */}
+  <View style={{
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: colors.primary10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  }}>
+    <Icon name={booking.serviceIcon} size={24} color={colors.primary} />
+  </View>
+  
+  <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+    {booking.serviceName}
+  </Text>
+  
+  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+    <Icon name="calendar" size={14} color={colors.textSecondary} />
+    <Text style={{ fontSize: 14, color: colors.textSecondary, marginLeft: 6 }}>
+      {booking.date} at {booking.time}
+    </Text>
+  </View>
+  
+  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+    <Icon name="map-pin" size={14} color={colors.textSecondary} />
+    <Text style={{ fontSize: 14, color: colors.textSecondary, marginLeft: 6 }}>
+      {booking.location}
+    </Text>
+  </View>
+  
+  <View style={{ 
+    borderTopWidth: 1, 
+    borderTopColor: colors.border,
+    marginTop: 12,
+    paddingTop: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }}>
+    <Text style={{ fontSize: 18, fontWeight: '700', color: colors.primary }}>
+      ${booking.price}
+    </Text>
+    
+    <TouchableOpacity style={{
+      backgroundColor: colors.primary,
+      borderRadius: 6,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+    }}>
+      <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: '600' }}>
+        View Details
+      </Text>
+    </TouchableOpacity>
+  </View>
+</TouchableOpacity>
+
+// Status Color Helper
+const getStatusColor = (status) => {
+  switch(status) {
+    case 'confirmed': return colors.primary;
+    case 'in-progress': return colors.info;
+    case 'completed': return colors.success;
+    case 'cancelled': return colors.error;
+    default: return colors.textSecondary;
+  }
+};
+Booking Detail Screen
+// Timeline Component
+<View style={{ marginVertical: 24 }}>
+  {timelineSteps.map((step, index) => (
+    <View key={index} style={{ flexDirection: 'row' }}>
+      {/* Timeline Line */}
+      <View style={{ alignItems: 'center', marginRight: 12 }}>
+        {/* Circle */}
+        <View style={{
+          width: 24,
+          height: 24,
+          borderRadius: 12,
+          backgroundColor: step.completed ? colors.primary : colors.border,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {step.completed && (
+            <Icon name="check" size={14} color="#FFFFFF" />
+          )}
+        </View>
+        
+        {/* Connecting Line */}
+        {index < timelineSteps.length - 1 && (
+          <View style={{
+            width: 2,
+            flex: 1,
+            minHeight: 40,
+            backgroundColor: step.completed ? colors.primary20 : colors.border,
+            marginVertical: 4,
+          }} />
+        )}
+      </View>
+      
+      {/* Content */}
+      <View style={{ flex: 1, marginBottom: 16 }}>
+        <Text style={{
+          fontSize: 14,
+          fontWeight: '600',
+          color: step.completed ? colors.text : colors.textSecondary,
+        }}>
+          {step.title}
+        </Text>
+        <Text style={{
+          fontSize: 12,
+          color: colors.textSecondary,
+          marginTop: 2,
+        }}>
+          {step.time}
+        </Text>
+      </View>
+    </View>
+  ))}
+</View>
+
+// Technician Profile Card
+<View style={{
+  backgroundColor: colors.primary05,
+  borderWidth: 1,
+  borderColor: colors.primary20,
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 24,
+}}>
+  <Text style={{ fontSize: 14, fontWeight: '600', color: colors.textSecondary, marginBottom: 12 }}>
+    Your Technician
+  </Text>
+  
+  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    {/* Avatar */}
+    <View style={{
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    }}>
+      <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: '700' }}>
+        {technician.initials}
+      </Text>
+    </View>
+    
+    <View style={{ flex: 1 }}>
+      <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+        {technician.name}
+      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+        <Icon name="star" size={14} color={colors.warning} />
+        <Text style={{ fontSize: 14, color: colors.textSecondary, marginLeft: 4 }}>
+          {technician.rating} ({technician.reviews} reviews)
+        </Text>
+      </View>
+    </View>
+    
+    {/* Contact Buttons */}
+    <TouchableOpacity style={{
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 8,
+    }}>
+      <Icon name="phone" size={18} color="#FFFFFF" />
+    </TouchableOpacity>
+    
+    <TouchableOpacity style={{
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <Icon name="message-circle" size={18} color="#FFFFFF" />
+    </TouchableOpacity>
+  </View>
+</View>
+6. Cart & Checkout
+Cart Screen
+// Cart Item Card
+<View style={{
+  backgroundColor: colors.background,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+}}>
+  <View style={{ flexDirection: 'row' }}>
+    {/* Product Image */}
+    <Image 
+      source={{ uri: item.image }}
+      style={{ width: 80, height: 80, borderRadius: 8 }}
+    />
+    
+    <View style={{ flex: 1, marginLeft: 12 }}>
+      <Text style={{ fontSize: 14, fontWeight: '600', color: colors.text }}>
+        {item.name}
+      </Text>
+      <Text style={{ fontSize: 12, color: colors.textSecondary, marginTop: 2 }}>
+        {item.description}
+      </Text>
+      
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+        <Text style={{ fontSize: 16, fontWeight: '700', color: colors.primary }}>
+          ${item.price}
+        </Text>
+        
+        {/* Quantity Controls */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto' }}>
+          <TouchableOpacity style={{
+            width: 28,
+            height: 28,
+            borderRadius: 6,
+            borderWidth: 1,
+            borderColor: colors.border,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Icon name="minus" size={14} color={colors.text} />
+          </TouchableOpacity>
+          
+          <Text style={{ fontSize: 14, fontWeight: '600', marginHorizontal: 12 }}>
+            {item.quantity}
+          </Text>
+          
+          <TouchableOpacity style={{
+            width: 28,
+            height: 28,
+            borderRadius: 6,
+            backgroundColor: colors.primary,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Icon name="plus" size={14} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+
+// Price Summary
+<View style={{
+  backgroundColor: colors.primary05,
+  borderWidth: 1,
+  borderColor: colors.primary20,
+  borderRadius: 12,
+  padding: 16,
+  marginTop: 24,
+}}>
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+    <Text style={{ fontSize: 14, color: colors.textSecondary }}>Subtotal</Text>
+    <Text style={{ fontSize: 14, color: colors.text }}>${cart.subtotal}</Text>
+  </View>
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+    <Text style={{ fontSize: 14, color: colors.textSecondary }}>Shipping</Text>
+    <Text style={{ fontSize: 14, color: colors.text }}>${cart.shipping}</Text>
+  </View>
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+    <Text style={{ fontSize: 14, color: colors.textSecondary }}>Tax</Text>
+    <Text style={{ fontSize: 14, color: colors.text }}>${cart.tax}</Text>
+  </View>
+  
+  <View style={{
+    borderTopWidth: 1,
+    borderTopColor: colors.primary20,
+    marginTop: 8,
+    paddingTop: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }}>
+    <Text style={{ fontSize: 16, fontWeight: '700', color: colors.text }}>Total</Text>
+    <Text style={{ fontSize: 20, fontWeight: '700', color: colors.primary }}>${cart.total}</Text>
+  </View>
+</View>
+
+// Checkout Button
+<TouchableOpacity style={{
+  backgroundColor: colors.primary,
+  borderRadius: 6,
+  paddingVertical: 16,
+  alignItems: 'center',
+  marginTop: 24,
+}}>
+  <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+    Proceed to Checkout
+  </Text>
+</TouchableOpacity>
+Checkout Screen
+// Payment Method Selection
+<View style={{ marginBottom: 24 }}>
+  <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text, marginBottom: 12 }}>
+    Payment Method
+  </Text>
+  
+  {paymentMethods.map(method => (
+    <TouchableOpacity
+      key={method.id}
+      style={{
+        borderWidth: 2,
+        borderColor: selectedMethod === method.id ? colors.primary : colors.border,
+        backgroundColor: selectedMethod === method.id ? colors.primary05 : colors.background,
+        borderRadius: 12,
+        padding: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 12,
+      }}
+      onPress={() => setSelectedMethod(method.id)}
+    >
+      {/* Radio Button */}
+      <View style={{
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: selectedMethod === method.id ? colors.primary : colors.border,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+      }}>
+        {selectedMethod === method.id && (
+          <View style={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            backgroundColor: colors.primary,
+          }} />
+        )}
+      </View>
+      
+      {/* Icon */}
+      <View style={{
+        width: 40,
+        height: 40,
+        borderRadius: 8,
+        backgroundColor: selectedMethod === method.id ? colors.primary10 : colors.backgroundSecondary,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+      }}>
+        <Icon name={method.icon} size={20} color={selectedMethod === method.id ? colors.primary : colors.textSecondary} />
+      </View>
+      
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+          {method.name}
+        </Text>
+        <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+          {method.description}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  ))}
+</View>
+
+// Place Order Button
+<TouchableOpacity style={{
+  backgroundColor: colors.primary,
+  borderRadius: 6,
+  paddingVertical: 16,
+  alignItems: 'center',
+  marginTop: 24,
+  
+  // Shadow
+  shadowColor: colors.primary,
+  shadowOpacity: 0.3,
+  shadowRadius: 12,
+  shadowOffset: { width: 0, height: 4 },
+  elevation: 6,
+}}>
+  <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+    Place Order - ${cart.total}
+  </Text>
+</TouchableOpacity>
+7. Profile & Settings
+Profile Screen
+// Profile Header
+<View style={{
+  backgroundColor: colors.primary,
+  paddingTop: 60,
+  paddingBottom: 80,
+  alignItems: 'center',
+}}>
+  {/* Avatar */}
+  <View style={{
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+    borderWidth: 4,
+    borderColor: colors.primaryLight,
+  }}>
+    <Text style={{ fontSize: 36, fontWeight: '700', color: colors.primary }}>
+      {user.initials}
+    </Text>
+  </View>
+  
+  <Text style={{ fontSize: 20, fontWeight: '700', color: '#FFFFFF' }}>
+    {user.name}
+  </Text>
+  <Text style={{ fontSize: 14, color: '#FFFFFF', opacity: 0.9, marginTop: 4 }}>
+    {user.email}
+  </Text>
+  
+  {/* Edit Profile Button */}
+  <TouchableOpacity style={{
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    marginTop: 16,
+  }}>
+    <Text style={{ color: colors.primary, fontSize: 14, fontWeight: '600' }}>
+      Edit Profile
+    </Text>
+  </TouchableOpacity>
+</View>
+
+// Stats Cards
+<View style={{
+  flexDirection: 'row',
+  marginTop: -40,
+  marginHorizontal: 16,
+  gap: 8,
+}}>
+  {[
+    { label: 'Bookings', value: user.bookingsCount },
+    { label: 'Assets', value: user.assetsCount },
+    { label: 'Warranties', value: user.warrantiesCount },
+  ].map(stat => (
+    <View
+      key={stat.label}
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+        borderWidth: 1,
+        borderColor: colors.border,
+        borderRadius: 12,
+        padding: 16,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        elevation: 2,
+      }}
+    >
+      <Text style={{ fontSize: 24, fontWeight: '700', color: colors.primary }}>
+        {stat.value}
+      </Text>
+      <Text style={{ fontSize: 12, color: colors.textSecondary, marginTop: 4 }}>
+        {stat.label}
+      </Text>
+    </View>
+  ))}
+</View>
+Settings List
+// Settings Section
+<View style={{ marginTop: 24, marginHorizontal: 16 }}>
+  <Text style={{ fontSize: 12, fontWeight: '600', color: colors.textSecondary, marginBottom: 12, textTransform: 'uppercase' }}>
+    Account Settings
+  </Text>
+  
+  {settingsItems.map((item, index) => (
+    <TouchableOpacity
+      key={item.id}
+      style={{
+        backgroundColor: colors.background,
+        borderTopWidth: index === 0 ? 1 : 0,
+        borderBottomWidth: 1,
+        borderColor: colors.border,
+        paddingVertical: 16,
+        paddingHorizontal: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+      }}
+      activeOpacity={0.7}
+    >
+      {/* Icon */}
+      <View style={{
+        width: 36,
+        height: 36,
+        borderRadius: 8,
+        backgroundColor: colors.primary10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+      }}>
+        <Icon name={item.icon} size={18} color={colors.primary} />
+      </View>
+      
+      <Text style={{ flex: 1, fontSize: 16, color: colors.text }}>
+        {item.label}
+      </Text>
+      
+      <Icon name="chevron-right" size={20} color={colors.textSecondary} />
+    </TouchableOpacity>
+  ))}
+</View>
+8. Notifications
+Notifications List
+// Notification Item
+<TouchableOpacity
+  style={{
+    backgroundColor: notification.read ? colors.background : colors.primary05,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+  }}
+  activeOpacity={0.7}
+>
+  {/* Icon */}
+  <View style={{
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: notification.read ? colors.backgroundSecondary : colors.primary10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  }}>
+    <Icon 
+      name={getNotificationIcon(notification.type)} 
+      size={20} 
+      color={notification.read ? colors.textSecondary : colors.primary} 
+    />
+  </View>
+  
+  {/* Content */}
+  <View style={{ flex: 1 }}>
+    <Text style={{ 
+      fontSize: 14, 
+      fontWeight: notification.read ? '400' : '600', 
+      color: colors.text,
+      marginBottom: 4,
+    }}>
+      {notification.title}
+    </Text>
+    <Text style={{ fontSize: 13, color: colors.textSecondary }}>
+      {notification.message}
+    </Text>
+    <Text style={{ fontSize: 11, color: colors.textSecondary, marginTop: 4 }}>
+      {notification.time}
+    </Text>
+  </View>
+  
+  {/* Unread Indicator */}
+  {!notification.read && (
+    <View style={{
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.primary,
+      marginLeft: 8,
+    }} />
+  )}
+</TouchableOpacity>
+9. Predictive Insights
+Insights Dashboard
+// Insight Card
+<View style={{
+  backgroundColor: colors.background,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+}}>
+  {/* Header */}
+  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+    <View style={{
+      width: 40,
+      height: 40,
+      borderRadius: 8,
+      backgroundColor: colors.primary10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    }}>
+      <Icon name="alert-triangle" size={20} color={colors.primary} />
+    </View>
+    
+    <View style={{ flex: 1 }}>
+      <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+        {insight.title}
+      </Text>
+      <Text style={{ fontSize: 12, color: colors.textSecondary }}>
+        {insight.assetName}
+      </Text>
+    </View>
+    
+    {/* Priority Badge */}
+    <View style={{
+      backgroundColor: getPriorityColor(insight.priority),
+      borderRadius: 12,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+    }}>
+      <Text style={{ color: '#FFFFFF', fontSize: 11, fontWeight: '600' }}>
+        {insight.priority}
+      </Text>
+    </View>
+  </View>
+  
+  {/* Description */}
+  <Text style={{ fontSize: 14, color: colors.text, marginBottom: 12 }}>
+    {insight.description}
+  </Text>
+  
+  {/* Estimated Cost */}
+  <View style={{
+    backgroundColor: colors.primary05,
+    borderWidth: 1,
+    borderColor: colors.primary20,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+  }}>
+    <Text style={{ fontSize: 12, color: colors.textSecondary }}>
+      Estimated Cost if not addressed
+    </Text>
+    <Text style={{ fontSize: 20, fontWeight: '700', color: colors.accent, marginTop: 4 }}>
+      ${insight.estimatedCost}
+    </Text>
+  </View>
+  
+  {/* Action Button */}
+  <TouchableOpacity style={{
+    backgroundColor: colors.primary,
+    borderRadius: 6,
+    paddingVertical: 12,
+    alignItems: 'center',
+  }}>
+    <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: '600' }}>
+      Schedule Preventive Maintenance
+    </Text>
+  </TouchableOpacity>
+</View>
+
+// Priority Color Helper
+const getPriorityColor = (priority) => {
+  switch(priority) {
+    case 'high': return colors.accent;
+    case 'medium': return colors.warning;
+    case 'low': return colors.info;
+    default: return colors.textSecondary;
+  }
+};
+10. Warranties
+Warranty Card
+<View style={{
+  backgroundColor: colors.background,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+}}>
+  {/* Header with Icon */}
+  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+    <View style={{
+      width: 48,
+      height: 48,
+      borderRadius: 12,
+      backgroundColor: colors.primary10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    }}>
+      <Icon name="shield" size={24} color={colors.primary} />
+    </View>
+    
+    <View style={{ flex: 1 }}>
+      <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+        {warranty.plan}
+      </Text>
+      <Text style={{ fontSize: 14, color: colors.textSecondary }}>
+        {warranty.assetName}
+      </Text>
+    </View>
+    
+    {/* Status Badge */}
+    <View style={{
+      backgroundColor: warranty.active ? colors.success : colors.error,
+      borderRadius: 12,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+    }}>
+      <Text style={{ color: '#FFFFFF', fontSize: 11, fontWeight: '600' }}>
+        {warranty.active ? 'Active' : 'Expired'}
+      </Text>
+    </View>
+  </View>
+  
+  {/* Details */}
+  <View style={{
+    backgroundColor: colors.backgroundSecondary,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+  }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+      <Text style={{ fontSize: 13, color: colors.textSecondary }}>Coverage</Text>
+      <Text style={{ fontSize: 13, fontWeight: '600', color: colors.text }}>
+        {warranty.coverage}
+      </Text>
+    </View>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+      <Text style={{ fontSize: 13, color: colors.textSecondary }}>Expiry Date</Text>
+      <Text style={{ fontSize: 13, fontWeight: '600', color: colors.text }}>
+        {warranty.expiryDate}
+      </Text>
+    </View>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Text style={{ fontSize: 13, color: colors.textSecondary }}>Claims Used</Text>
+      <Text style={{ fontSize: 13, fontWeight: '600', color: colors.text }}>
+        {warranty.claimsUsed}/{warranty.claimsTotal}
+      </Text>
+    </View>
+  </View>
+  
+  {/* Actions */}
+  <View style={{ flexDirection: 'row', gap: 8 }}>
+    <TouchableOpacity style={{
+      flex: 1,
+      backgroundColor: colors.primary,
+      borderRadius: 6,
+      paddingVertical: 10,
+      alignItems: 'center',
+    }}>
+      <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: '600' }}>
+        File Claim
+      </Text>
+    </TouchableOpacity>
+    
+    <TouchableOpacity style={{
+      flex: 1,
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      borderColor: colors.primary,
+      borderRadius: 6,
+      paddingVertical: 10,
+      alignItems: 'center',
+    }}>
+      <Text style={{ color: colors.primary, fontSize: 14, fontWeight: '600' }}>
+        View Details
+      </Text>
+    </TouchableOpacity>
+  </View>
+</View>
+🧪 Testing Checklist
+Visual Testing
+[ ] All primary buttons render with #0057A0 background
+[ ] Focus states show blue border/outline
+[ ] Selected states have blue borders and light blue backgrounds
+[ ] Icons in active/selected states show blue color
+[ ] Loading spinners use blue color
+[ ] Links and clickable text appear in blue
+[ ] Price displays use blue color
+[ ] Checkboxes checked state is blue
+[ ] Radio buttons selected state is blue
+[ ] Switch toggle on-state is blue
+[ ] Tab navigation active tab is blue
+[ ] Progress bars fill with blue
+[ ] Info boxes have blue accents
+Interaction Testing
+[ ] Button press states darken to #004580
+[ ] Touch ripple effects show blue tint
+[ ] Input focus transitions smoothly
+[ ] Card selection provides visual feedback
+[ ] Hover states (tablet) show appropriate feedback
+[ ] Swipe gestures maintain theme consistency
+[ ] Modal overlays respect color scheme
+[ ] Bottom sheets use theme colors
+[ ] Toast/Snackbar notifications maintain branding
+Screen-Level Testing
+[ ] Authentication flows (Login, Register, OTP)
+[ ] Home screen and navigation
+[ ] All service booking flows
+[ ] Asset management screens
+[ ] Booking list and details
+[ ] Cart and checkout
+[ ] Profile and settings
+[ ] Notifications
+[ ] Predictive insights
+[ ] Warranties management
+Accessibility Testing
+[ ] Color contrast meets WCAG AA standards
+[ ] Focus indicators clearly visible
+[ ] Screen reader compatibility maintained
+[ ] Touch target sizes adequate (min 44x44)
+[ ] Color not sole indicator of state
+Platform-Specific Testing
+[ ] iOS: Native components styled correctly
+[ ] Android: Material Design patterns respected
+[ ] Dark mode compatibility (if supported)
+[ ] Different screen sizes (phones, tablets)
+[ ] Orientation changes
+📝 Implementation Notes
+Priority Order
+Phase 1 - Core Components (Week 1)
+
+Buttons (Primary, Secondary, Outline)
+Text Inputs and Focus States
+Navigation elements
+Basic cards
+Phase 2 - Selection Components (Week 1-2)
+
+Selectable cards
+Radio buttons
+Checkboxes
+Switch toggles
+Dropdown selectors
+Phase 3 - Service Flows (Week 2-3)
+
+Service selection screens
+Booking wizard
+Schedule selection
+Payment methods
+Phase 4 - Main Features (Week 3-4)
+
+Home screen
+Asset management
+Bookings list/detail
+Profile and settings
+Phase 5 - Advanced Features (Week 4)
+
+Cart and checkout
+Warranties
+Predictive insights
+Notifications
+Code Organization
+/src
+  /theme
+    colors.js              # Central color definitions
+    buttons.js             # Button style presets
+    inputs.js              # Input style presets
+    cards.js               # Card style presets
+  /components
+    /common
+      Button.js
+      Input.js
+      Card.js
+      Icon.js
+      Badge.js
+      Avatar.js
+    /navigation
+      TabBar.js
+      Header.js
+      Drawer.js
+    /forms
+      TextInput.js
+      Checkbox.js
+      RadioButton.js
+      Switch.js
+  /screens
+    /auth
+    /home
+    /services
+    /assets
+    /bookings
+    /cart
+    /profile
+    /warranties
+Best Practices
+Reusable Components: Create themed component library
+Props API: Support variant prop for different styles
+Theme Context: Use React Context for global theme access
+TypeScript: Define color and style types for safety
+Testing: Write snapshot tests for visual regression
+Documentation: Maintain component Storybook/examples
+🚀 Deployment Checklist
+[ ] All screens tested on iOS devices
+[ ] All screens tested on Android devices
+[ ] Different screen sizes verified
+[ ] Performance benchmarks met
+[ ] Accessibility audit passed
+[ ] Design team sign-off
+[ ] Stakeholder approval
+[ ] App store assets updated (screenshots, icons)
+[ ] Marketing materials updated
+[ ] User documentation updated
+[ ] Beta testing completed
+[ ] Analytics tracking verified
+[ ] Crash monitoring configured
+📞 Support & Questions
+For questions or clarifications during implementation: - Reference the web implementation as visual guide - Check color values against this document - Test on actual devices, not just simulators - Maintain consistency across all platforms
+
+Color Reference Quick Links: - Primary: #0057A0 - Primary Hover: #004580 - Accent: #E31837
+
+End of Implementation Guide
+
+Last Updated: February 10, 2026 Version: 1.0 Platform: React Native / Flutter / Native iOS/Android
