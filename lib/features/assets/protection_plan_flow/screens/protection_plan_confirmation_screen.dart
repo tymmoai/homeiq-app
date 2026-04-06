@@ -25,10 +25,12 @@ class ProtectionPlanConfirmationScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ProtectionPlanConfirmationScreen> createState() => _ProtectionPlanConfirmationScreenState();
+  ConsumerState<ProtectionPlanConfirmationScreen> createState() =>
+      _ProtectionPlanConfirmationScreenState();
 }
 
-class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPlanConfirmationScreen> {
+class _ProtectionPlanConfirmationScreenState
+    extends ConsumerState<ProtectionPlanConfirmationScreen> {
   ResponsiveUtils get responsive => ResponsiveUtils(context);
   Color get _headerColor => AppColors.primary;
 
@@ -40,20 +42,31 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
 
   Future<void> _saveOrder() async {
     try {
-      final planName = widget.plan['name'] as String? ?? AppStrings.protectionPlan;
+      final planName =
+          widget.plan['name'] as String? ?? AppStrings.protectionPlan;
       final assetName = widget.asset['name'] as String? ?? 'Asset';
       final assetId = widget.asset['id']?.toString() ?? '';
-      final priceLabel = widget.selectedPaymentOption['label'] as String? ?? 'N/A';
-      final price = widget.selectedPaymentOption['total'] ?? widget.selectedPaymentOption['value'] ?? 0;
-      final billingPeriod = widget.selectedPaymentOption['billingPeriod'] as String? ?? 'yearly';
+      final priceLabel =
+          widget.selectedPaymentOption['label'] as String? ?? 'N/A';
+      final price =
+          widget.selectedPaymentOption['total'] ??
+          widget.selectedPaymentOption['value'] ??
+          0;
+      final billingPeriod =
+          widget.selectedPaymentOption['billingPeriod'] as String? ?? 'yearly';
       final coverageYears = widget.plan['duration']?['years'] as int? ?? 1;
       final features = (widget.plan['features'] as List?)?.cast<String>() ?? [];
       final deductible = widget.selectedPaymentOption['deductible']?.toString();
-      final provider = widget.plan['provider'] as String? ?? AppStrings.brandProvider;
+      final provider =
+          widget.plan['provider'] as String? ?? AppStrings.brandProvider;
 
       // Calculate coverage dates
       final now = DateTime.now();
-      final coverageEnd = DateTime(now.year + coverageYears, now.month, now.day);
+      final coverageEnd = DateTime(
+        now.year + coverageYears,
+        now.month,
+        now.day,
+      );
 
       // 1. Save order record via OrderService
       await OrderService.saveProtectionPlanOrder(
@@ -91,9 +104,12 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
         //    reflects the updated warranty status from the backend.
         ref.invalidate(assetsProvider);
       }
-
     } on Object catch (e) {
-      AppLogger.error('Error saving protection plan order: $e', tag: 'ProtectionPlan', error: e);
+      AppLogger.error(
+        'Error saving protection plan order: $e',
+        tag: 'ProtectionPlan',
+        error: e,
+      );
       // Still allow navigation even if save fails
     }
   }
@@ -101,8 +117,10 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
   @override
   Widget build(BuildContext context) {
     final assetName = widget.asset['name'] as String? ?? 'Asset';
-    final planName = widget.plan['name'] as String? ?? AppStrings.protectionPlan;
-    final priceLabel = widget.selectedPaymentOption['label'] as String? ?? 'N/A';
+    final planName =
+        widget.plan['name'] as String? ?? AppStrings.protectionPlan;
+    final priceLabel =
+        widget.selectedPaymentOption['label'] as String? ?? 'N/A';
 
     // Format dates without intl package - use plan duration when available
     final now = DateTime.now();
@@ -279,12 +297,15 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
               height: 52,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  context.go('/asset-detail', extra: {
-                    'asset': widget.asset,
-                    'skipPopup': true,
-                  });
+                  context.go(
+                    '/asset-detail',
+                    extra: {'asset': widget.asset, 'skipPopup': true},
+                  );
                 },
-                icon: Icon(Icons.inventory_2_outlined, size: responsive.iconSize(20)),
+                icon: Icon(
+                  Icons.inventory_2_outlined,
+                  size: responsive.iconSize(20),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.textOnPrimary,
@@ -296,7 +317,10 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
                 ),
                 label: Text(
                   'View Asset',
-                  style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(16),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -311,7 +335,11 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
                 onPressed: () {
                   context.go('/home');
                 },
-                icon: Icon(Icons.home, size: responsive.iconSize(20), color: _headerColor),
+                icon: Icon(
+                  Icons.home,
+                  size: responsive.iconSize(20),
+                  color: _headerColor,
+                ),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: _headerColor,
                   side: BorderSide(color: _headerColor),
@@ -323,7 +351,11 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
                 ),
                 label: Text(
                   'Back to Home',
-                  style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600, color: _headerColor),
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(16),
+                    fontWeight: FontWeight.w600,
+                    color: _headerColor,
+                  ),
                 ),
               ),
             ),
@@ -341,7 +373,10 @@ class _ProtectionPlanConfirmationScreenState extends ConsumerState<ProtectionPla
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textSecondary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: AppColors.textSecondary,
+          ),
         ),
         Text(
           value,

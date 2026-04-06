@@ -247,7 +247,11 @@ class _UpgradeBuyNewFilterScreenState extends State<UpgradeBuyNewFilterScreen> {
                 color: isSelected ? AppColors.primary : Colors.white,
               ),
               child: isSelected
-                  ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                  ? Icon(
+                      Icons.check,
+                      size: responsive.iconSize(14),
+                      color: AppColors.textOnPrimary,
+                    )
                   : null,
             ),
             SizedBox(width: responsive.spacing(12)),
@@ -520,7 +524,10 @@ class _UpgradeBuyNewFilterScreenState extends State<UpgradeBuyNewFilterScreen> {
               ),
               child: Text(
                 'Apply',
-                style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: responsive.fontSize(16),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],

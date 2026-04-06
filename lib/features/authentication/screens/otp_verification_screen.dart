@@ -72,7 +72,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     _expiryTimer?.cancel();
     _expirySecondsLeft = _otpExpirySeconds;
     _expiryTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) { timer.cancel(); return; }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
       setState(() {
         _expirySecondsLeft--;
         if (_expirySecondsLeft <= 0) {
@@ -86,7 +89,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     _resendTimer?.cancel();
     _resendSecondsLeft = _resendCooldownSeconds;
     _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) { timer.cancel(); return; }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
       setState(() {
         _resendSecondsLeft--;
         if (_resendSecondsLeft <= 0) {
@@ -98,7 +104,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   void _onOtpChanged() {
     setState(() {});
-    if (_otpController.text.length == 6 && !_isVerifying && !_hasAutoSubmitted) {
+    if (_otpController.text.length == 6 &&
+        !_isVerifying &&
+        !_hasAutoSubmitted) {
       _hasAutoSubmitted = true;
       Future.delayed(const Duration(milliseconds: 300), () {
         if (mounted && _otpController.text.length == 6 && !_isVerifying) {
@@ -151,9 +159,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       Map<String, dynamic> result;
 
       if (widget.isFromSignUp) {
-        result = await AuthApiService.instance.verifyEmail(email: email, otp: otp);
+        result = await AuthApiService.instance.verifyEmail(
+          email: email,
+          otp: otp,
+        );
       } else {
-        result = await AuthApiService.instance.verifyLoginOtp(email: email, otp: otp);
+        result = await AuthApiService.instance.verifyLoginOtp(
+          email: email,
+          otp: otp,
+        );
       }
 
       final accessToken = result['accessToken'] as String;
@@ -163,7 +177,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
       // Login with real tokens
       final container = ProviderScope.containerOf(context);
-      await container.read(authProvider.notifier).loginWithTokens(accessToken, refreshToken);
+      await container
+          .read(authProvider.notifier)
+          .loginWithTokens(accessToken, refreshToken);
     } on Object catch (e) {
       if (!mounted) return;
       // Clear OTP and show error
@@ -227,16 +243,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if (!mounted) return;
 
       final container = ProviderScope.containerOf(context);
-      await container.read(authProvider.notifier).loginWithTokens(
-        accessToken,
-        refreshToken,
-      );
+      await container
+          .read(authProvider.notifier)
+          .loginWithTokens(accessToken, refreshToken);
       // GoRouter redirect handles navigation to /home
     } on SocketException catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Unable to connect to server. Please check your internet connection.'),
+          content: Text(
+            'Unable to connect to server. Please check your internet connection.',
+          ),
           backgroundColor: Colors.red,
         ),
       );
@@ -265,7 +282,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    final otpBoxWidth = (screenWidth - responsive.spacing(48) - responsive.spacing(50)) / 6;
+    final otpBoxWidth =
+        (screenWidth - responsive.spacing(48) - responsive.spacing(50)) / 6;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -276,7 +294,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             // Scrollable content
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: responsive.spacing(24)),
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsive.spacing(24),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -312,7 +332,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     Center(
                       child: Text(
                         "We've sent a verification code to",
-                        style: TextStyle(fontSize: responsive.fontSize(14), color: Colors.grey.shade500),
+                        style: TextStyle(
+                          fontSize: responsive.fontSize(14),
+                          color: Colors.grey.shade500,
+                        ),
                       ),
                     ),
                     SizedBox(height: responsive.spacing(6)),
@@ -371,7 +394,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         children: List.generate(6, (index) {
                           final otp = _otpController.text;
                           final digit = index < otp.length ? otp[index] : '';
-                          final isCurrentIndex = index == otp.length && otp.length < 6;
+                          final isCurrentIndex =
+                              index == otp.length && otp.length < 6;
 
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 150),
@@ -381,7 +405,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: isCurrentIndex && _hiddenFocusNode.hasFocus
+                                color:
+                                    isCurrentIndex && _hiddenFocusNode.hasFocus
                                     ? AppColors.primary
                                     : Colors.transparent,
                                 width: 2,
@@ -398,7 +423,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               child: AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 150),
                                 transitionBuilder: (child, animation) {
-                                  return ScaleTransition(scale: animation, child: child);
+                                  return ScaleTransition(
+                                    scale: animation,
+                                    child: child,
+                                  );
                                 },
                                 child: Text(
                                   digit,
@@ -422,10 +450,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       children: [
                         Text(
                           "Didn't receive the code? ",
-                          style: TextStyle(fontSize: responsive.fontSize(14), color: Colors.grey.shade500),
+                          style: TextStyle(
+                            fontSize: responsive.fontSize(14),
+                            color: Colors.grey.shade500,
+                          ),
                         ),
                         GestureDetector(
-                          onTap: (_canResend || _isExpired) ? _handleResendCode : null,
+                          onTap: (_canResend || _isExpired)
+                              ? _handleResendCode
+                              : null,
                           child: Text(
                             (_canResend || _isExpired)
                                 ? 'Resend Code'
@@ -447,10 +480,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       children: [
                         Expanded(child: Divider(color: Colors.grey.shade300)),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: responsive.spacing(16)),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: responsive.spacing(16),
+                          ),
                           child: Text(
-                            widget.isFromSignUp ? 'Or Sign up with' : 'Or Sign in with',
-                            style: TextStyle(fontSize: responsive.fontSize(14), color: Colors.grey.shade500),
+                            widget.isFromSignUp
+                                ? 'Or Sign up with'
+                                : 'Or Sign in with',
+                            style: TextStyle(
+                              fontSize: responsive.fontSize(14),
+                              color: Colors.grey.shade500,
+                            ),
                           ),
                         ),
                         Expanded(child: Divider(color: Colors.grey.shade300)),
@@ -465,11 +505,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         width: 20,
                         height: 20,
                       ),
-                      label: Text(widget.isFromSignUp ? 'Sign up with Google' : 'Sign in with Google'),
+                      label: Text(
+                        widget.isFromSignUp
+                            ? 'Sign up with Google'
+                            : 'Sign in with Google',
+                      ),
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 48),
                         side: BorderSide(color: AppColors.border),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         foregroundColor: AppColors.textPrimary,
                       ),
                     ),
@@ -487,11 +533,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 child: ElevatedButton(
                   onPressed: _isVerifying ? null : _handleVerify,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isVerifying ? Colors.grey.shade300 : AppColors.primary,
+                    backgroundColor: _isVerifying
+                        ? Colors.grey.shade300
+                        : AppColors.primary,
                     foregroundColor: Colors.white,
                     disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
                     elevation: _isVerifying ? 0 : 4,
-                    shadowColor: _isVerifying ? null : AppColors.primary.withOpacity(0.3),
+                    shadowColor: _isVerifying
+                        ? null
+                        : AppColors.primary.withOpacity(0.3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -505,13 +555,18 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
                               ),
                             ),
                             SizedBox(width: responsive.spacing(12)),
                             Text(
                               'Verifying...',
-                              style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontSize: responsive.fontSize(16),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         )
@@ -519,7 +574,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           widget.isFromSignUp
                               ? 'Verify & Get Started'
                               : 'Verify & Log In',
-                          style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                            fontSize: responsive.fontSize(16),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                 ),
               ),

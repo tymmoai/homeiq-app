@@ -12,16 +12,15 @@ const _customColorKey = 'custom_theme_color';
 /// Provides the currently-active [AppThemePreset].
 final themePresetProvider =
     StateNotifierProvider<ThemePresetNotifier, AppThemePreset>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return ThemePresetNotifier(prefs);
-});
+      final prefs = ref.watch(sharedPreferencesProvider);
+      return ThemePresetNotifier(prefs);
+    });
 
 /// Notifier that manages the selected theme preset and persists it.
 class ThemePresetNotifier extends StateNotifier<AppThemePreset> {
   final SharedPreferences _prefs;
 
-  ThemePresetNotifier(this._prefs)
-      : super(_resolveInitial(_prefs));
+  ThemePresetNotifier(this._prefs) : super(_resolveInitial(_prefs));
 
   static AppThemePreset _resolveInitial(SharedPreferences prefs) {
     final id = prefs.getString(_themePrefsKey) ?? 'ocean';

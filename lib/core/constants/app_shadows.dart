@@ -54,4 +54,3 @@ class AppShadows {
   // No shadow (for flat surfaces)
   static const List<BoxShadow> none = [];
 }
-

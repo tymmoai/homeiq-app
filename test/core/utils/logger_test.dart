@@ -58,10 +58,7 @@ void main() {
     });
 
     test('navigation does not throw', () {
-      expect(
-        () => AppLogger.navigation('/home', '/settings'),
-        returnsNormally,
-      );
+      expect(() => AppLogger.navigation('/home', '/settings'), returnsNormally);
     });
 
     test('userAction does not throw', () {

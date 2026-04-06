@@ -25,6 +25,7 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
       return false;
     }
   }
+
   final bool isStandaloneBooking;
   final bool isCombinedFlow;
   final String? expectedDelivery;
@@ -55,9 +56,7 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return SingleChildScrollView(
-      child: _buildContent(context),
-    );
+    return SingleChildScrollView(child: _buildContent(context));
   }
 
   Widget _buildContent(BuildContext context) {
@@ -285,7 +284,9 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
                                       : isToday
                                       ? AppColors.primary.withValues(alpha: 0.1)
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                  borderRadius: BorderRadius.circular(
+                                    AppDimensions.radiusBadge,
+                                  ),
                                   border: isToday && !isSelected
                                       ? Border.all(
                                           color: AppColors.primary,
@@ -355,14 +356,20 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
         SizedBox(height: responsive.spacing(4)),
         Text(
           'Choose a convenient time for the technician visit.',
-          style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textSecondary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: AppColors.textSecondary,
+          ),
         ),
         SizedBox(height: responsive.spacing(16)),
 
         // Expected Parts Delivery Info Card (for combined flow) - COMPACT
         if (isCombinedFlow && expectedDelivery != null) ...[
           Container(
-            padding: EdgeInsets.symmetric(vertical: responsive.spacing(8), horizontal: responsive.spacing(12)),
+            padding: EdgeInsets.symmetric(
+              vertical: responsive.spacing(8),
+              horizontal: responsive.spacing(12),
+            ),
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
@@ -373,7 +380,9 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
                   padding: EdgeInsets.all(responsive.spacing(6)),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                   ),
                   child: Icon(
                     Icons.local_shipping_outlined,
@@ -439,7 +448,9 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: Colors.orange.shade50,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.radiusBadge,
+                  ),
                   border: Border.all(color: Colors.orange.shade300, width: 1.5),
                   boxShadow: [
                     BoxShadow(
@@ -541,7 +552,10 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
           SizedBox(height: responsive.spacing(12)),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: responsive.spacing(14), horizontal: responsive.spacing(16)),
+            padding: EdgeInsets.symmetric(
+              vertical: responsive.spacing(14),
+              horizontal: responsive.spacing(16),
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -574,7 +588,7 @@ class TechnicianTimeSlotWidget extends StatelessWidget {
               ],
             ),
           ),
-// Bottom spacing for floating button
+          // Bottom spacing for floating button
           SizedBox(height: responsive.spacing(80)),
         ],
       ],

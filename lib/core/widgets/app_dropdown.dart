@@ -72,7 +72,10 @@ class AppDropdown<T> extends StatelessWidget {
               filled: false,
             ),
             dropdownColor: AppColors.surface,
-            icon: Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
+            icon: Icon(
+              Icons.keyboard_arrow_down,
+              color: AppColors.textSecondary,
+            ),
             isExpanded: true,
           ),
         ),
@@ -123,10 +126,7 @@ class AppSimpleDropdown<T> extends StatelessWidget {
       child: DropdownButton<T>(
         value: value,
         items: items.map((item) {
-          return DropdownMenuItem<T>(
-            value: item,
-            child: Text(itemLabel(item)),
-          );
+          return DropdownMenuItem<T>(value: item, child: Text(itemLabel(item)));
         }).toList(),
         onChanged: onChanged,
         hint: hint != null ? Text(hint!) : null,
@@ -137,4 +137,3 @@ class AppSimpleDropdown<T> extends StatelessWidget {
     );
   }
 }
-

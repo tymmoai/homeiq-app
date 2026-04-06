@@ -164,7 +164,8 @@ class _AddMemberBottomSheetState extends State<AddMemberBottomSheet> {
     } on Object catch (e) {
       if (mounted) {
         final friendly = _friendlyInviteError(e);
-        final isEmailError = e is ApiException &&
+        final isEmailError =
+            e is ApiException &&
             (e.statusCode == 409 ||
                 (e.statusCode == 400 &&
                     e.message.toLowerCase().contains('yourself')));
@@ -175,10 +176,7 @@ class _AddMemberBottomSheetState extends State<AddMemberBottomSheet> {
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(friendly),
-              backgroundColor: AppColors.error,
-            ),
+            SnackBar(content: Text(friendly), backgroundColor: AppColors.error),
           );
         }
       }
@@ -565,7 +563,9 @@ class _AddMemberBottomSheetState extends State<AddMemberBottomSheet> {
                     home.displayName,
                     style: TextStyle(
                       fontSize: responsive.fontSize(14.0),
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                       color: AppColors.textPrimary,
                     ),
                   ),
@@ -1344,10 +1344,7 @@ class _AddMemberBottomSheetState extends State<AddMemberBottomSheet> {
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(
-                  color: AppColors.error,
-                  width: 2,
-                ),
+                borderSide: const BorderSide(color: AppColors.error, width: 2),
               ),
             ),
             style: TextStyle(fontSize: 14, color: AppColors.textPrimary),

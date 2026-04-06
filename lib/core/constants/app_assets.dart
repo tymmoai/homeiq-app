@@ -10,7 +10,7 @@ class AppAssets {
   static const String _animationsBase = 'assets/animations';
 
   // ==================== IMAGES ====================
-  
+
   // Logo & Branding
   static const String logo = 'lib/asset_img/logo.png';
   static const String logoWhite = '$_imagesBase/logo_white.png';
@@ -21,7 +21,8 @@ class AppAssets {
   static const String placeholder = '$_imagesBase/placeholder.png';
   static const String imagePlaceholder = '$_imagesBase/image_placeholder.png';
   static const String avatarPlaceholder = '$_imagesBase/avatar_placeholder.png';
-  static const String productPlaceholder = '$_imagesBase/product_placeholder.png';
+  static const String productPlaceholder =
+      '$_imagesBase/product_placeholder.png';
 
   // Onboarding Images
   static const String onboarding1 = '$_imagesBase/onboarding_1.png';
@@ -33,7 +34,7 @@ class AppAssets {
   static const String splashBackground = '$_imagesBase/splash_bg.png';
 
   // ==================== ICONS ====================
-  
+
   // Navigation Icons
   static const String homeIcon = '$_iconsBase/home.svg';
   static const String assetsIcon = '$_iconsBase/assets.svg';
@@ -65,20 +66,23 @@ class AppAssets {
   static const String infoIcon = '$_iconsBase/info.svg';
 
   // ==================== ILLUSTRATIONS ====================
-  
+
   // Empty States
   static const String emptyAssets = '$_illustrationsBase/empty_assets.svg';
   static const String emptyCart = '$_illustrationsBase/empty_cart.svg';
   static const String emptyOrders = '$_illustrationsBase/empty_orders.svg';
-  static const String emptyNotifications = '$_illustrationsBase/empty_notifications.svg';
+  static const String emptyNotifications =
+      '$_illustrationsBase/empty_notifications.svg';
   static const String emptySearch = '$_illustrationsBase/empty_search.svg';
   static const String noResults = '$_illustrationsBase/no_results.svg';
   static const String noInternet = '$_illustrationsBase/no_internet.svg';
 
   // Success States
   static const String orderSuccess = '$_illustrationsBase/order_success.svg';
-  static const String paymentSuccess = '$_illustrationsBase/payment_success.svg';
-  static const String registrationSuccess = '$_illustrationsBase/registration_success.svg';
+  static const String paymentSuccess =
+      '$_illustrationsBase/payment_success.svg';
+  static const String registrationSuccess =
+      '$_illustrationsBase/registration_success.svg';
 
   // Error States
   static const String error404 = '$_illustrationsBase/error_404.svg';
@@ -92,14 +96,16 @@ class AppAssets {
   static const String uploading = '$_illustrationsBase/uploading.svg';
 
   // Feature Illustrations
-  static const String homeManagement = '$_illustrationsBase/home_management.svg';
-  static const String serviceRequest = '$_illustrationsBase/service_request.svg';
+  static const String homeManagement =
+      '$_illustrationsBase/home_management.svg';
+  static const String serviceRequest =
+      '$_illustrationsBase/service_request.svg';
   static const String shopping = '$_illustrationsBase/shopping.svg';
   static const String warranty = '$_illustrationsBase/warranty.svg';
   static const String insurance = '$_illustrationsBase/insurance.svg';
 
   // ==================== ANIMATIONS ====================
-  
+
   // Lottie Animations
   static const String loadingAnimation = '$_animationsBase/loading.json';
   static const String successAnimation = '$_animationsBase/success.json';
@@ -110,13 +116,13 @@ class AppAssets {
   // ==================== PRODUCT IMAGES ====================
   // Note: Product images are typically loaded from network/API
   // These are fallback/sample images
-  
+
   static const String sampleProduct1 = '$_imagesBase/products/sample_1.png';
   static const String sampleProduct2 = '$_imagesBase/products/sample_2.png';
   static const String sampleProduct3 = '$_imagesBase/products/sample_3.png';
 
   // ==================== HELPER METHODS ====================
-  
+
   /// Check if asset is SVG
   static bool isSvg(String assetPath) {
     return assetPath.endsWith('.svg');
@@ -124,9 +130,9 @@ class AppAssets {
 
   /// Check if asset is image (PNG/JPG)
   static bool isImage(String assetPath) {
-    return assetPath.endsWith('.png') || 
-           assetPath.endsWith('.jpg') || 
-           assetPath.endsWith('.jpeg');
+    return assetPath.endsWith('.png') ||
+        assetPath.endsWith('.jpg') ||
+        assetPath.endsWith('.jpeg');
   }
 
   /// Check if asset is Lottie animation

@@ -101,7 +101,11 @@ class AuthApiService {
     http.Response response;
     try {
       response = await http
-          .post(uri, headers: _headers(accessToken: accessToken), body: jsonEncode(body))
+          .post(
+            uri,
+            headers: _headers(accessToken: accessToken),
+            body: jsonEncode(body),
+          )
           .timeout(const Duration(seconds: 30));
     } on SocketException catch (_) {
       throw Exception(
@@ -112,13 +116,9 @@ class AuthApiService {
         'Connection timed out. Please check your internet connection and try again.',
       );
     } on HttpException catch (_) {
-      throw Exception(
-        'A network error occurred. Please try again.',
-      );
+      throw Exception('A network error occurred. Please try again.');
     } on HandshakeException catch (_) {
-      throw Exception(
-        'Secure connection failed. Please try again.',
-      );
+      throw Exception('Secure connection failed. Please try again.');
     } on Object catch (e) {
       // Catch any other platform-specific network errors
       final msg = e.toString().toLowerCase();
@@ -155,10 +155,7 @@ class AuthApiService {
   // ── Auth flows ──────────────────────────────────────────────────────────────
 
   /// Register a new account (email + name)
-  Future<void> register({
-    required String email,
-    required String name,
-  }) async {
+  Future<void> register({required String email, required String name}) async {
     await _post('/register', {'email': email, 'name': name});
   }
 
@@ -188,10 +185,7 @@ class AuthApiService {
   }
 
   /// Resend OTP
-  Future<void> resendOtp({
-    required String email,
-    required String type,
-  }) async {
+  Future<void> resendOtp({required String email, required String type}) async {
     await _post('/resend-otp', {'email': email, 'type': type});
   }
 
@@ -218,7 +212,9 @@ class AuthApiService {
       throw Exception('Failed to get Google authentication tokens');
     }
 
-    debugPrint('[AuthAPI] Google Sign-In: got ${idToken != null ? 'idToken' : 'accessToken'}');
+    debugPrint(
+      '[AuthAPI] Google Sign-In: got ${idToken != null ? 'idToken' : 'accessToken'}',
+    );
 
     // Send the token to our backend for verification
     final body = <String, dynamic>{};

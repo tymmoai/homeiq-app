@@ -32,7 +32,10 @@ class PartsOrderSummaryWidget extends StatelessWidget {
     final total = subtotal + shipping + tax;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(32)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(20),
+        vertical: responsive.spacing(32),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -52,7 +55,11 @@ class PartsOrderSummaryWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.check, size: responsive.iconSize(48), color: Colors.white),
+            child: Icon(
+              Icons.check,
+              size: responsive.iconSize(48),
+              color: Colors.white,
+            ),
           ),
           SizedBox(height: responsive.spacing(24)),
           // Title - larger and bolder

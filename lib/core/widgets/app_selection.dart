@@ -79,14 +79,20 @@ class AppOptionCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.radiusMedium)),
+      borderRadius: BorderRadius.circular(
+        responsive.spacing(AppDimensions.radiusMedium),
+      ),
       child: Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(responsive.spacing(AppDimensions.paddingMedium)),
+        padding: EdgeInsets.all(
+          responsive.spacing(AppDimensions.paddingMedium),
+        ),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.cardSelected : AppColors.cardBackground,
-          borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.radiusMedium)),
+          borderRadius: BorderRadius.circular(
+            responsive.spacing(AppDimensions.radiusMedium),
+          ),
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.border,
             width: isSelected ? 2 : 1,
@@ -167,7 +173,9 @@ class AppOptionList<T> extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppDimensions.paddingMedium),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.cardSelected : AppColors.cardBackground,
+                color: isSelected
+                    ? AppColors.cardSelected
+                    : AppColors.cardBackground,
                 borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                 border: Border.all(
                   color: isSelected ? AppColors.primary : AppColors.border,
@@ -179,7 +187,9 @@ class AppOptionList<T> extends StatelessWidget {
                   if (getIcon != null) ...[
                     Icon(
                       getIcon!(option),
-                      color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
                       size: 24,
                     ),
                     const SizedBox(width: AppDimensions.spacing16),
@@ -192,11 +202,16 @@ class AppOptionList<T> extends StatelessWidget {
                           getLabel(option),
                           style: TextStyle(
                             fontSize: AppDimensions.fontM,
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                            color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: isSelected
+                                ? AppColors.primary
+                                : AppColors.textPrimary,
                           ),
                         ),
-                        if (getSubtitle != null && getSubtitle!(option) != null) ...[
+                        if (getSubtitle != null &&
+                            getSubtitle!(option) != null) ...[
                           const SizedBox(height: AppDimensions.spacing4),
                           Text(
                             getSubtitle!(option)!,
@@ -224,4 +239,3 @@ class AppOptionList<T> extends StatelessWidget {
     );
   }
 }
-

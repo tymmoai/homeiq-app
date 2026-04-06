@@ -80,8 +80,9 @@ class BookingReviewAddressSection extends StatelessWidget {
                   height: responsive.spacing(36.0),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius:
-                        BorderRadius.circular(responsive.borderRadius(8)),
+                    borderRadius: BorderRadius.circular(
+                      responsive.borderRadius(8),
+                    ),
                   ),
                   child: Icon(
                     Icons.location_on_outlined,
@@ -116,8 +117,7 @@ class BookingReviewAddressSection extends StatelessWidget {
                 ),
               ),
               style: TextButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
@@ -138,7 +138,9 @@ class BookingReviewAddressSection extends StatelessWidget {
   }
 
   Widget _buildSelectedAddressDisplayCard(
-      BuildContext context, ResponsiveUtils responsive) {
+    BuildContext context,
+    ResponsiveUtils responsive,
+  ) {
     final addr = savedAddresses[selectedAddressIndex];
     return Container(
       padding: responsive.padding(all: 16),
@@ -177,9 +179,11 @@ class BookingReviewAddressSection extends StatelessWidget {
             SizedBox(height: responsive.hp(1)),
             Row(
               children: [
-                Icon(Icons.phone_outlined,
-                    size: responsive.iconSize(16),
-                    color: AppColors.textSecondary),
+                Icon(
+                  Icons.phone_outlined,
+                  size: responsive.iconSize(16),
+                  color: AppColors.textSecondary,
+                ),
                 SizedBox(width: responsive.wp(1.5)),
                 Text(
                   addr['phone']!,
@@ -198,8 +202,10 @@ class BookingReviewAddressSection extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: onStartEditing,
-                  icon: Icon(Icons.edit_outlined,
-                      size: responsive.iconSize(16)),
+                  icon: Icon(
+                    Icons.edit_outlined,
+                    size: responsive.iconSize(16),
+                  ),
                   label: Text(
                     'Edit',
                     style: TextStyle(fontSize: responsive.fontSize(13)),
@@ -207,7 +213,8 @@ class BookingReviewAddressSection extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primary,
                     side: BorderSide(
-                        color: AppColors.primary.withValues(alpha: 0.3)),
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                    ),
                     padding: responsive.padding(vertical: 10),
                   ),
                 ),
@@ -216,8 +223,10 @@ class BookingReviewAddressSection extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => _showAddressSelectionSheet(context),
-                  icon: Icon(Icons.swap_horiz_rounded,
-                      size: responsive.iconSize(16)),
+                  icon: Icon(
+                    Icons.swap_horiz_rounded,
+                    size: responsive.iconSize(16),
+                  ),
                   label: Text(
                     'Change',
                     style: TextStyle(fontSize: responsive.fontSize(13)),
@@ -237,7 +246,9 @@ class BookingReviewAddressSection extends StatelessWidget {
   }
 
   Widget _buildAddressEditForm(
-      BuildContext context, ResponsiveUtils responsive) {
+    BuildContext context,
+    ResponsiveUtils responsive,
+  ) {
     return Container(
       padding: responsive.padding(all: 16),
       decoration: BoxDecoration(
@@ -284,8 +295,7 @@ class BookingReviewAddressSection extends StatelessWidget {
               controller: cityController,
               label: 'City',
               icon: Icons.location_city_outlined,
-              validator: (v) =>
-                  v?.isEmpty ?? true ? 'City is required' : null,
+              validator: (v) => v?.isEmpty ?? true ? 'City is required' : null,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
               ],
@@ -427,8 +437,11 @@ class BookingReviewAddressSection extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () => Navigator.pop(ctx),
-                      icon: const Icon(Icons.close,
-                          color: AppColors.gray600, size: 24),
+                      icon: const Icon(
+                        Icons.close,
+                        color: AppColors.gray600,
+                        size: 24,
+                      ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                     ),
@@ -456,7 +469,8 @@ class BookingReviewAddressSection extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(
-                              responsive.borderRadius(12)),
+                            responsive.borderRadius(12),
+                          ),
                           border: isSelected
                               ? Border.all(color: AppColors.primary, width: 2)
                               : null,
@@ -494,16 +508,17 @@ class BookingReviewAddressSection extends StatelessWidget {
                                             vertical: 2,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: AppColors.primary
-                                                .withValues(alpha: 0.1),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
+                                            color: AppColors.primary.withValues(
+                                              alpha: 0.1,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
                                           ),
                                           child: Text(
                                             'Selected',
                                             style: TextStyle(
-                                              fontSize:
-                                                  responsive.fontSize(11),
+                                              fontSize: responsive.fontSize(11),
                                               fontWeight: FontWeight.w600,
                                               color: AppColors.primary,
                                             ),
@@ -527,9 +542,11 @@ class BookingReviewAddressSection extends StatelessWidget {
                                     SizedBox(height: responsive.hp(0.8)),
                                     Row(
                                       children: [
-                                        Icon(Icons.phone_outlined,
-                                            size: responsive.iconSize(14),
-                                            color: AppColors.textSecondary),
+                                        Icon(
+                                          Icons.phone_outlined,
+                                          size: responsive.iconSize(14),
+                                          color: AppColors.textSecondary,
+                                        ),
                                         SizedBox(width: responsive.wp(1)),
                                         Text(
                                           addr['phone']!,

@@ -1,4 +1,4 @@
-﻿// Order Success Screen - Final confirmation after checkout
+// Order Success Screen - Final confirmation after checkout
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -195,7 +195,11 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
                           responsive.heightBox(12.0),
                         ],
                         // Shipping Information
-                        _buildInfoRow(responsive, 'Tracking ID', widget.trackingId),
+                        _buildInfoRow(
+                          responsive,
+                          'Tracking ID',
+                          widget.trackingId,
+                        ),
                         responsive.heightBox(8.0),
                         _buildInfoRow(
                           responsive,
@@ -206,7 +210,8 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
                     ),
 
                     // Delivery widget.address Card (moved before payment for logical flow)
-                    if (widget.address != null && widget.address!.isNotEmpty) ...[
+                    if (widget.address != null &&
+                        widget.address!.isNotEmpty) ...[
                       responsive.heightBox(16.0),
                       _buildInfoCard(
                         responsive,
@@ -331,7 +336,8 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
                               'Product Price',
                               '\$${widget.subtotal!.toStringAsFixed(2)}',
                             ),
-                          if (widget.tradeInTotal != null && widget.tradeInTotal! > 0) ...[
+                          if (widget.tradeInTotal != null &&
+                              widget.tradeInTotal! > 0) ...[
                             responsive.heightBox(8.0),
                             _buildInfoRow(
                               responsive,

@@ -25,7 +25,10 @@ class AppBadge extends StatelessWidget {
     this.child,
     this.padding,
     this.position = BadgePosition.topRight,
-  }) : assert(label != null || count != null || dot, 'Either label, count, or dot must be provided');
+  }) : assert(
+         label != null || count != null || dot,
+         'Either label, count, or dot must be provided',
+       );
 
   const AppBadge.dot({
     super.key,
@@ -33,11 +36,11 @@ class AppBadge extends StatelessWidget {
     this.size = AppDimensions.spacing8,
     this.child,
     this.position = BadgePosition.topRight,
-  })  : label = null,
-        count = null,
-        textColor = null,
-        padding = null,
-        dot = true;
+  }) : label = null,
+       count = null,
+       textColor = null,
+       padding = null,
+       dot = true;
 
   const AppBadge.count({
     super.key,
@@ -47,9 +50,9 @@ class AppBadge extends StatelessWidget {
     this.size,
     this.child,
     this.position = BadgePosition.topRight,
-  })  : label = null,
-        padding = null,
-        dot = false;
+  }) : label = null,
+       padding = null,
+       dot = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +88,18 @@ class AppBadge extends StatelessWidget {
       );
     }
 
-    final displayText = label ?? (count != null ? (count! > 99 ? '99+' : '$count') : '');
+    final displayText =
+        label ?? (count != null ? (count! > 99 ? '99+' : '$count') : '');
     final badgeSize = size ?? AppDimensions.spacing16;
 
     return Container(
       constraints: BoxConstraints(minWidth: badgeSize, minHeight: badgeSize),
-      padding: padding ?? EdgeInsets.symmetric(horizontal: badgeSize * 0.3, vertical: badgeSize * 0.15),
+      padding:
+          padding ??
+          EdgeInsets.symmetric(
+            horizontal: badgeSize * 0.3,
+            vertical: badgeSize * 0.15,
+          ),
       decoration: BoxDecoration(
         color: backgroundColor ?? AppColors.error,
         borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),

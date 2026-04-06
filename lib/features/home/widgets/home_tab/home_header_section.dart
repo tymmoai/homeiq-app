@@ -72,10 +72,10 @@ class HomeHeaderSection extends ConsumerWidget {
     final greeting = hour < 12
         ? 'Good Morning'
         : hour < 17
-            ? 'Good Afternoon'
-            : hour < 21
-                ? 'Good Evening'
-                : 'Good Night';
+        ? 'Good Afternoon'
+        : hour < 21
+        ? 'Good Evening'
+        : 'Good Night';
 
     final content = Column(
       mainAxisSize: MainAxisSize.min,
@@ -360,7 +360,8 @@ class HomeCompactHeader extends StatelessWidget {
         : 20.0;
 
     return SizedBox(
-      height: AppHeaderConfig.compactHeaderHeight, // 32 px — matches maintenance/assets/services tab content height
+      height: AppHeaderConfig
+          .compactHeaderHeight, // 32 px — matches maintenance/assets/services tab content height
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,

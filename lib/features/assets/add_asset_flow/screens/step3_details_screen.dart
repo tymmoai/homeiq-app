@@ -37,7 +37,8 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
   String? _selectedYear;
   String? _selectedMonth;
   bool _isOtherSelected = false;
-  final TextEditingController _otherLocationController = TextEditingController();
+  final TextEditingController _otherLocationController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -136,9 +137,14 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
                       final isOther = label == 'Other';
                       final isSelected = isOther
                           ? _isOtherSelected
-                          : (!_isOtherSelected && widget.formData.location == label);
+                          : (!_isOtherSelected &&
+                                widget.formData.location == label);
                       return SizedBox(
-                        width: (MediaQuery.of(context).size.width - responsive.spacing(40) - responsive.spacing(24)) / 4,
+                        width:
+                            (MediaQuery.of(context).size.width -
+                                responsive.spacing(40) -
+                                responsive.spacing(24)) /
+                            4,
                         child: LocationButton(
                           label: label,
                           icon: location['icon'] as IconData,
@@ -147,7 +153,8 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
                             setState(() {
                               if (isOther) {
                                 _isOtherSelected = true;
-                                widget.formData.location = _otherLocationController.text.trim().isEmpty
+                                widget.formData.location =
+                                    _otherLocationController.text.trim().isEmpty
                                     ? null
                                     : _otherLocationController.text.trim();
                               } else {
@@ -178,16 +185,25 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
                           vertical: responsive.spacing(12),
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                           borderSide: BorderSide(color: AppColors.gray300),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                           borderSide: BorderSide(color: AppColors.gray300),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-                          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 1.5,
+                          ),
                         ),
                       ),
                       style: TextStyle(
@@ -195,7 +211,9 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
                         color: AppColors.textPrimary,
                       ),
                       onChanged: (value) {
-                        widget.formData.location = value.trim().isEmpty ? null : value.trim();
+                        widget.formData.location = value.trim().isEmpty
+                            ? null
+                            : value.trim();
                       },
                     ),
                   ],
@@ -868,7 +886,9 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
         child: ElevatedButton(
           onPressed: isValid ? widget.onNext : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: isValid ? AppColors.primary : AppColors.gray300.withValues(alpha: 0.3),
+            backgroundColor: isValid
+                ? AppColors.primary
+                : AppColors.gray300.withValues(alpha: 0.3),
             foregroundColor: Colors.white,
             elevation: 0,
             padding: EdgeInsets.zero,
@@ -884,7 +904,9 @@ class _Step3DetailsScreenState extends State<Step3DetailsScreen> {
             style: TextStyle(
               fontSize: responsive.fontSize(16),
               fontWeight: FontWeight.w600,
-              color: isValid ? Colors.white : AppColors.textSecondary.withValues(alpha: 0.5),
+              color: isValid
+                  ? Colors.white
+                  : AppColors.textSecondary.withValues(alpha: 0.5),
             ),
           ),
         ),

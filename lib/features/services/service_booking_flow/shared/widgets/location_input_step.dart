@@ -45,8 +45,12 @@ class _LocationInputStepState extends State<LocationInputStep> {
   @override
   void initState() {
     super.initState();
-    _pickupController = TextEditingController(text: widget.formData.pickupAddress ?? '');
-    _dropoffController = TextEditingController(text: widget.formData.dropoffAddress ?? '');
+    _pickupController = TextEditingController(
+      text: widget.formData.pickupAddress ?? '',
+    );
+    _dropoffController = TextEditingController(
+      text: widget.formData.dropoffAddress ?? '',
+    );
     _pickupFloorController = TextEditingController(
       text: widget.formData.floorLevel?.toString() ?? '',
     );
@@ -113,7 +117,8 @@ class _LocationInputStepState extends State<LocationInputStep> {
                   addressController: _pickupController,
                   floorController: _pickupFloorController,
                   hasElevator: _pickupHasElevator,
-                  onElevatorChanged: (val) => setState(() => _pickupHasElevator = val),
+                  onElevatorChanged: (val) =>
+                      setState(() => _pickupHasElevator = val),
                 ),
 
                 responsive.heightBox(16),
@@ -153,7 +158,8 @@ class _LocationInputStepState extends State<LocationInputStep> {
                   addressController: _dropoffController,
                   floorController: _dropoffFloorController,
                   hasElevator: _dropoffHasElevator,
-                  onElevatorChanged: (val) => setState(() => _dropoffHasElevator = val),
+                  onElevatorChanged: (val) =>
+                      setState(() => _dropoffHasElevator = val),
                 ),
 
                 responsive.heightBox(40),
@@ -166,7 +172,9 @@ class _LocationInputStepState extends State<LocationInputStep> {
           onPressed: () {
             widget.formData.pickupAddress = _pickupController.text.trim();
             widget.formData.dropoffAddress = _dropoffController.text.trim();
-            widget.formData.floorLevel = int.tryParse(_pickupFloorController.text);
+            widget.formData.floorLevel = int.tryParse(
+              _pickupFloorController.text,
+            );
             widget.formData.hasElevator = _pickupHasElevator;
             widget.onNext();
           },
@@ -238,7 +246,9 @@ class _LocationInputStepState extends State<LocationInputStep> {
                   padding: responsive.padding(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: AppColors.backgroundGray50,
-                    borderRadius: BorderRadius.circular(responsive.borderRadius(10)),
+                    borderRadius: BorderRadius.circular(
+                      responsive.borderRadius(10),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -293,14 +303,30 @@ class _LocationInputStepState extends State<LocationInputStep> {
         decoration: InputDecoration(
           labelText: label,
           hintText: hintText,
-          labelStyle: const TextStyle(fontSize: 14, color: AppColors.gray600, fontWeight: FontWeight.w500),
+          labelStyle: const TextStyle(
+            fontSize: 14,
+            color: AppColors.gray600,
+            fontWeight: FontWeight.w500,
+          ),
           hintStyle: const TextStyle(fontSize: 13, color: AppColors.gray400),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
           filled: true,
           fillColor: AppColors.backgroundGray50,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
         ),
       ),
     );

@@ -271,7 +271,9 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                       color: AppColors.background,
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
@@ -412,7 +414,9 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Text(
                         product['brand'],
@@ -485,7 +489,9 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
                           ),
                           decoration: BoxDecoration(
                             color: AppColors.background,
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                           ),
                           child: Text(
                             feature,
@@ -520,7 +526,9 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.success,
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Text(
                           '-\$$tradeInValue',
@@ -570,7 +578,9 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
                             ),
                             decoration: BoxDecoration(
                               color: AppColors.success,
-                              borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                              borderRadius: BorderRadius.circular(
+                                AppDimensions.radiusBadge,
+                              ),
                             ),
                             child: const Text(
                               'Added',
@@ -699,9 +709,7 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
                             _applyFilters();
                           });
                         },
-                        selectedColor: AppColors.primary.withValues(
-                          alpha: 0.2,
-                        ),
+                        selectedColor: AppColors.primary.withValues(alpha: 0.2),
                         checkmarkColor: AppColors.primary,
                       );
                     }).toList(),
@@ -769,4 +777,3 @@ class _BuyNewAssetScreenState extends State<BuyNewAssetScreen> {
     );
   }
 }
-

@@ -120,7 +120,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
 
       for (final step in stepsJson) {
         final s = step as Map<String, dynamic>;
-        final tools = s['tools'] != null ? List<String>.from(s['tools']) : <String>[];
+        final tools = s['tools'] != null
+            ? List<String>.from(s['tools'])
+            : <String>[];
         allTools.addAll(tools);
 
         parsedSteps.add(
@@ -128,7 +130,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
             title: s['title'] as String? ?? '',
             description: s['description'] as String? ?? '',
             instructions: List<String>.from(s['instructions'] ?? []),
-            safetyNote: (s['safety'] as String?)?.isEmpty == true ? null : s['safety'] as String?,
+            safetyNote: (s['safety'] as String?)?.isEmpty == true
+                ? null
+                : s['safety'] as String?,
             duration: s['duration'] as String?,
             riskLevel: s['risk'] as String?,
             toolsNeeded: tools.isEmpty ? null : tools,
@@ -163,7 +167,11 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
         tag: 'DiyMaintenance',
       );
     } on Object catch (e) {
-      AppLogger.error('DIY Steps API Error: $e', tag: 'DiyMaintenance', error: e);
+      AppLogger.error(
+        'DIY Steps API Error: $e',
+        tag: 'DiyMaintenance',
+        error: e,
+      );
       setState(() {
         _error = 'Using enhanced maintenance guide';
         _isLoading = false;
@@ -904,7 +912,8 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                                   child: Text(
                                                     '${e.key + 1}',
                                                     style: TextStyle(
-                                                      fontSize: responsive.fontSize(13),
+                                                      fontSize: responsive
+                                                          .fontSize(13),
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       color: Colors.white,
@@ -912,17 +921,19 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: responsive.spacing(12)),
+                                              SizedBox(
+                                                width: responsive.spacing(12),
+                                              ),
                                               Expanded(
                                                 child: Padding(
-                                                  padding:
-                                                      EdgeInsets.only(
-                                                        top: responsive.spacing(2),
-                                                      ),
+                                                  padding: EdgeInsets.only(
+                                                    top: responsive.spacing(2),
+                                                  ),
                                                   child: Text(
                                                     e.value,
                                                     style: TextStyle(
-                                                      fontSize: responsive.fontSize(15),
+                                                      fontSize: responsive
+                                                          .fontSize(15),
                                                       color:
                                                           AppColors.textPrimary,
                                                       height: 1.6,
@@ -939,7 +950,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                 if (step.safetyNote != null) ...[
                                   SizedBox(height: responsive.spacing(16)),
                                   Container(
-                                    padding: EdgeInsets.all(responsive.spacing(12)),
+                                    padding: EdgeInsets.all(
+                                      responsive.spacing(12),
+                                    ),
                                     decoration: BoxDecoration(
                                       color: AppColors.warningYellowBg,
                                       borderRadius: BorderRadius.circular(8),
@@ -966,16 +979,23 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                               Text(
                                                 'Safety Warning',
                                                 style: TextStyle(
-                                                  fontSize: responsive.fontSize(14),
+                                                  fontSize: responsive.fontSize(
+                                                    14,
+                                                  ),
                                                   fontWeight: FontWeight.w700,
-                                                  color: AppColors.warningMaterialDark,
+                                                  color: AppColors
+                                                      .warningMaterialDark,
                                                 ),
                                               ),
-                                              SizedBox(height: responsive.spacing(4)),
+                                              SizedBox(
+                                                height: responsive.spacing(4),
+                                              ),
                                               Text(
                                                 step.safetyNote!,
                                                 style: TextStyle(
-                                                  fontSize: responsive.fontSize(14),
+                                                  fontSize: responsive.fontSize(
+                                                    14,
+                                                  ),
                                                   color: AppColors.brown,
                                                   height: 1.5,
                                                 ),
@@ -1031,14 +1051,18 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                   spreadRadius: 0,
                                 ),
                                 BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.06),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.06,
+                                  ),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),
                                   spreadRadius: 0,
                                 ),
                               ],
                               border: Border.all(
-                                color: AppColors.primary.withValues(alpha: 0.08),
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.08,
+                                ),
                                 width: 1,
                               ),
                             ),
@@ -1086,7 +1110,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                   SizedBox(height: responsive.spacing(16)),
                                   Container(
                                     width: double.infinity,
-                                    padding: EdgeInsets.all(responsive.spacing(14)),
+                                    padding: EdgeInsets.all(
+                                      responsive.spacing(14),
+                                    ),
                                     decoration: BoxDecoration(
                                       color: AppColors.backgroundGray200,
                                       borderRadius: BorderRadius.circular(12),
@@ -1103,7 +1129,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                             color: AppColors.inputDark,
                                           ),
                                         ),
-                                        SizedBox(height: responsive.spacing(10)),
+                                        SizedBox(
+                                          height: responsive.spacing(10),
+                                        ),
                                         ..._diySteps
                                             .take(_currentStep)
                                             .map(
@@ -1116,15 +1144,22 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                                     const Icon(
                                                       Icons.check_circle,
                                                       size: 18,
-                                                      color: AppColors.successMaterial,
+                                                      color: AppColors
+                                                          .successMaterial,
                                                     ),
-                                                    SizedBox(width: responsive.spacing(8)),
+                                                    SizedBox(
+                                                      width: responsive.spacing(
+                                                        8,
+                                                      ),
+                                                    ),
                                                     Expanded(
                                                       child: Text(
                                                         s.title,
                                                         style: TextStyle(
-                                                          fontSize: responsive.fontSize(14),
-                                                          color: AppColors.inputDark,
+                                                          fontSize: responsive
+                                                              .fontSize(14),
+                                                          color: AppColors
+                                                              .inputDark,
                                                         ),
                                                       ),
                                                     ),
@@ -1148,7 +1183,8 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                                                 child: Text(
                                                   'Stuck on: ${_diySteps[_currentStep].title}',
                                                   style: TextStyle(
-                                                    fontSize: responsive.fontSize(14),
+                                                    fontSize: responsive
+                                                        .fontSize(14),
                                                     fontWeight: FontWeight.w500,
                                                     color: AppColors.primary,
                                                   ),
@@ -1220,7 +1256,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.primary,
                             side: BorderSide(color: AppColors.primary),
-                            padding: EdgeInsets.symmetric(vertical: responsive.spacing(12)),
+                            padding: EdgeInsets.symmetric(
+                              vertical: responsive.spacing(12),
+                            ),
                           ),
                           child: const Text('Back'),
                         ),
@@ -1234,7 +1272,9 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: responsive.spacing(12)),
+                            padding: EdgeInsets.symmetric(
+                              vertical: responsive.spacing(12),
+                            ),
                           ),
                           child: Text(
                             _currentStep < _diySteps.length - 1

@@ -18,10 +18,12 @@ class LifestyleConfirmationScreen extends StatefulWidget {
   });
 
   @override
-  State<LifestyleConfirmationScreen> createState() => _LifestyleConfirmationScreenState();
+  State<LifestyleConfirmationScreen> createState() =>
+      _LifestyleConfirmationScreenState();
 }
 
-class _LifestyleConfirmationScreenState extends State<LifestyleConfirmationScreen> {
+class _LifestyleConfirmationScreenState
+    extends State<LifestyleConfirmationScreen> {
   @override
   void initState() {
     super.initState();
@@ -103,11 +105,7 @@ class _LifestyleConfirmationScreenState extends State<LifestyleConfirmationScree
         children: [
           GestureDetector(
             onTap: widget.onDone,
-            child: Icon(
-              Icons.close,
-              color: AppColors.textPrimary,
-              size: 24,
-            ),
+            child: Icon(Icons.close, color: AppColors.textPrimary, size: 24),
           ),
         ],
       ),
@@ -236,7 +234,9 @@ class _LifestyleConfirmationScreenState extends State<LifestyleConfirmationScree
             Icons.calendar_today,
             'Date',
             widget.formData.selectedDate != null
-                ? DateFormat('EEEE, MMM d, yyyy').format(widget.formData.selectedDate!)
+                ? DateFormat(
+                    'EEEE, MMM d, yyyy',
+                  ).format(widget.formData.selectedDate!)
                 : '',
           ),
           const SizedBox(height: 12),
@@ -246,9 +246,17 @@ class _LifestyleConfirmationScreenState extends State<LifestyleConfirmationScree
             widget.formData.selectedTimeSlot ?? '',
           ),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.person, 'Name', widget.formData.customerName ?? ''),
+          _buildDetailRow(
+            Icons.person,
+            'Name',
+            widget.formData.customerName ?? '',
+          ),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.phone, 'Phone', widget.formData.customerPhone ?? ''),
+          _buildDetailRow(
+            Icons.phone,
+            'Phone',
+            widget.formData.customerPhone ?? '',
+          ),
           ..._buildServiceSpecificDetails(),
         ],
       ),
@@ -296,9 +304,17 @@ class _LifestyleConfirmationScreenState extends State<LifestyleConfirmationScree
       case 'Hotel Booking':
         return [
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.hotel, 'Hotel Type', widget.formData.hotelType ?? ''),
+          _buildDetailRow(
+            Icons.hotel,
+            'Hotel Type',
+            widget.formData.hotelType ?? '',
+          ),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.king_bed, 'Room Type', widget.formData.roomType ?? ''),
+          _buildDetailRow(
+            Icons.king_bed,
+            'Room Type',
+            widget.formData.roomType ?? '',
+          ),
           const SizedBox(height: 12),
           _buildDetailRow(
             Icons.door_front_door,
@@ -442,10 +458,7 @@ class _LifestyleConfirmationScreenState extends State<LifestyleConfirmationScree
               const SizedBox(height: 4),
               Text(
                 description,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.textSecondary,
-                ),
+                style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
               ),
             ],
           ),

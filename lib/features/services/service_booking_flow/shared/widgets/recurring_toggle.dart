@@ -69,7 +69,9 @@ class _RecurringToggleState extends State<RecurringToggle> {
                   color: _isRecurring
                       ? AppColors.primary.withValues(alpha: 0.1)
                       : AppColors.gray100,
-                  borderRadius: BorderRadius.circular(responsive.borderRadius(10)),
+                  borderRadius: BorderRadius.circular(
+                    responsive.borderRadius(10),
+                  ),
                 ),
                 child: Icon(
                   Icons.repeat_rounded,
@@ -140,7 +142,9 @@ class _RecurringToggleState extends State<RecurringToggle> {
                   padding: responsive.padding(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
                     color: isSelected ? AppColors.primary05 : Colors.white,
-                    borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
+                    borderRadius: BorderRadius.circular(
+                      responsive.borderRadius(12),
+                    ),
                     border: Border.all(
                       color: isSelected ? AppColors.primary : AppColors.gray200,
                       width: isSelected ? 1.5 : 1,
@@ -160,16 +164,25 @@ class _RecurringToggleState extends State<RecurringToggle> {
                           entry.key,
                           style: TextStyle(
                             fontSize: responsive.fontSize(14),
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                            color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: isSelected
+                                ? AppColors.primary
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ),
                       Container(
-                        padding: responsive.padding(horizontal: 10, vertical: 4),
+                        padding: responsive.padding(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.success.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
+                          borderRadius: BorderRadius.circular(
+                            responsive.borderRadius(12),
+                          ),
                         ),
                         child: Text(
                           'Save $discountPercent%',
@@ -182,8 +195,12 @@ class _RecurringToggleState extends State<RecurringToggle> {
                       ),
                       SizedBox(width: responsive.wp(2)),
                       Icon(
-                        isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-                        color: isSelected ? AppColors.primary : AppColors.gray400,
+                        isSelected
+                            ? Icons.radio_button_checked
+                            : Icons.radio_button_off,
+                        color: isSelected
+                            ? AppColors.primary
+                            : AppColors.gray400,
                         size: responsive.iconSize(20),
                       ),
                     ],

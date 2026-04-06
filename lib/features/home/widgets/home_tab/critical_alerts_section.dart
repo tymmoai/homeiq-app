@@ -18,7 +18,10 @@ class CriticalAlertsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final responsive = ResponsiveUtils(context);
     final homeId = ref.watch(selectedHomeIdProvider);
-    final alerts = HomeDataService.getMockCriticalAlerts(homeId, realAssets: allAssets);
+    final alerts = HomeDataService.getMockCriticalAlerts(
+      homeId,
+      realAssets: allAssets,
+    );
 
     if (alerts.isEmpty) {
       return const SizedBox.shrink();
@@ -192,50 +195,50 @@ class CriticalAlertsSection extends ConsumerWidget {
             height: responsive.isSmallMobile ? 32 : 36,
             child: ElevatedButton(
               onPressed: () {
-                  // Navigate based on action type
-                  final asset = allAssets.firstWhere(
-                    (a) => a['id'] == alert.assetId,
-                    orElse: () => {},
-                  );
+                // Navigate based on action type
+                final asset = allAssets.firstWhere(
+                  (a) => a['id'] == alert.assetId,
+                  orElse: () => {},
+                );
 
-                  if (alert.alertCategory == AlertCategory.warranty &&
-                      alert.isExpired) {
-                    // Warranty expired → Go to protection plans with asset data
-                    if (asset.isNotEmpty) {
-                      context.push('/warranties', extra: asset);
-                    }
-                  } else if (alert.alertCategory == AlertCategory.maintenance) {
-                    if (asset.isNotEmpty) {
-                      context.push(
-                        '/asset-detail',
-                        extra: {'asset': asset, 'initialTab': 'Maintenance'},
-                      );
-                    }
-                  } else if (alert.alertCategory == AlertCategory.service ||
-                      alert.alertCategory == AlertCategory.safety) {
-                    // For service alerts (like AC service overdue), go to maintenance tab without popup
-                    if (asset.isNotEmpty) {
-                      context.push(
-                        '/asset-detail',
-                        extra: {
-                          'asset': asset,
-                          'initialTab': 'Maintenance',
-                          'skipPopup':
-                              true, // Skip popup when coming from critical alerts
-                        },
-                      );
-                    } else {
-                      context.push('/services');
-                    }
-                  } else if (alert.actionRoute != null) {
-                    if (alert.actionRoute!.contains('asset-detail') &&
-                        asset.isNotEmpty) {
-                      context.push('/asset-detail', extra: asset);
-                    } else {
-                      context.push(alert.actionRoute!);
-                    }
+                if (alert.alertCategory == AlertCategory.warranty &&
+                    alert.isExpired) {
+                  // Warranty expired → Go to protection plans with asset data
+                  if (asset.isNotEmpty) {
+                    context.push('/warranties', extra: asset);
                   }
-                },
+                } else if (alert.alertCategory == AlertCategory.maintenance) {
+                  if (asset.isNotEmpty) {
+                    context.push(
+                      '/asset-detail',
+                      extra: {'asset': asset, 'initialTab': 'Maintenance'},
+                    );
+                  }
+                } else if (alert.alertCategory == AlertCategory.service ||
+                    alert.alertCategory == AlertCategory.safety) {
+                  // For service alerts (like AC service overdue), go to maintenance tab without popup
+                  if (asset.isNotEmpty) {
+                    context.push(
+                      '/asset-detail',
+                      extra: {
+                        'asset': asset,
+                        'initialTab': 'Maintenance',
+                        'skipPopup':
+                            true, // Skip popup when coming from critical alerts
+                      },
+                    );
+                  } else {
+                    context.push('/services');
+                  }
+                } else if (alert.actionRoute != null) {
+                  if (alert.actionRoute!.contains('asset-detail') &&
+                      asset.isNotEmpty) {
+                    context.push('/asset-detail', extra: asset);
+                  } else {
+                    context.push(alert.actionRoute!);
+                  }
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,

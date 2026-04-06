@@ -101,8 +101,18 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
 
   String _getMonthName(DateTime date) {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return months[date.month - 1];
   }
@@ -142,7 +152,8 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
                     ),
                   ),
                   // Estimated Duration banner
-                  if (widget.estimatedDurationText != null) ...[                    context.responsive.heightBox(20.0),
+                  if (widget.estimatedDurationText != null) ...[
+                    context.responsive.heightBox(20.0),
                     _buildEstimatedDurationBanner(),
                   ],
                   context.responsive.heightBox(24.0),
@@ -235,7 +246,8 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
                     ),
                     children: [
                       TextSpan(
-                        text: 'Based on $itemCount ${itemCount == 1 ? 'item' : 'items'}, $service will take approximately ',
+                        text:
+                            'Based on $itemCount ${itemCount == 1 ? 'item' : 'items'}, $service will take approximately ',
                       ),
                       TextSpan(
                         text: widget.estimatedDurationText!,
@@ -259,7 +271,11 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
     final now = DateTime.now();
     final currentMonth = _calendarMonth;
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-    final lastDayOfMonth = DateTime(currentMonth.year, currentMonth.month + 1, 0);
+    final lastDayOfMonth = DateTime(
+      currentMonth.year,
+      currentMonth.month + 1,
+      0,
+    );
     final firstDayWeekday = firstDayOfMonth.weekday;
     final daysInMonth = lastDayOfMonth.day;
     final weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -281,7 +297,10 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _calendarMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+                    _calendarMonth = DateTime(
+                      currentMonth.year,
+                      currentMonth.month - 1,
+                    );
                   });
                 },
                 child: Container(
@@ -309,7 +328,10 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _calendarMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+                    _calendarMonth = DateTime(
+                      currentMonth.year,
+                      currentMonth.month + 1,
+                    );
                   });
                 },
                 child: Container(
@@ -353,22 +375,33 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
               padding: EdgeInsets.only(bottom: context.responsive.spacing(8.0)),
               child: Row(
                 children: List.generate(7, (dayIndex) {
-                  final dayNumber = (weekIndex * 7) + dayIndex - (firstDayWeekday - 1) + 1;
-                  final isCurrentMonth = dayNumber > 0 && dayNumber <= daysInMonth;
+                  final dayNumber =
+                      (weekIndex * 7) + dayIndex - (firstDayWeekday - 1) + 1;
+                  final isCurrentMonth =
+                      dayNumber > 0 && dayNumber <= daysInMonth;
                   final date = isCurrentMonth
-                      ? DateTime(currentMonth.year, currentMonth.month, dayNumber)
+                      ? DateTime(
+                          currentMonth.year,
+                          currentMonth.month,
+                          dayNumber,
+                        )
                       : null;
-                  final normalizedDate = date != null ? _normalizeDate(date) : null;
+                  final normalizedDate = date != null
+                      ? _normalizeDate(date)
+                      : null;
                   final normalizedNow = _normalizeDate(now);
-                  final isAvailable = normalizedDate != null &&
+                  final isAvailable =
+                      normalizedDate != null &&
                       !normalizedDate.isBefore(normalizedNow) &&
                       _timeSlotsByDate.containsKey(normalizedDate.toString());
-                  final isSelected = normalizedDate != null &&
+                  final isSelected =
+                      normalizedDate != null &&
                       _selectedDate != null &&
                       normalizedDate.year == _selectedDate!.year &&
                       normalizedDate.month == _selectedDate!.month &&
                       normalizedDate.day == _selectedDate!.day;
-                  final isToday = normalizedDate != null &&
+                  final isToday =
+                      normalizedDate != null &&
                       normalizedDate.year == normalizedNow.year &&
                       normalizedDate.month == normalizedNow.month &&
                       normalizedDate.day == normalizedNow.day;
@@ -417,8 +450,8 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
                                   color: isSelected
                                       ? AppColors.primary
                                       : isAvailable
-                                          ? AppColors.textPrimary
-                                          : AppColors.gray400,
+                                      ? AppColors.textPrimary
+                                      : AppColors.gray400,
                                 ),
                               ),
                               if (isAvailable && !isSelected)
@@ -447,7 +480,8 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
   }
 
   Widget _buildTimeSlots() {
-    final slots = _timeSlotsByDate[_normalizeDate(_selectedDate!).toString()] ?? [];
+    final slots =
+        _timeSlotsByDate[_normalizeDate(_selectedDate!).toString()] ?? [];
 
     return GridView.builder(
       shrinkWrap: true,
@@ -565,7 +599,9 @@ class _BookingScheduleStepState extends State<BookingScheduleStep> {
                     }
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: isValid ? AppColors.primary : AppColors.divider,
+                backgroundColor: isValid
+                    ? AppColors.primary
+                    : AppColors.divider,
                 elevation: isValid ? 2 : 0,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 padding: context.responsive.padding(vertical: 14),

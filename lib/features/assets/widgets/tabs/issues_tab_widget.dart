@@ -35,11 +35,16 @@ class IssuesTabWidget extends StatelessWidget {
   /// Normalize a backend issue status string to a human-readable label.
   static String _statusLabel(String? raw) {
     switch (raw) {
-      case 'open':        return 'Open';
-      case 'in_progress': return 'In Progress';
-      case 'resolved':    return 'Resolved';
-      case 'closed':      return 'Closed';
-      default:            return raw ?? 'Open';
+      case 'open':
+        return 'Open';
+      case 'in_progress':
+        return 'In Progress';
+      case 'resolved':
+        return 'Resolved';
+      case 'closed':
+        return 'Closed';
+      default:
+        return raw ?? 'Open';
     }
   }
 
@@ -48,8 +53,20 @@ class IssuesTabWidget extends StatelessWidget {
     if (iso == null) return '';
     final dt = DateTime.tryParse(iso);
     if (dt == null) return '';
-    const months = ['Jan','Feb','Mar','Apr','May','Jun',
-                    'Jul','Aug','Sep','Oct','Nov','Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
   }
 
@@ -101,7 +118,11 @@ class IssuesTabWidget extends StatelessWidget {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
-                    BoxShadow(color: AppColors.shadow, blurRadius: 8, offset: const Offset(0, 2)),
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
                   ],
                 ),
                 child: const Center(child: CircularProgressIndicator()),
@@ -113,7 +134,11 @@ class IssuesTabWidget extends StatelessWidget {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
-                    BoxShadow(color: AppColors.shadow, blurRadius: 8, offset: const Offset(0, 2)),
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
                   ],
                 ),
                 child: Column(
@@ -121,7 +146,9 @@ class IssuesTabWidget extends StatelessWidget {
                   children: issues.asMap().entries.map((entry) {
                     final idx = entry.key;
                     final issue = entry.value;
-                    final statusLabel = _statusLabel(issue['status']?.toString());
+                    final statusLabel = _statusLabel(
+                      issue['status']?.toString(),
+                    );
                     final dateStr = _formatDate(issue['createdAt']?.toString());
                     return Column(
                       children: [
@@ -141,7 +168,8 @@ class IssuesTabWidget extends StatelessWidget {
                               ),
                             );
                           },
-                          child: _buildIssueDetailItem(context,
+                          child: _buildIssueDetailItem(
+                            context,
                             issue['title'] ?? '',
                             statusLabel,
                             issue['description'] ?? '',
@@ -161,17 +189,28 @@ class IssuesTabWidget extends StatelessWidget {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
-                    BoxShadow(color: AppColors.shadow, blurRadius: 8, offset: const Offset(0, 2)),
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
                   ],
                 ),
                 child: Center(
                   child: Column(
                     children: [
-                      Icon(Icons.check_circle_outline, size: responsive.iconSize(48), color: AppColors.gray300),
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: responsive.iconSize(48),
+                        color: AppColors.gray300,
+                      ),
                       SizedBox(height: responsive.spacing(16)),
                       Text(
                         'No issues reported for this asset',
-                        style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.gray500),
+                        style: TextStyle(
+                          fontSize: responsive.fontSize(14),
+                          color: AppColors.gray500,
+                        ),
                       ),
                       SizedBox(height: responsive.spacing(8)),
                       TextButton(
@@ -199,7 +238,13 @@ class IssuesTabWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 8, offset: const Offset(0, 2))],
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: partsBought.asMap().entries.map((entry) {
@@ -207,8 +252,15 @@ class IssuesTabWidget extends StatelessWidget {
                     final part = entry.value;
                     return Column(
                       children: [
-                        _buildPartItem(context, part['name'] ?? '', part['date'] ?? '', part['price'] ?? '', orderId: part['orderId']?.toString()),
-                        if (idx < partsBought.length - 1) const Divider(height: 16),
+                        _buildPartItem(
+                          context,
+                          part['name'] ?? '',
+                          part['date'] ?? '',
+                          part['price'] ?? '',
+                          orderId: part['orderId']?.toString(),
+                        ),
+                        if (idx < partsBought.length - 1)
+                          const Divider(height: 16),
                       ],
                     );
                   }).toList(),
@@ -220,14 +272,30 @@ class IssuesTabWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 8, offset: const Offset(0, 2))],
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Center(
                   child: Column(
                     children: [
-                      Icon(Icons.shopping_cart_outlined, size: responsive.iconSize(48), color: AppColors.gray300),
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: responsive.iconSize(48),
+                        color: AppColors.gray300,
+                      ),
                       SizedBox(height: responsive.spacing(16)),
-                      Text('No parts purchased for this asset', style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.gray500)),
+                      Text(
+                        'No parts purchased for this asset',
+                        style: TextStyle(
+                          fontSize: responsive.fontSize(14),
+                          color: AppColors.gray500,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -254,7 +322,9 @@ class IssuesTabWidget extends StatelessWidget {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setSheet) {
           return Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(ctx).viewInsets.bottom,
+            ),
             child: Container(
               decoration: const BoxDecoration(
                 color: AppColors.white,
@@ -268,9 +338,20 @@ class IssuesTabWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Report an Issue',
-                          style: TextStyle(fontSize: responsive.fontSize(18), fontWeight: FontWeight.bold, color: AssetDetailColors.textPrimary)),
-                      IconButton(onPressed: () => Navigator.pop(ctx), icon: const Icon(Icons.close), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+                      Text(
+                        'Report an Issue',
+                        style: TextStyle(
+                          fontSize: responsive.fontSize(18),
+                          fontWeight: FontWeight.bold,
+                          color: AssetDetailColors.textPrimary,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        icon: const Icon(Icons.close),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -281,7 +362,10 @@ class IssuesTabWidget extends StatelessWidget {
                       hintText: 'e.g. Making loud noise',
                       filled: true,
                       fillColor: AppColors.backgroundGray50,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -293,16 +377,32 @@ class IssuesTabWidget extends StatelessWidget {
                       hintText: 'Describe the problem...',
                       filled: true,
                       fillColor: AppColors.backgroundGray50,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Text('Severity', style: TextStyle(fontSize: responsive.fontSize(13), fontWeight: FontWeight.w600, color: AssetDetailColors.textPrimary)),
+                  Text(
+                    'Severity',
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(13),
+                      fontWeight: FontWeight.w600,
+                      color: AssetDetailColors.textPrimary,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: ['low', 'medium', 'high', 'critical'].map((s) {
                       final isSelected = severity == s;
-                      final color = s == 'low' ? Colors.green : s == 'medium' ? Colors.orange : s == 'high' ? Colors.deepOrange : Colors.red;
+                      final color = s == 'low'
+                          ? Colors.green
+                          : s == 'medium'
+                          ? Colors.orange
+                          : s == 'high'
+                          ? Colors.deepOrange
+                          : Colors.red;
                       return Expanded(
                         child: GestureDetector(
                           onTap: () => setSheet(() => severity = s),
@@ -310,14 +410,22 @@ class IssuesTabWidget extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 6),
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             decoration: BoxDecoration(
-                              color: isSelected ? color.withValues(alpha: 0.15) : AppColors.backgroundGray50,
+                              color: isSelected
+                                  ? color.withValues(alpha: 0.15)
+                                  : AppColors.backgroundGray50,
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: isSelected ? color : AppColors.gray200),
+                              border: Border.all(
+                                color: isSelected ? color : AppColors.gray200,
+                              ),
                             ),
                             child: Center(
                               child: Text(
                                 s[0].toUpperCase() + s.substring(1),
-                                style: TextStyle(fontSize: responsive.fontSize(11), fontWeight: FontWeight.w600, color: isSelected ? color : AppColors.gray500),
+                                style: TextStyle(
+                                  fontSize: responsive.fontSize(11),
+                                  fontWeight: FontWeight.w600,
+                                  color: isSelected ? color : AppColors.gray500,
+                                ),
                               ),
                             ),
                           ),
@@ -334,7 +442,9 @@ class IssuesTabWidget extends StatelessWidget {
                         final title = titleCtrl.text.trim();
                         if (title.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please enter an issue title')),
+                            const SnackBar(
+                              content: Text('Please enter an issue title'),
+                            ),
                           );
                           return;
                         }
@@ -345,7 +455,9 @@ class IssuesTabWidget extends StatelessWidget {
                             homeId: homeId,
                             assetId: assetId,
                             title: title,
-                            description: descCtrl.text.trim().isEmpty ? null : descCtrl.text.trim(),
+                            description: descCtrl.text.trim().isEmpty
+                                ? null
+                                : descCtrl.text.trim(),
                             severity: severity,
                           );
                           if (ctx.mounted) Navigator.pop(ctx);
@@ -362,7 +474,9 @@ class IssuesTabWidget extends StatelessWidget {
                         } on Object catch (e) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Failed to report issue: $e')),
+                              SnackBar(
+                                content: Text('Failed to report issue: $e'),
+                              ),
                             );
                           }
                         }
@@ -370,10 +484,18 @@ class IssuesTabWidget extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AssetDetailColors.primaryDark,
                         foregroundColor: AppColors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         elevation: 0,
                       ),
-                      child: Text('Submit Issue', style: TextStyle(fontSize: responsive.fontSize(15), fontWeight: FontWeight.w600)),
+                      child: Text(
+                        'Submit Issue',
+                        style: TextStyle(
+                          fontSize: responsive.fontSize(15),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -397,7 +519,8 @@ class IssuesTabWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildIssueDetailItem(BuildContext context, 
+  Widget _buildIssueDetailItem(
+    BuildContext context,
     String issue,
     String status,
     String solution,
@@ -424,7 +547,10 @@ class IssuesTabWidget extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(8),
+                vertical: responsive.spacing(4),
+              ),
               decoration: BoxDecoration(
                 color: isResolved
                     ? AssetDetailColors.successColor.withValues(alpha: 0.1)
@@ -630,7 +756,9 @@ class IssuesTabWidget extends StatelessWidget {
                           color: AssetDetailColors.primaryDark.withValues(
                             alpha: 0.1,
                           ),
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Icon(
                           Icons.settings,
@@ -671,7 +799,12 @@ class IssuesTabWidget extends StatelessWidget {
 
             // Order Details
             _buildOrderDetailRow(context, 'Order Date', date),
-            _buildOrderDetailRow(context, 'Status', 'Delivered', isStatus: true),
+            _buildOrderDetailRow(
+              context,
+              'Status',
+              'Delivered',
+              isStatus: true,
+            ),
             _buildOrderDetailRow(context, 'Shipping', 'Free'),
             const Divider(height: 24),
             _buildOrderDetailRow(context, 'Total', price, isBold: true),
@@ -694,7 +827,9 @@ class IssuesTabWidget extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
                       side: BorderSide(color: AssetDetailColors.primaryDark),
                     ),
                     child: Text(
@@ -712,7 +847,9 @@ class IssuesTabWidget extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AssetDetailColors.primaryDark,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
                     ),
                     child: const Text(
                       'Done',
@@ -732,7 +869,8 @@ class IssuesTabWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderDetailRow(BuildContext context, 
+  Widget _buildOrderDetailRow(
+    BuildContext context,
     String label,
     String value, {
     bool isBold = false,
@@ -746,7 +884,10 @@ class IssuesTabWidget extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.gray500),
+            style: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: AppColors.gray500,
+            ),
           ),
           isStatus
               ? Container(

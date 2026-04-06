@@ -6,13 +6,13 @@ import '../../../core/constants/app_colors.dart';
 // ============================================================================
 
 enum ClaimStatus {
-  submitted,    // User submitted the claim
-  underReview,  // Team is reviewing the claim
-  approved,     // Claim approved
-  inProgress,   // Repair/replacement in progress
-  resolved,     // Claim completed successfully
-  denied,       // Claim was denied
-  closed,       // Claim closed (after resolution or denial)
+  submitted, // User submitted the claim
+  underReview, // Team is reviewing the claim
+  approved, // Claim approved
+  inProgress, // Repair/replacement in progress
+  resolved, // Claim completed successfully
+  denied, // Claim was denied
+  closed, // Claim closed (after resolution or denial)
 }
 
 // ============================================================================
@@ -20,9 +20,9 @@ enum ClaimStatus {
 // ============================================================================
 
 enum ClaimType {
-  repair,       // Something needs fixing
-  replacement,  // Full replacement under warranty
-  maintenance,  // Covered maintenance
+  repair, // Something needs fixing
+  replacement, // Full replacement under warranty
+  maintenance, // Covered maintenance
 }
 
 // ============================================================================
@@ -39,7 +39,7 @@ enum ClaimType {
 /// for resolution — they track the full lifecycle from submission to resolution.
 class Claim {
   final String id;
-  final String claimNumber;  // Display ID e.g. "CLM-2026-0001"
+  final String claimNumber; // Display ID e.g. "CLM-2026-0001"
 
   // Asset linkage (synced with _allAssets in home_screen.dart)
   final String assetId;
@@ -51,13 +51,14 @@ class Claim {
   // Claim details
   final String title;
   final String description;
-  final String issueCategory;    // e.g. 'Cooling Issue', 'Leakage Issue'
+  final String issueCategory; // e.g. 'Cooling Issue', 'Leakage Issue'
   final ClaimType claimType;
   final ClaimStatus status;
 
   // Coverage info
-  final String warrantyStatus;   // 'Active', 'Expired', 'Protection Plan'
-  final String? planName;        // e.g. 'BrandsMart Essential', null if manufacturer warranty
+  final String warrantyStatus; // 'Active', 'Expired', 'Protection Plan'
+  final String?
+  planName; // e.g. 'BrandsMart Essential', null if manufacturer warranty
   final bool isCovered;
 
   // Service linkage (synced with ActiveService bookings)
@@ -79,7 +80,8 @@ class Claim {
 
   // Resolution
   final String? resolutionNotes;
-  final String? resolutionType;  // 'repaired', 'replaced', 'denied', 'pending-parts'
+  final String?
+  resolutionType; // 'repaired', 'replaced', 'denied', 'pending-parts'
 
   Claim({
     required this.id,
@@ -240,8 +242,18 @@ class Claim {
   String formatDate(DateTime? date) {
     if (date == null) return '—';
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
@@ -317,12 +329,24 @@ class Claim {
       estimatedCost: (json['estimatedCost'] as num?)?.toDouble(),
       approvedAmount: (json['approvedAmount'] as num?)?.toDouble(),
       deductible: (json['deductible'] as num?)?.toDouble(),
-      submittedAt: DateTime.parse(json['submittedAt'] ?? DateTime.now().toIso8601String()),
-      reviewedAt: json['reviewedAt'] != null ? DateTime.parse(json['reviewedAt']) : null,
-      approvedAt: json['approvedAt'] != null ? DateTime.parse(json['approvedAt']) : null,
-      inProgressAt: json['inProgressAt'] != null ? DateTime.parse(json['inProgressAt']) : null,
-      resolvedAt: json['resolvedAt'] != null ? DateTime.parse(json['resolvedAt']) : null,
-      closedAt: json['closedAt'] != null ? DateTime.parse(json['closedAt']) : null,
+      submittedAt: DateTime.parse(
+        json['submittedAt'] ?? DateTime.now().toIso8601String(),
+      ),
+      reviewedAt: json['reviewedAt'] != null
+          ? DateTime.parse(json['reviewedAt'])
+          : null,
+      approvedAt: json['approvedAt'] != null
+          ? DateTime.parse(json['approvedAt'])
+          : null,
+      inProgressAt: json['inProgressAt'] != null
+          ? DateTime.parse(json['inProgressAt'])
+          : null,
+      resolvedAt: json['resolvedAt'] != null
+          ? DateTime.parse(json['resolvedAt'])
+          : null,
+      closedAt: json['closedAt'] != null
+          ? DateTime.parse(json['closedAt'])
+          : null,
       resolutionNotes: json['resolutionNotes'],
       resolutionType: json['resolutionType'],
     );

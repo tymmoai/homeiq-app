@@ -52,15 +52,15 @@ class BookingService {
     String? userId,
   }) async {
     final prefs = await _preferences;
-    
+
     final bookingId = generateBookingId();
     final now = DateTime.now();
-    
+
     // Build items summary for issue description
     final itemsSummary = selectedItems.entries
         .map((e) => '${e.key} x${e.value}')
         .join(', ');
-    
+
     // Create the booking using the full ActiveService model
     final booking = ActiveService(
       id: 'booking_${now.millisecondsSinceEpoch}',
@@ -71,7 +71,8 @@ class BookingService {
       assetName: serviceName,
       assetLocation: '$address, $city',
       issueSummary: '$serviceType Service',
-      issueDescription: 'Items: $itemsSummary${specialInstructions != null ? '\n\nInstructions: $specialInstructions' : ''}',
+      issueDescription:
+          'Items: $itemsSummary${specialInstructions != null ? '\n\nInstructions: $specialInstructions' : ''}',
       issueCategory: serviceType,
       severity: 'medium',
       technicianId: 'unassigned',
@@ -86,16 +87,17 @@ class BookingService {
       visitFee: total,
       createdAt: now,
       updatedAt: now,
-      isToday: scheduledDate.day == now.day && 
-               scheduledDate.month == now.month && 
-               scheduledDate.year == now.year,
+      isToday:
+          scheduledDate.day == now.day &&
+          scheduledDate.month == now.month &&
+          scheduledDate.year == now.year,
       isUpcoming: scheduledDate.isAfter(now),
     );
-    
+
     // Get existing bookings
     final bookings = await getBookings();
     bookings.insert(0, booking); // Add to beginning
-    
+
     // Save to storage
     final bookingsJson = bookings.map((b) => _bookingToJson(b)).toList();
     await prefs.setString(_bookingsKey, jsonEncode(bookingsJson));
@@ -148,7 +150,8 @@ class BookingService {
       visitFee: total,
       createdAt: now,
       updatedAt: now,
-      isToday: scheduledDate.day == now.day &&
+      isToday:
+          scheduledDate.day == now.day &&
           scheduledDate.month == now.month &&
           scheduledDate.year == now.year,
       isUpcoming: scheduledDate.isAfter(now),
@@ -187,34 +190,46 @@ class BookingService {
       }
     } on Object catch (e) {
       // Backend unavailable — fine, use local data only
-      AppLogger.warning('BookingService: Backend status fetch failed: $e', tag: 'BookingService');
+      AppLogger.warning(
+        'BookingService: Backend status fetch failed: $e',
+        tag: 'BookingService',
+      );
     }
 
     final bookingsString = prefs.getString(_bookingsKey);
-    
+
     if (bookingsString == null || bookingsString.isEmpty) {
       return [];
     }
-    
+
     try {
-      final List<dynamic> bookingsJson = jsonDecode(bookingsString) as List<dynamic>;
+      final List<dynamic> bookingsJson =
+          jsonDecode(bookingsString) as List<dynamic>;
       final List<ActiveService> bookings = [];
       for (final json in bookingsJson) {
         try {
           bookings.add(_bookingFromJson(json as Map<String, dynamic>));
         } on Object catch (e) {
-          AppLogger.warning('BookingService: Skipping bad booking entry: $e', tag: 'BookingService', error: e);
+          AppLogger.warning(
+            'BookingService: Skipping bad booking entry: $e',
+            tag: 'BookingService',
+            error: e,
+          );
         }
       }
-      
+
       // Filter by homeId if provided
       if (homeId != null) {
         return bookings.where((b) => b.homeId == homeId).toList();
       }
-      
+
       return bookings;
     } on Object catch (e) {
-      AppLogger.error('BookingService: Error loading bookings: $e', tag: 'BookingService', error: e);
+      AppLogger.error(
+        'BookingService: Error loading bookings: $e',
+        tag: 'BookingService',
+        error: e,
+      );
       return [];
     }
   }
@@ -238,16 +253,16 @@ class BookingService {
   ) async {
     final prefs = await _preferences;
     final bookings = await getBookings();
-    
+
     final index = bookings.indexWhere(
       (b) => b.bookingId == bookingId || b.id == bookingId,
     );
-    
+
     if (index == -1) return false;
-    
+
     final old = bookings[index];
     final now = DateTime.now();
-    
+
     final updatedBooking = ActiveService(
       id: old.id,
       bookingId: old.bookingId,
@@ -275,12 +290,12 @@ class BookingService {
       isToday: old.isToday,
       isUpcoming: old.isUpcoming,
     );
-    
+
     bookings[index] = updatedBooking;
-    
+
     final bookingsJson = bookings.map((b) => _bookingToJson(b)).toList();
     await prefs.setString(_bookingsKey, jsonEncode(bookingsJson));
-    
+
     return true;
   }
 
@@ -291,16 +306,16 @@ class BookingService {
   ) async {
     final prefs = await _preferences;
     final bookings = await getBookings();
-    
+
     final index = bookings.indexWhere(
       (b) => b.bookingId == bookingId || b.id == bookingId,
     );
-    
+
     if (index == -1) return false;
-    
+
     final old = bookings[index];
     final now = DateTime.now();
-    
+
     final updatedBooking = ActiveService(
       id: old.id,
       bookingId: old.bookingId,
@@ -328,12 +343,12 @@ class BookingService {
       isToday: old.isToday,
       isUpcoming: old.isUpcoming,
     );
-    
+
     bookings[index] = updatedBooking;
-    
+
     final bookingsJson = bookings.map((b) => _bookingToJson(b)).toList();
     await prefs.setString(_bookingsKey, jsonEncode(bookingsJson));
-    
+
     return true;
   }
 
@@ -350,16 +365,16 @@ class BookingService {
   ) async {
     final prefs = await _preferences;
     final bookings = await getBookings();
-    
+
     final index = bookings.indexWhere(
       (b) => b.bookingId == bookingId || b.id == bookingId,
     );
-    
+
     if (index == -1) return false;
-    
+
     final old = bookings[index];
     final now = DateTime.now();
-    
+
     final updatedBooking = ActiveService(
       id: old.id,
       bookingId: old.bookingId,
@@ -384,15 +399,18 @@ class BookingService {
       visitFee: old.visitFee,
       createdAt: old.createdAt,
       updatedAt: now,
-      isToday: newDate.day == now.day && newDate.month == now.month && newDate.year == now.year,
+      isToday:
+          newDate.day == now.day &&
+          newDate.month == now.month &&
+          newDate.year == now.year,
       isUpcoming: newDate.isAfter(now),
     );
-    
+
     bookings[index] = updatedBooking;
-    
+
     final bookingsJson = bookings.map((b) => _bookingToJson(b)).toList();
     await prefs.setString(_bookingsKey, jsonEncode(bookingsJson));
-    
+
     return true;
   }
 
@@ -400,14 +418,12 @@ class BookingService {
   static Future<bool> deleteBooking(String bookingId) async {
     final prefs = await _preferences;
     final bookings = await getBookings();
-    
-    bookings.removeWhere(
-      (b) => b.bookingId == bookingId || b.id == bookingId,
-    );
-    
+
+    bookings.removeWhere((b) => b.bookingId == bookingId || b.id == bookingId);
+
     final bookingsJson = bookings.map((b) => _bookingToJson(b)).toList();
     await prefs.setString(_bookingsKey, jsonEncode(bookingsJson));
-    
+
     return true;
   }
 
@@ -421,11 +437,11 @@ class BookingService {
   static Future<Map<ServiceStatus, int>> getBookingCounts() async {
     final bookings = await getBookings();
     final counts = <ServiceStatus, int>{};
-    
+
     for (final booking in bookings) {
       counts[booking.status] = (counts[booking.status] ?? 0) + 1;
     }
-    
+
     return counts;
   }
 
@@ -480,17 +496,17 @@ class BookingService {
       scheduledDate: DateTime.parse(json['scheduledDate']),
       scheduledTimeSlot: json['scheduledTimeSlot'] ?? '',
       status: ServiceStatus.values[json['status'] ?? 0],
-      statusUpdatedAt: json['statusUpdatedAt'] != null 
-          ? DateTime.parse(json['statusUpdatedAt']) 
+      statusUpdatedAt: json['statusUpdatedAt'] != null
+          ? DateTime.parse(json['statusUpdatedAt'])
           : DateTime.now(),
       paymentMode: PaymentMode.values[json['paymentMode'] ?? 0],
       paymentStatus: PaymentStatus.values[json['paymentStatus'] ?? 0],
       visitFee: ((json['visitFee'] as num?) ?? 0).toDouble(),
-      createdAt: json['createdAt'] != null 
-          ? DateTime.parse(json['createdAt']) 
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
           : DateTime.now(),
-      updatedAt: json['updatedAt'] != null 
-          ? DateTime.parse(json['updatedAt']) 
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
           : DateTime.now(),
       isToday: json['isToday'] ?? false,
       isUpcoming: json['isUpcoming'] ?? true,
@@ -501,29 +517,41 @@ class BookingService {
   // Backend sync (fire-and-forget, non-fatal)
   // ---------------------------------------------------------------------------
 
-  static Future<void> _syncBookingToBackend(ActiveService booking, {required bool isLifestyle}) async {
+  static Future<void> _syncBookingToBackend(
+    ActiveService booking, {
+    required bool isLifestyle,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final homeId = prefs.getString('selected_home_id');
       if (homeId == null || homeId.isEmpty) return;
 
       final api = ApiClient();
-      await api.post('/bookings', body: {
-        'homeId': homeId,
-        'bookingId': booking.bookingId,
-        'serviceType': booking.issueCategory,
-        'serviceName': booking.assetName,
-        'scheduledDate': booking.scheduledDate.toIso8601String(),
-        'scheduledTime': booking.scheduledTimeSlot,
-        'address': booking.assetLocation,
-        'total': booking.visitFee,
-        'status': booking.status.name,
-        'isLifestyle': isLifestyle,
-        'notes': booking.issueDescription,
-      });
-      AppLogger.info('BookingService: Synced booking "${booking.bookingId}" to backend', tag: 'BookingService');
+      await api.post(
+        '/bookings',
+        body: {
+          'homeId': homeId,
+          'bookingId': booking.bookingId,
+          'serviceType': booking.issueCategory,
+          'serviceName': booking.assetName,
+          'scheduledDate': booking.scheduledDate.toIso8601String(),
+          'scheduledTime': booking.scheduledTimeSlot,
+          'address': booking.assetLocation,
+          'total': booking.visitFee,
+          'status': booking.status.name,
+          'isLifestyle': isLifestyle,
+          'notes': booking.issueDescription,
+        },
+      );
+      AppLogger.info(
+        'BookingService: Synced booking "${booking.bookingId}" to backend',
+        tag: 'BookingService',
+      );
     } on Object catch (e) {
-      AppLogger.warning('BookingService: Backend sync failed (non-fatal): $e', tag: 'BookingService');
+      AppLogger.warning(
+        'BookingService: Backend sync failed (non-fatal): $e',
+        tag: 'BookingService',
+      );
     }
   }
 }

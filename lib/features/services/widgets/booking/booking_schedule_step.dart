@@ -162,7 +162,11 @@ class BookingScheduleStep extends StatelessWidget {
                         : AppColors.white,
                   ),
                   child: dateSelectionType == 'today'
-                      ? const Icon(Icons.check, size: 14, color: AppColors.white)
+                      ? const Icon(
+                          Icons.check,
+                          size: 14,
+                          color: AppColors.white,
+                        )
                       : null,
                 ),
               ],
@@ -250,7 +254,11 @@ class BookingScheduleStep extends StatelessWidget {
                         : AppColors.white,
                   ),
                   child: dateSelectionType == 'tomorrow'
-                      ? const Icon(Icons.check, size: 14, color: AppColors.white)
+                      ? const Icon(
+                          Icons.check,
+                          size: 14,
+                          color: AppColors.white,
+                        )
                       : null,
                 ),
               ],
@@ -351,7 +359,11 @@ class BookingScheduleStep extends StatelessWidget {
                         : AppColors.white,
                   ),
                   child: dateSelectionType == 'custom'
-                      ? const Icon(Icons.check, size: 14, color: AppColors.white)
+                      ? const Icon(
+                          Icons.check,
+                          size: 14,
+                          color: AppColors.white,
+                        )
                       : null,
                 ),
               ],
@@ -467,9 +479,7 @@ class BookingScheduleStep extends StatelessWidget {
                   color: isSelected ? AppColors.primary : AppColors.white,
                   borderRadius: BorderRadius.circular(25),
                   border: Border.all(
-                    color: isSelected
-                        ? AppColors.primary
-                        : AppColors.gray300,
+                    color: isSelected ? AppColors.primary : AppColors.gray300,
                     width: 1.5,
                   ),
                 ),
@@ -479,7 +489,9 @@ class BookingScheduleStep extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: isSelected ? AppColors.white : AppColors.textPrimary,
+                      color: isSelected
+                          ? AppColors.white
+                          : AppColors.textPrimary,
                     ),
                   ),
                 ),

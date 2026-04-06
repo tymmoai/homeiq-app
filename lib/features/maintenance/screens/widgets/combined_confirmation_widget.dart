@@ -60,7 +60,8 @@ class _CombinedConfirmationWidgetState
       {
         'name': widget.deliveryAddress['name'] ?? user.getUserName(),
         'phone': widget.deliveryAddress['phone'] ?? user.getUserPhone(),
-        'address': '${widget.deliveryAddress['street'] ?? user.getUserAddress()}, ${widget.deliveryAddress['city'] ?? user.getUserCity()}, ${widget.deliveryAddress['state'] ?? user.getUserState()} ${widget.deliveryAddress['zip'] ?? user.getUserZipCode()}',
+        'address':
+            '${widget.deliveryAddress['street'] ?? user.getUserAddress()}, ${widget.deliveryAddress['city'] ?? user.getUserCity()}, ${widget.deliveryAddress['state'] ?? user.getUserState()} ${widget.deliveryAddress['zip'] ?? user.getUserZipCode()}',
       },
       {
         'name': 'Jane Smith',
@@ -158,14 +159,18 @@ class _CombinedConfirmationWidgetState
                                 ),
                               ],
                               border: isSelected
-                                  ? Border.all(color: AppColors.primary, width: 2)
+                                  ? Border.all(
+                                      color: AppColors.primary,
+                                      width: 2,
+                                    )
                                   : null,
                             ),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -178,17 +183,30 @@ class _CombinedConfirmationWidgetState
                                             ),
                                           ),
                                           if (isSelected) ...[
-                                            SizedBox(width: responsive.spacing(8)),
+                                            SizedBox(
+                                              width: responsive.spacing(8),
+                                            ),
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(2)),
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: responsive.spacing(
+                                                  8,
+                                                ),
+                                                vertical: responsive.spacing(2),
+                                              ),
                                               decoration: BoxDecoration(
-                                                color: AppColors.primary.withValues(alpha: 0.1),
-                                                borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                                color: AppColors.primary
+                                                    .withValues(alpha: 0.1),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                      AppDimensions.radiusBadge,
+                                                    ),
                                               ),
                                               child: Text(
                                                 'Selected',
                                                 style: TextStyle(
-                                                  fontSize: responsive.fontSize(11),
+                                                  fontSize: responsive.fontSize(
+                                                    11,
+                                                  ),
                                                   fontWeight: FontWeight.w600,
                                                   color: AppColors.primary,
                                                 ),
@@ -209,8 +227,14 @@ class _CombinedConfirmationWidgetState
                                       SizedBox(height: responsive.spacing(8)),
                                       Row(
                                         children: [
-                                          Icon(Icons.phone_outlined, size: responsive.iconSize(16), color: Colors.grey.shade600),
-                                          SizedBox(width: responsive.spacing(6)),
+                                          Icon(
+                                            Icons.phone_outlined,
+                                            size: responsive.iconSize(16),
+                                            color: Colors.grey.shade600,
+                                          ),
+                                          SizedBox(
+                                            width: responsive.spacing(6),
+                                          ),
                                           Text(
                                             address['phone'] ?? 'N/A',
                                             style: TextStyle(
@@ -264,7 +288,10 @@ class _CombinedConfirmationWidgetState
             ),
             // Add New Address Button
             Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(16)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(20),
+                vertical: responsive.spacing(16),
+              ),
               decoration: BoxDecoration(
                 color: AppColors.backgroundWarm,
                 boxShadow: [
@@ -285,12 +312,17 @@ class _CombinedConfirmationWidgetState
                   icon: Icon(Icons.add, size: responsive.iconSize(20)),
                   label: Text(
                     'Add New Address',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.textOnPrimary,
-                    padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                    padding: EdgeInsets.symmetric(
+                      vertical: responsive.spacing(14),
+                    ),
                     elevation: 0,
                   ),
                 ),
@@ -310,7 +342,8 @@ class _CombinedConfirmationWidgetState
     final result = await Navigator.push<Map<String, String>>(
       context,
       MaterialPageRoute(
-        builder: (context) => CombinedAddressFormScreen(existingAddress: existingAddress),
+        builder: (context) =>
+            CombinedAddressFormScreen(existingAddress: existingAddress),
       ),
     );
 
@@ -416,7 +449,9 @@ class _CombinedConfirmationWidgetState
                       padding: EdgeInsets.all(responsive.spacing(6)),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Icon(
                         Icons.inventory_2_outlined,
@@ -477,19 +512,33 @@ class _CombinedConfirmationWidgetState
                 SizedBox(height: responsive.spacing(8)),
                 Divider(height: 1, color: AppColors.border),
                 SizedBox(height: responsive.spacing(8)),
-                _buildPriceRow('Parts Total', partsTotal, isBold: true, isPrimary: true),
+                _buildPriceRow(
+                  'Parts Total',
+                  partsTotal,
+                  isBold: true,
+                  isPrimary: true,
+                ),
 
                 // Expected delivery
                 SizedBox(height: responsive.spacing(12)),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: responsive.spacing(10), vertical: responsive.spacing(8)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.spacing(10),
+                    vertical: responsive.spacing(8),
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.local_shipping_outlined, size: responsive.iconSize(16), color: AppColors.primary),
+                      Icon(
+                        Icons.local_shipping_outlined,
+                        size: responsive.iconSize(16),
+                        color: AppColors.primary,
+                      ),
                       SizedBox(width: responsive.spacing(6)),
                       Expanded(
                         child: Text(
@@ -534,7 +583,9 @@ class _CombinedConfirmationWidgetState
                       padding: EdgeInsets.all(responsive.spacing(6)),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Icon(
                         Icons.build_outlined,
@@ -594,7 +645,11 @@ class _CombinedConfirmationWidgetState
                           SizedBox(height: responsive.spacing(2)),
                           Row(
                             children: [
-                              Icon(Icons.star, size: responsive.iconSize(12), color: AppColors.warningGold),
+                              Icon(
+                                Icons.star,
+                                size: responsive.iconSize(12),
+                                color: AppColors.warningGold,
+                              ),
                               SizedBox(width: responsive.spacing(3)),
                               Text(
                                 '${widget.technician.rating} • ${widget.technician.experienceYears} yrs',
@@ -615,14 +670,23 @@ class _CombinedConfirmationWidgetState
 
                 // Appointment info
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: responsive.spacing(10), vertical: responsive.spacing(8)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.spacing(10),
+                    vertical: responsive.spacing(8),
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_today_outlined, size: responsive.iconSize(14), color: Colors.grey.shade600),
+                      Icon(
+                        Icons.calendar_today_outlined,
+                        size: responsive.iconSize(14),
+                        color: Colors.grey.shade600,
+                      ),
                       SizedBox(width: responsive.spacing(6)),
                       Expanded(
                         child: Text(
@@ -647,7 +711,12 @@ class _CombinedConfirmationWidgetState
                 SizedBox(height: responsive.spacing(8)),
                 Divider(height: 1, color: AppColors.border),
                 SizedBox(height: responsive.spacing(8)),
-                _buildPriceRow('Technician Total', techTotal, isBold: true, isPrimary: true),
+                _buildPriceRow(
+                  'Technician Total',
+                  techTotal,
+                  isBold: true,
+                  isPrimary: true,
+                ),
               ],
             ),
           ),
@@ -677,7 +746,9 @@ class _CombinedConfirmationWidgetState
                       padding: EdgeInsets.all(responsive.spacing(6)),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Icon(
                         Icons.location_on_outlined,
@@ -699,10 +770,15 @@ class _CombinedConfirmationWidgetState
                     GestureDetector(
                       onTap: () => _showAddressSelectionSheet(context),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: responsive.spacing(10), vertical: responsive.spacing(4)),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: responsive.spacing(10),
+                          vertical: responsive.spacing(4),
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -752,7 +828,11 @@ class _CombinedConfirmationWidgetState
                 SizedBox(height: responsive.spacing(4)),
                 Row(
                   children: [
-                    Icon(Icons.phone_outlined, size: responsive.iconSize(14), color: Colors.grey.shade600),
+                    Icon(
+                      Icons.phone_outlined,
+                      size: responsive.iconSize(14),
+                      color: Colors.grey.shade600,
+                    ),
                     SizedBox(width: responsive.spacing(4)),
                     Text(
                       widget.deliveryAddress['phone'] ?? '',
@@ -771,7 +851,10 @@ class _CombinedConfirmationWidgetState
 
           // ========== GRAND TOTAL SECTION ==========
           Container(
-            padding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(10)),
+            padding: EdgeInsets.symmetric(
+              horizontal: responsive.spacing(14),
+              vertical: responsive.spacing(10),
+            ),
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: BorderRadius.circular(10),
@@ -872,12 +955,17 @@ class _CombinedConfirmationWidgetState
                       height: 24,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.textOnPrimary),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.textOnPrimary,
+                        ),
                       ),
                     )
                   : Text(
                       'Pay & Confirm All',
-                      style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(16),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
             ),
           ),
@@ -888,7 +976,13 @@ class _CombinedConfirmationWidgetState
     );
   }
 
-  Widget _buildPriceRow(String label, double amount, {bool isSecondary = false, bool isBold = false, bool isPrimary = false}) {
+  Widget _buildPriceRow(
+    String label,
+    double amount, {
+    bool isSecondary = false,
+    bool isBold = false,
+    bool isPrimary = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -897,7 +991,11 @@ class _CombinedConfirmationWidgetState
           style: TextStyle(
             fontSize: isSecondary ? 12 : 13,
             fontWeight: isBold ? FontWeight.w700 : FontWeight.normal,
-            color: isPrimary ? AppColors.primary : (isSecondary ? AppColors.textSecondary : AppColors.textPrimary),
+            color: isPrimary
+                ? AppColors.primary
+                : (isSecondary
+                      ? AppColors.textSecondary
+                      : AppColors.textPrimary),
           ),
         ),
         Text(
@@ -905,7 +1003,11 @@ class _CombinedConfirmationWidgetState
           style: TextStyle(
             fontSize: isSecondary ? 12 : 13,
             fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
-            color: isPrimary ? AppColors.primary : (isSecondary ? AppColors.textSecondary : AppColors.textPrimary),
+            color: isPrimary
+                ? AppColors.primary
+                : (isSecondary
+                      ? AppColors.textSecondary
+                      : AppColors.textPrimary),
           ),
         ),
       ],

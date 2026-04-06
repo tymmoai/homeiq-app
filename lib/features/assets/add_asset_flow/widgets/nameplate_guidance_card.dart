@@ -157,9 +157,7 @@ class NameplateGuidanceCard extends StatelessWidget {
             if (wireframeImage != null) ...[
               Divider(height: 1, color: AppColors.divider),
               const SizedBox(height: 16),
-              ProductLabelHighlightImage(
-                wireframeImage: wireframeImage!,
-              ),
+              ProductLabelHighlightImage(wireframeImage: wireframeImage!),
             ] else if (isLoadingImage) ...[
               Divider(height: 1, color: AppColors.divider),
               const SizedBox(height: 16),

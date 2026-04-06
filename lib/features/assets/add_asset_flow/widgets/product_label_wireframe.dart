@@ -29,7 +29,11 @@ class ProductLabelWireframe extends StatelessWidget {
         // Header
         Row(
           children: [
-            Icon(Icons.location_on_outlined, color: AppColors.primary, size: 20),
+            Icon(
+              Icons.location_on_outlined,
+              color: AppColors.primary,
+              size: 20,
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -103,7 +107,10 @@ class ProductLabelWireframe extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _showLabelDetail(context, indicator),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(10),
@@ -278,10 +285,7 @@ class _LabelMarker extends StatefulWidget {
   final LabelIndicator indicator;
   final VoidCallback onTap;
 
-  const _LabelMarker({
-    required this.indicator,
-    required this.onTap,
-  });
+  const _LabelMarker({required this.indicator, required this.onTap});
 
   @override
   State<_LabelMarker> createState() => _LabelMarkerState();
@@ -299,9 +303,10 @@ class _LabelMarkerState extends State<_LabelMarker>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat(reverse: true);
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _pulseAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.3,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override

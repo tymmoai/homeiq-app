@@ -138,11 +138,7 @@ class ServiceBookingFormData {
     selectedItems.forEach((itemName, quantity) {
       final item = availableItems.firstWhere(
         (i) => i.name == itemName,
-        orElse: () => const ServiceItem(
-          name: '',
-          price: 0,
-          icon: Icons.error,
-        ),
+        orElse: () => const ServiceItem(name: '', price: 0, icon: Icons.error),
       );
       total += item.price * quantity;
     });
@@ -155,11 +151,7 @@ class ServiceBookingFormData {
     for (final addonName in selectedAddons) {
       final addon = availableAddons.firstWhere(
         (a) => a.name == addonName,
-        orElse: () => const ServiceAddon(
-          name: '',
-          price: 0,
-          icon: Icons.error,
-        ),
+        orElse: () => const ServiceAddon(name: '', price: 0, icon: Icons.error),
       );
       total += addon.price;
     }

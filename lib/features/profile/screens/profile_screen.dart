@@ -34,6 +34,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   /// The theme ID selected during editing (not yet applied).
   /// null means no change from current theme.
   String? _pendingThemeId;
+
   /// Custom color selected during editing (not yet applied).
   Color? _pendingCustomColor;
 
@@ -43,6 +44,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   /// Picked profile image file (not yet saved).
   File? _pickedProfileImage;
+
   /// Whether user requested to remove the profile image during editing.
   bool _pendingRemoveProfileImage = false;
   final ImagePicker _imagePicker = ImagePicker();
@@ -77,41 +79,84 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   ];
 
   /// Max digits and format per country.
-  static const Map<String, ({int maxDigits, String hint})> _countryPhoneConfig = {
-    '+1-US': (maxDigits: 10, hint: '(123) 456-7890'),
-    '+1-CA': (maxDigits: 10, hint: '(123) 456-7890'),
-    '+44': (maxDigits: 10, hint: '7123 456789'),
-    '+91': (maxDigits: 10, hint: '98765 43210'),
-    '+86': (maxDigits: 11, hint: '138 1234 5678'),
-    '+81': (maxDigits: 10, hint: '90-1234-5678'),
-    '+33': (maxDigits: 9, hint: '6 12 34 56 78'),
-    '+49': (maxDigits: 11, hint: '171 1234567'),
-    '+39': (maxDigits: 10, hint: '312 345 6789'),
-    '+34': (maxDigits: 9, hint: '612 345 678'),
-  };
+  static const Map<String, ({int maxDigits, String hint})> _countryPhoneConfig =
+      {
+        '+1-US': (maxDigits: 10, hint: '(123) 456-7890'),
+        '+1-CA': (maxDigits: 10, hint: '(123) 456-7890'),
+        '+44': (maxDigits: 10, hint: '7123 456789'),
+        '+91': (maxDigits: 10, hint: '98765 43210'),
+        '+86': (maxDigits: 11, hint: '138 1234 5678'),
+        '+81': (maxDigits: 10, hint: '90-1234-5678'),
+        '+33': (maxDigits: 9, hint: '6 12 34 56 78'),
+        '+49': (maxDigits: 11, hint: '171 1234567'),
+        '+39': (maxDigits: 10, hint: '312 345 6789'),
+        '+34': (maxDigits: 9, hint: '612 345 678'),
+      };
 
   /// US states for address dropdown (abbreviation → full name).
   static const Map<String, String> _usStateMap = {
-    'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas',
-    'CA': 'California', 'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware',
-    'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
-    'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas',
-    'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',
-    'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi',
-    'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada',
-    'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York',
-    'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma',
-    'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
-    'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah',
-    'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia',
-    'WI': 'Wisconsin', 'WY': 'Wyoming', 'DC': 'Washington DC', 'PR': 'Puerto Rico',
-    'VI': 'US Virgin Islands', 'GU': 'Guam', 'AS': 'American Samoa',
+    'AL': 'Alabama',
+    'AK': 'Alaska',
+    'AZ': 'Arizona',
+    'AR': 'Arkansas',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DE': 'Delaware',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'IA': 'Iowa',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'ME': 'Maine',
+    'MD': 'Maryland',
+    'MA': 'Massachusetts',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MS': 'Mississippi',
+    'MO': 'Missouri',
+    'MT': 'Montana',
+    'NE': 'Nebraska',
+    'NV': 'Nevada',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NM': 'New Mexico',
+    'NY': 'New York',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah',
+    'VT': 'Vermont',
+    'VA': 'Virginia',
+    'WA': 'Washington',
+    'WV': 'West Virginia',
+    'WI': 'Wisconsin',
+    'WY': 'Wyoming',
+    'DC': 'Washington DC',
+    'PR': 'Puerto Rico',
+    'VI': 'US Virgin Islands',
+    'GU': 'Guam',
+    'AS': 'American Samoa',
     'MP': 'Northern Mariana Islands',
   };
 
   /// Display labels for the state dropdown (e.g. "California (CA)").
-  static final List<String> _usStates =
-      _usStateMap.entries.map((e) => '${e.value} (${e.key})').toList();
+  static final List<String> _usStates = _usStateMap.entries
+      .map((e) => '${e.value} (${e.key})')
+      .toList();
 
   /// Supported languages for the dropdown.
   static const List<Map<String, String>> _supportedLanguages = [
@@ -202,7 +247,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       final selectedHomeId = ref.read(selectedHomeIdProvider);
       if (selectedHomeId != null) {
         final homes = ref.read(homesProvider).valueOrNull ?? [];
-        final selectedHome = homes.where((h) => h.id == selectedHomeId).firstOrNull;
+        final selectedHome = homes
+            .where((h) => h.id == selectedHomeId)
+            .firstOrNull;
         if (selectedHome != null) {
           address = selectedHome.address;
           city = selectedHome.city;
@@ -256,15 +303,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       case 'email':
         final trimmed = value.trim();
         if (trimmed.isEmpty) return 'Email address is required';
-        if (!_emailRegex.hasMatch(trimmed)) return 'Enter a valid email address';
+        if (!_emailRegex.hasMatch(trimmed))
+          return 'Enter a valid email address';
         if (trimmed.length > 254) return 'Email is too long';
         return '';
       case 'phone':
         final trimmed = value.trim();
-        if (trimmed.isEmpty) return ''; // Phone is optional — allow saving without one
-        final digits =
-            _phoneDigitsRegex.allMatches(trimmed).map((m) => m.group(0)).join();
-        final config = _countryPhoneConfig[_selectedCountryCode] ?? _countryPhoneConfig['+1-US']!;
+        if (trimmed.isEmpty)
+          return ''; // Phone is optional — allow saving without one
+        final digits = _phoneDigitsRegex
+            .allMatches(trimmed)
+            .map((m) => m.group(0))
+            .join();
+        final config =
+            _countryPhoneConfig[_selectedCountryCode] ??
+            _countryPhoneConfig['+1-US']!;
         if (digits.length < config.maxDigits) {
           return 'Cell number must be ${config.maxDigits} digits for this country';
         }
@@ -314,7 +367,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     _syncFormDataFromControllers();
 
     bool allValid = true;
-    for (final key in ['name', 'email', 'phone', 'address', 'city', 'usState', 'zipCode']) {
+    for (final key in [
+      'name',
+      'email',
+      'phone',
+      'address',
+      'city',
+      'usState',
+      'zipCode',
+    ]) {
       final error = _validateField(key, _formData[key] as String? ?? '');
       _fieldErrors[key] = error;
       if (error.isNotEmpty) allValid = false;
@@ -357,37 +418,42 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       final zipCode = (_formData['zipCode'] as String? ?? '').trim();
 
       // ── 1. Save supported fields to backend ──────────────────────────────
-      await ref.read(userProfileProvider.notifier).saveToBackend(
-        name: name,
-        phone: phone.isNotEmpty ? phone : null,
-      );
+      await ref
+          .read(userProfileProvider.notifier)
+          .saveToBackend(name: name, phone: phone.isNotEmpty ? phone : null);
 
       // Apply pending theme change
       if (_pendingCustomColor != null) {
-        ref.read(themePresetProvider.notifier).selectCustomColor(_pendingCustomColor!);
+        ref
+            .read(themePresetProvider.notifier)
+            .selectCustomColor(_pendingCustomColor!);
       } else if (_pendingThemeId != null) {
         ref.read(themePresetProvider.notifier).selectTheme(_pendingThemeId!);
       }
 
       // Apply pending button layout change
       if (_pendingButtonLayout != null) {
-        ref.read(buttonLayoutProvider.notifier).setLayout(_pendingButtonLayout!);
+        ref
+            .read(buttonLayoutProvider.notifier)
+            .setLayout(_pendingButtonLayout!);
       }
 
       // ── 2. Update local state (SharedPreferences + Riverpod provider) ──
-      await ref.read(userProfileProvider.notifier).updateProfile(
-        name: name,
-        email: email,
-        phone: phone,
-        countryCode: _selectedCountryCode,
-        address: address,
-        aptUnit: aptUnit,
-        city: city,
-        usState: usState,
-        zipCode: zipCode,
-        profileImagePath: _pickedProfileImage?.path,
-        clearProfileImage: _pendingRemoveProfileImage,
-      );
+      await ref
+          .read(userProfileProvider.notifier)
+          .updateProfile(
+            name: name,
+            email: email,
+            phone: phone,
+            countryCode: _selectedCountryCode,
+            address: address,
+            aptUnit: aptUnit,
+            city: city,
+            usState: usState,
+            zipCode: zipCode,
+            profileImagePath: _pickedProfileImage?.path,
+            clearProfileImage: _pendingRemoveProfileImage,
+          );
 
       // Keep UserService in sync so non-Riverpod widgets also see updates.
       await UserService.instance.updateUserData({
@@ -430,7 +496,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(_error ?? 'Failed to update profile. Please try again.'),
+            content: Text(
+              _error ?? 'Failed to update profile. Please try again.',
+            ),
             backgroundColor: AppColors.error,
           ),
         );
@@ -708,7 +776,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     }
                     if (userProfile.hasProfileImage) {
                       final imagePath = userProfile.profileImagePath!;
-                      final isNetwork = imagePath.startsWith('http://') ||
+                      final isNetwork =
+                          imagePath.startsWith('http://') ||
                           imagePath.startsWith('https://');
                       return ClipOval(
                         child: isNetwork
@@ -820,7 +889,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           SizedBox(height: responsive.spacing(2)),
           Text(
             _formData['email'] as String? ?? 'No email',
-            style: TextStyle(fontSize: responsive.fontSize(12), color: AppColors.textSecondary),
+            style: TextStyle(
+              fontSize: responsive.fontSize(12),
+              color: AppColors.textSecondary,
+            ),
           ),
           SizedBox(height: responsive.spacing(12)),
           if (!_isEditing)
@@ -836,8 +908,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 label: const Text('Edit Profile'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.primary,
-                  padding: EdgeInsets.symmetric(vertical: responsive.spacing(11)),
-                  side: BorderSide(color: AppColors.primary.withValues(alpha: 0.5)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: responsive.spacing(11),
+                  ),
+                  side: BorderSide(
+                    color: AppColors.primary.withValues(alpha: 0.5),
+                  ),
                 ),
               ),
             ),
@@ -851,11 +927,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             value: _getMemberSinceDate(),
           ),
           SizedBox(height: responsive.spacing(12)),
-          _buildStatRow(
-            icon: Icons.home,
-            label: 'Homes',
-            value: '2',
-          ),
+          _buildStatRow(icon: Icons.home, label: 'Homes', value: '2'),
         ],
       ),
     );
@@ -878,7 +950,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 color: _headerColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
               ),
-              child: Icon(icon, size: responsive.iconSize(14), color: _headerColor),
+              child: Icon(
+                icon,
+                size: responsive.iconSize(14),
+                color: _headerColor,
+              ),
             ),
             SizedBox(width: responsive.spacing(10)),
             Text(
@@ -962,10 +1038,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           _buildCellNumberField(),
           SizedBox(height: responsive.spacing(24)),
           // Address Section (US Standard)
-          _buildSectionHeader(
-            icon: Icons.location_on,
-            title: 'Address',
-          ),
+          _buildSectionHeader(icon: Icons.location_on, title: 'Address'),
           SizedBox(height: responsive.spacing(12)),
           _buildFormField(
             label: 'Street Address',
@@ -1017,7 +1090,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 flex: 2,
                 child: _buildDropdownField(
                   label: 'State',
-                  value: _getStateDisplayLabel(_formData['usState'] as String? ?? ''),
+                  value: _getStateDisplayLabel(
+                    _formData['usState'] as String? ?? '',
+                  ),
                   items: _usStates,
                   enabled: _isEditing,
                   onChanged: (value) {
@@ -1039,7 +1114,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   onChanged: (value) {
                     setState(() {
                       _formData['zipCode'] = value;
-                      _fieldErrors['zipCode'] = _validateField('zipCode', value);
+                      _fieldErrors['zipCode'] = _validateField(
+                        'zipCode',
+                        value,
+                      );
                     });
                   },
                   enabled: _isEditing,
@@ -1076,11 +1154,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             items: _supportedLanguages.map((l) => l['label']!).toList(),
             enabled: _isEditing,
             onChanged: (value) {
-              final match =
-                  _supportedLanguages.where((l) => l['label'] == value);
+              final match = _supportedLanguages.where(
+                (l) => l['label'] == value,
+              );
               setState(() {
-                _formData['language'] =
-                    match.isNotEmpty ? match.first['code']! : 'en';
+                _formData['language'] = match.isNotEmpty
+                    ? match.first['code']!
+                    : 'en';
               });
             },
           ),
@@ -1113,8 +1193,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: OutlinedButton(
                     onPressed: _handleCancel,
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
-                      side: BorderSide(color: AppColors.primary.withValues(alpha: 0.4)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
+                      side: BorderSide(
+                        color: AppColors.primary.withValues(alpha: 0.4),
+                      ),
                       foregroundColor: AppColors.primary,
                     ),
                     child: Row(
@@ -1134,7 +1218,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: AppColors.textOnPrimary,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
                       elevation: 0,
                     ),
                     child: _isSaving
@@ -1214,25 +1300,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? (preset.brightness == Brightness.dark
-                          ? const Color(0xFF263238).withValues(alpha: 0.12)
-                          : preset.primary.withValues(alpha: 0.08))
+                            ? const Color(0xFF263238).withValues(alpha: 0.12)
+                            : preset.primary.withValues(alpha: 0.08))
                       : AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: isSelected
                         ? (preset.brightness == Brightness.dark
-                            ? const Color(0xFF263238)
-                            : preset.primary)
+                              ? const Color(0xFF263238)
+                              : preset.primary)
                         : AppColors.border,
                     width: isSelected ? 2.5 : 1,
                   ),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: (preset.brightness == Brightness.dark
-                                    ? const Color(0xFF263238)
-                                    : preset.primary)
-                                .withValues(alpha: 0.25),
+                            color:
+                                (preset.brightness == Brightness.dark
+                                        ? const Color(0xFF263238)
+                                        : preset.primary)
+                                    .withValues(alpha: 0.25),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -1254,18 +1341,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           border: Border.all(
                             color: isSelected
                                 ? (preset.brightness == Brightness.dark
-                                    ? const Color(0xFF263238)
-                                    : preset.primary)
+                                      ? const Color(0xFF263238)
+                                      : preset.primary)
                                 : Colors.grey.shade300,
                             width: isSelected ? 2.5 : 1.5,
                           ),
                           boxShadow: isSelected
                               ? [
                                   BoxShadow(
-                                    color: (preset.brightness == Brightness.dark
-                                            ? const Color(0xFF263238)
-                                            : preset.primary)
-                                        .withValues(alpha: 0.3),
+                                    color:
+                                        (preset.brightness == Brightness.dark
+                                                ? const Color(0xFF263238)
+                                                : preset.primary)
+                                            .withValues(alpha: 0.3),
                                     blurRadius: 6,
                                     offset: const Offset(0, 2),
                                   ),
@@ -1293,9 +1381,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               top: 0,
                               bottom: 0,
                               width: 19,
-                              child: Container(
-                                color: preset.accent,
-                              ),
+                              child: Container(color: preset.accent),
                             ),
                             if (isSelected)
                               Center(
@@ -1306,16 +1392,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                        color: preset.brightness == Brightness.dark
-                                            ? const Color(0xFF263238)
-                                            : preset.primary,
-                                        width: 1.5),
-                                  ),
-                                  child: Icon(Icons.check,
-                                      color: preset.brightness == Brightness.dark
+                                      color:
+                                          preset.brightness == Brightness.dark
                                           ? const Color(0xFF263238)
                                           : preset.primary,
-                                      size: 8),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.check,
+                                    color: preset.brightness == Brightness.dark
+                                        ? const Color(0xFF263238)
+                                        : preset.primary,
+                                    size: 8,
+                                  ),
                                 ),
                               ),
                           ],
@@ -1330,12 +1420,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: responsive.fontSize(8.5),
-                            fontWeight:
-                                isSelected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: isSelected
                                 ? (preset.brightness == Brightness.dark
-                                    ? const Color(0xFF263238)
-                                    : preset.primary)
+                                      ? const Color(0xFF263238)
+                                      : preset.primary)
                                 : AppColors.textSecondary,
                           ),
                         ),
@@ -1356,7 +1447,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   /// Custom Color swatch shown as the last item in the theme grid.
-  Widget _buildCustomColorGridItem(String activeId, AppThemePreset currentPreset) {
+  Widget _buildCustomColorGridItem(
+    String activeId,
+    AppThemePreset currentPreset,
+  ) {
     final isSelected = activeId == 'custom';
     final customColor = _pendingCustomColor ?? currentPreset.primary;
 
@@ -1402,7 +1496,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             _pendingCustomColor!,
                             HSLColor.fromColor(_pendingCustomColor!)
                                 .withHue(
-                                  (HSLColor.fromColor(_pendingCustomColor!).hue + 40) % 360,
+                                  (HSLColor.fromColor(
+                                            _pendingCustomColor!,
+                                          ).hue +
+                                          40) %
+                                      360,
                                 )
                                 .toColor(),
                           ],
@@ -1410,24 +1508,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           end: Alignment.bottomRight,
                         )
                       : (currentPreset.id == 'custom'
-                          ? LinearGradient(
-                              colors: [
-                                currentPreset.primary,
-                                currentPreset.accent,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                          : const LinearGradient(
-                              colors: [
-                                Color(0xFFFF6B6B),
-                                Color(0xFF4ECDC4),
-                                Color(0xFF45B7D1),
-                                Color(0xFFFFA07A),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )),
+                            ? LinearGradient(
+                                colors: [
+                                  currentPreset.primary,
+                                  currentPreset.accent,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : const LinearGradient(
+                                colors: [
+                                  Color(0xFFFF6B6B),
+                                  Color(0xFF4ECDC4),
+                                  Color(0xFF45B7D1),
+                                  Color(0xFFFFA07A),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )),
                   border: Border.all(
                     color: isSelected ? customColor : Colors.grey.shade300,
                     width: isSelected ? 2.5 : 1.5,
@@ -1443,8 +1541,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       : [],
                 ),
                 child: isSelected
-                    ? Icon(Icons.check, color: Colors.white, size: responsive.iconSize(14))
-                    : Icon(Icons.colorize, color: Colors.white, size: responsive.iconSize(14)),
+                    ? Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: responsive.iconSize(14),
+                      )
+                    : Icon(
+                        Icons.colorize,
+                        color: Colors.white,
+                        size: responsive.iconSize(14),
+                      ),
               ),
               SizedBox(height: responsive.spacing(3)),
               Flexible(
@@ -1456,9 +1562,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: TextStyle(
                     fontSize: responsive.fontSize(8.5),
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    color: isSelected
-                        ? customColor
-                        : AppColors.textSecondary,
+                    color: isSelected ? customColor : AppColors.textSecondary,
                   ),
                 ),
               ),
@@ -1471,7 +1575,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   /// Shows the currently active (or pending) theme.
   Widget _buildActiveThemeIndicator(
-      String activeId, AppThemePreset currentPreset) {
+    String activeId,
+    AppThemePreset currentPreset,
+  ) {
     Color displayColor;
     Color indicatorColor; // color used for text, border, tint
     String displayName;
@@ -1504,18 +1610,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final resolvedPreset = _pendingCustomColor != null
         ? null
         : (_pendingThemeId != null && _isEditing
-            ? AppThemePresets.getById(_pendingThemeId!)
-            : currentPreset);
+              ? AppThemePresets.getById(_pendingThemeId!)
+              : currentPreset);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(10)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(14),
+        vertical: responsive.spacing(10),
+      ),
       decoration: BoxDecoration(
         color: indicatorColor.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: indicatorColor.withValues(alpha: 0.25),
-        ),
+        border: Border.all(color: indicatorColor.withValues(alpha: 0.25)),
       ),
       child: Row(
         children: [
@@ -1536,17 +1643,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: Container(
                     color: _pendingCustomColor != null
                         ? _pendingCustomColor!
-                        : (resolvedPreset != null && resolvedPreset.brightness == Brightness.dark
-                            ? const Color(0xFF1E1E1E)
-                            : displayColor),
+                        : (resolvedPreset != null &&
+                                  resolvedPreset.brightness == Brightness.dark
+                              ? const Color(0xFF1E1E1E)
+                              : displayColor),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     color: _pendingCustomColor != null
                         ? HSLColor.fromColor(_pendingCustomColor!)
-                            .withHue((HSLColor.fromColor(_pendingCustomColor!).hue + 180) % 360)
-                            .toColor()
+                              .withHue(
+                                (HSLColor.fromColor(_pendingCustomColor!).hue +
+                                        180) %
+                                    360,
+                              )
+                              .toColor()
                         : (resolvedPreset?.accent ?? currentPreset.accent),
                   ),
                 ),
@@ -1564,7 +1676,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
             ),
           ),
-          Text(displayEmoji, style: TextStyle(fontSize: responsive.fontSize(16))),
+          Text(
+            displayEmoji,
+            style: TextStyle(fontSize: responsive.fontSize(16)),
+          ),
         ],
       ),
     );
@@ -1664,16 +1779,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (isSelected)
-                    Icon(Icons.check_circle, size: responsive.iconSize(14), color: _headerColor),
+                    Icon(
+                      Icons.check_circle,
+                      size: responsive.iconSize(14),
+                      color: _headerColor,
+                    ),
                   if (isSelected) SizedBox(width: responsive.spacing(4)),
                   Text(
                     label,
                     style: TextStyle(
                       fontSize: responsive.fontSize(12),
-                      fontWeight:
-                          isSelected ? FontWeight.w700 : FontWeight.w500,
-                      color:
-                          isSelected ? _headerColor : AppColors.textSecondary,
+                      fontWeight: isSelected
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                      color: isSelected
+                          ? _headerColor
+                          : AppColors.textSecondary,
                     ),
                   ),
                 ],
@@ -1720,12 +1841,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     SizedBox(height: responsive.spacing(20)),
 
                     // Hue slider
-                    Text('Hue',
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(12),
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary,
-                        )),
+                    Text(
+                      'Hue',
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(12),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                     SizedBox(height: responsive.spacing(8)),
                     _buildHueSlider(pickedColor, (color) {
                       setDialogState(() => pickedColor = color);
@@ -1734,12 +1857,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     SizedBox(height: responsive.spacing(16)),
 
                     // Saturation slider
-                    Text('Saturation',
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(12),
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary,
-                        )),
+                    Text(
+                      'Saturation',
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(12),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                     SizedBox(height: responsive.spacing(8)),
                     _buildSaturationSlider(pickedColor, (color) {
                       setDialogState(() => pickedColor = color);
@@ -1748,12 +1873,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     SizedBox(height: responsive.spacing(16)),
 
                     // Lightness slider
-                    Text('Lightness',
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(12),
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary,
-                        )),
+                    Text(
+                      'Lightness',
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(12),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                     SizedBox(height: responsive.spacing(8)),
                     _buildLightnessSlider(pickedColor, (color) {
                       setDialogState(() => pickedColor = color);
@@ -1762,12 +1889,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     SizedBox(height: responsive.spacing(20)),
 
                     // Quick color palette
-                    Text('Quick Colors',
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(12),
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary,
-                        )),
+                    Text(
+                      'Quick Colors',
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(12),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                     SizedBox(height: responsive.spacing(8)),
                     _buildQuickColorPalette((color) {
                       setDialogState(() => pickedColor = color);
@@ -1790,7 +1919,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: pickedColor,
-                    foregroundColor: pickedColor.computeLuminance() > 0.5 ? const Color(0xFF1A1A2E) : Colors.white,
+                    foregroundColor: pickedColor.computeLuminance() > 0.5
+                        ? const Color(0xFF1A1A2E)
+                        : Colors.white,
                   ),
                   child: const Text('Select'),
                 ),
@@ -1811,8 +1942,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         gradient: LinearGradient(
           colors: List.generate(
             360 ~/ 10,
-            (i) => HSLColor.fromAHSL(1, i * 10.0, hsl.saturation, hsl.lightness)
-                .toColor(),
+            (i) => HSLColor.fromAHSL(
+              1,
+              i * 10.0,
+              hsl.saturation,
+              hsl.lightness,
+            ).toColor(),
           ),
         ),
       ),
@@ -1966,7 +2101,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   // ─── Cell Number formatting helpers (mirrors signup) ─────────────
 
   String _formatDigitsByCountry(String digits) {
-    final config = _countryPhoneConfig[_selectedCountryCode] ?? _countryPhoneConfig['+1-US']!;
+    final config =
+        _countryPhoneConfig[_selectedCountryCode] ??
+        _countryPhoneConfig['+1-US']!;
     if (digits.isEmpty) return '';
     final max = config.maxDigits;
     final value = digits.length > max ? digits.substring(0, max) : digits;
@@ -1974,7 +2111,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       case '+1-US':
       case '+1-CA':
         if (value.length <= 3) return value;
-        if (value.length <= 6) return '(${value.substring(0, 3)}) ${value.substring(3)}';
+        if (value.length <= 6)
+          return '(${value.substring(0, 3)}) ${value.substring(3)}';
         return '(${value.substring(0, 3)}) ${value.substring(3, 6)}-${value.substring(6)}';
       case '+44':
         if (value.length <= 4) return value;
@@ -1984,32 +2122,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         return '${value.substring(0, 5)} ${value.substring(5)}';
       case '+86':
         if (value.length <= 3) return value;
-        if (value.length <= 7) return '${value.substring(0, 3)} ${value.substring(3)}';
+        if (value.length <= 7)
+          return '${value.substring(0, 3)} ${value.substring(3)}';
         return '${value.substring(0, 3)} ${value.substring(3, 7)} ${value.substring(7)}';
       case '+81':
         if (value.length <= 2) return value;
-        if (value.length <= 6) return '${value.substring(0, 2)}-${value.substring(2)}';
+        if (value.length <= 6)
+          return '${value.substring(0, 2)}-${value.substring(2)}';
         return '${value.substring(0, 3)}-${value.substring(3, 6)}-${value.substring(6)}';
       case '+33':
         if (value.length <= 1) return value;
         if (value.length <= 3) return '${value[0]} ${value.substring(1)}';
-        if (value.length <= 5) return '${value[0]} ${value.substring(1, 3)} ${value.substring(3)}';
-        if (value.length <= 7) return '${value[0]} ${value.substring(1, 3)} ${value.substring(3, 5)} ${value.substring(5)}';
+        if (value.length <= 5)
+          return '${value[0]} ${value.substring(1, 3)} ${value.substring(3)}';
+        if (value.length <= 7)
+          return '${value[0]} ${value.substring(1, 3)} ${value.substring(3, 5)} ${value.substring(5)}';
         return '${value[0]} ${value.substring(1, 3)} ${value.substring(3, 5)} ${value.substring(5, 7)} ${value.substring(7)}';
       case '+49':
         if (value.length <= 3) return value;
         return '${value.substring(0, 3)} ${value.substring(3)}';
       case '+39':
         if (value.length <= 3) return value;
-        if (value.length <= 6) return '${value.substring(0, 3)} ${value.substring(3)}';
+        if (value.length <= 6)
+          return '${value.substring(0, 3)} ${value.substring(3)}';
         return '${value.substring(0, 3)} ${value.substring(3, 6)} ${value.substring(6)}';
       case '+34':
         if (value.length <= 3) return value;
-        if (value.length <= 6) return '${value.substring(0, 3)} ${value.substring(3)}';
+        if (value.length <= 6)
+          return '${value.substring(0, 3)} ${value.substring(3)}';
         return '${value.substring(0, 3)} ${value.substring(3, 6)} ${value.substring(6)}';
       default:
         if (value.length <= 3) return value;
-        if (value.length <= 6) return '(${value.substring(0, 3)}) ${value.substring(3)}';
+        if (value.length <= 6)
+          return '(${value.substring(0, 3)}) ${value.substring(3)}';
         return '(${value.substring(0, 3)}) ${value.substring(3, 6)}-${value.substring(6)}';
     }
   }
@@ -2023,8 +2168,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (RegExp(r'\d').hasMatch(text[i])) digitsBeforeCursor++;
     }
     String value = text.replaceAll(RegExp(r'\D'), '');
-    final config = _countryPhoneConfig[_selectedCountryCode] ?? _countryPhoneConfig['+1-US']!;
-    if (value.length > config.maxDigits) value = value.substring(0, config.maxDigits);
+    final config =
+        _countryPhoneConfig[_selectedCountryCode] ??
+        _countryPhoneConfig['+1-US']!;
+    if (value.length > config.maxDigits)
+      value = value.substring(0, config.maxDigits);
     final formattedValue = _formatDigitsByCountry(value);
     if (formattedValue != text) {
       int newCursorPosition = formattedValue.length;
@@ -2042,7 +2190,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       }
       _phoneController.value = _phoneController.value.copyWith(
         text: formattedValue,
-        selection: TextSelection.collapsed(offset: newCursorPosition.clamp(0, formattedValue.length)),
+        selection: TextSelection.collapsed(
+          offset: newCursorPosition.clamp(0, formattedValue.length),
+        ),
       );
     }
     // Update form data and validate
@@ -2071,32 +2221,34 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       items: _countries
-          .map((country) => PopupMenuItem<String>(
-                value: country['code']!,
-                child: Row(
-                  children: [
-                    Text(
-                      country['display']!,
+          .map(
+            (country) => PopupMenuItem<String>(
+              value: country['code']!,
+              child: Row(
+                children: [
+                  Text(
+                    country['display']!,
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(14),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(width: responsive.spacing(8)),
+                  Expanded(
+                    child: Text(
+                      country['country']!,
                       style: TextStyle(
-                        fontSize: responsive.fontSize(14),
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        fontSize: responsive.fontSize(12),
+                        color: AppColors.textSecondary,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(width: responsive.spacing(8)),
-                    Expanded(
-                      child: Text(
-                        country['country']!,
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(12),
-                          color: AppColors.textSecondary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ))
+                  ),
+                ],
+              ),
+            ),
+          )
           .toList(),
     );
     if (selected != null && mounted) {
@@ -2110,7 +2262,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   /// Cell Number field with country code picker (same UX as signup).
   Widget _buildCellNumberField() {
     final hasError = (_fieldErrors['phone'] ?? '').isNotEmpty;
-    final config = _countryPhoneConfig[_selectedCountryCode] ?? _countryPhoneConfig['+1-US']!;
+    final config =
+        _countryPhoneConfig[_selectedCountryCode] ??
+        _countryPhoneConfig['+1-US']!;
     final displayCode = _countries.firstWhere(
       (c) => c['code'] == _selectedCountryCode,
       orElse: () => _countries.first,
@@ -2154,7 +2308,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     bottomLeft: Radius.circular(8),
                   ),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(12), vertical: responsive.spacing(12)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(12),
+                      vertical: responsive.spacing(12),
+                    ),
                     decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(color: AppColors.border, width: 1),
@@ -2205,7 +2362,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     focusedBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                   ),
-                  style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textPrimary),
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(14),
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
             ],
@@ -2215,7 +2375,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           SizedBox(height: responsive.spacing(4)),
           Row(
             children: [
-              Icon(Icons.error_outline, size: responsive.iconSize(14), color: AppColors.error),
+              Icon(
+                Icons.error_outline,
+                size: responsive.iconSize(14),
+                color: AppColors.error,
+              ),
               SizedBox(width: responsive.spacing(4)),
               Flexible(
                 child: Text(
@@ -2335,14 +2499,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               focusedBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
             ),
-            style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textPrimary),
+            style: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: AppColors.textPrimary,
+            ),
           ),
         ),
         if (hasError) ...[
           SizedBox(height: responsive.spacing(4)),
           Row(
             children: [
-              Icon(Icons.error_outline, size: responsive.iconSize(14), color: AppColors.error),
+              Icon(
+                Icons.error_outline,
+                size: responsive.iconSize(14),
+                color: AppColors.error,
+              ),
               SizedBox(width: responsive.spacing(4)),
               Flexible(
                 child: Text(
@@ -2388,7 +2559,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           onSelected: enabled ? onChanged : null,
           child: Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(12)),
+            padding: EdgeInsets.symmetric(
+              horizontal: responsive.spacing(14),
+              vertical: responsive.spacing(12),
+            ),
             decoration: BoxDecoration(
               color: enabled ? AppColors.surface : AppColors.backgroundGray50,
               borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -2442,7 +2616,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                     ),
                     if (item == value)
-                      Icon(Icons.check, size: responsive.iconSize(18), color: _headerColor),
+                      Icon(
+                        Icons.check,
+                        size: responsive.iconSize(18),
+                        color: _headerColor,
+                      ),
                   ],
                 ),
               );
@@ -2453,7 +2631,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           SizedBox(height: responsive.spacing(4)),
           Row(
             children: [
-              Icon(Icons.error_outline, size: responsive.iconSize(14), color: AppColors.error),
+              Icon(
+                Icons.error_outline,
+                size: responsive.iconSize(14),
+                color: AppColors.error,
+              ),
               SizedBox(width: responsive.spacing(4)),
               Flexible(
                 child: Text(
@@ -2492,7 +2674,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           Expanded(
             child: Text(
               _error ?? '',
-              style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.error),
+              style: TextStyle(
+                fontSize: responsive.fontSize(14),
+                color: AppColors.error,
+              ),
             ),
           ),
         ],

@@ -566,11 +566,7 @@ class _SavedPaymentMethodSelectorState
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.add_outlined,
-                    size: 20,
-                    color: AppColors.gray600,
-                  ),
+                  Icon(Icons.add_outlined, size: 20, color: AppColors.gray600),
                   SizedBox(width: 8),
                   Text(
                     'Add New Payment Method',
@@ -614,7 +610,9 @@ class _SavedPaymentMethodSelectorState
                 height: 28,
                 decoration: BoxDecoration(
                   color: AppColors.backgroundGray100,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.radiusBadge,
+                  ),
                 ),
                 child: const Center(
                   child: Icon(
@@ -648,7 +646,9 @@ class _SavedPaymentMethodSelectorState
                             ),
                             decoration: BoxDecoration(
                               color: AppColors.primary10,
-                              borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                              borderRadius: BorderRadius.circular(
+                                AppDimensions.radiusBadge,
+                              ),
                             ),
                             child: Text(
                               'Default',

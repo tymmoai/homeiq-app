@@ -28,7 +28,8 @@ class PaymentCardSection extends StatelessWidget {
     int expiryYear,
     String cvc,
     String? cardHolderName,
-  ) onCardComplete;
+  )
+  onCardComplete;
   final ValueChanged<bool> onValidationChanged;
   final VoidCallback onSaveNewCard;
 
@@ -407,8 +408,7 @@ class PaymentCardSection extends StatelessWidget {
                   ? onSaveNewCard
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    (isCardValid && !isProcessing && !isAddingCard)
+                backgroundColor: (isCardValid && !isProcessing && !isAddingCard)
                     ? AppColors.primary
                     : AppColors.gray300,
                 foregroundColor: AppColors.white,
@@ -420,7 +420,9 @@ class PaymentCardSection extends StatelessWidget {
                       height: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.white,
+                        ),
                       ),
                     )
                   : Text(

@@ -91,10 +91,9 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
     // After a brief moment (enough to see the feedback), return the result.
     Future.delayed(const Duration(milliseconds: 700), () {
       if (mounted) {
-        Navigator.of(context).pop(BarcodeScanResult(
-          barcode: value,
-          capturedImage: capture.image,
-        ));
+        Navigator.of(
+          context,
+        ).pop(BarcodeScanResult(barcode: value, capturedImage: capture.image));
       }
     });
   }
@@ -116,10 +115,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
       body: Stack(
         children: [
           // Camera view
-          MobileScanner(
-            controller: _controller,
-            onDetect: _onBarcodeDetected,
-          ),
+          MobileScanner(controller: _controller, onDetect: _onBarcodeDetected),
 
           // Dark overlay with transparent scan window
           _buildScanOverlay(screenSize, scanAreaSize),
@@ -163,11 +159,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
                 ],
               ),
               child: const Center(
-                child: Icon(
-                  Icons.check_rounded,
-                  color: Colors.white,
-                  size: 46,
-                ),
+                child: Icon(Icons.check_rounded, color: Colors.white, size: 46),
               ),
             ),
             const SizedBox(height: 28),
@@ -183,10 +175,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
             const SizedBox(height: 10),
             const Text(
               'Looking up product details…',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 15,
-              ),
+              style: TextStyle(color: Colors.white70, fontSize: 15),
             ),
             const SizedBox(height: 32),
             const SizedBox(
@@ -230,11 +219,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
                   color: Colors.black.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: const Icon(Icons.close, color: Colors.white, size: 24),
               ),
             ),
             // Title
@@ -313,9 +298,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3),
-                ),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
@@ -366,7 +349,9 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
                 final value = controller.text.trim();
                 if (value.isNotEmpty) {
                   Navigator.of(ctx).pop(); // close dialog
-                  Navigator.of(context).pop(BarcodeScanResult(barcode: value)); // return result
+                  Navigator.of(
+                    context,
+                  ).pop(BarcodeScanResult(barcode: value)); // return result
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -410,9 +395,7 @@ class _ScanOverlayPainter extends CustomPainter {
     final overlayPaint = Paint()..color = overlayColor;
     final holePath = Path()
       ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..addRRect(
-        RRect.fromRectAndRadius(scanRect, const Radius.circular(16)),
-      )
+      ..addRRect(RRect.fromRectAndRadius(scanRect, const Radius.circular(16)))
       ..fillType = PathFillType.evenOdd;
     canvas.drawPath(holePath, overlayPaint);
 

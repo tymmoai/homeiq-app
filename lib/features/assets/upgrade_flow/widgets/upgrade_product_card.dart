@@ -97,7 +97,9 @@ class UpgradeProductCard extends StatelessWidget {
                               ),
                               decoration: BoxDecoration(
                                 color: _getBadgeColor(context, statusBadge),
-                                borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                borderRadius: BorderRadius.circular(
+                                  AppDimensions.radiusBadge,
+                                ),
                               ),
                               child: Text(
                                 statusBadge,
@@ -152,7 +154,9 @@ class UpgradeProductCard extends StatelessWidget {
                           color: headerColor.withValues(
                             alpha: 0.6,
                           ), // Lighter than Add to Cart button
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Text(
                           badges.length > 1

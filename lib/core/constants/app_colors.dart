@@ -36,8 +36,10 @@ class AppColors {
   // Header-specific colors
   /// Background color for the app header (may differ from primary).
   static Color headerBackground = _defaultPrimary;
+
   /// Foreground (text/icons) color for the app header.
   static Color headerForeground = Colors.white;
+
   /// Search bar color that sits on the header background.
   static Color headerSearchBarColor = Colors.white;
 
@@ -67,7 +69,9 @@ class AppColors {
 
     // Update header colors to match primary
     headerBackground = newPrimary;
-    headerForeground = newPrimary.computeLuminance() > 0.5 ? const Color(0xFF1A1A2E) : Colors.white;
+    headerForeground = newPrimary.computeLuminance() > 0.5
+        ? const Color(0xFF1A1A2E)
+        : Colors.white;
 
     final bool isDark = brightness == Brightness.dark;
 
@@ -76,12 +80,24 @@ class AppColors {
     surface = isDark ? const Color(0xFF1E1E1E) : Colors.white;
     surfaceVariant = isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF5F7FA);
     surfaceLight = isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF5F7FA);
-    popupBackground = isDark ? const Color(0xFF2C2C2C) : const Color(0xFFE8ECF4);
-    backgroundSlate50 = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF8FAFC);
-    backgroundSlate100 = isDark ? const Color(0xFF252525) : const Color(0xFFF1F5F9);
-    backgroundGray50 = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF9FAFB);
-    backgroundGray100 = isDark ? const Color(0xFF252525) : const Color(0xFFF3F4F6);
-    backgroundGray200 = isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF5F5F5);
+    popupBackground = isDark
+        ? const Color(0xFF2C2C2C)
+        : const Color(0xFFE8ECF4);
+    backgroundSlate50 = isDark
+        ? const Color(0xFF1E1E1E)
+        : const Color(0xFFF8FAFC);
+    backgroundSlate100 = isDark
+        ? const Color(0xFF252525)
+        : const Color(0xFFF1F5F9);
+    backgroundGray50 = isDark
+        ? const Color(0xFF1E1E1E)
+        : const Color(0xFFF9FAFB);
+    backgroundGray100 = isDark
+        ? const Color(0xFF252525)
+        : const Color(0xFFF3F4F6);
+    backgroundGray200 = isDark
+        ? const Color(0xFF2C2C2C)
+        : const Color(0xFFF5F5F5);
     backgroundWarm = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF7F8FA);
 
     // Text
@@ -90,7 +106,9 @@ class AppColors {
     textTertiary = isDark ? const Color(0xFFCCD3DC) : const Color(0xFF2F3847);
     textQuaternary = isDark ? const Color(0xFF8C97A8) : const Color(0xFF6B7789);
     textHint = isDark ? const Color(0xFF6B7789) : const Color(0xFF8C97A8);
-    textPlaceholder = isDark ? const Color(0xFF6B7789) : const Color(0xFF8C97A8);
+    textPlaceholder = isDark
+        ? const Color(0xFF6B7789)
+        : const Color(0xFF8C97A8);
     textLight = isDark ? const Color(0xFF8C97A8) : const Color(0xFF6B7789);
     textDark = isDark ? Colors.white : const Color(0xFF1B3066);
     textDisabled = isDark ? const Color(0xFF555555) : const Color(0xFFB0BCC8);
@@ -111,7 +129,9 @@ class AppColors {
 
     // Buttons
     buttonPrimary = isDark ? newPrimary : const Color(0xFF1B3066);
-    buttonSecondary = isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF3F6F9);
+    buttonSecondary = isDark
+        ? const Color(0xFF2C2C2C)
+        : const Color(0xFFF3F6F9);
     buttonDisabled = isDark ? const Color(0xFF3A3A3A) : const Color(0xFFD5DCE3);
 
     // Grays (adjusted for dark mode)

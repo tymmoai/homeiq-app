@@ -23,7 +23,8 @@ class AssetSectionHeader extends StatelessWidget {
     final responsive = context.responsive;
 
     return Padding(
-      padding: padding ??
+      padding:
+          padding ??
           responsive.padding(
             horizontal: AppDimensions.screenPaddingHorizontal,
             vertical: AppDimensions.paddingSmall,

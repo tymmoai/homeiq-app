@@ -98,7 +98,9 @@ class BookingAdditionalDetailsStep extends StatelessWidget {
           onTap: () {
             // Add photo upload logic
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Photo upload is not yet available.')),
+              const SnackBar(
+                content: Text('Photo upload is not yet available.'),
+              ),
             );
           },
           child: Container(

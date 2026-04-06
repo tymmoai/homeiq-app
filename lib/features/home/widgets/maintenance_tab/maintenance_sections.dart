@@ -185,16 +185,12 @@ class MaintenanceSection extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: ReminderCard(
                                     reminder: reminder,
-                                    onMarkDone: () =>
-                                        onMarkDone(reminder.id),
+                                    onMarkDone: () => onMarkDone(reminder.id),
                                     onSnooze: (id, until) =>
                                         onSnooze(id, until),
-                                    onSkip: (id, reason) =>
-                                        onSkip(id, reason),
-                                    onGetHelp: () =>
-                                        onGetHelp(reminder),
-                                    onOrderParts: () =>
-                                        onOrderParts(reminder),
+                                    onSkip: (id, reason) => onSkip(id, reason),
+                                    onGetHelp: () => onGetHelp(reminder),
+                                    onOrderParts: () => onOrderParts(reminder),
                                   ),
                                 ),
                               ),

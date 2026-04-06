@@ -125,7 +125,10 @@ class AiFixFloatingButtonWidget extends StatelessWidget {
         ),
         child: Text(
           buttonText,
-          style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontSize: responsive.fontSize(16),
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );

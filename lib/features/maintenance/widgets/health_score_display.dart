@@ -128,10 +128,7 @@ class HealthScoreDisplay extends StatelessWidget {
         // Explanation
         const Text(
           'Based on age, maintenance, and usage patterns',
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.gray500,
-          ),
+          style: TextStyle(fontSize: 12, color: AppColors.gray500),
         ),
         // Detailed Factors
         if (showDetails) ...[
@@ -142,11 +139,17 @@ class HealthScoreDisplay extends StatelessWidget {
             children: [
               _buildFactorRow('Age Factor', score.factors.age),
               const SizedBox(height: 8),
-              _buildFactorRow('Maintenance Rate', score.factors.maintenanceCompletionRate),
+              _buildFactorRow(
+                'Maintenance Rate',
+                score.factors.maintenanceCompletionRate,
+              ),
               const SizedBox(height: 8),
               _buildFactorRow('Issue History', score.factors.issueHistory),
               const SizedBox(height: 8),
-              _buildFactorRow('Brand Reliability', score.factors.brandReliability),
+              _buildFactorRow(
+                'Brand Reliability',
+                score.factors.brandReliability,
+              ),
             ],
           ),
         ],
@@ -160,10 +163,7 @@ class HealthScoreDisplay extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppColors.gray600,
-          ),
+          style: const TextStyle(fontSize: 12, color: AppColors.gray600),
         ),
         Text(
           '${value.toStringAsFixed(1)}/10',
@@ -177,5 +177,3 @@ class HealthScoreDisplay extends StatelessWidget {
     );
   }
 }
-
-

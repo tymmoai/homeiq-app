@@ -21,7 +21,8 @@ class ReplacementClaimScreen extends ConsumerStatefulWidget {
       _ReplacementClaimScreenState();
 }
 
-class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen> {
+class _ReplacementClaimScreenState
+    extends ConsumerState<ReplacementClaimScreen> {
   ResponsiveUtils get responsive => ResponsiveUtils(context);
   final _formKey = GlobalKey<FormState>();
   final _descriptionController = TextEditingController();
@@ -90,71 +91,73 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
 
       // Show success dialog
       if (mounted) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: AppColors.success.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.check_circle,
-                  color: AppColors.success,
-                  size: responsive.iconSize(48),
-                ),
-              ),
-              SizedBox(height: responsive.spacing(20)),
-              Text(
-                'Claim Submitted!',
-                style: TextStyle(
-                  fontSize: responsive.fontSize(20),
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              SizedBox(height: responsive.spacing(12)),
-              Text(
-                'Your replacement claim has been submitted successfully. Our technician will visit on your selected date for inspection.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: responsive.fontSize(14),
-                  color: AppColors.textSecondary,
-                  height: 1.4,
-                ),
-              ),
-              SizedBox(height: responsive.spacing(24)),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.pop(); // Close dialog
-                    context.pop(); // Go back to previous screen
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: AppColors.success.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
                   ),
-                  child: Text(
-                    'Done',
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(15),
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                  child: Icon(
+                    Icons.check_circle,
+                    color: AppColors.success,
+                    size: responsive.iconSize(48),
+                  ),
+                ),
+                SizedBox(height: responsive.spacing(20)),
+                Text(
+                  'Claim Submitted!',
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(20),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                SizedBox(height: responsive.spacing(12)),
+                Text(
+                  'Your replacement claim has been submitted successfully. Our technician will visit on your selected date for inspection.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(14),
+                    color: AppColors.textSecondary,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: responsive.spacing(24)),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.pop(); // Close dialog
+                      context.pop(); // Go back to previous screen
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
+                    ),
+                    child: Text(
+                      'Done',
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(15),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
+        );
       }
     }
   }
@@ -174,7 +177,8 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
   @override
   Widget build(BuildContext context) {
     final warranty = widget.asset['warranty']?.toString() ?? 'N/A';
-    final warrantyEndDate = widget.asset['warrantyEndDate']?.toString() ?? 'N/A';
+    final warrantyEndDate =
+        widget.asset['warrantyEndDate']?.toString() ?? 'N/A';
     final isExpired = _isWarrantyExpired();
 
     return Scaffold(
@@ -316,7 +320,9 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                                 color: AppColors.background,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: AppColors.textSecondary.withValues(alpha: 0.3),
+                                  color: AppColors.textSecondary.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   style: BorderStyle.solid,
                                   width: 2,
                                 ),
@@ -362,8 +368,9 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                                     child: Stack(
                                       children: [
                                         ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                           child: Image.file(
                                             _images[index],
                                             width: 80,
@@ -381,7 +388,9 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                                               });
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(responsive.spacing(4)),
+                                              padding: EdgeInsets.all(
+                                                responsive.spacing(4),
+                                              ),
                                               decoration: const BoxDecoration(
                                                 color: Colors.red,
                                                 shape: BoxShape.circle,
@@ -465,9 +474,13 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                             child: ElevatedButton(
                               onPressed: ref.watch(selectedHomeIsViewerProvider)
                                   ? () {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         const SnackBar(
-                                          content: Text('Viewers cannot file claims. Contact the home owner to update your permissions.'),
+                                          content: Text(
+                                            'Viewers cannot file claims. Contact the home owner to update your permissions.',
+                                          ),
                                           backgroundColor: Colors.orange,
                                           duration: Duration(seconds: 3),
                                         ),
@@ -476,8 +489,9 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                                   : _submitClaim,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                padding:
-                                    EdgeInsets.symmetric(vertical: responsive.spacing(16)),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: responsive.spacing(16),
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -563,7 +577,9 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                         SizedBox(height: responsive.spacing(12)),
                         _buildInfoRow(
                           'Coverage',
-                          isExpired ? 'Not Covered (Expired)' : 'Full Replacement',
+                          isExpired
+                              ? 'Not Covered (Expired)'
+                              : 'Full Replacement',
                         ),
                         if (isExpired) ...[
                           SizedBox(height: responsive.spacing(16)),
@@ -577,7 +593,11 @@ class _ReplacementClaimScreenState extends ConsumerState<ReplacementClaimScreen>
                             ),
                             child: Row(
                               children: [
-                                Icon(Icons.warning_amber_rounded, color: Colors.red.shade600, size: responsive.iconSize(20)),
+                                Icon(
+                                  Icons.warning_amber_rounded,
+                                  color: Colors.red.shade600,
+                                  size: responsive.iconSize(20),
+                                ),
                                 SizedBox(width: responsive.spacing(8)),
                                 Expanded(
                                   child: Text(

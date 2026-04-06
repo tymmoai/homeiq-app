@@ -20,10 +20,26 @@ class CleaningServiceData {
       icon: Icons.home_outlined,
       description: 'Complete home deep cleaning',
       items: [
-        ServiceItem(name: '1 RK / Studio (up to 400 sq ft)', price: 99, icon: Icons.apartment_outlined),
-        ServiceItem(name: '1 BHK (400-600 sq ft)', price: 129, icon: Icons.apartment_outlined),
-        ServiceItem(name: '2 BHK (600-1000 sq ft)', price: 159, icon: Icons.house_outlined),
-        ServiceItem(name: '3 BHK+ (1000+ sq ft)', price: 199, icon: Icons.house_outlined),
+        ServiceItem(
+          name: '1 RK / Studio (up to 400 sq ft)',
+          price: 99,
+          icon: Icons.apartment_outlined,
+        ),
+        ServiceItem(
+          name: '1 BHK (400-600 sq ft)',
+          price: 129,
+          icon: Icons.apartment_outlined,
+        ),
+        ServiceItem(
+          name: '2 BHK (600-1000 sq ft)',
+          price: 159,
+          icon: Icons.house_outlined,
+        ),
+        ServiceItem(
+          name: '3 BHK+ (1000+ sq ft)',
+          price: 199,
+          icon: Icons.house_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -34,9 +50,21 @@ class CleaningServiceData {
       icon: Icons.kitchen_outlined,
       description: 'Kitchen and appliances',
       items: [
-        ServiceItem(name: 'Small Kitchen', price: 49, icon: Icons.kitchen_outlined),
-        ServiceItem(name: 'Medium Kitchen', price: 69, icon: Icons.kitchen_outlined),
-        ServiceItem(name: 'Large Kitchen', price: 89, icon: Icons.kitchen_outlined),
+        ServiceItem(
+          name: 'Small Kitchen',
+          price: 49,
+          icon: Icons.kitchen_outlined,
+        ),
+        ServiceItem(
+          name: 'Medium Kitchen',
+          price: 69,
+          icon: Icons.kitchen_outlined,
+        ),
+        ServiceItem(
+          name: 'Large Kitchen',
+          price: 89,
+          icon: Icons.kitchen_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -47,9 +75,21 @@ class CleaningServiceData {
       icon: Icons.bathtub_outlined,
       description: 'Deep bathroom sanitization',
       items: [
-        ServiceItem(name: '1 Bathroom', price: 39, icon: Icons.bathtub_outlined),
-        ServiceItem(name: '2 Bathrooms', price: 69, icon: Icons.bathtub_outlined),
-        ServiceItem(name: '3+ Bathrooms', price: 94, icon: Icons.bathtub_outlined),
+        ServiceItem(
+          name: '1 Bathroom',
+          price: 39,
+          icon: Icons.bathtub_outlined,
+        ),
+        ServiceItem(
+          name: '2 Bathrooms',
+          price: 69,
+          icon: Icons.bathtub_outlined,
+        ),
+        ServiceItem(
+          name: '3+ Bathrooms',
+          price: 94,
+          icon: Icons.bathtub_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -60,10 +100,26 @@ class CleaningServiceData {
       icon: Icons.weekend_outlined,
       description: 'Upholstery cleaning',
       items: [
-        ServiceItem(name: '1 Seater (Chair/Recliner)', price: 59, icon: Icons.weekend_outlined),
-        ServiceItem(name: '3 Seater (Standard Sofa)', price: 89, icon: Icons.weekend_outlined),
-        ServiceItem(name: 'L-Shape Sofa', price: 119, icon: Icons.weekend_outlined),
-        ServiceItem(name: '5+ Seater (Large Set)', price: 149, icon: Icons.weekend_outlined),
+        ServiceItem(
+          name: '1 Seater (Chair/Recliner)',
+          price: 59,
+          icon: Icons.weekend_outlined,
+        ),
+        ServiceItem(
+          name: '3 Seater (Standard Sofa)',
+          price: 89,
+          icon: Icons.weekend_outlined,
+        ),
+        ServiceItem(
+          name: 'L-Shape Sofa',
+          price: 119,
+          icon: Icons.weekend_outlined,
+        ),
+        ServiceItem(
+          name: '5+ Seater (Large Set)',
+          price: 149,
+          icon: Icons.weekend_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -74,9 +130,21 @@ class CleaningServiceData {
       icon: Icons.cleaning_services_outlined,
       description: 'Specific area cleaning',
       items: [
-        ServiceItem(name: 'Single Room', price: 45, icon: Icons.crop_square_outlined),
-        ServiceItem(name: 'Balcony Only', price: 60, icon: Icons.balcony_outlined),
-        ServiceItem(name: 'Storage Area', price: 70, icon: Icons.inventory_2_outlined),
+        ServiceItem(
+          name: 'Single Room',
+          price: 45,
+          icon: Icons.crop_square_outlined,
+        ),
+        ServiceItem(
+          name: 'Balcony Only',
+          price: 60,
+          icon: Icons.balcony_outlined,
+        ),
+        ServiceItem(
+          name: 'Storage Area',
+          price: 70,
+          icon: Icons.inventory_2_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -97,11 +165,36 @@ class CleaningServiceData {
 
   // ── Add-ons (Step 5 — 5 options from web) ─────────────────────────────
   static const List<ServiceAddon> addons = [
-    ServiceAddon(name: 'Fridge Interior', price: 25, icon: Icons.kitchen_outlined, description: 'Deep clean inside refrigerator'),
-    ServiceAddon(name: 'Chimney Exterior', price: 20, icon: Icons.roofing_outlined, description: 'Clean chimney hood & filters'),
-    ServiceAddon(name: 'Balcony', price: 15, icon: Icons.balcony_outlined, description: 'Mop & clean balcony area'),
-    ServiceAddon(name: 'Pet Hair Removal', price: 30, icon: Icons.pets_outlined, description: 'Special vacuum for pet hair'),
-    ServiceAddon(name: 'Hard Stain Treatment', price: 35, icon: Icons.water_drop_outlined, description: 'Stubborn stain removal'),
+    ServiceAddon(
+      name: 'Fridge Interior',
+      price: 25,
+      icon: Icons.kitchen_outlined,
+      description: 'Deep clean inside refrigerator',
+    ),
+    ServiceAddon(
+      name: 'Chimney Exterior',
+      price: 20,
+      icon: Icons.roofing_outlined,
+      description: 'Clean chimney hood & filters',
+    ),
+    ServiceAddon(
+      name: 'Balcony',
+      price: 15,
+      icon: Icons.balcony_outlined,
+      description: 'Mop & clean balcony area',
+    ),
+    ServiceAddon(
+      name: 'Pet Hair Removal',
+      price: 30,
+      icon: Icons.pets_outlined,
+      description: 'Special vacuum for pet hair',
+    ),
+    ServiceAddon(
+      name: 'Hard Stain Treatment',
+      price: 35,
+      icon: Icons.water_drop_outlined,
+      description: 'Stubborn stain removal',
+    ),
   ];
 
   // ── Recurring Options ─────────────────────────────────────────────────
@@ -116,11 +209,13 @@ class CleaningServiceData {
     return {
       for (final cat in categories)
         cat.name: cat.items
-            .map((item) => {
-                  'name': item.name,
-                  'price': item.price.toInt(),
-                  'icon': item.icon,
-                })
+            .map(
+              (item) => {
+                'name': item.name,
+                'price': item.price.toInt(),
+                'icon': item.icon,
+              },
+            )
             .toList(),
     };
   }

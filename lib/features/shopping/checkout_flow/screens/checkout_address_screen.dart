@@ -72,7 +72,7 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
 
   // Installment state
   Map<String, dynamic>? _selectedInstallmentPlan;
-  
+
   // PaymentMethodSelector state
   SelectedPaymentInfo? _selectedPaymentInfo;
 
@@ -98,7 +98,8 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
       {
         'name': user.getUserName(),
         'phone': user.getUserPhone(),
-        'address': '${user.getUserAddress()}, ${user.getUserCity()}, ${user.getUserState()} ${user.getUserZipCode()}',
+        'address':
+            '${user.getUserAddress()}, ${user.getUserCity()}, ${user.getUserState()} ${user.getUserZipCode()}',
       },
       {
         'name': 'Jane Smith',
@@ -154,13 +155,16 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
     // Validate payment details are complete
     if (_selectedPaymentInfo != null) {
       final info = _selectedPaymentInfo!;
-      
+
       // For card payments
       if (info.type == PaymentSelectionType.card) {
         if (info.isNewCard) {
           // New card must have all details filled
-          if (info.cardNumber == null || info.expiryMonth == null || 
-              info.expiryYear == null || info.cvc == null || info.cardHolderName == null) {
+          if (info.cardNumber == null ||
+              info.expiryMonth == null ||
+              info.expiryYear == null ||
+              info.cvc == null ||
+              info.cardHolderName == null) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Please fill in all card details'),
@@ -184,13 +188,15 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
           }
         }
       }
-      
+
       // For wallet payments
       if (info.type == PaymentSelectionType.wallet) {
         if (info.walletMode == WalletPaymentMode.bank) {
           // Bank account must have routing and account number
-          if (info.bankRoutingNumber == null || info.bankRoutingNumber!.isEmpty ||
-              info.bankAccountNumber == null || info.bankAccountNumber!.isEmpty) {
+          if (info.bankRoutingNumber == null ||
+              info.bankRoutingNumber!.isEmpty ||
+              info.bankAccountNumber == null ||
+              info.bankAccountNumber!.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Please fill in bank account details'),
@@ -226,7 +232,8 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
           _handleApplePayPayment();
         } else if (info.walletProvider == 'google_pay') {
           _handleGooglePayPayment();
-        } else if (info.bankRoutingNumber != null && info.bankRoutingNumber!.isNotEmpty) {
+        } else if (info.bankRoutingNumber != null &&
+            info.bankRoutingNumber!.isNotEmpty) {
           // Bank (ACH) payment
           _processPayment();
         } else {
@@ -270,40 +277,45 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
     if (_selectedPaymentInfo == null && _selectedPaymentMethod.isEmpty) {
       return false;
     }
-    
+
     if (_selectedPaymentInfo != null) {
       final info = _selectedPaymentInfo!;
-      
+
       // For card payments
       if (info.type == PaymentSelectionType.card) {
         if (info.isNewCard) {
           // New card must have all details
-          return info.cardNumber != null && info.expiryMonth != null && 
-                 info.expiryYear != null && info.cvc != null && info.cardHolderName != null;
+          return info.cardNumber != null &&
+              info.expiryMonth != null &&
+              info.expiryYear != null &&
+              info.cvc != null &&
+              info.cardHolderName != null;
         } else {
           // Saved card must be selected
           return info.savedMethodId != null && info.savedMethodId!.isNotEmpty;
         }
       }
-      
+
       // For wallet payments
       if (info.type == PaymentSelectionType.wallet) {
         if (info.walletMode == WalletPaymentMode.bank) {
           // Bank account must have routing and account number
-          return info.bankRoutingNumber != null && info.bankRoutingNumber!.isNotEmpty &&
-                 info.bankAccountNumber != null && info.bankAccountNumber!.isNotEmpty;
+          return info.bankRoutingNumber != null &&
+              info.bankRoutingNumber!.isNotEmpty &&
+              info.bankAccountNumber != null &&
+              info.bankAccountNumber!.isNotEmpty;
         } else {
           // Wallet app must be selected
           return info.walletProvider != null && info.walletProvider!.isNotEmpty;
         }
       }
-      
+
       // For installment payments
       if (info.type == PaymentSelectionType.installment) {
         return info.installmentMonths != null;
       }
     }
-    
+
     return false;
   }
 
@@ -1141,21 +1153,34 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
                         // ========== PAYMENT METHOD SECTION ==========
                         // Using PaymentMethodSelector for consistent UI across all payment screens
                         PaymentMethodSelector(
-                          totalAmount: ((widget.product['discountPrice'] as int) * widget.quantity).toDouble(),
+                          totalAmount:
+                              ((widget.product['discountPrice'] as int) *
+                                      widget.quantity)
+                                  .toDouble(),
                           onPaymentInfoChanged: (paymentInfo) {
                             setState(() {
                               _selectedPaymentInfo = paymentInfo;
                               // Map to old payment method string for backward compatibility
-                              if (paymentInfo.type == PaymentSelectionType.card) {
-                                _selectedPaymentMethod = paymentInfo.savedMethodId ?? 'credit_card';
-                                _isCardDetailsValid = paymentInfo.cardNumber != null;
-                              } else if (paymentInfo.type == PaymentSelectionType.wallet) {
-                                _selectedPaymentMethod = paymentInfo.walletProvider ?? 'wallet';
-                              } else if (paymentInfo.type == PaymentSelectionType.installment) {
+                              if (paymentInfo.type ==
+                                  PaymentSelectionType.card) {
+                                _selectedPaymentMethod =
+                                    paymentInfo.savedMethodId ?? 'credit_card';
+                                _isCardDetailsValid =
+                                    paymentInfo.cardNumber != null;
+                              } else if (paymentInfo.type ==
+                                  PaymentSelectionType.wallet) {
+                                _selectedPaymentMethod =
+                                    paymentInfo.walletProvider ?? 'wallet';
+                              } else if (paymentInfo.type ==
+                                  PaymentSelectionType.installment) {
                                 _selectedPaymentMethod = 'installment';
                                 if (paymentInfo.installmentMonths != null) {
-                                  final productPrice = (widget.product['discountPrice'] as int) * widget.quantity;
-                                  final monthlyAmount = productPrice / paymentInfo.installmentMonths!;
+                                  final productPrice =
+                                      (widget.product['discountPrice'] as int) *
+                                      widget.quantity;
+                                  final monthlyAmount =
+                                      productPrice /
+                                      paymentInfo.installmentMonths!;
                                   _selectedInstallmentPlan = {
                                     'months': paymentInfo.installmentMonths,
                                     'monthlyAmount': monthlyAmount,
@@ -1184,8 +1209,7 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
               width: double.infinity,
               height: responsive.buttonHeight(52.0),
               child: ElevatedButton(
-                onPressed:
-                    !_isPaymentDetailsComplete() || _isProcessingPayment
+                onPressed: !_isPaymentDetailsComplete() || _isProcessingPayment
                     ? null
                     : _handleConfirmAndPay,
                 style: ElevatedButton.styleFrom(
@@ -1680,8 +1704,9 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
                                 .clear(); // CVV always requires re-entry
                           } else {
                             // Default card
-                            _cardholderNameController.text =
-                                UserService.instance.getUserName();
+                            _cardholderNameController.text = UserService
+                                .instance
+                                .getUserName();
                             _cardExpiryController.text = '12/25';
                             _cardCvvController.clear();
                           }
@@ -1719,9 +1744,7 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
                         Icon(
                           method['icon'] as IconData,
                           size: responsive.iconSize(24.0),
-                          color: isDisabled
-                              ? AppColors.gray400
-                              : _headerColor,
+                          color: isDisabled ? AppColors.gray400 : _headerColor,
                         ),
                         responsive.widthBox(12.0),
                         Expanded(
@@ -1752,7 +1775,9 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
                                         color: _headerColor.withValues(
                                           alpha: 0.1,
                                         ),
-                                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                        borderRadius: BorderRadius.circular(
+                                          AppDimensions.radiusBadge,
+                                        ),
                                       ),
                                       child: Text(
                                         'Previously used',
@@ -1951,7 +1976,9 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
                             responsive.borderRadius(8.0),
                           ),
                           borderSide: BorderSide(
-                            color: _isCardExpired ? AppColors.error : _headerColor,
+                            color: _isCardExpired
+                                ? AppColors.error
+                                : _headerColor,
                             width: 2,
                           ),
                         ),
@@ -2519,7 +2546,8 @@ class _CheckoutAddressScreenState extends State<CheckoutAddressScreen> {
                               color: _textPrimary,
                             ),
                           ),
-                          if (isSelected && _selectedInstallmentPlan != null) ...[
+                          if (isSelected &&
+                              _selectedInstallmentPlan != null) ...[
                             responsive.heightBox(4.0),
                             Text(
                               '${_selectedInstallmentPlan!['months']} months Ã— \$${(_selectedInstallmentPlan!['monthlyAmount'] as double).toStringAsFixed(2)}/mo',

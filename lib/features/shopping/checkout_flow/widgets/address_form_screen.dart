@@ -106,7 +106,8 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
   // â”€â”€ Validators â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   String? _validateCellPhone(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Please enter cell number';
+    if (value == null || value.trim().isEmpty)
+      return 'Please enter cell number';
     final cleanNumber = value.replaceAll(RegExp(r'\D'), '');
     final countryCodeOnly = _selectedCountryCode.split('-').first;
     if (countryCodeOnly == '+1' && cleanNumber.length != 10) {
@@ -133,14 +134,17 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
 
   String? _validateCity(String? value) {
     if (value == null || value.trim().isEmpty) return 'Please enter city';
-    if (!RegExp(r'^[a-zA-Z\s\-\.]+$').hasMatch(value)) return 'City name is invalid';
+    if (!RegExp(r'^[a-zA-Z\s\-\.]+$').hasMatch(value))
+      return 'City name is invalid';
     return null;
   }
 
   String? _validateState(String? value) {
     if (value == null || value.trim().isEmpty) return 'Please select state';
-    if (value.trim().length != 2) return 'State must be 2 letters (e.g., NY, CA)';
-    if (!RegExp(r'^[a-zA-Z]{2}$').hasMatch(value)) return 'State must be 2 letters only';
+    if (value.trim().length != 2)
+      return 'State must be 2 letters (e.g., NY, CA)';
+    if (!RegExp(r'^[a-zA-Z]{2}$').hasMatch(value))
+      return 'State must be 2 letters only';
     return null;
   }
 
@@ -162,7 +166,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
 
   String _formatZipCode(String input) {
     final digitsOnly = input.replaceAll(RegExp(r'[^\d]'), '');
-    final limited = digitsOnly.length > 9 ? digitsOnly.substring(0, 9) : digitsOnly;
+    final limited = digitsOnly.length > 9
+        ? digitsOnly.substring(0, 9)
+        : digitsOnly;
     if (limited.length > 5) {
       return '${limited.substring(0, 5)}-${limited.substring(5)}';
     }
@@ -183,8 +189,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
         maxDigits = 10;
     }
 
-    final limited =
-        cleanNumber.length > maxDigits ? cleanNumber.substring(0, maxDigits) : cleanNumber;
+    final limited = cleanNumber.length > maxDigits
+        ? cleanNumber.substring(0, maxDigits)
+        : cleanNumber;
 
     switch (countryCodeOnly) {
       case '+1':
@@ -229,8 +236,10 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
           : '${_addressLine1Controller.text}, $addressLine2, ${_cityController.text}, ${_stateController.text} ${_zipController.text}';
 
       final countryCodeOnly = _selectedCountryCode.split('-').first;
-      final cleanPhoneNumber =
-          _cellPhoneController.text.replaceAll(RegExp(r'\D'), '');
+      final cleanPhoneNumber = _cellPhoneController.text.replaceAll(
+        RegExp(r'\D'),
+        '',
+      );
 
       Navigator.pop(context, {
         'name': _nameController.text.trim(),
@@ -306,20 +315,34 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildField('Full Name', _nameController, 'Enter full name',
-                        validator: _validateName),
+                    _buildField(
+                      'Full Name',
+                      _nameController,
+                      'Enter full name',
+                      validator: _validateName,
+                    ),
                     responsive.heightBox(16.0),
                     _buildPhoneField(responsive),
                     responsive.heightBox(16.0),
-                    _buildField('Address Line 1', _addressLine1Controller,
-                        'Street address, P.O. box',
-                        validator: _validateAddress),
+                    _buildField(
+                      'Address Line 1',
+                      _addressLine1Controller,
+                      'Street address, P.O. box',
+                      validator: _validateAddress,
+                    ),
                     responsive.heightBox(16.0),
-                    _buildField('Address Line 2 (Optional)',
-                        _addressLine2Controller, 'Apartment, suite, unit, etc.'),
+                    _buildField(
+                      'Address Line 2 (Optional)',
+                      _addressLine2Controller,
+                      'Apartment, suite, unit, etc.',
+                    ),
                     responsive.heightBox(16.0),
-                    _buildField('City', _cityController, 'Enter city',
-                        validator: _validateCity),
+                    _buildField(
+                      'City',
+                      _cityController,
+                      'Enter city',
+                      validator: _validateCity,
+                    ),
                     responsive.heightBox(16.0),
                     _buildStateZipRow(responsive),
                   ],
@@ -367,12 +390,14 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: TextStyle(
-              fontSize: responsive.fontSize(13.0),
-              fontWeight: FontWeight.w600,
-              color: _textSecondary,
-            )),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: responsive.fontSize(13.0),
+            fontWeight: FontWeight.w600,
+            color: _textSecondary,
+          ),
+        ),
         responsive.heightBox(8.0),
         Container(
           decoration: _buildInputBoxDecoration(),
@@ -394,12 +419,14 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Cell Number',
-            style: TextStyle(
-              fontSize: responsive.fontSize(13.0),
-              fontWeight: FontWeight.w600,
-              color: _textSecondary,
-            )),
+        Text(
+          'Cell Number',
+          style: TextStyle(
+            fontSize: responsive.fontSize(13.0),
+            fontWeight: FontWeight.w600,
+            color: _textSecondary,
+          ),
+        ),
         responsive.heightBox(8.0),
         Row(
           children: [
@@ -412,14 +439,23 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                   value: _selectedCountryCode,
                   isExpanded: false,
                   items: _countryCodes.entries
-                      .map((e) => DropdownMenuItem(
+                      .map(
+                        (e) => DropdownMenuItem(
                           value: e.key,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            child: Text(e.key,
-                                style: const TextStyle(fontWeight: FontWeight.w600)),
-                          )))
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            child: Text(
+                              e.key,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
                       .toList(),
                   onChanged: (v) {
                     if (v != null) setState(() => _selectedCountryCode = v);
@@ -439,13 +475,14 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                   decoration: _buildInputDecoration('Enter cell number'),
                   validator: _validateCellPhone,
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[\d\s\-()]+'))  ,
+                    FilteringTextInputFormatter.allow(RegExp(r'[\d\s\-()]+')),
                     TextInputFormatter.withFunction((old, nw) {
                       final f = _formatPhoneNumber(nw.text);
                       return nw.copyWith(
                         text: f,
-                        selection:
-                            TextSelection.fromPosition(TextPosition(offset: f.length)),
+                        selection: TextSelection.fromPosition(
+                          TextPosition(offset: f.length),
+                        ),
                       );
                     }),
                   ],
@@ -462,32 +499,41 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     return Row(
       children: [
         Expanded(
-          child: _buildField('State', _stateController, 'State',
-              validator: _validateState,
-              formatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
-                TextInputFormatter.withFunction((old, nw) {
-                  if (nw.text.length > 2) return old;
-                  return nw.copyWith(text: nw.text.toUpperCase());
-                }),
-              ]),
+          child: _buildField(
+            'State',
+            _stateController,
+            'State',
+            validator: _validateState,
+            formatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+              TextInputFormatter.withFunction((old, nw) {
+                if (nw.text.length > 2) return old;
+                return nw.copyWith(text: nw.text.toUpperCase());
+              }),
+            ],
+          ),
         ),
         responsive.widthBox(12.0),
         Expanded(
-          child: _buildField('ZIP Code', _zipController, 'ZIP',
-              validator: _validateZip,
-              keyboardType: TextInputType.number,
-              formatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[\d\-]')),
-                TextInputFormatter.withFunction((old, nw) {
-                  final f = _formatZipCode(nw.text);
-                  return nw.copyWith(
-                    text: f,
-                    selection:
-                        TextSelection.fromPosition(TextPosition(offset: f.length)),
-                  );
-                }),
-              ]),
+          child: _buildField(
+            'ZIP Code',
+            _zipController,
+            'ZIP',
+            validator: _validateZip,
+            keyboardType: TextInputType.number,
+            formatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[\d\-]')),
+              TextInputFormatter.withFunction((old, nw) {
+                final f = _formatZipCode(nw.text);
+                return nw.copyWith(
+                  text: f,
+                  selection: TextSelection.fromPosition(
+                    TextPosition(offset: f.length),
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ],
     );

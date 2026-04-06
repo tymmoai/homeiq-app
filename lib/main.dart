@@ -24,7 +24,7 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize SharedPreferences
   final sharedPreferences = await SharedPreferences.getInstance();
 
@@ -41,7 +41,7 @@ void main() async {
 
   // Initialise deep-link handler before runApp so cold-start links are caught.
   DeepLinkService.instance.init(rootNavigatorKey);
-  
+
   runApp(
     ProviderScope(
       overrides: [
@@ -58,9 +58,13 @@ void main() async {
 Future<void> _checkBackendConnectivity() async {
   const baseUrl = EnvironmentConfig.apiBaseUrl;
   debugPrint('');
-  debugPrint('╔══════════════════════════════════════════════════════════════╗');
+  debugPrint(
+    '╔══════════════════════════════════════════════════════════════╗',
+  );
   debugPrint('║              BACKEND CONNECTIVITY CHECK                     ║');
-  debugPrint('╠══════════════════════════════════════════════════════════════╣');
+  debugPrint(
+    '╠══════════════════════════════════════════════════════════════╣',
+  );
   debugPrint('║ Backend URL: $baseUrl');
   debugPrint('║ API Base:    ${EnvironmentConfig.apiV1Url}');
 
@@ -71,22 +75,30 @@ Future<void> _checkBackendConnectivity() async {
 
     if (response.statusCode == 200) {
       debugPrint('║ Status:      ✅ CONNECTED (${response.statusCode})');
-      debugPrint('║ Response:    ${response.body.length > 80 ? response.body.substring(0, 80) : response.body}');
+      debugPrint(
+        '║ Response:    ${response.body.length > 80 ? response.body.substring(0, 80) : response.body}',
+      );
     } else {
-      debugPrint('║ Status:      ⚠️  REACHABLE but returned ${response.statusCode}');
+      debugPrint(
+        '║ Status:      ⚠️  REACHABLE but returned ${response.statusCode}',
+      );
     }
   } on Object catch (e) {
     debugPrint('║ Status:      ❌ NOT CONNECTED');
     debugPrint('║ Error:       $e');
     debugPrint('║');
     debugPrint('║ Troubleshooting:');
-    debugPrint('║ 1. Is the backend running? (cd packages/backend-client && npm run dev)');
+    debugPrint(
+      '║ 1. Is the backend running? (cd packages/backend-client && npm run dev)',
+    );
     debugPrint('║ 2. Check API_BASE_URL matches your machine IP');
     debugPrint('║ 3. For physical device, use LAN IP (not localhost)');
     debugPrint('║ 4. For Android emulator, use http://10.0.2.2:5000');
   }
 
-  debugPrint('╚══════════════════════════════════════════════════════════════╝');
+  debugPrint(
+    '╚══════════════════════════════════════════════════════════════╝',
+  );
   debugPrint('');
 }
 
@@ -126,4 +138,3 @@ class SquareTradeApp extends ConsumerWidget {
     );
   }
 }
-

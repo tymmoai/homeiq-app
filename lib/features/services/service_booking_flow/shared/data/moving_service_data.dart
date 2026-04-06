@@ -62,7 +62,11 @@ class MovingServiceData {
     ServiceItem(name: 'Mattress', price: 25, icon: Icons.bed_outlined),
     ServiceItem(name: 'Wardrobe', price: 60, icon: Icons.door_sliding_outlined),
     ServiceItem(name: 'Sofa', price: 55, icon: Icons.weekend_outlined),
-    ServiceItem(name: 'Table', price: 30, icon: Icons.table_restaurant_outlined),
+    ServiceItem(
+      name: 'Table',
+      price: 30,
+      icon: Icons.table_restaurant_outlined,
+    ),
     ServiceItem(name: 'Chairs', price: 15, icon: Icons.chair_outlined),
   ];
 
@@ -70,17 +74,37 @@ class MovingServiceData {
   static const List<ServiceItem> _applianceItems = [
     ServiceItem(name: 'TV', price: 35, icon: Icons.tv_outlined),
     ServiceItem(name: 'Fridge', price: 50, icon: Icons.kitchen_outlined),
-    ServiceItem(name: 'Washer', price: 45, icon: Icons.local_laundry_service_outlined),
+    ServiceItem(
+      name: 'Washer',
+      price: 45,
+      icon: Icons.local_laundry_service_outlined,
+    ),
     ServiceItem(name: 'AC', price: 55, icon: Icons.ac_unit_outlined),
     ServiceItem(name: 'Microwave', price: 20, icon: Icons.microwave_outlined),
-    ServiceItem(name: 'Other Appliance', price: 30, icon: Icons.devices_other_outlined),
+    ServiceItem(
+      name: 'Other Appliance',
+      price: 30,
+      icon: Icons.devices_other_outlined,
+    ),
   ];
 
   // Boxes – 3 options
   static const List<ServiceItem> _boxItems = [
-    ServiceItem(name: 'Few Boxes (1-10)', price: 25, icon: Icons.inventory_2_outlined),
-    ServiceItem(name: 'Many Boxes (10-25)', price: 55, icon: Icons.inventory_2_outlined),
-    ServiceItem(name: 'Full House Boxes', price: 95, icon: Icons.inventory_2_outlined),
+    ServiceItem(
+      name: 'Few Boxes (1-10)',
+      price: 25,
+      icon: Icons.inventory_2_outlined,
+    ),
+    ServiceItem(
+      name: 'Many Boxes (10-25)',
+      price: 55,
+      icon: Icons.inventory_2_outlined,
+    ),
+    ServiceItem(
+      name: 'Full House Boxes',
+      price: 95,
+      icon: Icons.inventory_2_outlined,
+    ),
   ];
 
   static const List<ServiceItem> _inventoryItems = [
@@ -106,11 +130,13 @@ class MovingServiceData {
     return {
       for (final cat in categories)
         cat.name: cat.items
-            .map((item) => {
-                  'name': item.name,
-                  'price': item.price.toInt(),
-                  'icon': item.icon,
-                })
+            .map(
+              (item) => {
+                'name': item.name,
+                'price': item.price.toInt(),
+                'icon': item.icon,
+              },
+            )
             .toList(),
     };
   }

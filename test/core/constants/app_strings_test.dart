@@ -127,10 +127,7 @@ void main() {
       });
 
       test('returns expected format', () {
-        expect(
-          AppStrings.routeError('test'),
-          equals('Error: test'),
-        );
+        expect(AppStrings.routeError('test'), equals('Error: test'));
       });
     });
   });

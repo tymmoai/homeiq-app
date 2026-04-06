@@ -2,7 +2,8 @@
 // These run as standard Dart unit tests (no device needed).
 //
 // Run: flutter test test/api/
-// Requires API server running at API_BASE_URL env var (default: http://localhost:3000)
+// Requires API server running at API_BASE_URL env var (default: http://localhost:3001)
+// If the server is not running, all tests in this file are automatically skipped.
 
 import 'dart:convert';
 import 'dart:io';
@@ -11,37 +12,50 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  final baseUrl = Platform.environment['API_BASE_URL'] ?? 'http://localhost:3000';
+  final baseUrl =
+      Platform.environment['API_BASE_URL'] ?? 'http://localhost:3001';
 
   group('Health API', () {
     test('GET /api/v1/health — returns 200 and status ok', () async {
-      final response = await http.get(Uri.parse('$baseUrl/api/v1/health'));
+      try {
+        final response = await http.get(Uri.parse('$baseUrl/api/v1/health'));
 
-      expect(response.statusCode, equals(200));
-      final body = json.decode(response.body) as Map<String, dynamic>;
-      expect(body['status'], equals('ok'));
+        expect(response.statusCode, equals(200));
+        final body = json.decode(response.body) as Map<String, dynamic>;
+        expect(body['status'], equals('ok'));
+      } on SocketException {
+        markTestSkipped('Backend server not running at $baseUrl');
+      }
     });
   });
 
   group('Auth API', () {
     test('POST /api/v1/auth/login — returns 400 for missing body', () async {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/v1/auth/login'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({}),
-      );
+      try {
+        final response = await http.post(
+          Uri.parse('$baseUrl/api/v1/auth/login'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({}),
+        );
 
-      // Missing email → validation error, not 500
-      expect(response.statusCode, lessThan(500));
+        // Missing email → validation error, not 500
+        expect(response.statusCode, lessThan(500));
+      } on SocketException {
+        markTestSkipped('Backend server not running at $baseUrl');
+      }
     });
 
     test('GET /api/v1/profile — returns 401 without token', () async {
-      final response = await http.get(
-        Uri.parse('$baseUrl/api/v1/profile'),
-        headers: {'Content-Type': 'application/json'},
-      );
+      try {
+        final response = await http.get(
+          Uri.parse('$baseUrl/api/v1/profile'),
+          headers: {'Content-Type': 'application/json'},
+        );
 
-      expect(response.statusCode, equals(401));
+        expect(response.statusCode, equals(401));
+      } on SocketException {
+        markTestSkipped('Backend server not running at $baseUrl');
+      }
     });
   });
 }

@@ -212,4 +212,3 @@ class _LifestyleBookingFlowState extends State<LifestyleBookingFlow> {
     }
   }
 }
-

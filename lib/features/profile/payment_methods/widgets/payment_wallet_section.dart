@@ -270,7 +270,11 @@ class PaymentWalletSection extends StatelessWidget {
             // Bank info notice
             Row(
               children: [
-                Icon(Icons.shield_outlined, size: responsive.iconSize(14.0), color: AppColors.success),
+                Icon(
+                  Icons.shield_outlined,
+                  size: responsive.iconSize(14.0),
+                  color: AppColors.success,
+                ),
                 responsive.widthBox(6.0),
                 Expanded(
                   child: Text(

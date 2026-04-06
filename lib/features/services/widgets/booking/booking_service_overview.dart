@@ -110,7 +110,9 @@ class BookingServiceOverview extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: AppColors.amber.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                           ),
                           child: Row(
                             children: [

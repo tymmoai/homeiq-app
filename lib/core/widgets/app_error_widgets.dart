@@ -24,11 +24,7 @@ class AppErrorRetry extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon ?? Icons.error_outline,
-              size: 64,
-              color: AppColors.error,
-            ),
+            Icon(icon ?? Icons.error_outline, size: 64, color: AppColors.error),
             const SizedBox(height: AppDimensions.spacing16),
             Text(
               'Oops!',
@@ -66,10 +62,7 @@ class AppErrorRetry extends StatelessWidget {
 class AppNetworkError extends StatelessWidget {
   final VoidCallback? onRetry;
 
-  const AppNetworkError({
-    super.key,
-    this.onRetry,
-  });
+  const AppNetworkError({super.key, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +79,7 @@ class AppNotFoundError extends StatelessWidget {
   final String? message;
   final VoidCallback? onBack;
 
-  const AppNotFoundError({
-    super.key,
-    this.message,
-    this.onBack,
-  });
+  const AppNotFoundError({super.key, this.message, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +89,7 @@ class AppNotFoundError extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.search_off,
-              size: 64,
-              color: AppColors.textHint,
-            ),
+            Icon(Icons.search_off, size: 64, color: AppColors.textHint),
             const SizedBox(height: AppDimensions.spacing16),
             Text(
               '404',
@@ -143,11 +128,7 @@ class AppPermissionError extends StatelessWidget {
   final String message;
   final VoidCallback? onSettings;
 
-  const AppPermissionError({
-    super.key,
-    required this.message,
-    this.onSettings,
-  });
+  const AppPermissionError({super.key, required this.message, this.onSettings});
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +138,7 @@ class AppPermissionError extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.lock_outline,
-              size: 64,
-              color: AppColors.warning,
-            ),
+            const Icon(Icons.lock_outline, size: 64, color: AppColors.warning),
             const SizedBox(height: AppDimensions.spacing16),
             Text(
               'Permission Required',
@@ -194,6 +171,7 @@ class AppPermissionError extends StatelessWidget {
     );
   }
 }
+
 /// Widget for empty states
 class AppEmptyState extends StatelessWidget {
   final String title;
@@ -264,10 +242,7 @@ class AppEmptyState extends StatelessWidget {
 class AppMaintenanceState extends StatelessWidget {
   final String? message;
 
-  const AppMaintenanceState({
-    super.key,
-    this.message,
-  });
+  const AppMaintenanceState({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -277,11 +252,7 @@ class AppMaintenanceState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.construction,
-              size: 80,
-              color: AppColors.warning,
-            ),
+            const Icon(Icons.construction, size: 80, color: AppColors.warning),
             const SizedBox(height: AppDimensions.spacing24),
             Text(
               'Under Maintenance',
@@ -294,7 +265,8 @@ class AppMaintenanceState extends StatelessWidget {
             ),
             const SizedBox(height: AppDimensions.spacing8),
             Text(
-              message ?? 'We\'re working on improvements.\nPlease check back soon!',
+              message ??
+                  'We\'re working on improvements.\nPlease check back soon!',
               style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 color: AppColors.textSecondary,

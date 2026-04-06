@@ -225,11 +225,7 @@ class _LifestyleStep1SelectServiceState
           ),
           GestureDetector(
             onTap: widget.onBack,
-            child: Icon(
-              Icons.close,
-              color: AppColors.textPrimary,
-              size: 24,
-            ),
+            child: Icon(Icons.close, color: AppColors.textPrimary, size: 24),
           ),
         ],
       ),

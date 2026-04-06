@@ -58,17 +58,13 @@ void main() {
       });
 
       test('constructor defaults', () {
-        const params = AssetDetailParams(
-          asset: {'id': 'a2'},
-        );
+        const params = AssetDetailParams(asset: {'id': 'a2'});
         expect(params.initialTab, isNull);
         expect(params.skipPopup, isFalse);
       });
 
       test('toMap() returns expected keys', () {
-        const params = AssetDetailParams(
-          asset: {'id': 'a1'},
-        );
+        const params = AssetDetailParams(asset: {'id': 'a1'});
         final map = params.toMap();
         expect(map, contains('asset'));
         expect(map, contains('initialTab'));
@@ -119,18 +115,14 @@ void main() {
       });
 
       test('constructor defaults', () {
-        const params = CheckoutAddressParams(
-          product: {'id': 'p1'},
-        );
+        const params = CheckoutAddressParams(product: {'id': 'p1'});
         expect(params.tradeInValue, 0);
         expect(params.quantity, 1);
         expect(params.asset, isNull);
       });
 
       test('toMap() returns expected keys', () {
-        const params = CheckoutAddressParams(
-          product: {'id': 'p1'},
-        );
+        const params = CheckoutAddressParams(product: {'id': 'p1'});
         final map = params.toMap();
         expect(map, contains('product'));
         expect(map, contains('tradeInValue'));

@@ -30,9 +30,11 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = ResponsiveUtils(context);
-    
+
     final content = Container(
-      padding: padding ?? EdgeInsets.all(responsive.spacing(AppDimensions.cardPadding)),
+      padding:
+          padding ??
+          EdgeInsets.all(responsive.spacing(AppDimensions.cardPadding)),
       margin: margin,
       decoration: BoxDecoration(
         color: color ?? AppColors.cardBackground,
@@ -96,7 +98,8 @@ class SelectionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(responsive.spacing(12)),
           boxShadow: AppShadows.standard,
         ),
-        child: child ??
+        child:
+            child ??
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -104,7 +107,9 @@ class SelectionCard extends StatelessWidget {
                   Icon(
                     icon,
                     size: responsive.iconSize(32),
-                    color: isSelected ? AppColors.iconOnPrimary : AppColors.iconPrimary,
+                    color: isSelected
+                        ? AppColors.iconOnPrimary
+                        : AppColors.iconPrimary,
                   ),
                 if (icon != null) SizedBox(height: responsive.spacing(8)),
                 Text(
@@ -112,7 +117,9 @@ class SelectionCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: responsive.fontSize(14),
                     fontWeight: FontWeight.w500,
-                    color: isSelected ? AppColors.textOnPrimary : AppColors.textPrimary,
+                    color: isSelected
+                        ? AppColors.textOnPrimary
+                        : AppColors.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -122,9 +129,3 @@ class SelectionCard extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

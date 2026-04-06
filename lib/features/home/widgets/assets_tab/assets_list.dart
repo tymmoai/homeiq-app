@@ -6,11 +6,7 @@ class AssetsList extends StatelessWidget {
   final List<Map<String, dynamic>> assets;
   final List<Map<String, dynamic>> allAssets;
 
-  const AssetsList({
-    super.key,
-    required this.assets,
-    required this.allAssets,
-  });
+  const AssetsList({super.key, required this.assets, required this.allAssets});
 
   @override
   Widget build(BuildContext context) {

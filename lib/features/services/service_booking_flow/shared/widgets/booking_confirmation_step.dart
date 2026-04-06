@@ -60,10 +60,7 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       parent: _controller,
       curve: Curves.elasticOut,
     );
-    _fadeAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    );
+    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
     _saveBooking();
   }
@@ -97,7 +94,11 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       );
       _bookingSaved = true;
     } on Object catch (e) {
-      AppLogger.error('Error saving booking: $e', tag: 'BookingConfirmation', error: e);
+      AppLogger.error(
+        'Error saving booking: $e',
+        tag: 'BookingConfirmation',
+        error: e,
+      );
     }
   }
 
@@ -225,7 +226,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
       child: Column(
@@ -257,7 +260,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadowMedium,
@@ -276,7 +281,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
                 height: context.responsive.spacing(40.0),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(context.responsive.borderRadius(10.0)),
+                  borderRadius: BorderRadius.circular(
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.calendar_today_outlined,
@@ -298,13 +305,18 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
           context.responsive.heightBox(16.0),
           _buildDetailRow('Service', widget.formData.selectedService ?? ''),
           _buildDetailRow(
-              'Date',
-              widget.formData.selectedDate != null
-                  ? DateFormat('EEEE, MMMM d, yyyy')
-                      .format(widget.formData.selectedDate!)
-                  : ''),
+            'Date',
+            widget.formData.selectedDate != null
+                ? DateFormat(
+                    'EEEE, MMMM d, yyyy',
+                  ).format(widget.formData.selectedDate!)
+                : '',
+          ),
           _buildDetailRow(
-              'Time Slot', widget.formData.selectedTimeSlot ?? '', isLast: true),
+            'Time Slot',
+            widget.formData.selectedTimeSlot ?? '',
+            isLast: true,
+          ),
         ],
       ),
     );
@@ -339,8 +351,7 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
             ],
           ),
         ),
-        if (!isLast)
-          Divider(height: 1, color: AppColors.gray200),
+        if (!isLast) Divider(height: 1, color: AppColors.gray200),
       ],
     );
   }
@@ -350,7 +361,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadowMedium,
@@ -369,7 +382,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
                 height: context.responsive.spacing(40.0),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(context.responsive.borderRadius(10.0)),
+                  borderRadius: BorderRadius.circular(
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.inventory_2_outlined,
@@ -426,7 +441,8 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
                     ],
                   ),
                 ),
-                if (!isLast) Divider(height: 1, color: AppColors.backgroundGray100),
+                if (!isLast)
+                  Divider(height: 1, color: AppColors.backgroundGray100),
               ],
             );
           }),
@@ -440,7 +456,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -459,7 +477,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
                 height: context.responsive.spacing(40.0),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(context.responsive.borderRadius(10.0)),
+                  borderRadius: BorderRadius.circular(
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.add_circle_outline,
@@ -482,7 +502,8 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
           ...widget.formData.selectedAddons.map((addonName) {
             final addon = widget.availableAddons.firstWhere(
               (a) => a.name == addonName,
-              orElse: () => ServiceAddon(name: addonName, price: 0, icon: Icons.add),
+              orElse: () =>
+                  ServiceAddon(name: addonName, price: 0, icon: Icons.add),
             );
             return Padding(
               padding: context.responsive.padding(vertical: 8),
@@ -518,7 +539,9 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.primary,
-        borderRadius: BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.3),
@@ -535,10 +558,16 @@ class _BookingConfirmationStepState extends State<BookingConfirmationStep>
             _buildPriceRow('Add-ons', '\$${_addonsTotal.toStringAsFixed(0)}'),
           ],
           context.responsive.heightBox(10.0),
-          _buildPriceRow('Service Fee', '\$${widget.serviceFee.toStringAsFixed(0)}'),
+          _buildPriceRow(
+            'Service Fee',
+            '\$${widget.serviceFee.toStringAsFixed(0)}',
+          ),
           Padding(
             padding: context.responsive.padding(vertical: 12),
-            child: Divider(height: 1, color: Colors.white.withValues(alpha: 0.2)),
+            child: Divider(
+              height: 1,
+              color: Colors.white.withValues(alpha: 0.2),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

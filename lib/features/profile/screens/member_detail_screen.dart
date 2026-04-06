@@ -279,7 +279,11 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.cloud_off, size: responsive.iconSize(48.0), color: AppColors.gray300),
+            Icon(
+              Icons.cloud_off,
+              size: responsive.iconSize(48.0),
+              color: AppColors.gray300,
+            ),
             const SizedBox(height: 16),
             Text(
               _loadError!,
@@ -318,7 +322,10 @@ class _MemberDetailScreenState extends ConsumerState<MemberDetailScreen> {
           ),
         ],
       ),
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(16.0), vertical: responsive.spacing(18.0)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(16.0),
+        vertical: responsive.spacing(18.0),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

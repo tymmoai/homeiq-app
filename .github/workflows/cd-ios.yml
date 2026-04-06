@@ -1,0 +1,119 @@
+# ============================================================
+# CD Pipeline — iOS Build & TestFlight Distribution
+# Runs on: every push to main (AFTER CI passes)
+#
+# CRITICAL: iOS builds ONLY work on macOS runners.
+#   runs-on: macos-latest is MANDATORY.
+#   (Apple's build tools: Xcode, codesign are macOS-only)
+#
+# PREREQUISITES (one-time setup):
+#   1. Apple Developer account ($99/year)
+#   2. App ID registered in App Store Connect
+#   3. Distribution certificate (.p12) from Keychain
+#   4. Provisioning profile from App Store Connect
+#   5. App Store Connect API key (for TestFlight upload)
+#   6. ExportOptions.plist in ios/ folder (see below)
+#
+# WHAT IT DOES:
+#   1. Install signing certificates and provisioning profiles
+#   2. Build a signed .ipa file
+#   3. Upload to TestFlight (Apple's beta distribution platform)
+#      → testers install via TestFlight app on their iPhone/iPad
+# ============================================================
+
+name: CD — iOS Build & TestFlight
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ios-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-ios:
+    name: Build & Upload to TestFlight
+    runs-on: macos-latest    # ← MUST be macOS — iOS builds cannot run on Linux
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Setup Flutter ──────────────────────────────────────
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.0'
+          channel: stable
+          cache: true
+
+      # ── 3. Install dependencies ───────────────────────────────
+      - name: Install dependencies
+        run: flutter pub get
+
+      # ── 4. Import Distribution Certificate ──────────────────
+      # IOS_DIST_CERT_P12_BASE64: your Distribution certificate exported from
+      #   Keychain Access as .p12, then base64-encoded
+      # IOS_CERT_PASSWORD: the password you set when exporting from Keychain
+      - name: Import Distribution Certificate
+        uses: apple-actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.IOS_DIST_CERT_P12_BASE64 }}
+          p12-password: ${{ secrets.IOS_CERT_PASSWORD }}
+
+      # ── 5. Download Provisioning Profile ────────────────────
+      # Automatically downloads the distribution provisioning profile
+      # from App Store Connect using the API key
+      - name: Download Provisioning Profile
+        uses: apple-actions/download-provisioning-profiles@v4
+        with:
+          bundle-id: com.brandsmartusa.homeiq   # must match ios/Runner.xcodeproj
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+      # ── 6. Build iOS release IPA ──────────────────────────────
+      # Requires ios/ExportOptions.plist to exist (see comments at bottom)
+      # Output: build/ios/ipa/homeiq.ipa
+      - name: Build iOS release IPA
+        run: flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+
+      # ── 7. Upload IPA as artifact ─────────────────────────────
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: homeiq-ios-${{ github.sha }}
+          path: build/ios/ipa/*.ipa
+          retention-days: 30
+
+      # ── 8. Upload to TestFlight ───────────────────────────────
+      # Testers get a notification in the TestFlight app on their iPhone
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: build/ios/ipa/*.ipa
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+# ============================================================
+# REQUIRED: ios/ExportOptions.plist
+# Create this file in your ios/ folder:
+#
+# <?xml version="1.0" encoding="UTF-8"?>
+# <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+# <plist version="1.0">
+# <dict>
+#     <key>method</key>
+#     <string>app-store</string>
+#     <key>teamID</key>
+#     <string>YOUR_TEAM_ID</string>
+#     <key>uploadBitcode</key>
+#     <false/>
+#     <key>uploadSymbols</key>
+#     <true/>
+# </dict>
+# </plist>
+# ============================================================

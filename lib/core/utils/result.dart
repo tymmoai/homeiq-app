@@ -24,15 +24,15 @@ sealed class Result<T> {
 
   /// Get data if successful, null otherwise
   T? get dataOrNull => switch (this) {
-        Success(data: final data) => data,
-        Failed() => null,
-      };
+    Success(data: final data) => data,
+    Failed() => null,
+  };
 
   /// Get failure if failed, null otherwise
   Failure? get failureOrNull => switch (this) {
-        Success() => null,
-        Failed(failure: final f) => f,
-      };
+    Success() => null,
+    Failed(failure: final f) => f,
+  };
 }
 
 /// Successful result with data
@@ -44,7 +44,9 @@ class Success<T> extends Result<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Success<T> && runtimeType == other.runtimeType && data == other.data;
+      other is Success<T> &&
+          runtimeType == other.runtimeType &&
+          data == other.data;
 
   @override
   int get hashCode => data.hashCode;
@@ -62,7 +64,9 @@ class Failed<T> extends Result<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Failed<T> && runtimeType == other.runtimeType && failure == other.failure;
+      other is Failed<T> &&
+          runtimeType == other.runtimeType &&
+          failure == other.failure;
 
   @override
   int get hashCode => failure.hashCode;

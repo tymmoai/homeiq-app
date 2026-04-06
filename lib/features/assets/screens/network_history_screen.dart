@@ -33,10 +33,14 @@ class _NetworkHistoryScreenState extends State<NetworkHistoryScreen> {
       _error = null;
     });
     try {
-      final response = await ApiClient().get('/discovery/history', queryParameters: {'limit': '200'});
+      final response = await ApiClient().get(
+        '/discovery/history',
+        queryParameters: {'limit': '200'},
+      );
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
-        final data = (body['data'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+        final data =
+            (body['data'] as List?)?.cast<Map<String, dynamic>>() ?? [];
         setState(() {
           _devices = data;
           _loading = false;
@@ -60,10 +64,13 @@ class _NetworkHistoryScreenState extends State<NetworkHistoryScreen> {
     final q = _filter.toLowerCase();
     return _devices.where((d) {
       final name = (d['deviceName'] ?? '').toString().toLowerCase();
-      final mfr  = (d['manufacturer'] ?? '').toString().toLowerCase();
-      final ip   = (d['ipAddress'] ?? '').toString().toLowerCase();
+      final mfr = (d['manufacturer'] ?? '').toString().toLowerCase();
+      final ip = (d['ipAddress'] ?? '').toString().toLowerCase();
       final host = (d['hostname'] ?? '').toString().toLowerCase();
-      return name.contains(q) || mfr.contains(q) || ip.contains(q) || host.contains(q);
+      return name.contains(q) ||
+          mfr.contains(q) ||
+          ip.contains(q) ||
+          host.contains(q);
     }).toList();
   }
 
@@ -105,8 +112,13 @@ class _NetworkHistoryScreenState extends State<NetworkHistoryScreen> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Search by name, manufacturer or IP…',
-                hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
-                prefixIcon: Icon(Icons.search, color: Colors.white.withValues(alpha: 0.8)),
+                hintStyle: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.white.withValues(alpha: 0.8),
+                ),
                 filled: true,
                 fillColor: Colors.white.withValues(alpha: 0.15),
                 border: OutlineInputBorder(
@@ -123,10 +135,10 @@ class _NetworkHistoryScreenState extends State<NetworkHistoryScreen> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null
-                    ? _ErrorView(error: _error!, onRetry: _load)
-                    : devices.isEmpty
-                        ? _EmptyView(hasFilter: _filter.isNotEmpty)
-                        : _DeviceList(devices: devices),
+                ? _ErrorView(error: _error!, onRetry: _load)
+                : devices.isEmpty
+                ? _EmptyView(hasFilter: _filter.isNotEmpty)
+                : _DeviceList(devices: devices),
           ),
         ],
       ),
@@ -158,21 +170,21 @@ class _DeviceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final meta        = device['metadata'] as Map<String, dynamic>? ?? {};
-    final name        = (device['deviceName'] as String?)?.isNotEmpty == true
+    final meta = device['metadata'] as Map<String, dynamic>? ?? {};
+    final name = (device['deviceName'] as String?)?.isNotEmpty == true
         ? device['deviceName'] as String
         : (device['hostname'] as String?) ?? 'Unknown Device';
-    final ip          = (device['ipAddress'] as String?) ?? '—';
-    final mfr         = (device['manufacturer'] as String?) ?? 'Unknown';
-    final category    = (meta['category'] as String?) ?? '';
-    final model       = (meta['model'] as String?) ?? '';
-    final confidence  = (meta['confidence'] as num?)?.toInt() ?? 0;
-    final status      = (device['status'] as String?) ?? 'unknown';
+    final ip = (device['ipAddress'] as String?) ?? '—';
+    final mfr = (device['manufacturer'] as String?) ?? 'Unknown';
+    final category = (meta['category'] as String?) ?? '';
+    final model = (meta['model'] as String?) ?? '';
+    final confidence = (meta['confidence'] as num?)?.toInt() ?? 0;
+    final status = (device['status'] as String?) ?? 'unknown';
     final rawLastSeen = device['lastSeen'] as String?;
-    final lastSeen    = rawLastSeen != null
+    final lastSeen = rawLastSeen != null
         ? _formatDate(DateTime.tryParse(rawLastSeen))
         : '—';
-    final isOnline    = status == 'online';
+    final isOnline = status == 'online';
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -195,8 +207,11 @@ class _DeviceCard extends StatelessWidget {
                   color: _categoryColor(category).withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(_categoryIcon(category),
-                    color: _categoryColor(category), size: 26),
+                child: Icon(
+                  _categoryIcon(category),
+                  color: _categoryColor(category),
+                  size: 26,
+                ),
               ),
               const SizedBox(width: 12),
 
@@ -209,23 +224,35 @@ class _DeviceCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 14)),
+                          child: Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
                         _ConfidenceBadge(score: confidence),
                       ],
                     ),
                     const SizedBox(height: 3),
-                    Text(mfr,
-                        style: TextStyle(
-                            color: AppColors.textSecondary, fontSize: 12)),
+                    Text(
+                      mfr,
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 12,
+                      ),
+                    ),
                     if (model.isNotEmpty)
-                      Text(model,
-                          style: TextStyle(
-                              color: AppColors.textSecondary, fontSize: 12)),
+                      Text(
+                        model,
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
                     const SizedBox(height: 6),
                     Row(
                       children: [
@@ -238,14 +265,21 @@ class _DeviceCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(Icons.access_time,
-                            size: 11,
-                            color: AppColors.textSecondary.withValues(alpha: 0.7)),
+                        Icon(
+                          Icons.access_time,
+                          size: 11,
+                          color: AppColors.textSecondary.withValues(alpha: 0.7),
+                        ),
                         const SizedBox(width: 3),
-                        Text('Last seen $lastSeen',
-                            style: TextStyle(
-                                color: AppColors.textSecondary.withValues(alpha: 0.8),
-                                fontSize: 11)),
+                        Text(
+                          'Last seen $lastSeen',
+                          style: TextStyle(
+                            color: AppColors.textSecondary.withValues(
+                              alpha: 0.8,
+                            ),
+                            fontSize: 11,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         Container(
                           width: 7,
@@ -256,10 +290,13 @@ class _DeviceCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 3),
-                        Text(isOnline ? 'Online' : 'Offline',
-                            style: TextStyle(
-                                fontSize: 11,
-                                color: isOnline ? Colors.green : Colors.grey)),
+                        Text(
+                          isOnline ? 'Online' : 'Offline',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: isOnline ? Colors.green : Colors.grey,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -273,25 +310,25 @@ class _DeviceCard extends StatelessWidget {
   }
 
   void _showDetail(BuildContext context) {
-    final meta        = device['metadata'] as Map<String, dynamic>? ?? {};
-    final name        = (device['deviceName'] as String?)?.isNotEmpty == true
+    final meta = device['metadata'] as Map<String, dynamic>? ?? {};
+    final name = (device['deviceName'] as String?)?.isNotEmpty == true
         ? device['deviceName'] as String
         : (device['hostname'] as String?) ?? 'Unknown Device';
-    final ip          = (device['ipAddress'] as String?) ?? '—';
-    final mac         = (device['macAddress'] as String?) ?? '—';
-    final mfr         = (device['manufacturer'] as String?) ?? 'Unknown';
-    final category    = (meta['category'] as String?) ?? '';
-    final model       = (meta['model'] as String?) ?? '';
-    final serial      = (meta['serial'] as String?) ?? '';
-    final confidence  = (meta['confidence'] as num?)?.toInt() ?? 0;
-    final method      = (meta['discoveryMethod'] as String?) ?? '';
-    final httpBanner  = (meta['httpBanner'] as String?) ?? '';
-    final htmlTitle   = (meta['htmlTitle'] as String?) ?? '';
-    final osHint      = (meta['osHint'] as String?) ?? '';
-    final snmpDescr   = (meta['snmpDescr'] as String?) ?? '';
-    final ports       = (device['openPorts'] as List?)?.cast<int>() ?? [];
+    final ip = (device['ipAddress'] as String?) ?? '—';
+    final mac = (device['macAddress'] as String?) ?? '—';
+    final mfr = (device['manufacturer'] as String?) ?? 'Unknown';
+    final category = (meta['category'] as String?) ?? '';
+    final model = (meta['model'] as String?) ?? '';
+    final serial = (meta['serial'] as String?) ?? '';
+    final confidence = (meta['confidence'] as num?)?.toInt() ?? 0;
+    final method = (meta['discoveryMethod'] as String?) ?? '';
+    final httpBanner = (meta['httpBanner'] as String?) ?? '';
+    final htmlTitle = (meta['htmlTitle'] as String?) ?? '';
+    final osHint = (meta['osHint'] as String?) ?? '';
+    final snmpDescr = (meta['snmpDescr'] as String?) ?? '';
+    final ports = (device['openPorts'] as List?)?.cast<int>() ?? [];
     final rawLastSeen = device['lastSeen'] as String?;
-    final lastSeen    = rawLastSeen != null
+    final lastSeen = rawLastSeen != null
         ? _formatDate(DateTime.tryParse(rawLastSeen))
         : '—';
 
@@ -314,7 +351,8 @@ class _DeviceCard extends StatelessWidget {
             children: [
               Center(
                 child: Container(
-                  width: 40, height: 4,
+                  width: 40,
+                  height: 4,
                   margin: const EdgeInsets.only(bottom: 18),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300,
@@ -325,26 +363,38 @@ class _DeviceCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    width: 52, height: 52,
+                    width: 52,
+                    height: 52,
                     decoration: BoxDecoration(
                       color: _categoryColor(category).withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Icon(_categoryIcon(category),
-                        color: _categoryColor(category), size: 28),
+                    child: Icon(
+                      _categoryIcon(category),
+                      color: _categoryColor(category),
+                      size: 28,
+                    ),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(name,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 16)),
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
                         if (mfr.isNotEmpty)
-                          Text(mfr,
-                              style: TextStyle(
-                                  color: AppColors.textSecondary, fontSize: 13)),
+                          Text(
+                            mfr,
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -353,40 +403,48 @@ class _DeviceCard extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Divider(),
-              _DetailRow('IP Address',   ip),
-              _DetailRow('MAC Address',  mac),
-              if (category.isNotEmpty) _DetailRow('Category',      category),
-              if (model.isNotEmpty)    _DetailRow('Model',         model),
-              if (serial.isNotEmpty)   _DetailRow('Serial',        serial),
-              if (method.isNotEmpty)   _DetailRow('Discovered via', method),
-              _DetailRow('Last Seen',   lastSeen),
-              if (httpBanner.isNotEmpty) _DetailRow('HTTP Banner',  httpBanner),
-              if (htmlTitle.isNotEmpty)  _DetailRow('Page Title',   htmlTitle),
-              if (osHint.isNotEmpty)     _DetailRow('OS Hint',      osHint),
-              if (snmpDescr.isNotEmpty)  _DetailRow('SNMP Descr',   snmpDescr),
+              _DetailRow('IP Address', ip),
+              _DetailRow('MAC Address', mac),
+              if (category.isNotEmpty) _DetailRow('Category', category),
+              if (model.isNotEmpty) _DetailRow('Model', model),
+              if (serial.isNotEmpty) _DetailRow('Serial', serial),
+              if (method.isNotEmpty) _DetailRow('Discovered via', method),
+              _DetailRow('Last Seen', lastSeen),
+              if (httpBanner.isNotEmpty) _DetailRow('HTTP Banner', httpBanner),
+              if (htmlTitle.isNotEmpty) _DetailRow('Page Title', htmlTitle),
+              if (osHint.isNotEmpty) _DetailRow('OS Hint', osHint),
+              if (snmpDescr.isNotEmpty) _DetailRow('SNMP Descr', snmpDescr),
               if (ports.isNotEmpty) ...[
                 const SizedBox(height: 12),
-                const Text('Open Ports',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 13)),
+                const Text(
+                  'Open Ports',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
                   children: ports
-                      .map((p) => Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFEEF2FF),
-                              borderRadius: BorderRadius.circular(8),
+                      .map(
+                        (p) => Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEEF2FF),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '$p',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF4F46E5),
                             ),
-                            child: Text('$p',
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF4F46E5))),
-                          ))
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
               ],
@@ -465,10 +523,10 @@ class _DeviceCard extends StatelessWidget {
     if (dt == null) return '—';
     final now = DateTime.now();
     final diff = now.difference(dt);
-    if (diff.inMinutes < 1)  return 'just now';
+    if (diff.inMinutes < 1) return 'just now';
     if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24)   return '${diff.inHours}h ago';
-    if (diff.inDays < 7)     return '${diff.inDays}d ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    if (diff.inDays < 7) return '${diff.inDays}d ago';
     return '${dt.day}/${dt.month}/${dt.year}';
   }
 }
@@ -490,17 +548,22 @@ class _ConfidenceBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: large ? 10 : 7, vertical: large ? 4 : 3),
+        horizontal: large ? 10 : 7,
+        vertical: large ? 4 : 3,
+      ),
       decoration: BoxDecoration(
         color: _color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: _color.withValues(alpha: 0.4)),
       ),
-      child: Text('$score%',
-          style: TextStyle(
-              fontSize: large ? 13 : 11,
-              fontWeight: FontWeight.w700,
-              color: _color)),
+      child: Text(
+        '$score%',
+        style: TextStyle(
+          fontSize: large ? 13 : 11,
+          fontWeight: FontWeight.w700,
+          color: _color,
+        ),
+      ),
     );
   }
 }
@@ -518,13 +581,17 @@ class _Chip extends StatelessWidget {
         color: const Color(0xFFF1F5F9),
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 11, color: AppColors.textSecondary),
-        const SizedBox(width: 4),
-        Text(label,
-            style:
-                TextStyle(fontSize: 11, color: AppColors.textSecondary)),
-      ]),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 11, color: AppColors.textSecondary),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -543,16 +610,20 @@ class _DetailRow extends StatelessWidget {
         children: [
           SizedBox(
             width: 120,
-            child: Text(label,
-                style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500)),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
           Expanded(
-            child: Text(value,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w600)),
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+            ),
           ),
         ],
       ),
@@ -569,18 +640,24 @@ class _EmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Icon(Icons.wifi_find,
-            size: 72, color: AppColors.textSecondary.withValues(alpha: 0.3)),
-        const SizedBox(height: 16),
-        Text(
-          hasFilter
-              ? 'No devices match your search'
-              : 'No network history yet.\nRun a WiFi scan to populate this list.',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.textSecondary, fontSize: 15),
-        ),
-      ]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.wifi_find,
+            size: 72,
+            color: AppColors.textSecondary.withValues(alpha: 0.3),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            hasFilter
+                ? 'No devices match your search'
+                : 'No network history yet.\nRun a WiFi scan to populate this list.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 15),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -595,26 +672,33 @@ class _ErrorView extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Icon(Icons.cloud_off,
-              size: 64, color: Colors.red.shade300),
-          const SizedBox(height: 12),
-          Text('Could not load history',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.cloud_off, size: 64, color: Colors.red.shade300),
+            const SizedBox(height: 12),
+            Text(
+              'Could not load history',
               style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                  color: Colors.red.shade600)),
-          const SizedBox(height: 6),
-          Text(error,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                color: Colors.red.shade600,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              error,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-          const SizedBox(height: 20),
-          ElevatedButton.icon(
-            onPressed: onRetry,
-            icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
-          ),
-        ]),
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
+            ),
+          ],
+        ),
       ),
     );
   }

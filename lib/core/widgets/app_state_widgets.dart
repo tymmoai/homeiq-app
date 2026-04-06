@@ -9,11 +9,7 @@ class AppLoadingIndicator extends StatelessWidget {
   final String? message;
   final double? size;
 
-  const AppLoadingIndicator({
-    super.key,
-    this.message,
-    this.size,
-  });
+  const AppLoadingIndicator({super.key, this.message, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +47,7 @@ class AppErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
 
-  const AppErrorWidget({
-    super.key,
-    required this.message,
-    this.onRetry,
-  });
+  const AppErrorWidget({super.key, required this.message, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +75,7 @@ class AppErrorWidget extends StatelessWidget {
             ),
             if (onRetry != null) ...[
               SizedBox(height: responsive.spacing(AppDimensions.spacing24)),
-              ElevatedButton(
-                onPressed: onRetry,
-                child: const Text('Retry'),
-              ),
+              ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
             ],
           ],
         ),
@@ -136,10 +125,7 @@ class AppEmptyState extends StatelessWidget {
             ),
             if (onAction != null && actionLabel != null) ...[
               SizedBox(height: responsive.spacing(AppDimensions.spacing24)),
-              ElevatedButton(
-                onPressed: onAction,
-                child: Text(actionLabel!),
-              ),
+              ElevatedButton(onPressed: onAction, child: Text(actionLabel!)),
             ],
           ],
         ),
@@ -147,9 +133,3 @@ class AppEmptyState extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

@@ -69,24 +69,15 @@ class _AddHomeDialogState extends State<AddHomeDialog> {
                   fillColor: AppColors.surfaceVariant,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.divider,
-                      width: 1,
-                    ),
+                    borderSide: BorderSide(color: AppColors.divider, width: 1),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.divider,
-                      width: 1,
-                    ),
+                    borderSide: BorderSide(color: AppColors.divider, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -124,24 +115,15 @@ class _AddHomeDialogState extends State<AddHomeDialog> {
                   fillColor: AppColors.surfaceVariant,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.divider,
-                      width: 1,
-                    ),
+                    borderSide: BorderSide(color: AppColors.divider, width: 1),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.divider,
-                      width: 1,
-                    ),
+                    borderSide: BorderSide(color: AppColors.divider, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,

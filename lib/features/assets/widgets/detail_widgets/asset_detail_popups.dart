@@ -24,9 +24,7 @@ void showProtectionPlanModal({
     barrierDismissible: false,
     builder: (context) => Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: responsive.spacing(20.0),
-      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: responsive.spacing(20.0)),
       child: Container(
         constraints: BoxConstraints(maxWidth: responsive.spacing(400.0)),
         decoration: BoxDecoration(
@@ -167,17 +165,16 @@ void showProtectionPlanModal({
                         onPressed: () {
                           Navigator.pop(context);
                           // Navigate to warranties flow and refresh state on return
-                          mainContext.push(
-                            '/warranties',
-                            extra: asset,
-                          ).then((_) {
+                          mainContext.push('/warranties', extra: asset).then((
+                            _,
+                          ) {
                             // When returning from protection plan flow, re-check plan status
                             onCheckProtectionPlan();
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AssetDetailColors
-                              .primaryDark, // App theme color
+                          backgroundColor:
+                              AssetDetailColors.primaryDark, // App theme color
                           foregroundColor: Colors.white,
                           elevation: 0,
                           padding: EdgeInsets.symmetric(
@@ -248,9 +245,7 @@ void showUpgradeModal({
     barrierDismissible: false,
     builder: (context) => Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: responsive.spacing(20.0),
-      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: responsive.spacing(20.0)),
       child: Container(
         constraints: BoxConstraints(maxWidth: responsive.spacing(400.0)),
         decoration: BoxDecoration(
@@ -349,8 +344,8 @@ void showUpgradeModal({
                           context.push('/upgrade-offer', extra: asset);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AssetDetailColors
-                              .primaryDark, // App theme color
+                          backgroundColor:
+                              AssetDetailColors.primaryDark, // App theme color
                           foregroundColor: Colors.white,
                           elevation: 0,
                           padding: EdgeInsets.symmetric(

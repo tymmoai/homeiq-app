@@ -78,7 +78,8 @@ class BackendApiClient {
       final decoded = jsonDecode(body) as Map<String, dynamic>;
       body = const JsonEncoder.withIndent('  ').convert(decoded);
     } on Object catch (_) {}
-    if (body.length > 800) body = '${body.substring(0, 800)}... [+${body.length - 800} chars]';
+    if (body.length > 800)
+      body = '${body.substring(0, 800)}... [+${body.length - 800} chars]';
 
     final log = ok ? AppLogger.info : AppLogger.warning;
     log(
@@ -94,8 +95,9 @@ class BackendApiClient {
     Map<String, String>? queryParameters,
     Duration? timeout,
   }) async {
-    final uri = Uri.parse(_url(endpoint))
-        .replace(queryParameters: queryParameters);
+    final uri = Uri.parse(
+      _url(endpoint),
+    ).replace(queryParameters: queryParameters);
     final headers = await _getHeaders();
     _logRequest('GET', uri, headers: headers);
     final sw = Stopwatch()..start();
@@ -179,10 +181,7 @@ class BackendApiClient {
     }
   }
 
-  Future<http.Response> delete(
-    String endpoint, {
-    Duration? timeout,
-  }) async {
+  Future<http.Response> delete(String endpoint, {Duration? timeout}) async {
     final uri = Uri.parse(_url(endpoint));
     final headers = await _getHeaders();
     _logRequest('DELETE', uri, headers: headers);

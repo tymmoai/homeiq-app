@@ -73,7 +73,9 @@ class CombinedPaymentConfirmationWidget extends StatelessWidget {
                     padding: EdgeInsets.all(responsive.spacing(8)),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                     ),
                     child: Icon(
                       Icons.inventory_2,
@@ -199,7 +201,9 @@ class CombinedPaymentConfirmationWidget extends StatelessWidget {
                     padding: EdgeInsets.all(responsive.spacing(8)),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                     ),
                     child: Icon(
                       Icons.build,
@@ -236,7 +240,10 @@ class CombinedPaymentConfirmationWidget extends StatelessWidget {
                 children: [
                   Text(
                     'Technician Fee',
-                    style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textPrimary),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(14),
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   Text(
                     '\$${techFee.toStringAsFixed(2)}',
@@ -319,7 +326,10 @@ class CombinedPaymentConfirmationWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 'I authorize the payment of the combined total amount.',
-                style: TextStyle(fontSize: responsive.fontSize(11), color: AppColors.textPrimary),
+                style: TextStyle(
+                  fontSize: responsive.fontSize(11),
+                  color: AppColors.textPrimary,
+                ),
               ),
             ),
           ],
@@ -356,7 +366,9 @@ class CombinedPaymentConfirmationWidget extends StatelessWidget {
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.textOnPrimary),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.textOnPrimary,
+                      ),
                     ),
                   )
                 : Text(

@@ -8,11 +8,7 @@ class MaintenanceTimeline extends StatelessWidget {
   final List<MaintenanceRecord> records;
   final String? assetName;
 
-  const MaintenanceTimeline({
-    super.key,
-    required this.records,
-    this.assetName,
-  });
+  const MaintenanceTimeline({super.key, required this.records, this.assetName});
 
   List<MaintenanceRecord> get sortedRecords {
     final sorted = List<MaintenanceRecord>.from(records);
@@ -89,7 +85,7 @@ class MaintenanceTimeline extends StatelessWidget {
       'Sep',
       'Oct',
       'Nov',
-      'Dec'
+      'Dec',
     ];
     return months[month - 1];
   }
@@ -106,10 +102,7 @@ class MaintenanceTimeline extends StatelessWidget {
           padding: EdgeInsets.all(32),
           child: Text(
             'No maintenance history available',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.gray500,
-            ),
+            style: TextStyle(fontSize: 14, color: AppColors.gray500),
           ),
         ),
       );
@@ -171,10 +164,14 @@ class MaintenanceTimeline extends StatelessWidget {
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: _getStatusBgColor(record.status),
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                             border: Border.all(
                               color: _getStatusBorderColor(record.status),
                             ),
@@ -238,5 +235,3 @@ class MaintenanceTimeline extends StatelessWidget {
     );
   }
 }
-
-

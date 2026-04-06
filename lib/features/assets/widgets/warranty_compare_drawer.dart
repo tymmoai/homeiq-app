@@ -30,7 +30,8 @@ class WarrantyCompareDrawer extends StatefulWidget {
 class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
   String _selectedDuration = 'monthly'; // 'monthly' or 'yearly'
 
-  Color get _headerColor => Theme.of(context).colorScheme.primary; // App header color
+  Color get _headerColor =>
+      Theme.of(context).colorScheme.primary; // App header color
   static final Color _textPrimary = AppColors.textPrimary;
   static final Color _textSecondary = AppColors.textSecondary;
   static const Color _successGreen = AppColors.success;
@@ -57,18 +58,25 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
     return planName;
   }
 
-  bool _planHasFeature(Map<String, dynamic> plan, String feature, String duration) {
+  bool _planHasFeature(
+    Map<String, dynamic> plan,
+    String feature,
+    String duration,
+  ) {
     // First check for duration-specific coverage/features
-    final durationCoverage = plan['${duration}Coverage'] as List<dynamic>? ?? [];
-    final durationFeatures = plan['${duration}Features'] as List<dynamic>? ?? [];
-    
+    final durationCoverage =
+        plan['${duration}Coverage'] as List<dynamic>? ?? [];
+    final durationFeatures =
+        plan['${duration}Features'] as List<dynamic>? ?? [];
+
     // Check if this plan has duration-specific exclusion for this feature
-    final durationExclusions = plan['${duration}Exclusions'] as List<dynamic>? ?? [];
-    
+    final durationExclusions =
+        plan['${duration}Exclusions'] as List<dynamic>? ?? [];
+
     // Base features and coverage
     final features = plan['features'] as List<dynamic>? ?? [];
     final coverage = plan['coverage'] as List<dynamic>? ?? [];
-    
+
     // Combine all features - prioritize duration-specific ones
     final allFeatures = [
       ...durationFeatures,
@@ -76,18 +84,22 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
       ...features,
       ...coverage,
     ].map((e) => e.toString().toLowerCase()).toList();
-    
+
     final featureLower = feature.toLowerCase();
-    
+
     // Check exclusions first - if excluded for this duration, return false
-    final exclusionLower = durationExclusions.map((e) => e.toString().toLowerCase()).toList();
-    if (exclusionLower.any((ex) => ex.contains(featureLower) || featureLower.contains(ex))) {
+    final exclusionLower = durationExclusions
+        .map((e) => e.toString().toLowerCase())
+        .toList();
+    if (exclusionLower.any(
+      (ex) => ex.contains(featureLower) || featureLower.contains(ex),
+    )) {
       return false;
     }
-    
+
     // Direct match
     if (allFeatures.any((f) => f == featureLower)) return true;
-    
+
     // Check for key words in feature name
     final featureWords = featureLower.split(' ');
     for (final word in featureWords) {
@@ -97,7 +109,7 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
         }
       }
     }
-    
+
     // Specific feature checks with duration awareness
     if (featureLower.contains('zero') || featureLower.contains('deductible')) {
       // Check duration-specific deductible setting
@@ -105,15 +117,24 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
       if (durationDeductible != null) {
         return durationDeductible == 0;
       }
-      return allFeatures.any((f) => f.contains('deductible') && (f.contains('zero') || f.contains('no') || f.contains('0')));
+      return allFeatures.any(
+        (f) =>
+            f.contains('deductible') &&
+            (f.contains('zero') || f.contains('no') || f.contains('0')),
+      );
     }
-    if (featureLower.contains('service fee') || featureLower.contains('no service')) {
+    if (featureLower.contains('service fee') ||
+        featureLower.contains('no service')) {
       // Check duration-specific service fee setting
       final durationFee = plan['${duration}ServiceFee'] as int?;
       if (durationFee != null) {
         return durationFee == 0;
       }
-      return allFeatures.any((f) => f.contains('service') && (f.contains('fee') || f.contains('free') || f.contains('no')));
+      return allFeatures.any(
+        (f) =>
+            f.contains('service') &&
+            (f.contains('fee') || f.contains('free') || f.contains('no')),
+      );
     }
     if (featureLower.contains('parts') && featureLower.contains('labor')) {
       // Check duration-specific parts & labor
@@ -121,7 +142,11 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
       if (durationPartsLabor != null) {
         return durationPartsLabor;
       }
-      return allFeatures.any((f) => (f.contains('parts') || f.contains('labor')) || f.contains('parts & labor'));
+      return allFeatures.any(
+        (f) =>
+            (f.contains('parts') || f.contains('labor')) ||
+            f.contains('parts & labor'),
+      );
     }
     if (featureLower.contains('accidental')) {
       // Check duration-specific accidental damage
@@ -129,18 +154,25 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
       if (durationAccidental != null) {
         return durationAccidental;
       }
-      return allFeatures.any((f) => f.contains('accidental') || f.contains('damage'));
+      return allFeatures.any(
+        (f) => f.contains('accidental') || f.contains('damage'),
+      );
     }
-    if (featureLower.contains('24/7') || featureLower.contains('phone') || featureLower.contains('support')) {
+    if (featureLower.contains('24/7') ||
+        featureLower.contains('phone') ||
+        featureLower.contains('support')) {
       // 24/7 Phone Support: require 24/7 or "24" in the feature text so 9â€“5 plans show âœ–
       final durationSupport = plan['${duration}Support'] as bool?;
       if (durationSupport != null) {
         return durationSupport;
       }
-      return allFeatures.any((f) =>
-          (f.contains('24') || f.contains('24/7')) && (f.contains('support') || f.contains('phone')));
+      return allFeatures.any(
+        (f) =>
+            (f.contains('24') || f.contains('24/7')) &&
+            (f.contains('support') || f.contains('phone')),
+      );
     }
-    
+
     return false;
   }
 
@@ -148,7 +180,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
     // Check for duration-specific deductible
     final durationDeductible = plan['${duration}Deductible'] as int?;
     if (durationDeductible != null) {
-      return durationDeductible == 0 ? 'No Deductible' : '\$$durationDeductible';
+      return durationDeductible == 0
+          ? 'No Deductible'
+          : '\$$durationDeductible';
     }
     final deductible = plan['deductible'] as int? ?? 0;
     return deductible == 0 ? 'No Deductible' : '\$$deductible';
@@ -207,10 +241,7 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
               const SizedBox(height: 8),
               Text(
                 'Select 2-3 plans to compare them',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: _textSecondary,
-                ),
+                style: TextStyle(fontSize: 14, color: _textSecondary),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
@@ -218,7 +249,10 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _headerColor,
                   foregroundColor: AppColors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
                 ),
                 child: const Text('Browse Plans'),
               ),
@@ -242,7 +276,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(
               color: AppColors.white,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.shadow,
@@ -267,7 +303,8 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                             color: _textPrimary,
                           ),
                         ),
-                        if (widget.assetName != null && widget.assetName!.isNotEmpty) ...[
+                        if (widget.assetName != null &&
+                            widget.assetName!.isNotEmpty) ...[
                           const SizedBox(height: 2),
                           Text(
                             widget.assetName!,
@@ -305,11 +342,14 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => setState(() => _selectedDuration = 'monthly'),
+                      onTap: () =>
+                          setState(() => _selectedDuration = 'monthly'),
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         decoration: BoxDecoration(
-                          color: _selectedDuration == 'monthly' ? AppColors.white : AppColors.transparent,
+                          color: _selectedDuration == 'monthly'
+                              ? AppColors.white
+                              : AppColors.transparent,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: _selectedDuration == 'monthly'
                               ? [
@@ -327,7 +367,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: _selectedDuration == 'monthly' ? _textPrimary : _textSecondary,
+                            color: _selectedDuration == 'monthly'
+                                ? _textPrimary
+                                : _textSecondary,
                           ),
                         ),
                       ),
@@ -339,7 +381,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         decoration: BoxDecoration(
-                          color: _selectedDuration == 'yearly' ? AppColors.white : AppColors.transparent,
+                          color: _selectedDuration == 'yearly'
+                              ? AppColors.white
+                              : AppColors.transparent,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: _selectedDuration == 'yearly'
                               ? [
@@ -357,7 +401,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: _selectedDuration == 'yearly' ? _textPrimary : _textSecondary,
+                            color: _selectedDuration == 'yearly'
+                                ? _textPrimary
+                                : _textSecondary,
                           ),
                         ),
                       ),
@@ -374,7 +420,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
               controller: widget.scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               child: Container(
-                margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 0),
+                margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom + 0,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -391,10 +439,15 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                     // Header Row - PLANS + Plan Names (title column flex: 2 so feature column aligns with SERVICE/COVERAGE)
                     Container(
                       margin: const EdgeInsets.only(bottom: 4),
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 0,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.backgroundGray50,
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.shadowLight,
@@ -424,23 +477,34 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                             final planName = plan['name'] as String? ?? 'Plan';
                             final shortName = _getPlanShortName(planName);
                             final badge = plan['badge'] as String?;
-                            final isPopular = badge?.toLowerCase().contains('popular') ?? false;
-                            final isUltimate = shortName.toLowerCase().contains('ultimate');
-                            
+                            final isPopular =
+                                badge?.toLowerCase().contains('popular') ??
+                                false;
+                            final isUltimate = shortName.toLowerCase().contains(
+                              'ultimate',
+                            );
+
                             return Expanded(
                               flex: 2,
                               child: Container(
                                 margin: const EdgeInsets.only(left: 1),
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     if (isPopular) ...[
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 3,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: _headerColor,
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                         ),
                                         child: const Text(
                                           'POPULAR',
@@ -463,7 +527,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w700,
-                                        color: isUltimate ? _successGreen : _headerColor,
+                                        color: isUltimate
+                                            ? _successGreen
+                                            : _headerColor,
                                         height: 1.25,
                                         letterSpacing: 0.3,
                                       ),
@@ -475,7 +541,9 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                                         width: double.infinity,
                                         decoration: BoxDecoration(
                                           color: _headerColor,
-                                          borderRadius: BorderRadius.circular(2),
+                                          borderRadius: BorderRadius.circular(
+                                            2,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -491,10 +559,15 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                     // PRICING Section Header â€” title column flex: 2, padding 16 to align with feature rows
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 0,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.backgroundGray50,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.shadowLight,
@@ -527,13 +600,19 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
 
                     // Price Row â€” shows only selected duration (monthly or yearly)
                     _buildTableRow(
-                      label: _selectedDuration == 'monthly' ? 'Monthly Price' : 'Yearly Price',
+                      label: _selectedDuration == 'monthly'
+                          ? 'Monthly Price'
+                          : 'Yearly Price',
                       planCount: planCount,
                       children: widget.plans.map((plan) {
-                        final pricing = plan['pricing'] as Map<String, dynamic>? ?? {};
-                        final monthlyPrice = pricing['monthly'] as num? ?? 19.99;
+                        final pricing =
+                            plan['pricing'] as Map<String, dynamic>? ?? {};
+                        final monthlyPrice =
+                            pricing['monthly'] as num? ?? 19.99;
                         final yearlyPrice = pricing['yearly'] as num? ?? 199.0;
-                        final displayPrice = _selectedDuration == 'monthly' ? monthlyPrice : yearlyPrice;
+                        final displayPrice = _selectedDuration == 'monthly'
+                            ? monthlyPrice
+                            : yearlyPrice;
                         return _buildPlanCell(
                           '\$${displayPrice.toStringAsFixed(_selectedDuration == 'monthly' ? 2 : 0)}',
                           '', // no subtitle â€” only selected duration price
@@ -544,10 +623,15 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                     // SERVICE Section Header â€” title column flex: 2, padding 16
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 0,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.backgroundGray50,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.shadowLight,
@@ -583,7 +667,10 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                       label: 'Deductible',
                       planCount: planCount,
                       children: widget.plans.map((plan) {
-                        return _buildPlanCell(_getPlanDeductible(plan, _selectedDuration), '');
+                        return _buildPlanCell(
+                          _getPlanDeductible(plan, _selectedDuration),
+                          '',
+                        );
                       }).toList(),
                     ),
 
@@ -592,7 +679,10 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                       label: 'Service Fee',
                       planCount: planCount,
                       children: widget.plans.map((plan) {
-                        return _buildPlanCell(_getPlanServiceFee(plan, _selectedDuration), '');
+                        return _buildPlanCell(
+                          _getPlanServiceFee(plan, _selectedDuration),
+                          '',
+                        );
                       }).toList(),
                     ),
 
@@ -601,17 +691,25 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                       label: 'Response Time',
                       planCount: planCount,
                       children: widget.plans.map((plan) {
-                        return _buildPlanCell(_getPlanResponseTime(plan, _selectedDuration), '');
+                        return _buildPlanCell(
+                          _getPlanResponseTime(plan, _selectedDuration),
+                          '',
+                        );
                       }).toList(),
                     ),
 
                     // COVERAGE Section Header â€” title column flex: 2, padding 16
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 0,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.backgroundGray50,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.shadowLight,
@@ -648,7 +746,11 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                         label: feature,
                         planCount: planCount,
                         children: widget.plans.map((plan) {
-                          final hasFeature = _planHasFeature(plan, feature, _selectedDuration);
+                          final hasFeature = _planHasFeature(
+                            plan,
+                            feature,
+                            _selectedDuration,
+                          );
                           return _buildFeatureCell(hasFeature);
                         }).toList(),
                       );
@@ -693,9 +795,11 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                     final index = entry.key;
                     final plan = entry.value;
                     final badge = plan['badge'] as String?;
-                    final isPopular = badge?.toLowerCase().contains('popular') ?? false;
-                    final isHighlighted = isPopular || (planCount == 2 && index == 1);
-                    
+                    final isPopular =
+                        badge?.toLowerCase().contains('popular') ?? false;
+                    final isHighlighted =
+                        isPopular || (planCount == 2 && index == 1);
+
                     return Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(left: index > 0 ? 12 : 0),
@@ -713,8 +817,12 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
                           child: ElevatedButton(
                             onPressed: () => widget.onSelectPlan(plan['id']),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: isHighlighted ? _headerColor : AppColors.gray200,
-                              foregroundColor: isHighlighted ? AppColors.white : _textPrimary,
+                              backgroundColor: isHighlighted
+                                  ? _headerColor
+                                  : AppColors.gray200,
+                              foregroundColor: isHighlighted
+                                  ? AppColors.white
+                                  : _textPrimary,
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               elevation: 0,
                             ),
@@ -746,7 +854,11 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
     required int planCount,
     required List<Widget> children,
   }) {
-    final words = label.trim().split(RegExp(r'\s+')).where((s) => s.isNotEmpty).toList();
+    final words = label
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((s) => s.isNotEmpty)
+        .toList();
     final labelStyle = TextStyle(
       fontSize: 13,
       fontWeight: FontWeight.w700,
@@ -759,12 +871,20 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
     if (words.isEmpty) {
       titleContent = const SizedBox.shrink();
     } else if (words.length == 1) {
-      titleContent = Text(label, style: labelStyle, maxLines: 1, overflow: TextOverflow.visible);
+      titleContent = Text(
+        label,
+        style: labelStyle,
+        maxLines: 1,
+        overflow: TextOverflow.visible,
+      );
     } else if (words.length == 2) {
       titleContent = Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(words[0], style: labelStyle), Text(words[1], style: labelStyle)],
+        children: [
+          Text(words[0], style: labelStyle),
+          Text(words[1], style: labelStyle),
+        ],
       );
     } else {
       final line1 = '${words[0]} ${words[1]}';
@@ -772,7 +892,10 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
       titleContent = Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(line1, style: labelStyle), Text(line2, style: labelStyle)],
+        children: [
+          Text(line1, style: labelStyle),
+          Text(line2, style: labelStyle),
+        ],
       );
     }
 
@@ -796,7 +919,10 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
             width: _featureTitleColumnWidth,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 14, 10, 14),
-              child: Align(alignment: Alignment.centerLeft, child: titleContent),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: titleContent,
+              ),
             ),
           ),
           ...children,
@@ -857,11 +983,12 @@ class _WarrantyCompareDrawerState extends State<WarrantyCompareDrawer> {
           child: Icon(
             hasFeature ? Icons.check_circle_outline : Icons.cancel_outlined,
             size: 18,
-            color: hasFeature ? AppColors.successMaterialDark : AppColors.errorMaterialDark,
+            color: hasFeature
+                ? AppColors.successMaterialDark
+                : AppColors.errorMaterialDark,
           ),
         ),
       ),
     );
   }
 }
-

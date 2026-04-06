@@ -685,9 +685,7 @@ class _AssetDetailScreenState extends ConsumerState<AssetDetailScreen>
 
     return Container(
       color: AssetDetailColors.surfaceColor,
-      padding: EdgeInsets.symmetric(
-        horizontal: responsive.spacing(16.0),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(16.0)),
       child: Row(
         children: tabs.map((tab) {
           final isSelected = _selectedTab == tab;
@@ -1109,7 +1107,8 @@ class _AssetDetailScreenState extends ConsumerState<AssetDetailScreen>
                   if (updatedFields.containsKey('serial') ||
                       updatedFields.containsKey('serialNumber')) {
                     backendData['serialNumber'] =
-                        updatedFields['serialNumber'] ?? updatedFields['serial'];
+                        updatedFields['serialNumber'] ??
+                        updatedFields['serial'];
                   }
                   if (updatedFields.containsKey('location')) {
                     backendData['location'] = updatedFields['location'];
@@ -1127,7 +1126,8 @@ class _AssetDetailScreenState extends ConsumerState<AssetDetailScreen>
                     backendData['purchaseYear'] = updatedFields['purchaseYear'];
                   }
                   if (updatedFields.containsKey('purchaseMonth')) {
-                    backendData['purchaseMonth'] = updatedFields['purchaseMonth'];
+                    backendData['purchaseMonth'] =
+                        updatedFields['purchaseMonth'];
                   }
                   if (updatedFields.containsKey('purchaseDate')) {
                     backendData['purchaseDate'] = updatedFields['purchaseDate'];
@@ -1143,8 +1143,10 @@ class _AssetDetailScreenState extends ConsumerState<AssetDetailScreen>
 
                   if (backendData.isNotEmpty) {
                     try {
-                      await AssetApiService.instance
-                          .updateAsset(assetId, backendData);
+                      await AssetApiService.instance.updateAsset(
+                        assetId,
+                        backendData,
+                      );
                       // Invalidate the global assets list so the main asset tab
                       // immediately reflects the edit when the user navigates back.
                       if (mounted) {

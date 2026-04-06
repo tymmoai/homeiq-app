@@ -28,28 +28,33 @@ class AppThemePreset {
 
   // ── Derived colors ──────────────────────────────────────────────────────
 
-  Color get background =>
-      brightness == Brightness.light ? const Color(0xFFF3F6F9) : const Color(0xFF121212);
+  Color get background => brightness == Brightness.light
+      ? const Color(0xFFF3F6F9)
+      : const Color(0xFF121212);
 
   Color get surface =>
       brightness == Brightness.light ? Colors.white : const Color(0xFF1E1E1E);
 
-  Color get surfaceVariant =>
-      brightness == Brightness.light ? const Color(0xFFF5F7FA) : const Color(0xFF2C2C2C);
+  Color get surfaceVariant => brightness == Brightness.light
+      ? const Color(0xFFF5F7FA)
+      : const Color(0xFF2C2C2C);
 
   Color get textPrimary =>
       brightness == Brightness.light ? primary : Colors.white;
 
-  Color get textSecondary =>
-      brightness == Brightness.light ? const Color(0xFF4E5969) : const Color(0xFFB0BCC8);
+  Color get textSecondary => brightness == Brightness.light
+      ? const Color(0xFF4E5969)
+      : const Color(0xFFB0BCC8);
 
   Color get textOnPrimary => Colors.white;
 
-  Color get border =>
-      brightness == Brightness.light ? const Color(0xFFE4E9ED) : const Color(0xFF3A3A3A);
+  Color get border => brightness == Brightness.light
+      ? const Color(0xFFE4E9ED)
+      : const Color(0xFF3A3A3A);
 
-  Color get divider =>
-      brightness == Brightness.light ? const Color(0xFFE4E9ED) : const Color(0xFF3A3A3A);
+  Color get divider => brightness == Brightness.light
+      ? const Color(0xFFE4E9ED)
+      : const Color(0xFF3A3A3A);
 
   Color get cardBackground =>
       brightness == Brightness.light ? Colors.white : const Color(0xFF1E1E1E);
@@ -57,15 +62,15 @@ class AppThemePreset {
   Color get iconPrimary =>
       brightness == Brightness.light ? primary : Colors.white;
 
-  Color get iconSecondary =>
-      brightness == Brightness.light ? const Color(0xFF4E5969) : const Color(0xFF8C97A8);
+  Color get iconSecondary => brightness == Brightness.light
+      ? const Color(0xFF4E5969)
+      : const Color(0xFF8C97A8);
 
   Color get buttonPrimary => primary;
 
-  Color get shadow =>
-      brightness == Brightness.light
-          ? Colors.black.withValues(alpha: 0.063)
-          : Colors.black.withValues(alpha: 0.3);
+  Color get shadow => brightness == Brightness.light
+      ? Colors.black.withValues(alpha: 0.063)
+      : Colors.black.withValues(alpha: 0.3);
 }
 
 /// All available theme presets.
@@ -214,12 +219,18 @@ class AppThemePresets {
   /// Create a custom preset from a user-chosen primary [color].
   static AppThemePreset fromCustomColor(Color color) {
     final hsl = HSLColor.fromColor(color);
-    final lighter = hsl.withLightness((hsl.lightness + 0.15).clamp(0.0, 1.0)).toColor();
-    final darker = hsl.withLightness((hsl.lightness - 0.15).clamp(0.0, 1.0)).toColor();
+    final lighter = hsl
+        .withLightness((hsl.lightness + 0.15).clamp(0.0, 1.0))
+        .toColor();
+    final darker = hsl
+        .withLightness((hsl.lightness - 0.15).clamp(0.0, 1.0))
+        .toColor();
     // Generate a complementary accent by rotating hue 180°
     final accentHsl = hsl.withHue((hsl.hue + 180.0) % 360.0);
     final accent = accentHsl.toColor();
-    final accentDark = accentHsl.withLightness((accentHsl.lightness - 0.1).clamp(0.0, 1.0)).toColor();
+    final accentDark = accentHsl
+        .withLightness((accentHsl.lightness - 0.1).clamp(0.0, 1.0))
+        .toColor();
     final accentLight = accentHsl.withLightness(0.92).toColor();
 
     return AppThemePreset(

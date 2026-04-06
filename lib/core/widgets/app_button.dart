@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimensions.dart';
 import '../../core/constants/app_text_styles.dart';
@@ -41,7 +41,9 @@ class AppButton extends StatelessWidget {
           foregroundColor: textColor ?? AppColors.textOnPrimary,
           elevation: 0,
           padding: EdgeInsets.symmetric(
-            horizontal: responsive.spacing(AppDimensions.buttonPaddingHorizontal),
+            horizontal: responsive.spacing(
+              AppDimensions.buttonPaddingHorizontal,
+            ),
           ),
         ),
         child: isLoading
@@ -50,7 +52,9 @@ class AppButton extends StatelessWidget {
                 width: responsive.iconSize(20),
                 child: const CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.textOnPrimary),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.textOnPrimary,
+                  ),
                 ),
               )
             : Row(
@@ -105,7 +109,9 @@ class AppOutlinedButton extends StatelessWidget {
           foregroundColor: AppColors.primary,
           side: BorderSide(color: AppColors.primary, width: 1.5),
           padding: EdgeInsets.symmetric(
-            horizontal: responsive.spacing(AppDimensions.buttonPaddingHorizontal),
+            horizontal: responsive.spacing(
+              AppDimensions.buttonPaddingHorizontal,
+            ),
           ),
         ),
         child: Row(
@@ -168,9 +174,3 @@ class AppTextButton extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

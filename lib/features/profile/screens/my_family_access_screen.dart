@@ -65,8 +65,7 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
   /// Lets the member voluntarily leave a home, calls DELETE /family/leave/:id,
   /// and invalidates all affected providers so the app state is immediately consistent.
   Future<void> _leaveHome(MyMembershipDto membership) async {
-    final homeName =
-        membership.home?.displayName ?? 'this home';
+    final homeName = membership.home?.displayName ?? 'this home';
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -188,7 +187,11 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.cloud_off, size: responsive.iconSize(48.0), color: AppColors.gray300),
+              Icon(
+                Icons.cloud_off,
+                size: responsive.iconSize(48.0),
+                color: AppColors.gray300,
+              ),
               const SizedBox(height: 16),
               Text(
                 _loadError!,
@@ -311,7 +314,11 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
       ),
       child: Row(
         children: [
-          Icon(Icons.people_alt_outlined, color: _primaryColor, size: responsive.iconSize(28.0)),
+          Icon(
+            Icons.people_alt_outlined,
+            color: _primaryColor,
+            size: responsive.iconSize(28.0),
+          ),
           SizedBox(width: responsive.spacing(12.0)),
           Expanded(
             child: Column(
@@ -527,7 +534,9 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
                         style: TextStyle(color: AppColors.error),
                       ),
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: AppColors.error.withValues(alpha: 0.5)),
+                        side: BorderSide(
+                          color: AppColors.error.withValues(alpha: 0.5),
+                        ),
                         padding: EdgeInsets.symmetric(
                           vertical: responsive.spacing(13.0),
                         ),
@@ -595,7 +604,11 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
       children: [
         Row(
           children: [
-            Icon(icon, size: responsive.iconSize(16.0), color: AppColors.textSecondary),
+            Icon(
+              icon,
+              size: responsive.iconSize(16.0),
+              color: AppColors.textSecondary,
+            ),
             const SizedBox(width: 6),
             Text(
               title,
@@ -637,7 +650,11 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.block, size: responsive.iconSize(14.0), color: AppColors.textSecondary),
+                    Icon(
+                      Icons.block,
+                      size: responsive.iconSize(14.0),
+                      color: AppColors.textSecondary,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       emptyText,
@@ -800,7 +817,11 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
       children: [
         Row(
           children: [
-            Icon(Icons.flash_on, size: responsive.iconSize(15.0), color: AppColors.textSecondary),
+            Icon(
+              Icons.flash_on,
+              size: responsive.iconSize(15.0),
+              color: AppColors.textSecondary,
+            ),
             const SizedBox(width: 6),
             Text(
               'Quick Access',
@@ -842,7 +863,11 @@ class _MyFamilyAccessScreenState extends ConsumerState<MyFamilyAccessScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(s.icon, size: responsive.iconSize(14.0), color: _primaryColor),
+                    Icon(
+                      s.icon,
+                      size: responsive.iconSize(14.0),
+                      color: _primaryColor,
+                    ),
                     const SizedBox(width: 5),
                     Text(
                       s.label,

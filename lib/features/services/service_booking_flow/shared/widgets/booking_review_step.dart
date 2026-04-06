@@ -112,8 +112,7 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
       text: widget.formData.serviceZipCode ?? user.getUserZipCode(),
     );
     _apartmentController = TextEditingController(
-      text: widget.formData.serviceApartmentUnit ??
-          user.getUserApartmentUnit(),
+      text: widget.formData.serviceApartmentUnit ?? user.getUserApartmentUnit(),
     );
 
     // Build saved addresses list
@@ -379,8 +378,7 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
                   context.responsive.heightBox(16.0),
 
                   // ── Items ──
-                  BookingReviewItemsCard(
-                      selectedItemsList: _selectedItemsList),
+                  BookingReviewItemsCard(selectedItemsList: _selectedItemsList),
 
                   // ── Add-ons ──
                   if (widget.formData.selectedAddons.isNotEmpty) ...[
@@ -438,8 +436,9 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius:
-            BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadowMedium,
@@ -459,7 +458,8 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(
-                      context.responsive.borderRadius(10.0)),
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.grid_4x4_rounded,
@@ -504,8 +504,9 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius:
-            BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadowMedium,
@@ -525,7 +526,8 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(
-                      context.responsive.borderRadius(10.0)),
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.edit_note_outlined,
@@ -572,18 +574,22 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
               width: context.responsive.spacing(22.0),
               height: context.responsive.spacing(22.0),
               decoration: BoxDecoration(
-                color:
-                    _termsAccepted ? AppColors.success : AppColors.transparent,
+                color: _termsAccepted
+                    ? AppColors.success
+                    : AppColors.transparent,
                 borderRadius: BorderRadius.circular(
-                    context.responsive.borderRadius(4.0)),
+                  context.responsive.borderRadius(4.0),
+                ),
                 border: _termsAccepted
                     ? null
                     : Border.all(color: AppColors.gray400, width: 1.5),
               ),
               child: _termsAccepted
-                  ? Icon(Icons.check,
+                  ? Icon(
+                      Icons.check,
                       color: AppColors.white,
-                      size: context.responsive.iconSize(16.0))
+                      size: context.responsive.iconSize(16.0),
+                    )
                   : null,
             ),
             context.responsive.widthBox(12.0),
@@ -659,8 +665,7 @@ class _BookingReviewStepState extends State<BookingReviewStep> {
                 }
               : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                isValid ? AppColors.primary : AppColors.divider,
+            backgroundColor: isValid ? AppColors.primary : AppColors.divider,
             elevation: isValid ? 2 : 0,
             shadowColor: AppColors.primary.withValues(alpha: 0.3),
           ),

@@ -199,14 +199,12 @@ class ApiUsageTracker {
       openAiLimit > 0 ? (openAiUsed / openAiLimit).clamp(0.0, 1.0) : 0.0;
 
   /// Usage ratio (0.0 to 1.0) for Barcode API.
-  double get barcodeApiUsageRatio =>
-      barcodeApiLimit > 0
-          ? (barcodeApiUsed / barcodeApiLimit).clamp(0.0, 1.0)
-          : 0.0;
+  double get barcodeApiUsageRatio => barcodeApiLimit > 0
+      ? (barcodeApiUsed / barcodeApiLimit).clamp(0.0, 1.0)
+      : 0.0;
 
   /// True if any API is near its limit (>80%).
-  bool get isNearLimit =>
-      openAiUsageRatio > 0.8 || barcodeApiUsageRatio > 0.8;
+  bool get isNearLimit => openAiUsageRatio > 0.8 || barcodeApiUsageRatio > 0.8;
 
   /// True if any API has exceeded its limit.
   bool get isOverLimit =>
@@ -218,14 +216,14 @@ class ApiUsageTracker {
 
   /// Get a snapshot of all usage data for display.
   ApiUsageSnapshot get snapshot => ApiUsageSnapshot(
-        openAiUsed: openAiUsed,
-        openAiLimit: openAiLimit,
-        openAiVisionUsed: openAiVisionUsed,
-        dalleUsed: dalleUsed,
-        barcodeApiUsed: barcodeApiUsed,
-        barcodeApiLimit: barcodeApiLimit,
-        trackingMonth: _prefs?.getString(_kTrackingMonth) ?? _currentMonthKey(),
-      );
+    openAiUsed: openAiUsed,
+    openAiLimit: openAiLimit,
+    openAiVisionUsed: openAiVisionUsed,
+    dalleUsed: dalleUsed,
+    barcodeApiUsed: barcodeApiUsed,
+    barcodeApiLimit: barcodeApiLimit,
+    trackingMonth: _prefs?.getString(_kTrackingMonth) ?? _currentMonthKey(),
+  );
 
   // ═══════════════════════════════════════════════════════════════
   //  RESET
@@ -267,8 +265,7 @@ class ApiUsageSnapshot {
       (barcodeApiLimit - barcodeApiUsed).clamp(0, barcodeApiLimit);
   double get openAiRatio =>
       openAiLimit > 0 ? (openAiUsed / openAiLimit).clamp(0.0, 1.0) : 0.0;
-  double get barcodeApiRatio =>
-      barcodeApiLimit > 0
-          ? (barcodeApiUsed / barcodeApiLimit).clamp(0.0, 1.0)
-          : 0.0;
+  double get barcodeApiRatio => barcodeApiLimit > 0
+      ? (barcodeApiUsed / barcodeApiLimit).clamp(0.0, 1.0)
+      : 0.0;
 }

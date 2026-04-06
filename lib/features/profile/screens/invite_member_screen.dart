@@ -562,7 +562,11 @@ class _InviteMemberScreenState extends State<InviteMemberScreen> {
         ),
         child: Row(
           children: [
-            const Icon(Icons.info_outline, color: AppColors.warningOrange, size: 20),
+            const Icon(
+              Icons.info_outline,
+              color: AppColors.warningOrange,
+              size: 20,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -1415,7 +1419,11 @@ class _InviteMemberScreenState extends State<InviteMemberScreen> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.info_outline, size: 18, color: AppColors.infoDark),
+              const Icon(
+                Icons.info_outline,
+                size: 18,
+                color: AppColors.infoDark,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(

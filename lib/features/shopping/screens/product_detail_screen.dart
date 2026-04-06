@@ -119,11 +119,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
         errorBuilder: (context, error, stackTrace) {
           return Container(
             color: AppColors.white,
-            child: Icon(
-              Icons.devices_other,
-              size: 80,
-              color: _textSecondary,
-            ),
+            child: Icon(Icons.devices_other, size: 80, color: _textSecondary),
           );
         },
       );
@@ -754,10 +750,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 14, color: _textSecondary),
-          ),
+          Text(label, style: TextStyle(fontSize: 14, color: _textSecondary)),
           Text(
             value,
             style: TextStyle(
@@ -786,10 +779,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            content,
-            style: TextStyle(fontSize: 14, color: _textSecondary),
-          ),
+          Text(content, style: TextStyle(fontSize: 14, color: _textSecondary)),
         ],
       ),
     );

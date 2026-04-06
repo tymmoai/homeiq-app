@@ -31,7 +31,8 @@ class PartsOrderConfirmationWidget extends StatefulWidget {
       _PartsOrderConfirmationWidgetState();
 }
 
-class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWidget> {
+class _PartsOrderConfirmationWidgetState
+    extends State<PartsOrderConfirmationWidget> {
   ResponsiveUtils get responsive => ResponsiveUtils(context);
   late List<Map<String, String>> _savedAddresses;
   int _selectedAddressIndex = 0;
@@ -150,7 +151,10 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                                 ),
                               ],
                               border: isSelected
-                                  ? Border.all(color: AppColors.primary, width: 2)
+                                  ? Border.all(
+                                      color: AppColors.primary,
+                                      width: 2,
+                                    )
                                   : null,
                             ),
                             child: Row(
@@ -171,13 +175,15 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                                             ),
                                           ),
                                           if (isSelected) ...[
-                                            SizedBox(width: responsive.spacing(8)),
+                                            SizedBox(
+                                              width: responsive.spacing(8),
+                                            ),
                                             Container(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 2,
-                                              ),
+                                                    horizontal: 8,
+                                                    vertical: 2,
+                                                  ),
                                               decoration: BoxDecoration(
                                                 color: AppColors.primary
                                                     .withValues(alpha: 0.1),
@@ -187,7 +193,9 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                                               child: Text(
                                                 'Selected',
                                                 style: TextStyle(
-                                                  fontSize: responsive.fontSize(11),
+                                                  fontSize: responsive.fontSize(
+                                                    11,
+                                                  ),
                                                   fontWeight: FontWeight.w600,
                                                   color: AppColors.primary,
                                                 ),
@@ -208,10 +216,14 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                                       SizedBox(height: responsive.spacing(8)),
                                       Row(
                                         children: [
-                                          Icon(Icons.phone_outlined,
-                                              size: responsive.iconSize(16),
-                                              color: AppColors.gray600),
-                                          SizedBox(width: responsive.spacing(6)),
+                                          Icon(
+                                            Icons.phone_outlined,
+                                            size: responsive.iconSize(16),
+                                            color: AppColors.gray600,
+                                          ),
+                                          SizedBox(
+                                            width: responsive.spacing(6),
+                                          ),
                                           Text(
                                             address['phone'] ?? 'N/A',
                                             style: TextStyle(
@@ -265,7 +277,10 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
             ),
             // Add New Address Button
             Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(16)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(20),
+                vertical: responsive.spacing(16),
+              ),
               decoration: BoxDecoration(
                 color: AppColors.background,
                 boxShadow: [
@@ -286,12 +301,17 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                   icon: Icon(Icons.add, size: responsive.iconSize(20)),
                   label: Text(
                     'Add New Address',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.textOnPrimary,
-                    padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                    padding: EdgeInsets.symmetric(
+                      vertical: responsive.spacing(14),
+                    ),
                     elevation: 0,
                   ),
                 ),
@@ -462,7 +482,10 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                   ),
                 ),
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.spacing(8),
+                    vertical: responsive.spacing(4),
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -507,8 +530,11 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
                 SizedBox(height: responsive.spacing(8)),
                 Row(
                   children: [
-                    Icon(Icons.phone_outlined,
-                        size: responsive.iconSize(16), color: AppColors.gray600),
+                    Icon(
+                      Icons.phone_outlined,
+                      size: responsive.iconSize(16),
+                      color: AppColors.gray600,
+                    ),
                     SizedBox(width: responsive.spacing(6)),
                     Text(
                       selectedAddress['phone'] ?? 'N/A',
@@ -539,7 +565,11 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
             ),
             child: Row(
               children: [
-                Icon(Icons.local_shipping, size: responsive.iconSize(18), color: AppColors.gray600),
+                Icon(
+                  Icons.local_shipping,
+                  size: responsive.iconSize(18),
+                  color: AppColors.gray600,
+                ),
                 SizedBox(width: responsive.spacing(8)),
                 Expanded(
                   child: Column(
@@ -567,7 +597,9 @@ class _PartsOrderConfirmationWidgetState extends State<PartsOrderConfirmationWid
               ],
             ),
           ),
-          SizedBox(height: responsive.spacing(80)), // Bottom spacing for floating button
+          SizedBox(
+            height: responsive.spacing(80),
+          ), // Bottom spacing for floating button
         ],
       ),
     );

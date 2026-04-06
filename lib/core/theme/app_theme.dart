@@ -21,8 +21,10 @@ class AppTheme {
 
   /// Build a [ThemeData] from an [AppThemePreset].
   /// This is the primary entry point used by [main.dart].
-  static ThemeData fromPreset(AppThemePreset preset,
-      {ButtonLayoutMode layout = ButtonLayoutMode.capsule}) {
+  static ThemeData fromPreset(
+    AppThemePreset preset, {
+    ButtonLayoutMode layout = ButtonLayoutMode.capsule,
+  }) {
     _buttonLayout = layout;
     final bool isDark = preset.brightness == Brightness.dark;
 
@@ -75,7 +77,7 @@ class AppTheme {
       primaryColor: p.primary,
       scaffoldBackgroundColor: p.background,
       canvasColor: p.surface,
-      
+
       // Color Scheme
       colorScheme: colorScheme,
 
@@ -102,7 +104,9 @@ class AppTheme {
         color: p.cardBackground,
         elevation: AppDimensions.cardElevation,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(AppDimensions.cardRadius)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(AppDimensions.cardRadius),
+          ),
         ),
         margin: const EdgeInsets.all(0),
       ),
@@ -213,10 +217,14 @@ class AppTheme {
         backgroundColor: p.surface,
         elevation: 8,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(AppDimensions.radiusLarge)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(AppDimensions.radiusLarge),
+          ),
         ),
         titleTextStyle: AppTextStyles.h4.copyWith(color: p.textPrimary),
-        contentTextStyle: AppTextStyles.bodyMedium.copyWith(color: p.textSecondary),
+        contentTextStyle: AppTextStyles.bodyMedium.copyWith(
+          color: p.textSecondary,
+        ),
       ),
 
       // Snackbar Theme
@@ -275,15 +283,11 @@ class AppTheme {
           color: p.primaryDark,
           borderRadius: BorderRadius.circular(AppDimensions.radiusSmall),
         ),
-        textStyle: AppTextStyles.bodySmall.copyWith(
-          color: p.textOnPrimary,
-        ),
+        textStyle: AppTextStyles.bodySmall.copyWith(color: p.textOnPrimary),
       ),
 
       // Progress Indicator Theme
-      progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: p.primary,
-      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: p.primary),
 
       // Switch Theme
       switchTheme: SwitchThemeData(

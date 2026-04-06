@@ -56,10 +56,7 @@ class BookingReviewShadowField extends StatelessWidget {
             color: AppColors.gray600,
             fontWeight: FontWeight.w500,
           ),
-          hintStyle: TextStyle(
-            fontSize: 14,
-            color: AppColors.textPlaceholder,
-          ),
+          hintStyle: TextStyle(fontSize: 14, color: AppColors.textPlaceholder),
           floatingLabelStyle: const TextStyle(
             fontSize: 12,
             color: AppColors.gray600,
@@ -88,8 +85,10 @@ class BookingReviewShadowField extends StatelessWidget {
           ),
           filled: true,
           fillColor: AppColors.white,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
         ),
       ),
     );

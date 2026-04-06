@@ -12,18 +12,13 @@ class WidgetTestHelper {
   }) {
     return ProviderScope(
       overrides: overrides ?? [],
-      child: MaterialApp(
-        theme: theme,
-        home: child,
-      ),
+      child: MaterialApp(theme: theme, home: child),
     );
   }
 
   /// Wrap widget with Scaffold
   static Widget wrapWithScaffold(Widget child) {
-    return Scaffold(
-      body: child,
-    );
+    return Scaffold(body: child);
   }
 
   /// Find widget by type
@@ -61,14 +56,10 @@ class WidgetTestHelper {
   static Future<void> scrollUntilVisible(
     WidgetTester tester,
     Finder finder,
-    Finder scrollable,
-    {double delta = 100,}
-  ) async {
-    await tester.scrollUntilVisible(
-      finder,
-      delta,
-      scrollable: scrollable,
-    );
+    Finder scrollable, {
+    double delta = 100,
+  }) async {
+    await tester.scrollUntilVisible(finder, delta, scrollable: scrollable);
     await tester.pumpAndSettle();
   }
 
@@ -89,14 +80,14 @@ class WidgetTestHelper {
     Duration timeout = const Duration(seconds: 5),
   }) async {
     final endTime = DateTime.now().add(timeout);
-    
+
     while (DateTime.now().isBefore(endTime)) {
       if (finder.evaluate().isNotEmpty) {
         return;
       }
       await tester.pump(const Duration(milliseconds: 100));
     }
-    
+
     throw TimeoutException('Widget not found within timeout', timeout);
   }
 

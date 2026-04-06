@@ -69,8 +69,6 @@ class _UpgradeBuyNewScreenState extends State<UpgradeBuyNewScreen> {
     super.dispose();
   }
 
-
-
   void _applyFilters() {
     List<Map<String, dynamic>> result = List.from(_products);
 
@@ -225,7 +223,10 @@ class _UpgradeBuyNewScreenState extends State<UpgradeBuyNewScreen> {
         children: [
           // Menu bar (Filter, Sort, Credit Score)
           Container(
-            padding: EdgeInsets.symmetric(horizontal: responsive.spacing(16), vertical: responsive.spacing(4)),
+            padding: EdgeInsets.symmetric(
+              horizontal: responsive.spacing(16),
+              vertical: responsive.spacing(4),
+            ),
             color: Colors.white,
             child: Row(
               children: [
@@ -237,10 +238,14 @@ class _UpgradeBuyNewScreenState extends State<UpgradeBuyNewScreen> {
                     icon: Icon(Icons.tune, size: responsive.iconSize(18)),
                     label: const Text('Filter'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary.withValues(alpha: 0.08),
+                      backgroundColor: AppColors.primary.withValues(
+                        alpha: 0.08,
+                      ),
                       foregroundColor: AppColors.primary,
                       elevation: 0,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(12)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(12),
+                      ),
                     ),
                   ),
                 ),
@@ -250,13 +255,20 @@ class _UpgradeBuyNewScreenState extends State<UpgradeBuyNewScreen> {
                     onPressed: () {
                       _showSortDialog();
                     },
-                    icon: Icon(Icons.arrow_drop_down, size: responsive.iconSize(18)),
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      size: responsive.iconSize(18),
+                    ),
                     label: const Text('Sort'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary.withValues(alpha: 0.08),
+                      backgroundColor: AppColors.primary.withValues(
+                        alpha: 0.08,
+                      ),
                       foregroundColor: AppColors.primary,
                       elevation: 0,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(12)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(12),
+                      ),
                     ),
                   ),
                 ),
@@ -352,8 +364,6 @@ class _UpgradeBuyNewScreenState extends State<UpgradeBuyNewScreen> {
     );
   }
 
-
-
   void _showSortDialog() {
     showModalBottomSheet(
       context: context,
@@ -408,9 +418,7 @@ class _UpgradeBuyNewScreenState extends State<UpgradeBuyNewScreen> {
           color: isSelected ? AppColors.primary : AppColors.textPrimary,
         ),
       ),
-      trailing: isSelected
-          ? Icon(Icons.check, color: AppColors.primary)
-          : null,
+      trailing: isSelected ? Icon(Icons.check, color: AppColors.primary) : null,
       onTap: () {
         setState(() {
           _sortBy = value;

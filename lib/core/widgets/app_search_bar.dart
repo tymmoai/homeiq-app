@@ -93,13 +93,19 @@ class _AppSearchBarState extends State<AppSearchBar> {
     final responsive = ResponsiveUtils(context);
     return Container(
       height: widget.height ?? responsive.spacing(AppDimensions.inputHeight),
-      padding: widget.padding ?? responsive.padding(
-        horizontal: AppDimensions.paddingMedium,
-        vertical: AppDimensions.paddingSmall,
-      ),
+      padding:
+          widget.padding ??
+          responsive.padding(
+            horizontal: AppDimensions.paddingMedium,
+            vertical: AppDimensions.paddingSmall,
+          ),
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? AppColors.surfaceLight,
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(responsive.borderRadius(AppDimensions.radiusMedium)),
+        borderRadius:
+            widget.borderRadius ??
+            BorderRadius.circular(
+              responsive.borderRadius(AppDimensions.radiusMedium),
+            ),
         border: Border.all(color: AppColors.border),
       ),
       child: Row(

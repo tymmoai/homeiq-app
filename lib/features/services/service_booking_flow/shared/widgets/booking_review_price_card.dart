@@ -23,8 +23,9 @@ class BookingReviewPriceCard extends StatelessWidget {
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.primary,
-        borderRadius:
-            BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.3),
@@ -36,19 +37,30 @@ class BookingReviewPriceCard extends StatelessWidget {
       child: Column(
         children: [
           _buildPriceRow(
-              context, 'Subtotal', '\$${itemsTotal.toStringAsFixed(0)}'),
+            context,
+            'Subtotal',
+            '\$${itemsTotal.toStringAsFixed(0)}',
+          ),
           if (addonsTotal > 0) ...[
             context.responsive.heightBox(10.0),
             _buildPriceRow(
-                context, 'Add-ons', '\$${addonsTotal.toStringAsFixed(0)}'),
+              context,
+              'Add-ons',
+              '\$${addonsTotal.toStringAsFixed(0)}',
+            ),
           ],
           context.responsive.heightBox(10.0),
           _buildPriceRow(
-              context, 'Service Fee', '\$${serviceFee.toStringAsFixed(0)}'),
+            context,
+            'Service Fee',
+            '\$${serviceFee.toStringAsFixed(0)}',
+          ),
           Padding(
             padding: context.responsive.padding(vertical: 12),
             child: Divider(
-                height: 1, color: AppColors.white.withValues(alpha: 0.2)),
+              height: 1,
+              color: AppColors.white.withValues(alpha: 0.2),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

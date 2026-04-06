@@ -41,7 +41,11 @@ class ApiUsageWidget extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.analytics_outlined, size: 14, color: AppColors.textSecondary),
+        Icon(
+          Icons.analytics_outlined,
+          size: 14,
+          color: AppColors.textSecondary,
+        ),
         const SizedBox(width: 4),
         Text(
           'AI: ${snap.openAiUsed}/${snap.openAiLimit}',
@@ -90,11 +94,7 @@ class ApiUsageWidget extends StatelessWidget {
           // Header
           Row(
             children: [
-              Icon(
-                Icons.analytics_rounded,
-                size: 18,
-                color: AppColors.primary,
-              ),
+              Icon(Icons.analytics_rounded, size: 18, color: AppColors.primary),
               const SizedBox(width: 8),
               Text(
                 'API Usage This Month',
@@ -134,8 +134,7 @@ class ApiUsageWidget extends StatelessWidget {
             details: [
               if (snap.openAiVisionUsed > 0)
                 _DetailItem('Vision', snap.openAiVisionUsed),
-              if (snap.dalleUsed > 0)
-                _DetailItem('DALL-E', snap.dalleUsed),
+              if (snap.dalleUsed > 0) _DetailItem('DALL-E', snap.dalleUsed),
               _DetailItem(
                 'Text',
                 snap.openAiUsed - snap.openAiVisionUsed - snap.dalleUsed,
@@ -217,25 +216,27 @@ class ApiUsageWidget extends StatelessWidget {
           children: [
             Text(
               '$remaining remaining',
-              style: TextStyle(
-                fontSize: 10,
-                color: AppColors.textSecondary,
-              ),
+              style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
             ),
             if (details != null && details.isNotEmpty) ...[
               const SizedBox(width: 8),
-              Text('•', style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
+              Text(
+                '•',
+                style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
+              ),
               const SizedBox(width: 4),
-              ...details.map((d) => Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      '${d.label}: ${d.count}',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: AppColors.textSecondary,
-                      ),
+              ...details.map(
+                (d) => Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Text(
+                    '${d.label}: ${d.count}',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: AppColors.textSecondary,
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ],
         ),
@@ -265,8 +266,18 @@ class ApiUsageWidget extends StatelessWidget {
     final parts = monthKey.split('-');
     if (parts.length != 2) return monthKey;
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     final monthIdx = int.tryParse(parts[1]);
     if (monthIdx == null || monthIdx < 1 || monthIdx > 12) return monthKey;

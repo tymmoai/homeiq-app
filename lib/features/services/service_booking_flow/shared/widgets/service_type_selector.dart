@@ -169,8 +169,7 @@ class _ServiceTypeSelectorState extends State<ServiceTypeSelector> {
                 style: TextStyle(
                   fontSize: context.responsive.fontSize(11.0),
                   fontWeight: FontWeight.w500,
-                  color:
-                      isSelected ? AppColors.primary : AppColors.textPrimary,
+                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
                 ),
               ),
             ),

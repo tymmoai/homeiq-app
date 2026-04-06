@@ -37,11 +37,31 @@ class WallTypeSelector extends StatefulWidget {
 
 class _WallTypeSelectorState extends State<WallTypeSelector> {
   static const _wallTypes = [
-    {'name': 'Drywall', 'icon': Icons.grid_4x4_rounded, 'desc': 'Standard interior wall'},
-    {'name': 'Concrete', 'icon': Icons.square_rounded, 'desc': 'Solid concrete or cinder block'},
-    {'name': 'Brick', 'icon': Icons.view_comfy_rounded, 'desc': 'Exposed or covered brick'},
-    {'name': 'Wood', 'icon': Icons.park_rounded, 'desc': 'Wooden panel or log wall'},
-    {'name': 'Not Sure', 'icon': Icons.help_outline_rounded, 'desc': 'Technician will assess on-site'},
+    {
+      'name': 'Drywall',
+      'icon': Icons.grid_4x4_rounded,
+      'desc': 'Standard interior wall',
+    },
+    {
+      'name': 'Concrete',
+      'icon': Icons.square_rounded,
+      'desc': 'Solid concrete or cinder block',
+    },
+    {
+      'name': 'Brick',
+      'icon': Icons.view_comfy_rounded,
+      'desc': 'Exposed or covered brick',
+    },
+    {
+      'name': 'Wood',
+      'icon': Icons.park_rounded,
+      'desc': 'Wooden panel or log wall',
+    },
+    {
+      'name': 'Not Sure',
+      'icon': Icons.help_outline_rounded,
+      'desc': 'Technician will assess on-site',
+    },
   ];
 
   static const _heightOptions = [
@@ -124,7 +144,9 @@ class _WallTypeSelectorState extends State<WallTypeSelector> {
                               ),
                               child: Icon(
                                 wall['icon'] as IconData,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(22),
                               ),
                             ),
@@ -219,18 +241,28 @@ class _WallTypeSelectorState extends State<WallTypeSelector> {
                   spacing: responsive.wp(2),
                   runSpacing: responsive.hp(1),
                   children: _heightOptions.map((height) {
-                    final isHeightSelected = widget.formData.mountingHeight == height;
+                    final isHeightSelected =
+                        widget.formData.mountingHeight == height;
                     return GestureDetector(
                       onTap: () => setState(() {
                         widget.formData.mountingHeight = height;
                       }),
                       child: Container(
-                        padding: responsive.padding(horizontal: 16, vertical: 10),
+                        padding: responsive.padding(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
-                          color: isHeightSelected ? AppColors.primary05 : Colors.white,
-                          borderRadius: BorderRadius.circular(responsive.borderRadius(20)),
+                          color: isHeightSelected
+                              ? AppColors.primary05
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            responsive.borderRadius(20),
+                          ),
                           border: Border.all(
-                            color: isHeightSelected ? AppColors.primary : AppColors.gray300,
+                            color: isHeightSelected
+                                ? AppColors.primary
+                                : AppColors.gray300,
                             width: isHeightSelected ? 1.5 : 1,
                           ),
                           boxShadow: [
@@ -245,8 +277,12 @@ class _WallTypeSelectorState extends State<WallTypeSelector> {
                           height,
                           style: TextStyle(
                             fontSize: responsive.fontSize(13),
-                            fontWeight: isHeightSelected ? FontWeight.w600 : FontWeight.w500,
-                            color: isHeightSelected ? AppColors.primary : AppColors.textPrimary,
+                            fontWeight: isHeightSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: isHeightSelected
+                                ? AppColors.primary
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ),

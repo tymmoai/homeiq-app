@@ -15,10 +15,7 @@ class ProductLabelHighlightImage extends StatelessWidget {
   /// (already has yellow highlight baked in)
   final Uint8List wireframeImage;
 
-  const ProductLabelHighlightImage({
-    super.key,
-    required this.wireframeImage,
-  });
+  const ProductLabelHighlightImage({super.key, required this.wireframeImage});
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +42,7 @@ class ProductLabelHighlightImage extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           'Look for the yellow area — that\'s where your label is.',
-          style: TextStyle(
-            fontSize: 13,
-            color: AppColors.textSecondary,
-          ),
+          style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
         ),
         const SizedBox(height: 12),
 

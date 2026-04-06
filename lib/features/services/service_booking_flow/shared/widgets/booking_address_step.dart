@@ -227,7 +227,11 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                     Navigator.pop(ctx);
                     _addNewAddress();
                   },
-                  icon: Icon(Icons.add, size: responsive.iconSize(18), color: AppColors.primary),
+                  icon: Icon(
+                    Icons.add,
+                    size: responsive.iconSize(18),
+                    color: AppColors.primary,
+                  ),
                   label: Text(
                     'Add New',
                     style: TextStyle(
@@ -260,7 +264,9 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                     padding: responsive.padding(all: 16),
                     decoration: BoxDecoration(
                       color: isSelected ? AppColors.primary05 : Colors.white,
-                      borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
+                      borderRadius: BorderRadius.circular(
+                        responsive.borderRadius(12),
+                      ),
                       border: isSelected
                           ? Border.all(color: AppColors.primary, width: 2)
                           : null,
@@ -281,11 +287,17 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                             color: isSelected
                                 ? AppColors.primary.withValues(alpha: 0.1)
                                 : AppColors.gray100,
-                            borderRadius: BorderRadius.circular(responsive.borderRadius(10)),
+                            borderRadius: BorderRadius.circular(
+                              responsive.borderRadius(10),
+                            ),
                           ),
                           child: Icon(
-                            addr['label'] == 'Home' ? Icons.home_rounded : Icons.location_on_rounded,
-                            color: isSelected ? AppColors.primary : AppColors.gray600,
+                            addr['label'] == 'Home'
+                                ? Icons.home_rounded
+                                : Icons.location_on_rounded,
+                            color: isSelected
+                                ? AppColors.primary
+                                : AppColors.gray600,
                             size: responsive.iconSize(20),
                           ),
                         ),
@@ -316,7 +328,11 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                                 SizedBox(height: responsive.hp(0.3)),
                                 Row(
                                   children: [
-                                    Icon(Icons.phone_outlined, size: responsive.iconSize(12), color: AppColors.textLight),
+                                    Icon(
+                                      Icons.phone_outlined,
+                                      size: responsive.iconSize(12),
+                                      color: AppColors.textLight,
+                                    ),
                                     SizedBox(width: responsive.wp(1)),
                                     Text(
                                       addr['phone']!,
@@ -332,7 +348,11 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                           ),
                         ),
                         if (isSelected)
-                          Icon(Icons.check_circle, color: AppColors.primary, size: responsive.iconSize(22)),
+                          Icon(
+                            Icons.check_circle,
+                            color: AppColors.primary,
+                            size: responsive.iconSize(22),
+                          ),
                       ],
                     ),
                   ),
@@ -398,26 +418,30 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
   String? _validateName(String? value) {
     if (value == null || value.trim().isEmpty) return 'Full name is required';
     if (value.trim().length < 2) return 'Name must be at least 2 characters';
-    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) return 'Name should only contain letters';
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value))
+      return 'Name should only contain letters';
     return null;
   }
 
   String? _validatePhone(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Phone number is required';
+    if (value == null || value.trim().isEmpty)
+      return 'Phone number is required';
     final cleaned = value.replaceAll(RegExp(r'[^\d]'), '');
     if (cleaned.length != 10) return 'Phone must be 10 digits';
     return null;
   }
 
   String? _validateStreet(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Street address is required';
+    if (value == null || value.trim().isEmpty)
+      return 'Street address is required';
     if (value.trim().length < 5) return 'Please enter a valid street address';
     return null;
   }
 
   String? _validateCity(String? value) {
     if (value == null || value.trim().isEmpty) return 'City is required';
-    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) return 'City should only contain letters';
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value))
+      return 'City should only contain letters';
     return null;
   }
 
@@ -489,7 +513,9 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                       validator: _validateName,
                       keyboardType: TextInputType.name,
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z\s]'),
+                        ),
                       ],
                     ),
                     responsive.heightBox(16),
@@ -522,7 +548,9 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                       label: 'City',
                       validator: _validateCity,
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z\s]'),
+                        ),
                       ],
                     ),
                     responsive.heightBox(16),
@@ -534,7 +562,9 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                             label: 'State',
                             validator: _validateState,
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z]')),
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[A-Za-z]'),
+                              ),
                               LengthLimitingTextInputFormatter(2),
                               TextInputFormatter.withFunction(
                                 (oldValue, newValue) => newValue.copyWith(
@@ -600,10 +630,14 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                 padding: responsive.padding(all: 8),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(responsive.borderRadius(8)),
+                  borderRadius: BorderRadius.circular(
+                    responsive.borderRadius(8),
+                  ),
                 ),
                 child: Icon(
-                  addr['label'] == 'Home' ? Icons.home_rounded : Icons.location_on_rounded,
+                  addr['label'] == 'Home'
+                      ? Icons.home_rounded
+                      : Icons.location_on_rounded,
                   color: AppColors.primary,
                   size: responsive.iconSize(20),
                 ),
@@ -633,11 +667,18 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
                       SizedBox(height: responsive.hp(0.3)),
                       Row(
                         children: [
-                          Icon(Icons.phone_outlined, size: responsive.iconSize(13), color: AppColors.textLight),
+                          Icon(
+                            Icons.phone_outlined,
+                            size: responsive.iconSize(13),
+                            color: AppColors.textLight,
+                          ),
                           SizedBox(width: responsive.wp(1)),
                           Text(
                             addr['phone']!,
-                            style: TextStyle(fontSize: responsive.fontSize(12), color: AppColors.textLight),
+                            style: TextStyle(
+                              fontSize: responsive.fontSize(12),
+                              color: AppColors.textLight,
+                            ),
                           ),
                         ],
                       ),
@@ -653,14 +694,19 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => setState(() => _isEditingAddress = true),
-                  icon: Icon(Icons.edit_outlined, size: responsive.iconSize(16)),
+                  icon: Icon(
+                    Icons.edit_outlined,
+                    size: responsive.iconSize(16),
+                  ),
                   label: Text(
                     'Edit',
                     style: TextStyle(fontSize: responsive.fontSize(13)),
                   ),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primary,
-                    side: BorderSide(color: AppColors.primary.withValues(alpha: 0.3)),
+                    side: BorderSide(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                    ),
                     padding: responsive.padding(vertical: 10),
                   ),
                 ),
@@ -669,7 +715,10 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: _showAddressSelectionSheet,
-                  icon: Icon(Icons.swap_horiz_rounded, size: responsive.iconSize(16)),
+                  icon: Icon(
+                    Icons.swap_horiz_rounded,
+                    size: responsive.iconSize(16),
+                  ),
                   label: Text(
                     'Change',
                     style: TextStyle(fontSize: responsive.fontSize(13)),
@@ -748,7 +797,10 @@ class _BookingAddressStepState extends State<BookingAddressStep> {
           ),
           filled: true,
           fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
         ),
       ),
     );

@@ -121,7 +121,9 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
                 children: [
                   // Info Card
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(20),
+                    ),
                     child: Container(
                       padding: EdgeInsets.all(responsive.spacing(16)),
                       decoration: BoxDecoration(
@@ -174,7 +176,9 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
 
                   // Section Title
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(20),
+                    ),
                     child: Text(
                       'Select Deductible Amount',
                       style: TextStyle(
@@ -191,7 +195,9 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(20),
+                    ),
                     itemCount: _deductibleOptions.length,
                     itemBuilder: (context, index) {
                       return _buildDeductibleOption(index);
@@ -320,7 +326,10 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
             });
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(12)),
+            padding: EdgeInsets.symmetric(
+              horizontal: responsive.spacing(14),
+              vertical: responsive.spacing(12),
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -359,7 +368,11 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
                     color: isSelected ? AppColors.primary : Colors.white,
                   ),
                   child: isSelected
-                      ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                      ? Icon(
+                          Icons.check,
+                          size: responsive.iconSize(14),
+                          color: AppColors.textOnPrimary,
+                        )
                       : null,
                 ),
 
@@ -377,7 +390,9 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
                             style: TextStyle(
                               fontSize: responsive.fontSize(16),
                               fontWeight: FontWeight.w700,
-                              color: isSelected ? AppColors.primary : _textPrimary,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : _textPrimary,
                             ),
                           ),
                           if (option.recommended) ...[
@@ -389,7 +404,9 @@ class _DeductibleSelectionScreenState extends State<DeductibleSelectionScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: _accentGreen,
-                                borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                borderRadius: BorderRadius.circular(
+                                  AppDimensions.radiusBadge,
+                                ),
                               ),
                               child: Text(
                                 'RECOMMENDED',

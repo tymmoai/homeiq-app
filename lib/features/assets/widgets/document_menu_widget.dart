@@ -167,9 +167,4 @@ class DocumentMenu extends StatelessWidget {
   }
 }
 
-enum DocumentMenuAction {
-  edit,
-  download,
-  share,
-  delete,
-}
+enum DocumentMenuAction { edit, download, share, delete }

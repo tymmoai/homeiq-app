@@ -47,7 +47,10 @@ class TechnicianBookingConfirmationWidget extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(2), vertical: responsive.spacing(20)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(2),
+        vertical: responsive.spacing(20),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -66,7 +69,11 @@ class TechnicianBookingConfirmationWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.check, size: responsive.iconSize(48), color: Colors.white),
+            child: Icon(
+              Icons.check,
+              size: responsive.iconSize(48),
+              color: Colors.white,
+            ),
           ),
           SizedBox(height: responsive.spacing(16)),
           Text(
@@ -142,7 +149,10 @@ class TechnicianBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Technician Fee',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textDark),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.textDark,
+                      ),
                     ),
                     Text(
                       '\$${techFee.toStringAsFixed(2)}',
@@ -159,7 +169,10 @@ class TechnicianBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Tax (8%)',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textDark),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.textDark,
+                      ),
                     ),
                     Text(
                       '\$${techTax.toStringAsFixed(2)}',
@@ -224,7 +237,10 @@ class TechnicianBookingConfirmationWidget extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () => context.push('/active-services'),
-              icon: Icon(Icons.home_repair_service, size: responsive.iconSize(18)),
+              icon: Icon(
+                Icons.home_repair_service,
+                size: responsive.iconSize(18),
+              ),
               label: Text(
                 'View Active Services',
                 style: TextStyle(

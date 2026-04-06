@@ -82,9 +82,7 @@ class BookingItemSelectionStep extends StatelessWidget {
                     ),
                     child: Icon(
                       item['icon'] as IconData,
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.gray600,
+                      color: isSelected ? AppColors.primary : AppColors.gray600,
                       size: 24,
                     ),
                   ),
@@ -204,7 +202,10 @@ class BookingItemSelectionStep extends StatelessWidget {
             controller: otherItemController,
             decoration: InputDecoration(
               hintText: 'Other item (specify)',
-              hintStyle: const TextStyle(color: AppColors.gray400, fontSize: 14),
+              hintStyle: const TextStyle(
+                color: AppColors.gray400,
+                fontSize: 14,
+              ),
               prefixIcon: Icon(
                 Icons.add_circle_outline,
                 color: AppColors.primary,

@@ -167,12 +167,16 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
                           ),
                           padding: responsive.padding(vertical: 14),
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.primary05 : Colors.white,
+                            color: isSelected
+                                ? AppColors.primary05
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(
                               responsive.borderRadius(12),
                             ),
                             border: Border.all(
-                              color: isSelected ? AppColors.primary : AppColors.gray300,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.gray300,
                               width: isSelected ? 1.5 : 1,
                             ),
                             boxShadow: [
@@ -189,9 +193,11 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
                                 loc == 'Indoor'
                                     ? Icons.home_rounded
                                     : loc == 'Outdoor'
-                                        ? Icons.park_rounded
-                                        : Icons.sync_alt_rounded,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                    ? Icons.park_rounded
+                                    : Icons.sync_alt_rounded,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(22),
                               ),
                               SizedBox(height: responsive.hp(0.5)),
@@ -199,8 +205,12 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
                                 loc,
                                 style: TextStyle(
                                   fontSize: responsive.fontSize(13),
-                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -235,12 +245,16 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
                           ),
                           padding: responsive.padding(vertical: 14),
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.primary05 : Colors.white,
+                            color: isSelected
+                                ? AppColors.primary05
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(
                               responsive.borderRadius(12),
                             ),
                             border: Border.all(
-                              color: isSelected ? AppColors.primary : AppColors.gray300,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.gray300,
                               width: isSelected ? 1.5 : 1,
                             ),
                             boxShadow: [
@@ -257,9 +271,11 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
                                 power == 'Wired'
                                     ? Icons.electrical_services_rounded
                                     : power == 'Battery'
-                                        ? Icons.battery_charging_full_rounded
-                                        : Icons.solar_power_rounded,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                    ? Icons.battery_charging_full_rounded
+                                    : Icons.solar_power_rounded,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(22),
                               ),
                               SizedBox(height: responsive.hp(0.5)),
@@ -267,8 +283,12 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
                                 power,
                                 style: TextStyle(
                                   fontSize: responsive.fontSize(13),
-                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -319,7 +339,11 @@ class _DeviceDetailsStepState extends State<DeviceDetailsStep> {
             ),
           ],
         ),
-        child: Icon(icon, color: AppColors.primary, size: responsive.iconSize(20)),
+        child: Icon(
+          icon,
+          color: AppColors.primary,
+          size: responsive.iconSize(20),
+        ),
       ),
     );
   }

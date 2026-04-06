@@ -127,11 +127,11 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
   final assetLocation = asset['location'] as String? ?? 'Home';
   // Prefer the structured 'type' field (e.g. "Dryer", "Range / Stove",
   // "Heating & Cooling") then fall back to the display name.
-  final assetType = (
-    (asset['type'] as String?)?.trim().isNotEmpty == true
-        ? asset['type'] as String
-        : assetName
-  ).toLowerCase();
+  final assetType =
+      ((asset['type'] as String?)?.trim().isNotEmpty == true
+              ? asset['type'] as String
+              : assetName)
+          .toLowerCase();
 
   // Determine task based on asset type
   String taskId, taskName, taskDescription, whyItMatters, estimatedEffort;
@@ -148,7 +148,8 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
     taskId = 'dryer-vent-clean';
     taskName = 'Exhaust Vent Cleaning';
     taskDescription = 'Clean dryer exhaust vent and lint trap';
-    whyItMatters = 'Prevents fire hazards — clogged dryer vents are a leading cause of home fires';
+    whyItMatters =
+        'Prevents fire hazards — clogged dryer vents are a leading cause of home fires';
     estimatedEffort = '15 minutes';
     riskLevel = 8;
   } else if (assetType.contains('washer') || assetType.contains('washing')) {
@@ -165,12 +166,16 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
     whyItMatters = 'Improves cleaning performance and prevents odors';
     estimatedEffort = '15 minutes';
     riskLevel = 3;
-  } else if (assetType.contains('range') || assetType.contains('stove') ||
-      assetType.contains('oven') || assetType.contains('cooktop')) {
+  } else if (assetType.contains('range') ||
+      assetType.contains('stove') ||
+      assetType.contains('oven') ||
+      assetType.contains('cooktop')) {
     taskId = 'oven-element-check';
     taskName = 'Burner & Heating Element Check';
-    taskDescription = 'Inspect burners, grates, and heating elements for residue';
-    whyItMatters = 'Ensures safe and efficient cooking; prevents grease fire buildup';
+    taskDescription =
+        'Inspect burners, grates, and heating elements for residue';
+    whyItMatters =
+        'Ensures safe and efficient cooking; prevents grease fire buildup';
     estimatedEffort = '10 minutes';
     riskLevel = 5;
   } else if (assetType.contains('microwave')) {
@@ -180,48 +185,58 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
     whyItMatters = 'Removes food residue that can cause arcing and odors';
     estimatedEffort = '10 minutes';
     riskLevel = 3;
-  } else if (assetType.contains('water heater') || assetType.contains('heater')) {
+  } else if (assetType.contains('water heater') ||
+      assetType.contains('heater')) {
     taskId = 'water-heater-tank-flush';
     taskName = 'Tank Sediment Flush';
     taskDescription = 'Flush water heater tank to remove mineral sediment';
     whyItMatters = 'Prevents corrosion and extends tank life by years';
     estimatedEffort = '30–45 minutes';
     riskLevel = 4;
-  } else if (assetType.contains('heating') || assetType.contains('cooling') ||
-      assetType.contains('furnace') || assetType.contains('hvac') ||
+  } else if (assetType.contains('heating') ||
+      assetType.contains('cooling') ||
+      assetType.contains('furnace') ||
+      assetType.contains('hvac') ||
       assetType.contains('heat pump')) {
     taskId = 'furnace-filter-replace';
     taskName = 'Air Filter Replacement';
     taskDescription = 'Replace HVAC / furnace air filter';
-    whyItMatters = 'Dirty filters restrict airflow, raising energy costs and shortening system life';
+    whyItMatters =
+        'Dirty filters restrict airflow, raising energy costs and shortening system life';
     estimatedEffort = '10 minutes';
     riskLevel = 6;
-  } else if (assetType.contains('air conditioner') || assetType.contains('ac')) {
+  } else if (assetType.contains('air conditioner') ||
+      assetType.contains('ac')) {
     taskId = 'ac-monthly-filter';
     taskName = 'AC Filter Replacement';
     taskDescription = 'Replace or clean AC filter';
     whyItMatters = 'Improves air quality and AC efficiency';
     estimatedEffort = '10 minutes';
     riskLevel = 7;
-  } else if (assetType.contains('garbage disposal') || assetType.contains('disposal')) {
+  } else if (assetType.contains('garbage disposal') ||
+      assetType.contains('disposal')) {
     taskId = 'disposal-deodorize';
     taskName = 'Disposal Deodorizing & Cleaning';
-    taskDescription = 'Clean grinding chamber and deodorize with ice and citrus';
+    taskDescription =
+        'Clean grinding chamber and deodorize with ice and citrus';
     whyItMatters = 'Prevents foul odors and keeps blades sharp';
     estimatedEffort = '10 minutes';
     riskLevel = 2;
-  } else if (assetType.contains('garage door') || assetType.contains('door opener')) {
+  } else if (assetType.contains('garage door') ||
+      assetType.contains('door opener')) {
     taskId = 'garage-lubricate';
     taskName = 'Spring & Track Lubrication';
     taskDescription = 'Lubricate springs, rollers, and tracks';
     whyItMatters = 'Reduces wear and prevents costly spring breakage';
     estimatedEffort = '15 minutes';
     riskLevel = 5;
-  } else if (assetType.contains('water softener') || assetType.contains('softener')) {
+  } else if (assetType.contains('water softener') ||
+      assetType.contains('softener')) {
     taskId = 'softener-salt-refill';
     taskName = 'Salt Tank Refill Check';
     taskDescription = 'Check and refill salt in the brine tank';
-    whyItMatters = 'Ensures continued hard water treatment and appliance protection';
+    whyItMatters =
+        'Ensures continued hard water treatment and appliance protection';
     estimatedEffort = '10 minutes';
     riskLevel = 3;
   } else if (assetType.contains('sump pump')) {
@@ -235,14 +250,18 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
     taskId = 'thermostat-battery';
     taskName = 'Battery Replacement';
     taskDescription = 'Replace thermostat batteries';
-    whyItMatters = 'Dead batteries cause heating/cooling to stop working unexpectedly';
+    whyItMatters =
+        'Dead batteries cause heating/cooling to stop working unexpectedly';
     estimatedEffort = '5 minutes';
     riskLevel = 4;
-  } else if (assetType.contains('television') || assetType.contains('smart tv') ||
-      assetType.contains(' tv ') || assetType.endsWith(' tv')) {
+  } else if (assetType.contains('television') ||
+      assetType.contains('smart tv') ||
+      assetType.contains(' tv ') ||
+      assetType.endsWith(' tv')) {
     taskId = 'tv-screen-clean';
     taskName = 'Screen Cleaning';
-    taskDescription = 'Clean screen with a microfiber cloth and check ventilation';
+    taskDescription =
+        'Clean screen with a microfiber cloth and check ventilation';
     whyItMatters = 'Dust buildup in vents can cause overheating';
     estimatedEffort = '10 minutes';
     riskLevel = 2;
@@ -253,8 +272,10 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
     whyItMatters = 'Overheating shortens component lifespan and causes crashes';
     estimatedEffort = '15 minutes';
     riskLevel = 5;
-  } else if (assetType.contains('gaming console') || assetType.contains('playstation') ||
-      assetType.contains('xbox') || assetType.contains('nintendo')) {
+  } else if (assetType.contains('gaming console') ||
+      assetType.contains('playstation') ||
+      assetType.contains('xbox') ||
+      assetType.contains('nintendo')) {
     taskId = 'console-vent-dust';
     taskName = 'Vent & Fan Dust Cleaning';
     taskDescription = 'Clean dust from console vents and fans';
@@ -268,7 +289,8 @@ Reminder createAssetSpecificReminder(Map<String, dynamic> asset) {
     whyItMatters = 'Prevents clogged heads that cause streaky or blank prints';
     estimatedEffort = '10 minutes';
     riskLevel = 3;
-  } else if (assetType.contains('router') || assetType.contains('gateway') ||
+  } else if (assetType.contains('router') ||
+      assetType.contains('gateway') ||
       assetType.contains('modem')) {
     taskId = 'router-firmware-update';
     taskName = 'Firmware Update';

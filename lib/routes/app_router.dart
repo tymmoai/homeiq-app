@@ -102,7 +102,10 @@ class _AuthRefreshNotifier extends ChangeNotifier {
       if (next != null) notifyListeners();
     });
     // Also re-evaluate when cold-start invite nav data is set (unauthenticated).
-    ref.listen<PendingInviteNavData?>(pendingInviteNavDataProvider, (previous, next) {
+    ref.listen<PendingInviteNavData?>(pendingInviteNavDataProvider, (
+      previous,
+      next,
+    ) {
       if (next != null) notifyListeners();
     });
   }

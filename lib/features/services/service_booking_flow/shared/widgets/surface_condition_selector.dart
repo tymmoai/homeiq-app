@@ -113,7 +113,8 @@ class _SurfaceConditionSelectorState extends State<SurfaceConditionSelector> {
                     padding: responsive.padding(bottom: 14),
                     child: GestureDetector(
                       onTap: () => setState(() {
-                        widget.formData.surfaceCondition = cond['name'] as String;
+                        widget.formData.surfaceCondition =
+                            cond['name'] as String;
                       }),
                       child: BookingShadowCard(
                         isSelected: isSelected,
@@ -135,14 +136,17 @@ class _SurfaceConditionSelectorState extends State<SurfaceConditionSelector> {
                                   ),
                                   child: Icon(
                                     cond['icon'] as IconData,
-                                    color: isSelected ? condColor : AppColors.gray600,
+                                    color: isSelected
+                                        ? condColor
+                                        : AppColors.gray600,
                                     size: responsive.iconSize(24),
                                   ),
                                 ),
                                 SizedBox(width: responsive.wp(3)),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -159,17 +163,25 @@ class _SurfaceConditionSelectorState extends State<SurfaceConditionSelector> {
                                           if (multiplier > 1.0) ...[
                                             SizedBox(width: responsive.wp(2)),
                                             Container(
-                                              padding: responsive.padding(horizontal: 8, vertical: 2),
+                                              padding: responsive.padding(
+                                                horizontal: 8,
+                                                vertical: 2,
+                                              ),
                                               decoration: BoxDecoration(
-                                                color: condColor.withValues(alpha: 0.1),
-                                                borderRadius: BorderRadius.circular(
-                                                  AppDimensions.radiusBadge,
+                                                color: condColor.withValues(
+                                                  alpha: 0.1,
                                                 ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                      AppDimensions.radiusBadge,
+                                                    ),
                                               ),
                                               child: Text(
                                                 '+${((multiplier - 1) * 100).round()}%',
                                                 style: TextStyle(
-                                                  fontSize: responsive.fontSize(11),
+                                                  fontSize: responsive.fontSize(
+                                                    11,
+                                                  ),
                                                   fontWeight: FontWeight.w600,
                                                   color: condColor,
                                                 ),
@@ -190,8 +202,11 @@ class _SurfaceConditionSelectorState extends State<SurfaceConditionSelector> {
                                   ),
                                 ),
                                 if (isSelected)
-                                  Icon(Icons.check_circle, color: AppColors.primary,
-                                    size: responsive.iconSize(22)),
+                                  Icon(
+                                    Icons.check_circle,
+                                    color: AppColors.primary,
+                                    size: responsive.iconSize(22),
+                                  ),
                               ],
                             ),
                             if (isSelected) ...[
@@ -206,8 +221,11 @@ class _SurfaceConditionSelectorState extends State<SurfaceConditionSelector> {
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.info_outline, color: condColor,
-                                      size: responsive.iconSize(16)),
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: condColor,
+                                      size: responsive.iconSize(16),
+                                    ),
                                     SizedBox(width: responsive.wp(2)),
                                     Expanded(
                                       child: Text(

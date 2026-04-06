@@ -138,7 +138,9 @@ class DocsTabWidget extends StatelessWidget {
                         Icon(
                           Icons.folder_open_outlined,
                           size: responsive.iconSize(48.0),
-                          color: AssetDetailColors.textSecondary.withValues(alpha: 0.5),
+                          color: AssetDetailColors.textSecondary.withValues(
+                            alpha: 0.5,
+                          ),
                         ),
                         SizedBox(height: responsive.spacing(16.0)),
                         Text(
@@ -165,44 +167,44 @@ class DocsTabWidget extends StatelessWidget {
 
                 // Documents Grid - responsive columns
                 if (allDocuments.isNotEmpty)
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    mainAxisSpacing: responsive.spacing(12.0),
-                    crossAxisSpacing: responsive.spacing(12.0),
-                    childAspectRatio: childAspectRatio,
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      mainAxisSpacing: responsive.spacing(12.0),
+                      crossAxisSpacing: responsive.spacing(12.0),
+                      childAspectRatio: childAspectRatio,
+                    ),
+                    itemCount: allDocuments.length,
+                    itemBuilder: (context, index) {
+                      final doc = allDocuments[index];
+                      // Determine if uploaded based on position in the combined list,
+                      // NOT by isLocalFile (which changes when a default doc's image is replaced)
+                      final isUploaded = index < reversedUploaded.length;
+                      // Calculate document index based on type
+                      final docIndex = isUploaded
+                          ? uploadedDocuments.length -
+                                1 -
+                                index // For uploaded: reverse index
+                          : index -
+                                reversedUploaded
+                                    .length; // For default: index in default list
+                      return _buildDocumentCard(
+                        context,
+                        doc['title'] as String,
+                        doc['date'] as String,
+                        doc['fileInfo'] as String,
+                        doc['imagePath'] as String? ??
+                            'lib/asset_img/doc_waarranty.jpg',
+                        isUploaded: isUploaded,
+                        isDefault: !isUploaded,
+                        isLocalFile: doc['isLocalFile'] == true,
+                        documentIndex: isUploaded ? docIndex : null,
+                        defaultDocIndex: !isUploaded ? docIndex : null,
+                      );
+                    },
                   ),
-                  itemCount: allDocuments.length,
-                  itemBuilder: (context, index) {
-                    final doc = allDocuments[index];
-                    // Determine if uploaded based on position in the combined list,
-                    // NOT by isLocalFile (which changes when a default doc's image is replaced)
-                    final isUploaded = index < reversedUploaded.length;
-                    // Calculate document index based on type
-                    final docIndex = isUploaded
-                        ? uploadedDocuments.length -
-                              1 -
-                              index // For uploaded: reverse index
-                        : index -
-                              reversedUploaded
-                                  .length; // For default: index in default list
-                    return _buildDocumentCard(
-                      context,
-                      doc['title'] as String,
-                      doc['date'] as String,
-                      doc['fileInfo'] as String,
-                      doc['imagePath'] as String? ??
-                          'lib/asset_img/doc_waarranty.jpg',
-                      isUploaded: isUploaded,
-                      isDefault: !isUploaded,
-                      isLocalFile: doc['isLocalFile'] == true,
-                      documentIndex: isUploaded ? docIndex : null,
-                      defaultDocIndex: !isUploaded ? docIndex : null,
-                    );
-                  },
-                ),
                 SizedBox(height: responsive.spacing(20.0)),
               ],
             ),

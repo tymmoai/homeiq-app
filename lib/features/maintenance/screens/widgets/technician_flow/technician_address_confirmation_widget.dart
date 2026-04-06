@@ -204,11 +204,15 @@ class TechnicianAddressConfirmationWidget extends StatelessWidget {
                       borderSide: BorderSide.none,
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -255,11 +259,15 @@ class TechnicianAddressConfirmationWidget extends StatelessWidget {
                       borderSide: BorderSide.none,
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -306,11 +314,15 @@ class TechnicianAddressConfirmationWidget extends StatelessWidget {
                       borderSide: BorderSide.none,
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(

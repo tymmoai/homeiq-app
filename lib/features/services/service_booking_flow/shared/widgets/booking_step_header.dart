@@ -90,8 +90,7 @@ class BookingStepHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              if (index < totalSteps - 1)
-                context.responsive.widthBox(4.0),
+              if (index < totalSteps - 1) context.responsive.widthBox(4.0),
             ],
           ),
         );

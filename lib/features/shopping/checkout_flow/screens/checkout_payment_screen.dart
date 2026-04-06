@@ -36,7 +36,10 @@ class CheckoutPaymentScreen extends StatelessWidget {
       OrderSummaryItem(label: 'Subtotal', amount: subtotal),
       if (tradeInTotal > 0)
         OrderSummaryItem(
-            label: 'Trade-in Credit', amount: -tradeInTotal, isDiscount: true),
+          label: 'Trade-in Credit',
+          amount: -tradeInTotal,
+          isDiscount: true,
+        ),
       OrderSummaryItem(label: 'Sales Tax (8%)', amount: tax),
     ];
 
@@ -52,8 +55,9 @@ class CheckoutPaymentScreen extends StatelessWidget {
           if (result != null && result.success) {
             final trackingId =
                 'HQ${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
-            final expectedDelivery =
-                DateTime.now().add(const Duration(days: 6));
+            final expectedDelivery = DateTime.now().add(
+              const Duration(days: 6),
+            );
             final confirmationExtra = {
               'product': product,
               'tradeInValue': tradeInValue,
@@ -83,7 +87,9 @@ class CheckoutPaymentScreen extends StatelessWidget {
 
   /// Matches Cart screen header: blue (primary), white title and back icon.
   PreferredSizeWidget _buildFlowAppBar(
-      BuildContext context, dynamic responsive) {
+    BuildContext context,
+    dynamic responsive,
+  ) {
     return AppBar(
       backgroundColor: AppColors.primary,
       elevation: 0,

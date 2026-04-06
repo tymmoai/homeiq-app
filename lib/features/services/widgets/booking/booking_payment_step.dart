@@ -78,9 +78,7 @@ class BookingPaymentStep extends StatelessWidget {
                     ),
                     child: Icon(
                       method['icon'] as IconData,
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.gray600,
+                      color: isSelected ? AppColors.primary : AppColors.gray600,
                       size: 24,
                     ),
                   ),
@@ -128,7 +126,11 @@ class BookingPaymentStep extends StatelessWidget {
                       color: isSelected ? AppColors.primary : AppColors.white,
                     ),
                     child: isSelected
-                        ? const Icon(Icons.check, size: 14, color: AppColors.white)
+                        ? const Icon(
+                            Icons.check,
+                            size: 14,
+                            color: AppColors.white,
+                          )
                         : null,
                   ),
                 ],
@@ -141,7 +143,9 @@ class BookingPaymentStep extends StatelessWidget {
         GestureDetector(
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Adding a payment method is not yet available.')),
+              const SnackBar(
+                content: Text('Adding a payment method is not yet available.'),
+              ),
             );
           },
           child: Container(

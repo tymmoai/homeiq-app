@@ -228,11 +228,7 @@ class ScanUploadArea extends StatelessWidget {
                   color: const Color(0xFF2196F3).withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  typeIcon,
-                  size: 36,
-                  color: const Color(0xFF2196F3),
-                ),
+                child: Icon(typeIcon, size: 36, color: const Color(0xFF2196F3)),
               ),
               const SizedBox(height: 12),
               Text(
@@ -272,10 +268,8 @@ class ScanUploadArea extends StatelessWidget {
                     if (info.modelNumber != null)
                       _partialDetailRow('Model', info.modelNumber!),
                     if (info.url != null)
-                      _partialDetailRow('URL', info.url!,
-                          isSmall: true),
-                    _partialDetailRow('Raw Scan', info.rawValue,
-                        isSmall: true),
+                      _partialDetailRow('URL', info.url!, isSmall: true),
+                    _partialDetailRow('Raw Scan', info.rawValue, isSmall: true),
                   ],
                 ),
               ),
@@ -321,10 +315,14 @@ class ScanUploadArea extends StatelessWidget {
                       children: [
                         if (brand != null && brand!.isNotEmpty)
                           _miniChip('Brand: $brand'),
-                        if (model != null && model!.isNotEmpty) ...
-                          [const SizedBox(width: 6), _miniChip('Model: $model')],
-                        if (serial != null && serial!.isNotEmpty) ...
-                          [const SizedBox(width: 6), _miniChip('Serial')],
+                        if (model != null && model!.isNotEmpty) ...[
+                          const SizedBox(width: 6),
+                          _miniChip('Model: $model'),
+                        ],
+                        if (serial != null && serial!.isNotEmpty) ...[
+                          const SizedBox(width: 6),
+                          _miniChip('Serial'),
+                        ],
                       ],
                     ),
                   ],
@@ -399,9 +397,7 @@ class ScanUploadArea extends StatelessWidget {
               style: TextStyle(
                 fontSize: isSmall ? 11 : 14,
                 fontWeight: isSmall ? FontWeight.w400 : FontWeight.w600,
-                color: isSmall
-                    ? AppColors.textLight
-                    : AppColors.textPrimary,
+                color: isSmall ? AppColors.textLight : AppColors.textPrimary,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -495,9 +491,7 @@ class ScanUploadArea extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.successLight,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: AppColors.success.withValues(alpha: 0.3),
-            ),
+            border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -534,10 +528,16 @@ class ScanUploadArea extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _detailColumn('Brand', result.brand.isNotEmpty ? result.brand : '-'),
+                    child: _detailColumn(
+                      'Brand',
+                      result.brand.isNotEmpty ? result.brand : '-',
+                    ),
                   ),
                   Expanded(
-                    child: _detailColumn('Model', result.model.isNotEmpty ? result.model : '-'),
+                    child: _detailColumn(
+                      'Model',
+                      result.model.isNotEmpty ? result.model : '-',
+                    ),
                   ),
                   if (result.serialNumber.isNotEmpty)
                     Expanded(
@@ -613,10 +613,7 @@ class ScanUploadArea extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             'Barcode: ${scannedBarcode ?? ''}',
-            style: TextStyle(
-              fontSize: 13,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
           ),
         ],
       ),
@@ -633,9 +630,7 @@ class ScanUploadArea extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.error.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
@@ -646,28 +641,18 @@ class ScanUploadArea extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(
-            Icons.error_outline,
-            size: 48,
-            color: AppColors.error,
-          ),
+          const Icon(Icons.error_outline, size: 48, color: AppColors.error),
           const SizedBox(height: 12),
           Text(
             scanError ?? 'Something went wrong.',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
           if (scannedBarcode != null) ...[
             const SizedBox(height: 4),
             Text(
               'Barcode: $scannedBarcode',
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.textLight,
-              ),
+              style: TextStyle(fontSize: 12, color: AppColors.textLight),
             ),
           ],
           const SizedBox(height: 20),
@@ -723,20 +708,14 @@ class ScanUploadArea extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.successLight,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: AppColors.success.withValues(alpha: 0.3),
-            ),
+            border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Row(
                 children: [
-                  Icon(
-                    Icons.check_circle,
-                    color: AppColors.success,
-                    size: 20,
-                  ),
+                  Icon(Icons.check_circle, color: AppColors.success, size: 20),
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -753,15 +732,9 @@ class ScanUploadArea extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
-                    child: _detailColumn('Brand', brand ?? '-'),
-                  ),
-                  Expanded(
-                    child: _detailColumn('Model', model ?? '-'),
-                  ),
-                  Expanded(
-                    child: _detailColumn('Serial', serial ?? '-'),
-                  ),
+                  Expanded(child: _detailColumn('Brand', brand ?? '-')),
+                  Expanded(child: _detailColumn('Model', model ?? '-')),
+                  Expanded(child: _detailColumn('Serial', serial ?? '-')),
                 ],
               ),
             ],
@@ -797,10 +770,7 @@ class ScanUploadArea extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.textSecondary,
-          ),
+          style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
         ),
         const SizedBox(height: 4),
         Text(

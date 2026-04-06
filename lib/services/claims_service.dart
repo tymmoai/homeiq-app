@@ -63,7 +63,8 @@ class ClaimsService {
             'incidentDate': now.toIso8601String(),
           },
         );
-        final claimData = jsonDecode(claimResponse.body) as Map<String, dynamic>;
+        final claimData =
+            jsonDecode(claimResponse.body) as Map<String, dynamic>;
         if (claimData['success'] == true && claimData['data'] != null) {
           AppLogger.info(
             'ClaimsService: Claim created on backend: ${claimData['data']['claimNumber']}',

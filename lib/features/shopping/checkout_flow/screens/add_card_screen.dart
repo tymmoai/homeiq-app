@@ -61,7 +61,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   // Real-time cardholder validation
   void _validateCardholderNameLive() {
-    if (!_cardholderValidationFired && _cardholderNameController.text.isNotEmpty) {
+    if (!_cardholderValidationFired &&
+        _cardholderNameController.text.isNotEmpty) {
       setState(() => _cardholderValidationFired = true);
     }
     if (_cardholderValidationFired) {
@@ -186,8 +187,10 @@ class _AddCardScreenState extends State<AddCardScreen> {
   }
 
   bool _isFormValid() {
-    final cardNumberValid = _cardNumberController.text.replaceAll(' ', '').length == 16;
-    final cardholderValid = _cardholderNameController.text.isNotEmpty &&
+    final cardNumberValid =
+        _cardNumberController.text.replaceAll(' ', '').length == 16;
+    final cardholderValid =
+        _cardholderNameController.text.isNotEmpty &&
         _cardholderNameController.text.length >= 3 &&
         RegExp(r'^[a-zA-Z\s]+$').hasMatch(_cardholderNameController.text);
     final expiryValid =
@@ -196,8 +199,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
     return cardNumberValid && cardholderValid && expiryValid && cvvValid;
   }
-
-
 
   void _saveCard() {
     // Trigger validation on all fields
@@ -422,7 +423,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       ),
                       textCapitalization: TextCapitalization.words,
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z\s]'),
+                        ),
                       ],
                     ),
                     responsive.heightBox(20.0),
@@ -652,7 +655,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 child: ElevatedButton(
                   onPressed: _isFormValid() ? _saveCard : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isFormValid() ? _headerColor : AppColors.gray300,
+                    backgroundColor: _isFormValid()
+                        ? _headerColor
+                        : AppColors.gray300,
                     foregroundColor: AppColors.white,
                     elevation: 0,
                   ),
@@ -661,7 +666,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     style: TextStyle(
                       fontSize: responsive.fontSize(16.0),
                       fontWeight: FontWeight.w600,
-                      color: _isFormValid() ? AppColors.white : AppColors.gray600,
+                      color: _isFormValid()
+                          ? AppColors.white
+                          : AppColors.gray600,
                     ),
                   ),
                 ),
@@ -722,7 +729,9 @@ class _ExpiryDateFormatter extends TextInputFormatter {
     }
 
     // Auto-add 0 prefix if first digit is 2-9
-    if (text.length == 1 && int.tryParse(text)! >= 2 && int.tryParse(text)! <= 9) {
+    if (text.length == 1 &&
+        int.tryParse(text)! >= 2 &&
+        int.tryParse(text)! <= 9) {
       text = '0$text';
     }
 
@@ -737,4 +746,3 @@ class _ExpiryDateFormatter extends TextInputFormatter {
     );
   }
 }
-

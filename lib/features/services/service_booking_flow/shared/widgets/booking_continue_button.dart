@@ -40,8 +40,9 @@ class BookingContinueButton extends StatelessWidget {
             child: ElevatedButton(
               onPressed: isValid ? onPressed : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    isValid ? AppColors.primary : AppColors.divider,
+                backgroundColor: isValid
+                    ? AppColors.primary
+                    : AppColors.divider,
                 elevation: isValid ? 2 : 0,
                 shadowColor: AppColors.primary.withValues(alpha: 0.3),
               ),

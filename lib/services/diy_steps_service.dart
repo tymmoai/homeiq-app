@@ -73,7 +73,11 @@ class DiyStepsService {
       return null;
     } on Object catch (e) {
       // Return null if cache not found, don't throw error
-      AppLogger.warning('No cached steps found: $e', tag: 'DiyStepsService', error: e);
+      AppLogger.warning(
+        'No cached steps found: $e',
+        tag: 'DiyStepsService',
+        error: e,
+      );
       return null;
     }
   }

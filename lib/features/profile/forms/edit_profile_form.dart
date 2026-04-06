@@ -15,11 +15,7 @@ class EditProfileForm extends StatefulWidget {
   final Map<String, dynamic>? initialData;
   final Function(Map<String, dynamic>)? onProfileUpdated;
 
-  const EditProfileForm({
-    super.key,
-    this.initialData,
-    this.onProfileUpdated,
-  });
+  const EditProfileForm({super.key, this.initialData, this.onProfileUpdated});
 
   @override
   State<EditProfileForm> createState() => _EditProfileFormState();
@@ -32,7 +28,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
   late TextEditingController _addressController;
-  
+
   bool _isLoading = false;
   File? _pickedImage;
   final ImagePicker _imagePicker = ImagePicker();
@@ -40,10 +36,18 @@ class _EditProfileFormState extends State<EditProfileForm> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.initialData?['name'] ?? '');
-    _emailController = TextEditingController(text: widget.initialData?['email'] ?? '');
-    _phoneController = TextEditingController(text: widget.initialData?['phone'] ?? '');
-    _addressController = TextEditingController(text: widget.initialData?['address'] ?? '');
+    _nameController = TextEditingController(
+      text: widget.initialData?['name'] ?? '',
+    );
+    _emailController = TextEditingController(
+      text: widget.initialData?['email'] ?? '',
+    );
+    _phoneController = TextEditingController(
+      text: widget.initialData?['phone'] ?? '',
+    );
+    _addressController = TextEditingController(
+      text: widget.initialData?['address'] ?? '',
+    );
   }
 
   @override
@@ -169,19 +173,15 @@ class _EditProfileFormState extends State<EditProfileForm> {
                     ),
                   )
                 : widget.initialData?['avatar'] != null
-                    ? ClipOval(
-                        child: Image.network(
-                          widget.initialData!['avatar'],
-                          width: 120,
-                          height: 120,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Icon(
-                        Icons.person,
-                        size: 60,
-                        color: AppColors.primary,
-                      ),
+                ? ClipOval(
+                    child: Image.network(
+                      widget.initialData!['avatar'],
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Icon(Icons.person, size: 60, color: AppColors.primary),
           ),
           Positioned(
             right: 0,
@@ -195,7 +195,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 border: Border.all(color: AppColors.white, width: 2),
               ),
               child: IconButton(
-                icon: const Icon(Icons.camera_alt, size: 18, color: AppColors.white),
+                icon: const Icon(
+                  Icons.camera_alt,
+                  size: 18,
+                  color: AppColors.white,
+                ),
                 onPressed: _changePicture,
                 padding: EdgeInsets.zero,
               ),
@@ -310,7 +314,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
       }
     } on Object catch (_) {
       if (mounted) {
-        AppSnackbar.showError(context, 'Could not access ${source == ImageSource.camera ? 'camera' : 'gallery'}. Please check permissions.');
+        AppSnackbar.showError(
+          context,
+          'Could not access ${source == ImageSource.camera ? 'camera' : 'gallery'}. Please check permissions.',
+        );
       }
     }
   }
@@ -328,7 +335,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
     setState(() => _isLoading = true);
 
     try {
-      final name  = _nameController.text.trim();
+      final name = _nameController.text.trim();
       final phone = _phoneController.text.trim();
 
       // Build the backend payload — only fields the API accepts.
@@ -340,9 +347,9 @@ class _EditProfileFormState extends State<EditProfileForm> {
       await ApiClient().put('/users/me', body: body);
 
       final updatedProfile = {
-        'name'   : name,
-        'email'  : _emailController.text.trim(),
-        'phone'  : phone,
+        'name': name,
+        'email': _emailController.text.trim(),
+        'phone': phone,
         'address': _addressController.text.trim(),
       };
 
@@ -358,7 +365,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
       }
     } on Object catch (_) {
       if (mounted) {
-        AppSnackbar.showError(context, 'Failed to update profile. Please try again.');
+        AppSnackbar.showError(
+          context,
+          'Failed to update profile. Please try again.',
+        );
       }
     } finally {
       if (mounted) {

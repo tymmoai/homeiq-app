@@ -7,10 +7,7 @@ import '../../../../../utils/responsive_utils.dart';
 class BookingReviewItemsCard extends StatelessWidget {
   final List<Map<String, dynamic>> selectedItemsList;
 
-  const BookingReviewItemsCard({
-    super.key,
-    required this.selectedItemsList,
-  });
+  const BookingReviewItemsCard({super.key, required this.selectedItemsList});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +15,9 @@ class BookingReviewItemsCard extends StatelessWidget {
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius:
-            BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadowMedium,
@@ -39,7 +37,8 @@ class BookingReviewItemsCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(
-                      context.responsive.borderRadius(10.0)),
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.inventory_2_outlined,
@@ -79,12 +78,15 @@ class BookingReviewItemsCard extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: context.responsive
-                            .padding(horizontal: 10, vertical: 4),
+                        padding: context.responsive.padding(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.backgroundGray100,
                           borderRadius: BorderRadius.circular(
-                              AppDimensions.radiusBadge),
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Text(
                           'x${item['quantity']}',

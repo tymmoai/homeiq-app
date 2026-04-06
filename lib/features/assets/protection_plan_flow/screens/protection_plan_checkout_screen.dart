@@ -43,7 +43,8 @@ class _ProtectionPlanCheckoutScreenState
     final assetCategory = widget.asset['category'] as String? ?? '';
     final assetType = widget.asset['secondaryCategory'] as String? ?? '';
     final purchaseDate = widget.asset['purchaseDate'] as String? ?? '';
-    final planName = widget.plan['name'] as String? ?? AppStrings.protectionPlan;
+    final planName =
+        widget.plan['name'] as String? ?? AppStrings.protectionPlan;
     final planProvider =
         widget.plan['provider'] as String? ?? AppStrings.brandProtection;
     final coverageYears = widget.plan['duration']?['years'] as int? ?? 1;
@@ -294,7 +295,9 @@ class _ProtectionPlanCheckoutScreenState
                           padding: EdgeInsets.all(responsive.spacing(10)),
                           decoration: BoxDecoration(
                             color: AppColors.surfaceVariant,
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                           ),
                           child: Text(
                             'You\'ll be charged \$${total.toStringAsFixed(2)} on ${nextBillingDate.month}/${nextBillingDate.day}/${nextBillingDate.year} every ${billingPeriod == "yearly" ? "year" : "month"}',
@@ -323,7 +326,11 @@ class _ProtectionPlanCheckoutScreenState
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.info_outline, size: responsive.iconSize(20), color: AppColors.primary),
+                        Icon(
+                          Icons.info_outline,
+                          size: responsive.iconSize(20),
+                          color: AppColors.primary,
+                        ),
                         SizedBox(width: responsive.spacing(12)),
                         Expanded(
                           child: Column(
@@ -363,7 +370,10 @@ class _ProtectionPlanCheckoutScreenState
           SafeArea(
             top: false,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(12)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(20),
+                vertical: responsive.spacing(12),
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -436,7 +446,9 @@ class _ProtectionPlanCheckoutScreenState
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: AppColors.textOnPrimary,
-                        padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: responsive.spacing(14),
+                        ),
                         elevation: 4,
                         shadowColor: AppColors.primary.withValues(alpha: 0.3),
                       ),
@@ -482,7 +494,11 @@ class _ProtectionPlanCheckoutScreenState
         children: [
           Row(
             children: [
-              Icon(icon, size: responsive.iconSize(22), color: AppColors.primary),
+              Icon(
+                icon,
+                size: responsive.iconSize(22),
+                color: AppColors.primary,
+              ),
               SizedBox(width: responsive.spacing(10)),
               Text(
                 title,
@@ -507,7 +523,10 @@ class _ProtectionPlanCheckoutScreenState
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: responsive.fontSize(14), color: _textSecondary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: _textSecondary,
+          ),
         ),
         Text(
           value,
@@ -528,7 +547,10 @@ class _ProtectionPlanCheckoutScreenState
         Expanded(
           child: Text(
             label,
-            style: TextStyle(fontSize: responsive.fontSize(14), color: _textSecondary),
+            style: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: _textSecondary,
+            ),
           ),
         ),
         if (!isInfo)

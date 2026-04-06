@@ -31,7 +31,10 @@ class PartsActionSelectionWidget extends StatelessWidget {
         SizedBox(height: responsive.spacing(4)),
         Text(
           'Select how you would like to proceed with your parts order.',
-          style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textSecondary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: AppColors.textSecondary,
+          ),
         ),
         SizedBox(height: responsive.spacing(32)),
         SizedBox(
@@ -42,9 +45,7 @@ class PartsActionSelectionWidget extends StatelessWidget {
               backgroundColor: AppColors.gray100,
               foregroundColor: AppColors.primary,
               padding: EdgeInsets.symmetric(vertical: responsive.spacing(18)),
-              side: const BorderSide(
-                  color: AppColors.gray400,
-              ),
+              side: const BorderSide(color: AppColors.gray400),
               elevation: 0,
             ),
             child: Text(
@@ -66,9 +67,7 @@ class PartsActionSelectionWidget extends StatelessWidget {
               backgroundColor: AppColors.gray100,
               foregroundColor: AppColors.primary,
               padding: EdgeInsets.symmetric(vertical: responsive.spacing(18)),
-              side: const BorderSide(
-                  color: AppColors.gray400,
-              ),
+              side: const BorderSide(color: AppColors.gray400),
               elevation: 0,
             ),
             child: Text(
@@ -90,9 +89,7 @@ class PartsActionSelectionWidget extends StatelessWidget {
               backgroundColor: AppColors.gray100,
               foregroundColor: AppColors.primary,
               padding: EdgeInsets.symmetric(vertical: responsive.spacing(18)),
-              side: const BorderSide(
-                  color: AppColors.gray400,
-              ),
+              side: const BorderSide(color: AppColors.gray400),
               elevation: 0,
             ),
             child: Text(

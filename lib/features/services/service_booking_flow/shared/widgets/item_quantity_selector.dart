@@ -380,10 +380,7 @@ class _ItemQuantitySelectorState extends State<ItemQuantitySelector> {
                 borderRadius: BorderRadius.circular(
                   context.responsive.borderRadius(10.0),
                 ),
-                borderSide: BorderSide(
-                  color: AppColors.primary,
-                  width: 1.5,
-                ),
+                borderSide: BorderSide(color: AppColors.primary, width: 1.5),
               ),
               contentPadding: context.responsive.padding(all: 14),
             ),
@@ -392,8 +389,9 @@ class _ItemQuantitySelectorState extends State<ItemQuantitySelector> {
               color: AppColors.textPrimary,
             ),
             onChanged: (value) {
-              widget.formData.specialRequirements =
-                  value.isEmpty ? null : value;
+              widget.formData.specialRequirements = value.isEmpty
+                  ? null
+                  : value;
             },
           ),
           context.responsive.heightBox(8.0),
@@ -453,8 +451,9 @@ class _ItemQuantitySelectorState extends State<ItemQuantitySelector> {
                     }
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    isValid ? AppColors.primary : AppColors.divider,
+                backgroundColor: isValid
+                    ? AppColors.primary
+                    : AppColors.divider,
               ),
               child: Text(
                 'Continue',

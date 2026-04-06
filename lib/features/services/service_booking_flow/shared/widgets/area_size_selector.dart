@@ -38,18 +38,58 @@ class AreaSizeSelector extends StatefulWidget {
 
   /// Default outdoor area sizes
   static const defaultOutdoorSizes = [
-    {'name': 'Small', 'range': 'Up to 500 sq ft', 'icon': Icons.crop_square_rounded, 'multiplier': 1.0},
-    {'name': 'Medium', 'range': '500-1,500 sq ft', 'icon': Icons.crop_din_rounded, 'multiplier': 1.3},
-    {'name': 'Large', 'range': '1,500-3,000 sq ft', 'icon': Icons.crop_free_rounded, 'multiplier': 1.6},
-    {'name': 'Extra Large', 'range': '3,000+ sq ft', 'icon': Icons.zoom_out_map_rounded, 'multiplier': 2.0},
+    {
+      'name': 'Small',
+      'range': 'Up to 500 sq ft',
+      'icon': Icons.crop_square_rounded,
+      'multiplier': 1.0,
+    },
+    {
+      'name': 'Medium',
+      'range': '500-1,500 sq ft',
+      'icon': Icons.crop_din_rounded,
+      'multiplier': 1.3,
+    },
+    {
+      'name': 'Large',
+      'range': '1,500-3,000 sq ft',
+      'icon': Icons.crop_free_rounded,
+      'multiplier': 1.6,
+    },
+    {
+      'name': 'Extra Large',
+      'range': '3,000+ sq ft',
+      'icon': Icons.zoom_out_map_rounded,
+      'multiplier': 2.0,
+    },
   ];
 
   /// Default painting area sizes
   static const defaultPaintingSizes = [
-    {'name': 'Small Room', 'range': 'Up to 120 sq ft', 'icon': Icons.crop_square_rounded, 'multiplier': 1.0},
-    {'name': 'Medium Room', 'range': '120-200 sq ft', 'icon': Icons.crop_din_rounded, 'multiplier': 1.3},
-    {'name': 'Large Room', 'range': '200-350 sq ft', 'icon': Icons.crop_free_rounded, 'multiplier': 1.5},
-    {'name': 'Extra Large', 'range': '350+ sq ft', 'icon': Icons.zoom_out_map_rounded, 'multiplier': 1.8},
+    {
+      'name': 'Small Room',
+      'range': 'Up to 120 sq ft',
+      'icon': Icons.crop_square_rounded,
+      'multiplier': 1.0,
+    },
+    {
+      'name': 'Medium Room',
+      'range': '120-200 sq ft',
+      'icon': Icons.crop_din_rounded,
+      'multiplier': 1.3,
+    },
+    {
+      'name': 'Large Room',
+      'range': '200-350 sq ft',
+      'icon': Icons.crop_free_rounded,
+      'multiplier': 1.5,
+    },
+    {
+      'name': 'Extra Large',
+      'range': '350+ sq ft',
+      'icon': Icons.zoom_out_map_rounded,
+      'multiplier': 1.8,
+    },
   ];
 
   @override
@@ -101,7 +141,8 @@ class _AreaSizeSelectorState extends State<AreaSizeSelector> {
                 ...List.generate(_sizes.length, (i) {
                   final size = _sizes[i];
                   final isSelected = selected == size['name'];
-                  final multiplier = (size['multiplier'] as num?)?.toDouble() ?? 1.0;
+                  final multiplier =
+                      (size['multiplier'] as num?)?.toDouble() ?? 1.0;
 
                   return Padding(
                     padding: responsive.padding(bottom: 12),
@@ -126,7 +167,9 @@ class _AreaSizeSelectorState extends State<AreaSizeSelector> {
                               ),
                               child: Icon(
                                 size['icon'] as IconData,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(24),
                               ),
                             ),
@@ -168,8 +211,11 @@ class _AreaSizeSelectorState extends State<AreaSizeSelector> {
                               ),
                             ),
                             if (isSelected)
-                              Icon(Icons.check_circle, color: AppColors.primary,
-                                size: responsive.iconSize(22)),
+                              Icon(
+                                Icons.check_circle,
+                                color: AppColors.primary,
+                                size: responsive.iconSize(22),
+                              ),
                           ],
                         ),
                       ),

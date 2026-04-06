@@ -42,7 +42,8 @@ class ServiceBookingShell extends StatefulWidget {
     VoidCallback onNext,
     VoidCallback onBack,
     VoidCallback onClose,
-  ) stepBuilder;
+  )
+  stepBuilder;
 
   const ServiceBookingShell({
     super.key,
@@ -112,7 +113,9 @@ class _ServiceBookingShellState extends State<ServiceBookingShell> {
             _currentStep,
             widget.formData,
             // For the second-to-last step (review), use _onBookingComplete
-            _currentStep == widget.totalSteps ? _onBookingComplete : _goToNextStep,
+            _currentStep == widget.totalSteps
+                ? _onBookingComplete
+                : _goToNextStep,
             _goToPreviousStep,
             _closeFlow,
           ),

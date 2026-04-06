@@ -1,0 +1,108 @@
+# ============================================================
+# CD Pipeline — Android Build & Distribution
+# Runs on: every push to main (AFTER CI passes)
+#
+# WHAT IT DOES:
+#   1. Build a signed release APK
+#   2. Distribute to testers via Firebase App Distribution
+#      (testers get an email with download link — no Play Store needed)
+#   3. Optionally upload to Play Store internal track (commented out)
+#
+# WHY FIREBASE APP DISTRIBUTION?
+#   - Free, instant distribution to testers
+#   - No need to go through Play Store review for internal testing
+#   - Testers just click an email link and install
+# ============================================================
+
+name: CD — Android Build & Distribute
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: android-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-android:
+    name: Build & Distribute Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Setup Java (required for Android build tools) ──────
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # ── 3. Setup Flutter ──────────────────────────────────────
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.0'
+          channel: stable
+          cache: true
+
+      # ── 4. Install dependencies ───────────────────────────────
+      - name: Install dependencies
+        run: flutter pub get
+
+      # ── 5. Decode Android keystore ───────────────────────────
+      # KEYSTORE_BASE64: your .jks file encoded as base64
+      # HOW TO CREATE: keytool -genkey -v -keystore homeiq.jks -alias homeiq -keyalg RSA -keysize 2048 -validity 10000
+      # HOW TO ENCODE: base64 -i homeiq.jks -o homeiq.jks.b64  (then copy that file's content as the secret)
+      - name: Decode keystore file
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/homeiq.jks
+
+      # ── 6. Create key.properties ────────────────────────────
+      # Flutter's Android build reads signing config from this file
+      # We write it dynamically from secrets — never commit this file
+      - name: Write key.properties
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=homeiq.jks
+          EOF
+
+      # ── 7. Build release APK ─────────────────────────────────
+      # --release uses the keystore we set up above
+      # Output: build/app/outputs/flutter-apk/app-release.apk
+      - name: Build release APK
+        run: flutter build apk --release
+
+      # ── 8. Upload APK as artifact (always saved, even on failure) ─
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: homeiq-android-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+      # ── 9. Distribute to testers via Firebase App Distribution ─
+      # Testers receive email with install link
+      # FIREBASE_ANDROID_APP_ID: from Firebase Console → Your App → Settings
+      # FIREBASE_SERVICE_ACCOUNT_JSON: GCP service account with Firebase App Distribution Admin role
+      - name: Distribute to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          releaseNotes: "Build from commit ${{ github.sha }} — ${{ github.event.head_commit.message }}"
+          file: build/app/outputs/flutter-apk/app-release.apk
+
+      # ── 10. Clean up keystore (security: don't leave on runner) ─
+      - name: Clean up keystore
+        if: always()
+        run: |
+          rm -f android/app/homeiq.jks
+          rm -f android/key.properties

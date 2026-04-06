@@ -9,39 +9,15 @@ enum MaintenanceFrequency {
   usageBased,
 }
 
-enum MaintenanceCategory {
-  cleaning,
-  inspection,
-  replacement,
-  service,
-}
+enum MaintenanceCategory { cleaning, inspection, replacement, service }
 
-enum MaintenanceStatus {
-  pending,
-  completed,
-  snoozed,
-  skipped,
-}
+enum MaintenanceStatus { pending, completed, snoozed, skipped }
 
-enum ReminderStatus {
-  upcoming,
-  overdue,
-  snoozed,
-  completed,
-  skipped,
-}
+enum ReminderStatus { upcoming, overdue, snoozed, completed, skipped }
 
-enum ReminderPriority {
-  low,
-  medium,
-  high,
-}
+enum ReminderPriority { low, medium, high }
 
-enum SkipReason {
-  dontKnowHow,
-  notNeeded,
-  willDoLater,
-}
+enum SkipReason { dontKnowHow, notNeeded, willDoLater }
 
 class MaintenanceTask {
   final String id;
@@ -289,7 +265,9 @@ class AssetHealthScore {
       healthScore: (json['healthScore'] as num).toDouble(),
       riskScore: (json['riskScore'] as num).toDouble(),
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
-      factors: HealthScoreFactors.fromJson(json['factors'] as Map<String, dynamic>),
+      factors: HealthScoreFactors.fromJson(
+        json['factors'] as Map<String, dynamic>,
+      ),
     );
   }
 }
@@ -319,7 +297,8 @@ class HealthScoreFactors {
   factory HealthScoreFactors.fromJson(Map<String, dynamic> json) {
     return HealthScoreFactors(
       age: (json['age'] as num).toDouble(),
-      maintenanceCompletionRate: (json['maintenanceCompletionRate'] as num).toDouble(),
+      maintenanceCompletionRate: (json['maintenanceCompletionRate'] as num)
+          .toDouble(),
       issueHistory: (json['issueHistory'] as num).toDouble(),
       brandReliability: (json['brandReliability'] as num).toDouble(),
     );
@@ -369,5 +348,3 @@ class ReplacementRecommendation {
     required this.replacementUrgency,
   });
 }
-
-

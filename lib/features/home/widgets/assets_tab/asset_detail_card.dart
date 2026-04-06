@@ -65,7 +65,7 @@ class AssetDetailCard extends StatelessWidget {
     final replacedByAssetName = asset['replacedByAssetName']?.toString();
     final lifecycleStatus = asset['lifecycleStatus']?.toString() ?? 'active';
     final isReplaced = lifecycleStatus == 'replaced';
-    
+
     // Format purchase date: prefer full ISO date (purchasedAt), fall back to formatted text
     final purchaseDate = _formatPurchaseDate(
       purchasedAt: asset['purchasedAt']?.toString(),
@@ -771,7 +771,9 @@ class AssetDetailCard extends StatelessWidget {
     dynamic purchaseMonth,
   }) {
     // Priority 1: Parse full ISO date from purchasedAt
-    if (purchasedAt != null && purchasedAt.isNotEmpty && purchasedAt != 'null') {
+    if (purchasedAt != null &&
+        purchasedAt.isNotEmpty &&
+        purchasedAt != 'null') {
       try {
         final date = DateTime.parse(purchasedAt);
         return _formatDateFull(date);
@@ -781,7 +783,9 @@ class AssetDetailCard extends StatelessWidget {
     }
 
     // Priority 2: Use pre-formatted purchase date string
-    if (purchaseDate != null && purchaseDate.isNotEmpty && purchaseDate != 'null') {
+    if (purchaseDate != null &&
+        purchaseDate.isNotEmpty &&
+        purchaseDate != 'null') {
       return purchaseDate;
     }
 
@@ -805,8 +809,18 @@ class AssetDetailCard extends StatelessWidget {
   /// Format DateTime as "Jan 28, 2011" (day, month, year).
   static String _formatDateFull(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }

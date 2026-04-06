@@ -37,9 +37,17 @@ class SizeSelector extends StatefulWidget {
 class _SizeSelectorState extends State<SizeSelector> {
   static const _propertyTypes = [
     {'name': 'Studio', 'icon': Icons.weekend_rounded, 'size': '< 500 sq ft'},
-    {'name': 'Apartment', 'icon': Icons.apartment_rounded, 'size': '500-1200 sq ft'},
+    {
+      'name': 'Apartment',
+      'icon': Icons.apartment_rounded,
+      'size': '500-1200 sq ft',
+    },
     {'name': 'House', 'icon': Icons.home_rounded, 'size': '1200-3000 sq ft'},
-    {'name': 'Condo', 'icon': Icons.location_city_rounded, 'size': '800-2000 sq ft'},
+    {
+      'name': 'Condo',
+      'icon': Icons.location_city_rounded,
+      'size': '800-2000 sq ft',
+    },
     {'name': 'Large Home', 'icon': Icons.villa_rounded, 'size': '3000+ sq ft'},
   ];
 
@@ -126,7 +134,9 @@ class _SizeSelectorState extends State<SizeSelector> {
                               ),
                               child: Icon(
                                 type['icon'] as IconData,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(22),
                               ),
                             ),
@@ -156,8 +166,11 @@ class _SizeSelectorState extends State<SizeSelector> {
                               ),
                             ),
                             if (isSelected)
-                              Icon(Icons.check_circle, color: AppColors.primary,
-                                size: responsive.iconSize(22)),
+                              Icon(
+                                Icons.check_circle,
+                                color: AppColors.primary,
+                                size: responsive.iconSize(22),
+                              ),
                           ],
                         ),
                       ),
@@ -187,12 +200,21 @@ class _SizeSelectorState extends State<SizeSelector> {
                         widget.formData.propertySize = size;
                       }),
                       child: Container(
-                        padding: responsive.padding(horizontal: 16, vertical: 10),
+                        padding: responsive.padding(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
-                          color: isSizeSelected ? AppColors.primary05 : Colors.white,
-                          borderRadius: BorderRadius.circular(responsive.borderRadius(20)),
+                          color: isSizeSelected
+                              ? AppColors.primary05
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            responsive.borderRadius(20),
+                          ),
                           border: Border.all(
-                            color: isSizeSelected ? AppColors.primary : AppColors.gray300,
+                            color: isSizeSelected
+                                ? AppColors.primary
+                                : AppColors.gray300,
                             width: isSizeSelected ? 1.5 : 1,
                           ),
                           boxShadow: [
@@ -207,8 +229,12 @@ class _SizeSelectorState extends State<SizeSelector> {
                           size,
                           style: TextStyle(
                             fontSize: responsive.fontSize(13),
-                            fontWeight: isSizeSelected ? FontWeight.w600 : FontWeight.w500,
-                            color: isSizeSelected ? AppColors.primary : AppColors.textPrimary,
+                            fontWeight: isSizeSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: isSizeSelected
+                                ? AppColors.primary
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ),

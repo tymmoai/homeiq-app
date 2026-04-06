@@ -10,10 +10,7 @@ import '../../../core/widgets/app_dialogs.dart';
 class AddFamilyMemberForm extends StatefulWidget {
   final Function(Map<String, dynamic>)? onMemberAdded;
 
-  const AddFamilyMemberForm({
-    super.key,
-    this.onMemberAdded,
-  });
+  const AddFamilyMemberForm({super.key, this.onMemberAdded});
 
   @override
   State<AddFamilyMemberForm> createState() => _AddFamilyMemberFormState();
@@ -24,7 +21,7 @@ class _AddFamilyMemberFormState extends State<AddFamilyMemberForm> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  
+
   String _selectedRole = 'Member';
   bool _isLoading = false;
 
@@ -177,7 +174,9 @@ class _AddFamilyMemberFormState extends State<AddFamilyMemberForm> {
         child: Container(
           padding: const EdgeInsets.all(AppDimensions.paddingMedium),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : AppColors.white,
+            color: isSelected
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : AppColors.white,
             border: Border.all(
               color: isSelected ? AppColors.primary : AppColors.divider,
               width: 2,
@@ -187,7 +186,9 @@ class _AddFamilyMemberFormState extends State<AddFamilyMemberForm> {
           child: Row(
             children: [
               Icon(
-                isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                isSelected
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
                 color: isSelected ? AppColors.primary : AppColors.textHint,
               ),
               const SizedBox(width: AppDimensions.spacing12),
@@ -198,8 +199,12 @@ class _AddFamilyMemberFormState extends State<AddFamilyMemberForm> {
                     role,
                     style: TextStyle(
                       fontSize: AppDimensions.fontM,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                      color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.normal,
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.textPrimary,
                     ),
                   ),
                   Text(

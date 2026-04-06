@@ -139,11 +139,12 @@ class IdentifyGuidanceSection extends StatelessWidget {
                           )
                         : Container(
                             height: 50,
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                               color: AppColors.white,
-                              borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                              borderRadius: BorderRadius.circular(
+                                AppDimensions.radiusBadge,
+                              ),
                               border: Border.all(
                                 color: AppColors.border.withValues(alpha: 0.3),
                               ),
@@ -248,7 +249,9 @@ class IdentifyGuidanceSection extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                               color: AppColors.white,
-                              borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                              borderRadius: BorderRadius.circular(
+                                AppDimensions.radiusBadge,
+                              ),
                               border: Border.all(
                                 color: AppColors.border.withValues(alpha: 0.3),
                               ),

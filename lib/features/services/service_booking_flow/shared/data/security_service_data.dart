@@ -20,7 +20,11 @@ class SecurityServiceData {
       icon: Icons.videocam_outlined,
       description: 'Indoor/outdoor surveillance',
       items: [
-        ServiceItem(name: 'Security Camera', price: 149, icon: Icons.videocam_outlined),
+        ServiceItem(
+          name: 'Security Camera',
+          price: 149,
+          icon: Icons.videocam_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -42,7 +46,11 @@ class SecurityServiceData {
       icon: Icons.security_outlined,
       description: 'Home security alerts',
       items: [
-        ServiceItem(name: 'Alarm System', price: 249, icon: Icons.security_outlined),
+        ServiceItem(
+          name: 'Alarm System',
+          price: 249,
+          icon: Icons.security_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -53,7 +61,11 @@ class SecurityServiceData {
       icon: Icons.verified_user_outlined,
       description: 'Complete home security',
       items: [
-        ServiceItem(name: 'Full Security Setup', price: 499, icon: Icons.verified_user_outlined),
+        ServiceItem(
+          name: 'Full Security Setup',
+          price: 499,
+          icon: Icons.verified_user_outlined,
+        ),
       ],
       addons: addons,
     ),
@@ -78,23 +90,55 @@ class SecurityServiceData {
 
   // ── Add-ons (Step 4 — 6 options from web) ─────────────────────────────
   static const List<ServiceAddon> addons = [
-    ServiceAddon(name: 'App Setup & Configuration', price: 25, icon: Icons.phone_android_outlined, description: 'Connect to phone app'),
-    ServiceAddon(name: 'Wi-Fi Integration', price: 20, icon: Icons.wifi_outlined, description: 'Connect to home network'),
-    ServiceAddon(name: 'Wall Drilling', price: 35, icon: Icons.construction_outlined, description: 'Professional mounting'),
-    ServiceAddon(name: 'Cable Concealment', price: 45, icon: Icons.cable_outlined, description: 'Hide cables neatly'),
-    ServiceAddon(name: 'User Training', price: 30, icon: Icons.school_outlined, description: '30-min walkthrough'),
-    ServiceAddon(name: 'Smart Hub Setup', price: 40, icon: Icons.hub_outlined, description: 'Central control integration'),
+    ServiceAddon(
+      name: 'App Setup & Configuration',
+      price: 25,
+      icon: Icons.phone_android_outlined,
+      description: 'Connect to phone app',
+    ),
+    ServiceAddon(
+      name: 'Wi-Fi Integration',
+      price: 20,
+      icon: Icons.wifi_outlined,
+      description: 'Connect to home network',
+    ),
+    ServiceAddon(
+      name: 'Wall Drilling',
+      price: 35,
+      icon: Icons.construction_outlined,
+      description: 'Professional mounting',
+    ),
+    ServiceAddon(
+      name: 'Cable Concealment',
+      price: 45,
+      icon: Icons.cable_outlined,
+      description: 'Hide cables neatly',
+    ),
+    ServiceAddon(
+      name: 'User Training',
+      price: 30,
+      icon: Icons.school_outlined,
+      description: '30-min walkthrough',
+    ),
+    ServiceAddon(
+      name: 'Smart Hub Setup',
+      price: 40,
+      icon: Icons.hub_outlined,
+      description: 'Central control integration',
+    ),
   ];
 
   static Map<String, List<Map<String, dynamic>>> get serviceItemsMap {
     return {
       for (final cat in categories)
         cat.name: cat.items
-            .map((item) => {
-                  'name': item.name,
-                  'price': item.price.toInt(),
-                  'icon': item.icon,
-                })
+            .map(
+              (item) => {
+                'name': item.name,
+                'price': item.price.toInt(),
+                'icon': item.icon,
+              },
+            )
             .toList(),
     };
   }

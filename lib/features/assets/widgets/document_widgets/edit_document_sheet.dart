@@ -431,7 +431,9 @@ class _EditDocumentBottomSheetState extends State<EditDocumentBottomSheet> {
                         decoration: InputDecoration(
                           labelText: 'Document Type',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,

@@ -32,7 +32,11 @@ class NewCardFormFieldsWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.lock_outline, size: responsive.iconSize(16), color: AppColors.success),
+              Icon(
+                Icons.lock_outline,
+                size: responsive.iconSize(16),
+                color: AppColors.success,
+              ),
               SizedBox(width: responsive.spacing(8)),
               Expanded(
                 child: Text(
@@ -156,10 +160,7 @@ class NewCardFormFieldsWidget extends StatelessWidget {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -196,10 +197,7 @@ class NewCardFormFieldsWidget extends StatelessWidget {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: AppColors.primary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,

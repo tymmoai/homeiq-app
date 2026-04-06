@@ -71,7 +71,11 @@ class DocumentPreviewWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.camera_alt, color: Colors.white, size: responsive.iconSize(28)),
+                    Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                      size: responsive.iconSize(28),
+                    ),
                     SizedBox(height: responsive.spacing(6)),
                     const Text(
                       'Tap to replace',

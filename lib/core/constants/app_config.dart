@@ -49,7 +49,7 @@ class AppConfig {
   static const Duration apiRetryDelay = Duration(seconds: 2);
 
   // ==================== API ENDPOINTS ====================
-  
+
   // Authentication
   static const String loginEndpoint = '/auth/login';
   static const String registerEndpoint = '/auth/register';
@@ -92,20 +92,20 @@ class AppConfig {
   static const String notificationReadEndpoint = '/notifications/:id/read';
 
   // ==================== PAGINATION ====================
-  
+
   static const int defaultPageSize = 20;
   static const int maxPageSize = 100;
   static const int minPageSize = 10;
 
   // ==================== CACHE ====================
-  
+
   static const Duration cacheExpiry = Duration(hours: 1);
   static const Duration imageCacheExpiry = Duration(days: 7);
   static const int maxCacheSize = 100; // MB
   static const bool enableCache = true;
 
   // ==================== STORAGE KEYS ====================
-  
+
   static const String accessTokenKey = 'access_token';
   static const String refreshTokenKey = 'refresh_token';
   static const String userIdKey = 'user_id';
@@ -117,7 +117,7 @@ class AppConfig {
   static const String biometricsEnabledKey = 'biometrics_enabled';
 
   // ==================== FEATURES FLAGS ====================
-  
+
   static const bool enableBiometrics = true;
   static const bool enablePushNotifications = true;
   static const bool enableAnalytics = true;
@@ -127,88 +127,93 @@ class AppConfig {
   static const bool enableMultiLanguage = false;
 
   // ==================== VALIDATION ====================
-  
+
   static const int minPasswordLength = 8;
   static const int maxPasswordLength = 64;
   static const int minUsernameLength = 3;
   static const int maxUsernameLength = 30;
   static const int maxEmailLength = 255;
   static const int maxPhoneLength = 15;
-  
+
   // ==================== FILE UPLOAD ====================
-  
+
   static const int maxFileSize = 10 * 1024 * 1024; // 10 MB
   static const int maxImageSize = 5 * 1024 * 1024; // 5 MB
   static const int maxVideoSize = 50 * 1024 * 1024; // 50 MB
   static const List<String> allowedImageFormats = ['jpg', 'jpeg', 'png', 'gif'];
-  static const List<String> allowedDocumentFormats = ['pdf', 'doc', 'docx', 'txt'];
-  
+  static const List<String> allowedDocumentFormats = [
+    'pdf',
+    'doc',
+    'docx',
+    'txt',
+  ];
+
   // ==================== MAP & LOCATION ====================
-  
+
   static const String googleMapsApiKey = String.fromEnvironment(
     'GOOGLE_MAPS_API_KEY',
     defaultValue: '',
   );
-  
+
   static const double defaultLatitude = 37.7749; // San Francisco
   static const double defaultLongitude = -122.4194;
   static const double defaultMapZoom = 15.0;
-  
+
   // ==================== PAYMENT ====================
-  
+
   static const String stripePublishableKey = String.fromEnvironment(
     'STRIPE_PUBLISHABLE_KEY',
     defaultValue: '',
   );
-  
+
   static const String paypalClientId = String.fromEnvironment(
     'PAYPAL_CLIENT_ID',
     defaultValue: '',
   );
-  
+
   // ==================== ANALYTICS ====================
-  
+
   static const String googleAnalyticsId = String.fromEnvironment(
     'GOOGLE_ANALYTICS_ID',
     defaultValue: '',
   );
-  
+
   static const String mixpanelToken = String.fromEnvironment(
     'MIXPANEL_TOKEN',
     defaultValue: '',
   );
-  
+
   // ==================== SOCIAL ====================
-  
+
   static const String facebookAppId = String.fromEnvironment(
     'FACEBOOK_APP_ID',
     defaultValue: '',
   );
-  
+
   static const String googleClientId = String.fromEnvironment(
     'GOOGLE_CLIENT_ID',
     defaultValue: '',
   );
-  
+
   // ==================== SUPPORT ====================
-  
+
   static String get supportEmail => AppStrings.supportEmail;
   static String get supportPhone => AppStrings.supportPhone;
   static const String websiteUrl = 'https://www.squaretrade.com';
   static const String privacyPolicyUrl = 'https://www.squaretrade.com/privacy';
   static const String termsOfServiceUrl = 'https://www.squaretrade.com/terms';
-  
+
   // ==================== DEBUG ====================
-  
+
   static const bool enableDebugMode = bool.fromEnvironment(
     'DEBUG_MODE',
     defaultValue: false,
   );
-  
+
   static const bool enableNetworkLogging = bool.fromEnvironment(
     'NETWORK_LOGGING',
     defaultValue: false,
   );
-  
+
   static const bool enablePerformanceMonitoring = true;
 }

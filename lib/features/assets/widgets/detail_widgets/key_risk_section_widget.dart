@@ -283,8 +283,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
           'severityColor': AppColors.error,
         });
       }
-    } else if (type.contains('hvac') || type.contains('heating') ||
-        type.contains('cooling') || type.contains('furnace') ||
+    } else if (type.contains('hvac') ||
+        type.contains('heating') ||
+        type.contains('cooling') ||
+        type.contains('furnace') ||
         type.contains('heat pump')) {
       risks.add({
         'title': 'Restricted Airflow',
@@ -313,8 +315,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Low',
         'severityColor': AppColors.info,
       });
-    } else if (type.contains('range') || type.contains('stove') ||
-        type.contains('oven') || type.contains('cooktop')) {
+    } else if (type.contains('range') ||
+        type.contains('stove') ||
+        type.contains('oven') ||
+        type.contains('cooktop')) {
       risks.add({
         'title': 'Grease Fire Risk',
         'description':
@@ -341,8 +345,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Medium',
         'severityColor': AppColors.warning,
       });
-    } else if (type.contains('router') || type.contains('gateway') ||
-        type.contains('modem') || type.contains('network')) {
+    } else if (type.contains('router') ||
+        type.contains('gateway') ||
+        type.contains('modem') ||
+        type.contains('network')) {
       risks.add({
         'title': 'Security Vulnerability',
         'description':
@@ -369,7 +375,8 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Low',
         'severityColor': AppColors.info,
       });
-    } else if (type.contains('television') || type.contains('smart tv') ||
+    } else if (type.contains('television') ||
+        type.contains('smart tv') ||
         type.endsWith(' tv')) {
       risks.add({
         'title': 'Overheating from Blocked Vents',
@@ -379,8 +386,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Low',
         'severityColor': AppColors.info,
       });
-    } else if (type.contains('phone') || type.contains('iphone') ||
-        type.contains('smartphone') || type.contains('android')) {
+    } else if (type.contains('phone') ||
+        type.contains('iphone') ||
+        type.contains('smartphone') ||
+        type.contains('android')) {
       risks.add({
         'title': 'Battery Degradation',
         'description':
@@ -398,8 +407,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Medium',
         'severityColor': AppColors.warning,
       });
-    } else if (type.contains('speaker') || type.contains('audio') ||
-        type.contains('soundbar') || type.contains('sound bar')) {
+    } else if (type.contains('speaker') ||
+        type.contains('audio') ||
+        type.contains('soundbar') ||
+        type.contains('sound bar')) {
       risks.add({
         'title': 'Driver Wear & Distortion',
         'description':
@@ -408,8 +419,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Low',
         'severityColor': AppColors.info,
       });
-    } else if (type.contains('smart') || type.contains('alexa') ||
-        type.contains('echo') || type.contains('nest') ||
+    } else if (type.contains('smart') ||
+        type.contains('alexa') ||
+        type.contains('echo') ||
+        type.contains('nest') ||
         type.contains('hub')) {
       risks.add({
         'title': 'Firmware & Privacy Risk',
@@ -419,8 +432,10 @@ class KeyRiskSectionWidget extends StatelessWidget {
         'severity': 'Medium',
         'severityColor': AppColors.warning,
       });
-    } else if (type.contains('gaming') || type.contains('console') ||
-        type.contains('playstation') || type.contains('xbox') ||
+    } else if (type.contains('gaming') ||
+        type.contains('console') ||
+        type.contains('playstation') ||
+        type.contains('xbox') ||
         type.contains('nintendo')) {
       risks.add({
         'title': 'Overheating & Dust Buildup',

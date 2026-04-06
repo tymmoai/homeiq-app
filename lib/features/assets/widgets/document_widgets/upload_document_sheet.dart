@@ -273,13 +273,14 @@ class _UploadDocumentBottomSheetState extends State<UploadDocumentBottomSheet> {
       final sizeBytes = await _selectedFile!.length();
       final extLower = _fileExtension.toLowerCase();
       final mimeType = switch (extLower) {
-        'pdf'  => 'application/pdf',
-        'jpg'  || 'jpeg' => 'image/jpeg',
-        'png'  => 'image/png',
+        'pdf' => 'application/pdf',
+        'jpg' || 'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
         'heic' => 'image/heic',
-        'doc'  => 'application/msword',
-        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        _      => null,
+        'doc' => 'application/msword',
+        'docx' =>
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        _ => null,
       };
 
       final newDocument = {
@@ -431,7 +432,9 @@ class _UploadDocumentBottomSheetState extends State<UploadDocumentBottomSheet> {
                         decoration: InputDecoration(
                           labelText: 'Document Type *',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,

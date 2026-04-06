@@ -40,8 +40,12 @@ class _CombinedAddressFormScreenState extends State<CombinedAddressFormScreen> {
       );
       if (addressParts.length > 2) {
         final stateZip = addressParts[2].split(' ');
-        _stateController = TextEditingController(text: stateZip.isNotEmpty ? stateZip[0] : '');
-        _zipController = TextEditingController(text: stateZip.length > 1 ? stateZip[1] : '');
+        _stateController = TextEditingController(
+          text: stateZip.isNotEmpty ? stateZip[0] : '',
+        );
+        _zipController = TextEditingController(
+          text: stateZip.length > 1 ? stateZip[1] : '',
+        );
       } else {
         _stateController = TextEditingController();
         _zipController = TextEditingController();
@@ -103,22 +107,38 @@ class _CombinedAddressFormScreenState extends State<CombinedAddressFormScreen> {
             children: [
               _buildFormField('Full Name', _nameController, 'Enter full name'),
               SizedBox(height: responsive.spacing(16)),
-              _buildFormField('Phone Number', _phoneController, 'Enter phone number',
-                  keyboardType: TextInputType.phone),
+              _buildFormField(
+                'Phone Number',
+                _phoneController,
+                'Enter phone number',
+                keyboardType: TextInputType.phone,
+              ),
               SizedBox(height: responsive.spacing(16)),
-              _buildFormField('Street Address', _addressLine1Controller, 'Enter street address'),
+              _buildFormField(
+                'Street Address',
+                _addressLine1Controller,
+                'Enter street address',
+              ),
               SizedBox(height: responsive.spacing(16)),
               _buildFormField('City', _cityController, 'Enter city'),
               SizedBox(height: responsive.spacing(16)),
               Row(
                 children: [
                   Expanded(
-                    child: _buildFormField('State', _stateController, 'e.g. NY'),
+                    child: _buildFormField(
+                      'State',
+                      _stateController,
+                      'e.g. NY',
+                    ),
                   ),
                   SizedBox(width: responsive.spacing(12)),
                   Expanded(
-                    child: _buildFormField('ZIP Code', _zipController, 'e.g. 10001',
-                        keyboardType: TextInputType.number),
+                    child: _buildFormField(
+                      'ZIP Code',
+                      _zipController,
+                      'e.g. 10001',
+                      keyboardType: TextInputType.number,
+                    ),
                   ),
                 ],
               ),
@@ -135,7 +155,10 @@ class _CombinedAddressFormScreenState extends State<CombinedAddressFormScreen> {
                   ),
                   child: Text(
                     isEditing ? 'Update Address' : 'Save Address',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -146,8 +169,12 @@ class _CombinedAddressFormScreenState extends State<CombinedAddressFormScreen> {
     );
   }
 
-  Widget _buildFormField(String label, TextEditingController controller, String hint,
-      {TextInputType keyboardType = TextInputType.text}) {
+  Widget _buildFormField(
+    String label,
+    TextEditingController controller,
+    String hint, {
+    TextInputType keyboardType = TextInputType.text,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -166,7 +193,10 @@ class _CombinedAddressFormScreenState extends State<CombinedAddressFormScreen> {
           validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(fontSize: responsive.fontSize(14), color: Colors.grey.shade400),
+            hintStyle: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: Colors.grey.shade400,
+            ),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
@@ -181,9 +211,15 @@ class _CombinedAddressFormScreenState extends State<CombinedAddressFormScreen> {
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: AppColors.primary, width: 1.5),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(14)),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: responsive.spacing(14),
+              vertical: responsive.spacing(14),
+            ),
           ),
-          style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textPrimary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: AppColors.textPrimary,
+          ),
         ),
       ],
     );

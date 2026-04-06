@@ -23,7 +23,8 @@ class MaintenanceDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _MaintenanceDashboardScreenState
-    extends ConsumerState<MaintenanceDashboardScreen> with ViewModelMixin {
+    extends ConsumerState<MaintenanceDashboardScreen>
+    with ViewModelMixin {
   ResponsiveUtils get responsive => ResponsiveUtils(context);
   List<Reminder> _allReminders = [];
   List<Reminder> _completedReminders = [];
@@ -55,9 +56,13 @@ class _MaintenanceDashboardScreenState
         );
         reminders = records.map((r) {
           final status = r['status']?.toString() ?? 'completed';
-          final performedAt = DateTime.tryParse(r['performedAt']?.toString() ?? '');
+          final performedAt = DateTime.tryParse(
+            r['performedAt']?.toString() ?? '',
+          );
           final nextDueAt = DateTime.tryParse(r['nextDueAt']?.toString() ?? '');
-          final createdAt = DateTime.tryParse(r['createdAt']?.toString() ?? '') ?? DateTime.now();
+          final createdAt =
+              DateTime.tryParse(r['createdAt']?.toString() ?? '') ??
+              DateTime.now();
           final dueDate = nextDueAt ?? performedAt ?? createdAt;
           final assetData = r['asset'] as Map<String, dynamic>?;
           final assetName = assetData?['name']?.toString() ?? 'Home';
@@ -92,7 +97,8 @@ class _MaintenanceDashboardScreenState
             taskId: r['id']?.toString() ?? '',
             taskName: r['title']?.toString() ?? 'Maintenance Task',
             taskDescription: r['description']?.toString() ?? '',
-            whyItMatters: 'Regular maintenance keeps your asset in peak condition',
+            whyItMatters:
+                'Regular maintenance keeps your asset in peak condition',
             estimatedEffort: '15 minutes',
             dueDate: dueDate,
             status: reminderStatus,
@@ -100,8 +106,7 @@ class _MaintenanceDashboardScreenState
             riskLevel: 3,
             completedDate: status == 'completed' ? performedAt : null,
           );
-        }).toList()
-          ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+        }).toList()..sort((a, b) => a.dueDate.compareTo(b.dueDate));
       } else {
         // Fallback to local data if no homeId
         await MaintenanceService.initializeMaintenanceData();
@@ -311,7 +316,9 @@ class _MaintenanceDashboardScreenState
                 SizedBox(height: responsive.spacing(16)),
                 // Dropdown Filters
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.spacing(20),
+                  ),
                   child: _buildMaintenanceDropdowns(),
                 ),
                 SizedBox(height: responsive.spacing(16)),
@@ -319,7 +326,9 @@ class _MaintenanceDashboardScreenState
                 if (_overdueReminders.isNotEmpty &&
                     _filterStatus != 'Completed')
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(20),
+                    ),
                     child: _buildSection(
                       title: 'Overdue Maintenance',
                       icon: Icons.warning_amber_rounded,
@@ -333,7 +342,9 @@ class _MaintenanceDashboardScreenState
                     _filterStatus != 'Completed' &&
                     _filterStatus != 'Overdue')
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(20),
+                    ),
                     child: _buildSection(
                       title: 'Upcoming Maintenance',
                       icon: Icons.calendar_today,
@@ -346,7 +357,9 @@ class _MaintenanceDashboardScreenState
                 if (_filterStatus == 'Completed' &&
                     _completedReminders.isNotEmpty)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsive.spacing(20),
+                    ),
                     child: _buildCompletedSection(),
                   ),
                 // Empty State
@@ -503,7 +516,11 @@ class _MaintenanceDashboardScreenState
               color: (iconColor ?? AppColors.primary).withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: responsive.iconSize(24), color: iconColor ?? AppColors.primary),
+            child: Icon(
+              icon,
+              size: responsive.iconSize(24),
+              color: iconColor ?? AppColors.primary,
+            ),
           ),
           SizedBox(width: responsive.spacing(14)),
           Expanded(
@@ -644,7 +661,10 @@ class _MaintenanceDashboardScreenState
           },
           child: Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: responsive.spacing(16), vertical: responsive.spacing(12)),
+            padding: EdgeInsets.symmetric(
+              horizontal: responsive.spacing(16),
+              vertical: responsive.spacing(12),
+            ),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -716,7 +736,10 @@ class _MaintenanceDashboardScreenState
             ),
             SizedBox(width: responsive.spacing(8)),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(8),
+                vertical: responsive.spacing(4),
+              ),
               decoration: BoxDecoration(
                 color: iconColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -757,7 +780,11 @@ class _MaintenanceDashboardScreenState
       children: [
         Row(
           children: [
-            Icon(Icons.check_circle, size: responsive.iconSize(20), color: AppColors.successDark),
+            Icon(
+              Icons.check_circle,
+              size: responsive.iconSize(20),
+              color: AppColors.successDark,
+            ),
             SizedBox(width: responsive.spacing(8)),
             Text(
               'Completed Maintenance',
@@ -769,7 +796,10 @@ class _MaintenanceDashboardScreenState
             ),
             SizedBox(width: responsive.spacing(8)),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(8),
+                vertical: responsive.spacing(4),
+              ),
               decoration: BoxDecoration(
                 color: AppColors.successLight,
                 borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -848,7 +878,11 @@ class _MaintenanceDashboardScreenState
     return Center(
       child: Column(
         children: [
-          Icon(Icons.check_circle, size: responsive.iconSize(64), color: AppColors.success),
+          Icon(
+            Icons.check_circle,
+            size: responsive.iconSize(64),
+            color: AppColors.success,
+          ),
           SizedBox(height: responsive.spacing(16)),
           Text(
             'No Pending Maintenance',
@@ -861,7 +895,10 @@ class _MaintenanceDashboardScreenState
           SizedBox(height: responsive.spacing(8)),
           Text(
             'No maintenance reminders at this time.',
-            style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.gray600),
+            style: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: AppColors.gray600,
+            ),
           ),
         ],
       ),

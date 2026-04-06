@@ -49,7 +49,10 @@ class _CombinedPaymentInfoWidgetState extends State<CombinedPaymentInfoWidget> {
         SizedBox(height: responsive.spacing(8)),
         Text(
           'Select payment method',
-          style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textSecondary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: AppColors.textSecondary,
+          ),
         ),
         SizedBox(height: responsive.spacing(24)),
 
@@ -135,12 +138,17 @@ class _CombinedPaymentInfoWidgetState extends State<CombinedPaymentInfoWidget> {
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.textOnPrimary),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.textOnPrimary,
+                      ),
                     ),
                   )
                 : Text(
                     'Confirm Payment',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
           ),
         ),

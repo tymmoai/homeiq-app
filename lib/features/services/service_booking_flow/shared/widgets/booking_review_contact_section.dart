@@ -58,8 +58,9 @@ class BookingReviewContactSection extends StatelessWidget {
                     height: responsive.spacing(36.0),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius:
-                          BorderRadius.circular(responsive.borderRadius(8)),
+                      borderRadius: BorderRadius.circular(
+                        responsive.borderRadius(8),
+                      ),
                     ),
                     child: Icon(
                       Icons.person_outline_rounded,
@@ -94,8 +95,10 @@ class BookingReviewContactSection extends StatelessWidget {
                   ),
                 ),
                 style: TextButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -163,7 +166,8 @@ class BookingReviewContactSection extends StatelessWidget {
                         return 'Please enter your email';
                       }
                       final emailRegex = RegExp(
-                          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                      );
                       if (!emailRegex.hasMatch(v)) {
                         return 'Please enter a valid email';
                       }
@@ -194,8 +198,9 @@ class BookingReviewContactSection extends StatelessWidget {
                       if (formatted != v) {
                         phoneController.value = TextEditingValue(
                           text: formatted,
-                          selection:
-                              TextSelection.collapsed(offset: formatted.length),
+                          selection: TextSelection.collapsed(
+                            offset: formatted.length,
+                          ),
                         );
                       }
                       onFieldChanged();
@@ -211,12 +216,18 @@ class BookingReviewContactSection extends StatelessWidget {
   }
 
   Widget _buildContactDisplayRow(
-      BuildContext context, IconData icon, String value) {
+    BuildContext context,
+    IconData icon,
+    String value,
+  ) {
     final responsive = context.responsive;
     return Row(
       children: [
-        Icon(icon,
-            size: responsive.iconSize(16), color: AppColors.textSecondary),
+        Icon(
+          icon,
+          size: responsive.iconSize(16),
+          color: AppColors.textSecondary,
+        ),
         SizedBox(width: responsive.wp(2)),
         Expanded(
           child: Text(

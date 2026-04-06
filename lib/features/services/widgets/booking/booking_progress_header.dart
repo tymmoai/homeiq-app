@@ -57,9 +57,7 @@ class BookingProgressHeader extends StatelessWidget {
             child: LinearProgressIndicator(
               value: (currentStep + 1) / (totalSteps - 1),
               backgroundColor: AppColors.gray200,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                AppColors.primary,
-              ),
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
               minHeight: 4,
             ),
           ),

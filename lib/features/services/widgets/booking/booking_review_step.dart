@@ -118,8 +118,12 @@ class BookingReviewStep extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AssetDetailColors.successColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    color: AssetDetailColors.successColor.withValues(
+                      alpha: 0.1,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                   ),
                   child: const Text(
                     'Recommended',
@@ -230,20 +234,29 @@ class BookingReviewStep extends StatelessWidget {
                     color: termsAccepted
                         ? AppColors.success
                         : AppColors.transparent,
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                     border: termsAccepted
                         ? null
                         : Border.all(color: AppColors.gray400, width: 1.5),
                   ),
                   child: termsAccepted
-                      ? const Icon(Icons.check, color: AppColors.white, size: 16)
+                      ? const Icon(
+                          Icons.check,
+                          color: AppColors.white,
+                          size: 16,
+                        )
                       : null,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(fontSize: 13, color: AppColors.textQuaternary),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: AppColors.textQuaternary,
+                      ),
                       children: [
                         const TextSpan(text: 'I agree to the '),
                         TextSpan(

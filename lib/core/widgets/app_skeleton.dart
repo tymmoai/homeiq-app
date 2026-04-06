@@ -83,8 +83,11 @@ class _AppSkeletonState extends State<AppSkeleton>
     final isCircle =
         widget.borderRadius == null && widget.width == widget.height;
     final effectiveBorderRadius = isCircle
-      ? BorderRadius.circular((widget.width ?? widget.height ?? AppDimensions.spacing16) / 2)
-      : (widget.borderRadius ?? BorderRadius.circular(AppDimensions.radiusSmall));
+        ? BorderRadius.circular(
+            (widget.width ?? widget.height ?? AppDimensions.spacing16) / 2,
+          )
+        : (widget.borderRadius ??
+              BorderRadius.circular(AppDimensions.radiusSmall));
 
     return AnimatedBuilder(
       animation: _animation,
@@ -144,7 +147,10 @@ class AppSkeletonCard extends StatelessWidget {
                   children: [
                     AppSkeleton.text(width: hasAvatar ? 120 : double.infinity),
                     const SizedBox(height: AppDimensions.spacing8),
-                    const AppSkeleton.text(width: 80, fontSize: AppDimensions.fontXs),
+                    const AppSkeleton.text(
+                      width: 80,
+                      fontSize: AppDimensions.fontXs,
+                    ),
                   ],
                 ),
               ),
@@ -153,7 +159,8 @@ class AppSkeletonCard extends StatelessWidget {
           const SizedBox(height: AppDimensions.spacing16),
           for (var i = 0; i < lineCount; i++) ...[
             AppSkeleton.text(width: i == lineCount - 1 ? 200 : double.infinity),
-            if (i < lineCount - 1) const SizedBox(height: AppDimensions.spacing8),
+            if (i < lineCount - 1)
+              const SizedBox(height: AppDimensions.spacing8),
           ],
         ],
       ),

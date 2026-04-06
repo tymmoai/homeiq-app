@@ -63,25 +63,37 @@ class AppTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: AppColors.surface,
-        contentPadding: EdgeInsets.all(responsive.spacing(AppDimensions.inputPadding)),
+        contentPadding: EdgeInsets.all(
+          responsive.spacing(AppDimensions.inputPadding),
+        ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.inputRadius)),
+          borderRadius: BorderRadius.circular(
+            responsive.spacing(AppDimensions.inputRadius),
+          ),
           borderSide: BorderSide(color: AppColors.border, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.inputRadius)),
+          borderRadius: BorderRadius.circular(
+            responsive.spacing(AppDimensions.inputRadius),
+          ),
           borderSide: BorderSide(color: AppColors.border, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.inputRadius)),
+          borderRadius: BorderRadius.circular(
+            responsive.spacing(AppDimensions.inputRadius),
+          ),
           borderSide: BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.inputRadius)),
+          borderRadius: BorderRadius.circular(
+            responsive.spacing(AppDimensions.inputRadius),
+          ),
           borderSide: const BorderSide(color: AppColors.error, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(responsive.spacing(AppDimensions.inputRadius)),
+          borderRadius: BorderRadius.circular(
+            responsive.spacing(AppDimensions.inputRadius),
+          ),
           borderSide: const BorderSide(color: AppColors.error, width: 2),
         ),
         labelStyle: AppTextStyles.label.copyWith(
@@ -95,8 +107,3 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

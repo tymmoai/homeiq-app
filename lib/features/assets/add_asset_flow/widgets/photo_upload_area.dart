@@ -61,10 +61,7 @@ class PhotoUploadArea extends StatelessWidget {
                           width: double.infinity,
                           height: double.infinity,
                           child: photoPath!.startsWith('http')
-                              ? Image.network(
-                                  photoPath!,
-                                  fit: BoxFit.cover,
-                                )
+                              ? Image.network(photoPath!, fit: BoxFit.cover)
                               : photoPath!.startsWith('/') ||
                                     photoPath!.contains('\\')
                               ? Image.file(
@@ -187,9 +184,7 @@ class PhotoUploadArea extends StatelessWidget {
               LinearProgressIndicator(
                 value: uploadProgress,
                 backgroundColor: AppColors.divider,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.primary,
-                ),
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                 minHeight: 4,
               ),
               const SizedBox(height: 8),
@@ -197,10 +192,7 @@ class PhotoUploadArea extends StatelessWidget {
                 uploadProgress < 1.0
                     ? 'Uploading... ${(uploadProgress * 100).toInt()}%'
                     : 'Processing...',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
+                style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
               ),
             ],
           ),

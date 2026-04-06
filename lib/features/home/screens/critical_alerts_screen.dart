@@ -219,7 +219,10 @@ class _CriticalAlertsScreenState extends State<CriticalAlertsScreen> {
           SizedBox(height: responsive.spacing(8)),
           Text(
             'Everything is running smoothly',
-            style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textSecondary),
+            style: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: AppColors.textSecondary,
+            ),
           ),
         ],
       ),
@@ -298,7 +301,9 @@ class _CriticalAlertsScreenState extends State<CriticalAlertsScreen> {
                           color: alert.severity == AlertSeverity.critical
                               ? AppColors.errorLight
                               : AppColors.warningLight,
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Text(
                           alert.severity == AlertSeverity.critical
@@ -321,14 +326,17 @@ class _CriticalAlertsScreenState extends State<CriticalAlertsScreen> {
                       location,
                       style: TextStyle(
                         fontSize: responsive.fontSize(12),
-                      color: AppColors.gray600,
+                        color: AppColors.gray600,
                       ),
                     ),
                   ],
                   SizedBox(height: responsive.spacing(4)),
                   Text(
                     alert.issue,
-                    style: TextStyle(fontSize: responsive.fontSize(13), color: AppColors.gray700),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(13),
+                      color: AppColors.gray700,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -108,7 +108,9 @@ class ChatGPTService {
       _usageTracker.recordDalleRequest();
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
-        final b64 = ((data['data'] as Map<String, dynamic>?)?['image'] ?? data['image']) as String?;
+        final b64 =
+            ((data['data'] as Map<String, dynamic>?)?['image'] ?? data['image'])
+                as String?;
         if (b64 != null && b64.isNotEmpty) {
           return base64Decode(b64);
         }
@@ -156,8 +158,10 @@ class ChatGPTService {
       String viewAngle = 'front view';
 
       if (locationResponse.statusCode == 200) {
-        final locData = jsonDecode(locationResponse.body) as Map<String, dynamic>;
-        final locContent = (locData['data'] as Map<String, dynamic>?) ?? locData;
+        final locData =
+            jsonDecode(locationResponse.body) as Map<String, dynamic>;
+        final locContent =
+            (locData['data'] as Map<String, dynamic>?) ?? locData;
 
         viewDesc = locContent['view'] as String? ?? '';
         viewAngle = viewDesc.isNotEmpty ? viewDesc : 'front view';
@@ -214,7 +218,10 @@ class ChatGPTService {
         _usageTracker.recordDalleRequest();
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body) as Map<String, dynamic>;
-          final b64 = ((data['data'] as Map<String, dynamic>?)?['image'] ?? data['image']) as String?;
+          final b64 =
+              ((data['data'] as Map<String, dynamic>?)?['image'] ??
+                      data['image'])
+                  as String?;
           if (b64 != null && b64.isNotEmpty) {
             imageBytes = base64Decode(b64);
           }

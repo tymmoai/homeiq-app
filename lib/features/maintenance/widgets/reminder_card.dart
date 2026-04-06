@@ -28,9 +28,8 @@ class ReminderCard extends StatefulWidget {
 }
 
 class _ReminderCardState extends State<ReminderCard> {
-
   bool get isOverdue => widget.reminder.status == ReminderStatus.overdue;
-  
+
   int get daysUntilDue {
     final now = DateTime.now();
     final due = widget.reminder.dueDate;
@@ -42,7 +41,7 @@ class _ReminderCardState extends State<ReminderCard> {
   static final Color _textSecondary = AppColors.textSecondary;
   static const Color _buttonTextColor = AppColors.inputIcon;
   static final Color _buttonBorderColor = AppColors.divider;
-  
+
   Color _getRiskColor() {
     // Use only app theme colors - gray shades for risk
     return _textSecondary;
@@ -56,7 +55,7 @@ class _ReminderCardState extends State<ReminderCard> {
   @override
   Widget build(BuildContext context) {
     final isDueToday = daysUntilDue <= 0 && !isOverdue;
-    
+
     return Column(
       children: [
         Container(
@@ -116,10 +115,14 @@ class _ReminderCardState extends State<ReminderCard> {
                                       Container(
                                         margin: const EdgeInsets.only(left: 8),
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 6, vertical: 2),
+                                          horizontal: 6,
+                                          vertical: 2,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: _headerColor,
-                                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                          borderRadius: BorderRadius.circular(
+                                            AppDimensions.radiusBadge,
+                                          ),
                                         ),
                                         child: const Text(
                                           'OVERDUE',
@@ -169,8 +172,8 @@ class _ReminderCardState extends State<ReminderCard> {
                                 isOverdue
                                     ? '${daysUntilDue.abs()}D OVERDUE'
                                     : isDueToday
-                                        ? 'DUE TODAY'
-                                        : '${daysUntilDue}D',
+                                    ? 'DUE TODAY'
+                                    : '${daysUntilDue}D',
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
@@ -185,7 +188,11 @@ class _ReminderCardState extends State<ReminderCard> {
                       // Estimated time row
                       Row(
                         children: [
-                          const Icon(Icons.access_time, size: 14, color: AppColors.gray600),
+                          const Icon(
+                            Icons.access_time,
+                            size: 14,
+                            color: AppColors.gray600,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             widget.reminder.estimatedEffort,
@@ -196,8 +203,11 @@ class _ReminderCardState extends State<ReminderCard> {
                           ),
                           if (widget.reminder.safetyNote != null) ...[
                             const SizedBox(width: 12),
-                            Icon(Icons.warning_amber_rounded,
-                                size: 14, color: _textSecondary),
+                            Icon(
+                              Icons.warning_amber_rounded,
+                              size: 14,
+                              color: _textSecondary,
+                            ),
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
@@ -227,7 +237,9 @@ class _ReminderCardState extends State<ReminderCard> {
                                 foregroundColor: _buttonTextColor,
                                 elevation: 0,
                                 side: BorderSide(color: _buttonBorderColor),
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                                 minimumSize: const Size(0, 36),
                                 textStyle: const TextStyle(
                                   fontSize: 13,
@@ -247,7 +259,9 @@ class _ReminderCardState extends State<ReminderCard> {
                                 foregroundColor: _buttonTextColor,
                                 elevation: 0,
                                 side: BorderSide(color: _buttonBorderColor),
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                                 minimumSize: const Size(0, 36),
                                 textStyle: const TextStyle(
                                   fontSize: 13,
@@ -268,7 +282,9 @@ class _ReminderCardState extends State<ReminderCard> {
                                 foregroundColor: _buttonTextColor,
                                 elevation: 0,
                                 side: BorderSide(color: _buttonBorderColor),
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                                 minimumSize: const Size(0, 36),
                                 textStyle: const TextStyle(
                                   fontSize: 13,
@@ -292,7 +308,9 @@ class _ReminderCardState extends State<ReminderCard> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _headerColor,
                                 foregroundColor: AppColors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                                 minimumSize: const Size(0, 36),
                                 textStyle: const TextStyle(
                                   fontSize: 13,
@@ -311,7 +329,9 @@ class _ReminderCardState extends State<ReminderCard> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _headerColor,
                                 foregroundColor: AppColors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                                 minimumSize: const Size(0, 36),
                                 textStyle: const TextStyle(
                                   fontSize: 13,
@@ -338,179 +358,202 @@ class _ReminderCardState extends State<ReminderCard> {
   void _showSnoozeBottomSheet() {
     String selectedSnoozeOption = '1-week';
     DateTime? customSnoozeDate;
-    
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.transparent,
       builder: (bottomSheetContext) => StatefulBuilder(
         builder: (context, setBottomSheetState) => Container(
-        decoration: const BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 20,
-          right: 20,
-          top: 20,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Snooze Reminder',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'When would you like to be reminded again?',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.gray600,
-              ),
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              initialValue: selectedSnoozeOption,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.gray300),
+          decoration: const BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 20,
+            right: 20,
+            top: 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Snooze Reminder',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-                  borderSide: BorderSide(color: AppColors.gray300),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-                  borderSide: BorderSide(color: AppColors.primary, width: 2),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 14),
-                filled: true,
-                fillColor: AppColors.white,
               ),
-              items: const [
-                DropdownMenuItem(value: '1-week', child: Text('1 Week')),
-                DropdownMenuItem(value: '1-month', child: Text('1 Month')),
-                DropdownMenuItem(value: 'custom', child: Text('Custom Date')),
-              ],
-              onChanged: (value) {
-                setBottomSheetState(() {
-                  selectedSnoozeOption = value ?? '1-week';
-                });
-                if (value == 'custom' && customSnoozeDate == null) {
-                  // Show date picker when custom is selected
-                  _selectCustomDateInSheet(setBottomSheetState, (date) {
-                    customSnoozeDate = date;
-                  });
-                }
-              },
-            ),
-            if (selectedSnoozeOption == 'custom') ...[
-              const SizedBox(height: 12),
-              InkWell(
-                onTap: () => _selectCustomDateInSheet(setBottomSheetState, (date) {
-                  customSnoozeDate = date;
-                }),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-                    border: Border.all(color: AppColors.gray300),
+              const SizedBox(height: 8),
+              const Text(
+                'When would you like to be reminded again?',
+                style: TextStyle(fontSize: 14, color: AppColors.gray600),
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                initialValue: selectedSnoozeOption,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: AppColors.gray300),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          customSnoozeDate != null
-                              ? 'Selected: ${customSnoozeDate!.year}-${customSnoozeDate!.month.toString().padLeft(2, '0')}-${customSnoozeDate!.day.toString().padLeft(2, '0')}'
-                              : 'Select Date',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: customSnoozeDate != null
-                                ? AppColors.textPrimary
-                                : AppColors.gray600,
-                            fontWeight: customSnoozeDate != null
-                                ? FontWeight.w600
-                                : FontWeight.normal,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
+                    borderSide: BorderSide(color: AppColors.gray300),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
+                  filled: true,
+                  fillColor: AppColors.white,
+                ),
+                items: const [
+                  DropdownMenuItem(value: '1-week', child: Text('1 Week')),
+                  DropdownMenuItem(value: '1-month', child: Text('1 Month')),
+                  DropdownMenuItem(value: 'custom', child: Text('Custom Date')),
+                ],
+                onChanged: (value) {
+                  setBottomSheetState(() {
+                    selectedSnoozeOption = value ?? '1-week';
+                  });
+                  if (value == 'custom' && customSnoozeDate == null) {
+                    // Show date picker when custom is selected
+                    _selectCustomDateInSheet(setBottomSheetState, (date) {
+                      customSnoozeDate = date;
+                    });
+                  }
+                },
+              ),
+              if (selectedSnoozeOption == 'custom') ...[
+                const SizedBox(height: 12),
+                InkWell(
+                  onTap: () =>
+                      _selectCustomDateInSheet(setBottomSheetState, (date) {
+                        customSnoozeDate = date;
+                      }),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
+                      border: Border.all(color: AppColors.gray300),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            customSnoozeDate != null
+                                ? 'Selected: ${customSnoozeDate!.year}-${customSnoozeDate!.month.toString().padLeft(2, '0')}-${customSnoozeDate!.day.toString().padLeft(2, '0')}'
+                                : 'Select Date',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: customSnoozeDate != null
+                                  ? AppColors.textPrimary
+                                  : AppColors.gray600,
+                              fontWeight: customSnoozeDate != null
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
                           ),
                         ),
-                      ),
-                      Icon(
-                        Icons.calendar_today,
-                        size: 18,
-                        color: customSnoozeDate != null
-                            ? AppColors.primary
-                            : AppColors.gray600,
-                      ),
-                    ],
+                        Icon(
+                          Icons.calendar_today,
+                          size: 18,
+                          color: customSnoozeDate != null
+                              ? AppColors.primary
+                              : AppColors.gray600,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ],
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: AppColors.gray700),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: (selectedSnoozeOption == 'custom' && customSnoozeDate == null)
-                      ? null
-                      : () {
-                          // Calculate snooze date based on selection
-                          final now = DateTime.now();
-                          DateTime snoozeDate;
-                          switch (selectedSnoozeOption) {
-                            case '1-week':
-                              snoozeDate = now.add(const Duration(days: 7));
-                              break;
-                            case '1-month':
-                              snoozeDate = DateTime(now.year, now.month + 1, now.day);
-                              break;
-                            case 'custom':
-                              snoozeDate = customSnoozeDate ?? now.add(const Duration(days: 14));
-                              break;
-                            default:
-                              snoozeDate = now.add(const Duration(days: 14));
-                          }
-                          widget.onSnooze(widget.reminder.id, snoozeDate);
-                          Navigator.pop(context);
-                        },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.white,
-                    disabledBackgroundColor: AppColors.gray300,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  ),
-                  child: const Text('Snooze'),
                 ),
               ],
-            ),
-            const SizedBox(height: 10),
-          ],
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(color: AppColors.gray700),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed:
+                        (selectedSnoozeOption == 'custom' &&
+                            customSnoozeDate == null)
+                        ? null
+                        : () {
+                            // Calculate snooze date based on selection
+                            final now = DateTime.now();
+                            DateTime snoozeDate;
+                            switch (selectedSnoozeOption) {
+                              case '1-week':
+                                snoozeDate = now.add(const Duration(days: 7));
+                                break;
+                              case '1-month':
+                                snoozeDate = DateTime(
+                                  now.year,
+                                  now.month + 1,
+                                  now.day,
+                                );
+                                break;
+                              case 'custom':
+                                snoozeDate =
+                                    customSnoozeDate ??
+                                    now.add(const Duration(days: 14));
+                                break;
+                              default:
+                                snoozeDate = now.add(const Duration(days: 14));
+                            }
+                            widget.onSnooze(widget.reminder.id, snoozeDate);
+                            Navigator.pop(context);
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.white,
+                      disabledBackgroundColor: AppColors.gray300,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                    ),
+                    child: const Text('Snooze'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
 
-  Future<void> _selectCustomDateInSheet(StateSetter setBottomSheetState, Function(DateTime) onDateSelected) async {
+  Future<void> _selectCustomDateInSheet(
+    StateSetter setBottomSheetState,
+    Function(DateTime) onDateSelected,
+  ) async {
     final now = DateTime.now();
     final firstDate = now;
     final lastDate = now.add(const Duration(days: 365));
@@ -543,114 +586,128 @@ class _ReminderCardState extends State<ReminderCard> {
 
   void _showSkipBottomSheet() {
     SkipReason? selectedSkipReason;
-    
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.transparent,
       builder: (bottomSheetContext) => StatefulBuilder(
         builder: (context, setBottomSheetState) => Container(
-        decoration: const BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 20,
-          right: 20,
-          top: 20,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Skip Reminder',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Why are you skipping this maintenance?',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.gray600,
-              ),
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<SkipReason>(
-              initialValue: selectedSkipReason,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.gray300),
+          decoration: const BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 20,
+            right: 20,
+            top: 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Skip Reminder',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-                  borderSide: BorderSide(color: AppColors.gray300),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-                  borderSide: BorderSide(color: AppColors.primary, width: 2),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 14),
-                filled: true,
-                fillColor: AppColors.white,
-                hintText: 'Select a reason',
               ),
-              items: const [
-                DropdownMenuItem(
+              const SizedBox(height: 8),
+              const Text(
+                'Why are you skipping this maintenance?',
+                style: TextStyle(fontSize: 14, color: AppColors.gray600),
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<SkipReason>(
+                initialValue: selectedSkipReason,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: AppColors.gray300),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
+                    borderSide: BorderSide(color: AppColors.gray300),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
+                  filled: true,
+                  fillColor: AppColors.white,
+                  hintText: 'Select a reason',
+                ),
+                items: const [
+                  DropdownMenuItem(
                     value: SkipReason.dontKnowHow,
-                    child: Text("Don't know how")),
-                DropdownMenuItem(
-                    value: SkipReason.notNeeded, child: Text('Not needed')),
-                DropdownMenuItem(
+                    child: Text("Don't know how"),
+                  ),
+                  DropdownMenuItem(
+                    value: SkipReason.notNeeded,
+                    child: Text('Not needed'),
+                  ),
+                  DropdownMenuItem(
                     value: SkipReason.willDoLater,
-                    child: Text('Will do later')),
-              ],
-              onChanged: (value) {
-                setBottomSheetState(() {
-                  selectedSkipReason = value;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: AppColors.gray700),
+                    child: Text('Will do later'),
                   ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: selectedSkipReason != null ? () {
-                    widget.onSkip(widget.reminder.id, selectedSkipReason!);
-                    Navigator.pop(context);
-                  } : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.white,
-                    disabledBackgroundColor: AppColors.gray300,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                ],
+                onChanged: (value) {
+                  setBottomSheetState(() {
+                    selectedSkipReason = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(color: AppColors.gray700),
+                    ),
                   ),
-                  child: const Text('Skip'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-          ],
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: selectedSkipReason != null
+                        ? () {
+                            widget.onSkip(
+                              widget.reminder.id,
+                              selectedSkipReason!,
+                            );
+                            Navigator.pop(context);
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.white,
+                      disabledBackgroundColor: AppColors.gray300,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                    ),
+                    child: const Text('Skip'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
 }
-

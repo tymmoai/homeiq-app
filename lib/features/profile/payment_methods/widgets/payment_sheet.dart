@@ -214,7 +214,13 @@ class _PaymentSheetState extends State<PaymentSheet> {
                           ],
                           PaymentCardInput(
                             onCardComplete:
-                                (cardNumber, expiryMonth, expiryYear, cvc, cardHolderName) {
+                                (
+                                  cardNumber,
+                                  expiryMonth,
+                                  expiryYear,
+                                  cvc,
+                                  cardHolderName,
+                                ) {
                                   _cardNumber = cardNumber;
                                   _expiryMonth = expiryMonth;
                                   _expiryYear = expiryYear;
@@ -260,11 +266,7 @@ class _PaymentSheetState extends State<PaymentSheet> {
               color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(
-              Icons.lock_outline,
-              color: AppColors.primary,
-              size: 20,
-            ),
+            child: Icon(Icons.lock_outline, color: AppColors.primary, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -281,7 +283,10 @@ class _PaymentSheetState extends State<PaymentSheet> {
                 ),
                 Text(
                   'Your information is encrypted',
-                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ],
             ),
@@ -303,10 +308,7 @@ class _PaymentSheetState extends State<PaymentSheet> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.9),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.9)],
         ),
         borderRadius: BorderRadius.circular(16),
       ),

@@ -76,15 +76,20 @@ class LabelIndicator {
   }
 
   static LabelPosition _parsePosition(String pos) {
-    final normalized = pos.replaceAll('-', '').replaceAll('_', '').toLowerCase();
+    final normalized = pos
+        .replaceAll('-', '')
+        .replaceAll('_', '')
+        .toLowerCase();
     for (final value in LabelPosition.values) {
       if (value.name.toLowerCase() == normalized) return value;
     }
     // Fuzzy match
-    if (normalized.contains('insideleft') || normalized.contains('interiorleft')) {
+    if (normalized.contains('insideleft') ||
+        normalized.contains('interiorleft')) {
       return LabelPosition.insideLeft;
     }
-    if (normalized.contains('insideright') || normalized.contains('interiorright')) {
+    if (normalized.contains('insideright') ||
+        normalized.contains('interiorright')) {
       return LabelPosition.insideRight;
     }
     if (normalized.contains('insidetop')) return LabelPosition.insideTopLeft;

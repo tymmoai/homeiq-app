@@ -342,10 +342,14 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
                           // Keep brand dropdown in sync with the text field
                           _selectedBrand = brand.isNotEmpty ? brand : null;
 
-                          widget.formData.brand = brand.isNotEmpty ? brand : null;
+                          widget.formData.brand = brand.isNotEmpty
+                              ? brand
+                              : null;
                           widget.formData.model = effectiveModel;
                           widget.formData.serial = device.serialNumber ?? '';
-                          widget.formData.manufacturer = brand.isNotEmpty ? brand : null;
+                          widget.formData.manufacturer = brand.isNotEmpty
+                              ? brand
+                              : null;
                           _productTitleController.text = displayName;
                           widget.formData.productTitle = displayName;
                           // Use Step 1 asset type as the authoritative category
@@ -902,7 +906,10 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
               ),
               SizedBox(height: responsive.spacing(16)),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.white.withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(16),
@@ -2720,7 +2727,10 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
                     bottom: 8,
                     right: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.6),
                         borderRadius: BorderRadius.circular(8),

@@ -80,7 +80,7 @@ class OverviewTabWidget extends StatelessWidget {
     final model = asset['model'] ?? '';
     final serialNumber = (asset['serial'] ?? asset['serialNumber'] ?? '')
         .toString();
-    
+
     // Format purchase date: prefer full ISO date (purchasedAt), fall back to formatted text or year
     final purchaseDate = _formatPurchaseDateDisplay(
       purchasedAt: asset['purchasedAt']?.toString(),
@@ -1699,7 +1699,9 @@ class OverviewTabWidget extends StatelessWidget {
     dynamic purchaseMonth,
   }) {
     // Priority 1: Parse full ISO date from purchasedAt
-    if (purchasedAt != null && purchasedAt.isNotEmpty && purchasedAt != 'null') {
+    if (purchasedAt != null &&
+        purchasedAt.isNotEmpty &&
+        purchasedAt != 'null') {
       try {
         final date = DateTime.parse(purchasedAt);
         return _formatDateFullDisplay(date);
@@ -1709,7 +1711,9 @@ class OverviewTabWidget extends StatelessWidget {
     }
 
     // Priority 2: Use pre-formatted purchase date string
-    if (purchaseDate != null && purchaseDate.isNotEmpty && purchaseDate != 'null') {
+    if (purchaseDate != null &&
+        purchaseDate.isNotEmpty &&
+        purchaseDate != 'null') {
       return purchaseDate;
     }
 
@@ -1733,8 +1737,18 @@ class OverviewTabWidget extends StatelessWidget {
   /// Format DateTime as "Jan 18, 2024" (day, month, year).
   static String _formatDateFullDisplay(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }

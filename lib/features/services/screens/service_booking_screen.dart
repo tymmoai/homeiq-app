@@ -309,7 +309,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
           ? SystemUiOverlayStyle.dark
           : SystemUiOverlayStyle.light,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: AppColors.headerForeground, size: responsive.iconSize(20)),
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: AppColors.headerForeground,
+          size: responsive.iconSize(20),
+        ),
         onPressed: _previousStep,
       ),
       title: Text(
@@ -326,7 +330,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
 
   Widget _buildProgressHeader() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(12)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(20),
+        vertical: responsive.spacing(12),
+      ),
       decoration: BoxDecoration(
         color: AppColors.white,
         boxShadow: [
@@ -366,9 +373,7 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
             child: LinearProgressIndicator(
               value: (_currentStep + 1) / (_totalSteps - 1),
               backgroundColor: AppColors.gray200,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                AppColors.primary,
-              ),
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
               minHeight: 4,
             ),
           ),
@@ -492,7 +497,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                           ),
                           decoration: BoxDecoration(
                             color: AppColors.amber.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusBadge,
+                            ),
                           ),
                           child: Row(
                             children: [
@@ -653,7 +660,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                       '30-day service guarantee',
                     ),
 
-                    SizedBox(height: responsive.spacing(100)), // Space for bottom button
+                    SizedBox(
+                      height: responsive.spacing(100),
+                    ), // Space for bottom button
                   ],
                 ),
               ),
@@ -685,7 +694,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.textOnPrimary,
-                  padding: EdgeInsets.symmetric(vertical: responsive.spacing(16)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: responsive.spacing(16),
+                  ),
                   elevation: 0,
                 ),
                 child: Row(
@@ -722,7 +733,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
               color: AssetDetailColors.successColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
             ),
-            child: Icon(icon, size: responsive.iconSize(18), color: AssetDetailColors.successColor),
+            child: Icon(
+              icon,
+              size: responsive.iconSize(18),
+              color: AssetDetailColors.successColor,
+            ),
           ),
           SizedBox(width: responsive.spacing(12)),
           Text(
@@ -801,9 +816,7 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                     ),
                     child: Icon(
                       item['icon'] as IconData,
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.gray600,
+                      color: isSelected ? AppColors.primary : AppColors.gray600,
                       size: responsive.iconSize(24),
                     ),
                   ),
@@ -935,7 +948,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
             controller: _otherItemController,
             decoration: InputDecoration(
               hintText: 'Other item (specify)',
-              hintStyle: TextStyle(color: AppColors.gray400, fontSize: responsive.fontSize(14)),
+              hintStyle: TextStyle(
+                color: AppColors.gray400,
+                fontSize: responsive.fontSize(14),
+              ),
               prefixIcon: Icon(
                 Icons.add_circle_outline,
                 color: AppColors.primary,
@@ -1070,7 +1086,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
           onTap: () {
             // Add photo upload logic
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Photo upload is not yet available.')),
+              const SnackBar(
+                content: Text('Photo upload is not yet available.'),
+              ),
             );
           },
           child: Container(
@@ -1292,7 +1310,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                         : AppColors.white,
                   ),
                   child: _dateSelectionType == 'today'
-                      ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                      ? Icon(
+                          Icons.check,
+                          size: responsive.iconSize(14),
+                          color: AppColors.textOnPrimary,
+                        )
                       : null,
                 ),
               ],
@@ -1385,7 +1407,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                         : AppColors.white,
                   ),
                   child: _dateSelectionType == 'tomorrow'
-                      ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                      ? Icon(
+                          Icons.check,
+                          size: responsive.iconSize(14),
+                          color: AppColors.textOnPrimary,
+                        )
                       : null,
                 ),
               ],
@@ -1484,7 +1510,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                         : AppColors.white,
                   ),
                   child: _dateSelectionType == 'custom'
-                      ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                      ? Icon(
+                          Icons.check,
+                          size: responsive.iconSize(14),
+                          color: AppColors.textOnPrimary,
+                        )
                       : null,
                 ),
               ],
@@ -1608,9 +1638,7 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                   color: isSelected ? AppColors.primary : AppColors.white,
                   borderRadius: BorderRadius.circular(25),
                   border: Border.all(
-                    color: isSelected
-                        ? AppColors.primary
-                        : AppColors.gray300,
+                    color: isSelected ? AppColors.primary : AppColors.gray300,
                     width: 1.5,
                   ),
                 ),
@@ -1620,7 +1648,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                     style: TextStyle(
                       fontSize: responsive.fontSize(13),
                       fontWeight: FontWeight.w500,
-                      color: isSelected ? AppColors.white : AppColors.textPrimary,
+                      color: isSelected
+                          ? AppColors.white
+                          : AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -1639,7 +1669,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
           ),
           child: Row(
             children: [
-              Icon(Icons.access_time, color: AppColors.amber, size: responsive.iconSize(20)),
+              Icon(
+                Icons.access_time,
+                color: AppColors.amber,
+                size: responsive.iconSize(20),
+              ),
               SizedBox(width: responsive.spacing(12)),
               Text(
                 'Estimated duration: 1-2 hours',
@@ -1732,9 +1766,7 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                     ),
                     child: Icon(
                       Icons.home_outlined,
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.gray600,
+                      color: isSelected ? AppColors.primary : AppColors.gray600,
                       size: responsive.iconSize(24),
                     ),
                   ),
@@ -1763,8 +1795,12 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    AppDimensions.radiusBadge,
+                                  ),
                                 ),
                                 child: Text(
                                   'Default',
@@ -1803,7 +1839,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                       color: isSelected ? AppColors.primary : AppColors.white,
                     ),
                     child: isSelected
-                        ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.white)
+                        ? Icon(
+                            Icons.check,
+                            size: responsive.iconSize(14),
+                            color: AppColors.white,
+                          )
                         : null,
                   ),
                 ],
@@ -1840,7 +1880,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
             controller: _roomDetailsController,
             decoration: InputDecoration(
               hintText: 'e.g., Living room, 2nd floor, Apt 4B',
-              hintStyle: TextStyle(color: AppColors.gray400, fontSize: responsive.fontSize(14)),
+              hintStyle: TextStyle(
+                color: AppColors.gray400,
+                fontSize: responsive.fontSize(14),
+              ),
               prefixIcon: Icon(
                 Icons.meeting_room_outlined,
                 color: AppColors.primary,
@@ -1943,8 +1986,12 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AssetDetailColors.successColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    color: AssetDetailColors.successColor.withValues(
+                      alpha: 0.1,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                   ),
                   child: Text(
                     'Recommended',
@@ -1991,7 +2038,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Base Price', style: TextStyle(fontSize: responsive.fontSize(14))),
+                  Text(
+                    'Base Price',
+                    style: TextStyle(fontSize: responsive.fontSize(14)),
+                  ),
                   Text(
                     '\$${_basePrice.toStringAsFixed(0)}',
                     style: TextStyle(
@@ -2005,7 +2055,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Items', style: TextStyle(fontSize: responsive.fontSize(14))),
+                  Text(
+                    'Items',
+                    style: TextStyle(fontSize: responsive.fontSize(14)),
+                  ),
                   Text(
                     '\$${_totalItemsPrice.toStringAsFixed(0)}',
                     style: TextStyle(
@@ -2023,7 +2076,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                 children: [
                   Text(
                     'Total',
-                    style: TextStyle(fontSize: responsive.fontSize(18), fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(18),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     '\$${_totalPrice.toStringAsFixed(0)}',
@@ -2059,20 +2115,29 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                     color: _termsAccepted
                         ? AppColors.success
                         : AppColors.transparent,
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusBadge,
+                    ),
                     border: _termsAccepted
                         ? null
                         : Border.all(color: AppColors.gray400, width: 1.5),
                   ),
                   child: _termsAccepted
-                      ? Icon(Icons.check, color: AppColors.white, size: responsive.iconSize(16))
+                      ? Icon(
+                          Icons.check,
+                          color: AppColors.white,
+                          size: responsive.iconSize(16),
+                        )
                       : null,
                 ),
                 SizedBox(width: responsive.spacing(12)),
                 Expanded(
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(fontSize: responsive.fontSize(13), color: AppColors.textQuaternary),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(13),
+                        color: AppColors.textQuaternary,
+                      ),
                       children: [
                         const TextSpan(text: 'I agree to the '),
                         TextSpan(
@@ -2103,7 +2168,10 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
           SizedBox(height: responsive.spacing(8)),
           Text(
             'Please accept the terms to continue',
-            style: TextStyle(fontSize: responsive.fontSize(12), color: AppColors.warningOrange),
+            style: TextStyle(
+              fontSize: responsive.fontSize(12),
+              color: AppColors.warningOrange,
+            ),
           ),
         ],
       ],
@@ -2224,9 +2292,7 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                     ),
                     child: Icon(
                       method['icon'] as IconData,
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.gray600,
+                      color: isSelected ? AppColors.primary : AppColors.gray600,
                       size: responsive.iconSize(24),
                     ),
                   ),
@@ -2274,7 +2340,11 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                       color: isSelected ? AppColors.primary : AppColors.white,
                     ),
                     child: isSelected
-                        ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                        ? Icon(
+                            Icons.check,
+                            size: responsive.iconSize(14),
+                            color: AppColors.textOnPrimary,
+                          )
                         : null,
                   ),
                 ],
@@ -2287,7 +2357,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
         GestureDetector(
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Adding a payment method is not yet available.')),
+              const SnackBar(
+                content: Text('Adding a payment method is not yet available.'),
+              ),
             );
           },
           child: Container(
@@ -2454,10 +2526,7 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadowMedium,
-                      blurRadius: 8,
-                    ),
+                    BoxShadow(color: AppColors.shadowMedium, blurRadius: 8),
                   ],
                 ),
                 child: Row(
@@ -2563,11 +2632,16 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                           const SnackBar(content: Text('Receipt downloaded')),
                         );
                       },
-                      icon: Icon(Icons.download_outlined, size: responsive.iconSize(18)),
+                      icon: Icon(
+                        Icons.download_outlined,
+                        size: responsive.iconSize(18),
+                      ),
                       label: const Text('Download Receipt'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primary,
-                        padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: responsive.spacing(14),
+                        ),
                         side: BorderSide(color: AppColors.primary),
                       ),
                     ),
@@ -2580,11 +2654,16 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                           const SnackBar(content: Text('Added to calendar')),
                         );
                       },
-                      icon: Icon(Icons.calendar_month, size: responsive.iconSize(18)),
+                      icon: Icon(
+                        Icons.calendar_month,
+                        size: responsive.iconSize(18),
+                      ),
                       label: const Text('Add to Calendar'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primary,
-                        padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: responsive.spacing(14),
+                        ),
                         side: BorderSide(color: AppColors.primary),
                       ),
                     ),
@@ -2599,12 +2678,17 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.textOnPrimary,
-                    padding: EdgeInsets.symmetric(vertical: responsive.spacing(16)),
+                    padding: EdgeInsets.symmetric(
+                      vertical: responsive.spacing(16),
+                    ),
                     elevation: 0,
                   ),
                   child: Text(
                     'Go to Home',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -2725,7 +2809,9 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.textOnPrimary,
-                  padding: EdgeInsets.symmetric(vertical: responsive.spacing(16)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: responsive.spacing(16),
+                  ),
                   elevation: 0,
                 ),
                 child: Row(
@@ -2752,4 +2838,3 @@ class _ServiceBookingScreenState extends State<ServiceBookingScreen> {
     );
   }
 }
-

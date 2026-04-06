@@ -20,8 +20,9 @@ class BookingReviewAddonsCard extends StatelessWidget {
       padding: context.responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius:
-            BorderRadius.circular(context.responsive.borderRadius(16.0)),
+        borderRadius: BorderRadius.circular(
+          context.responsive.borderRadius(16.0),
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadowMedium,
@@ -41,7 +42,8 @@ class BookingReviewAddonsCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(
-                      context.responsive.borderRadius(10.0)),
+                    context.responsive.borderRadius(10.0),
+                  ),
                 ),
                 child: Icon(
                   Icons.add_circle_outline,

@@ -3909,7 +3909,8 @@ class WifiDiscoveryService {
           if (resp.statusCode == 200 &&
               resp.body.toLowerCase().contains('reolink')) {
             final j = jsonDecode(resp.body);
-            final info = (j is List<dynamic> ? j.first : j) as Map<String, dynamic>;
+            final info =
+                (j is List<dynamic> ? j.first : j) as Map<String, dynamic>;
             final val = info['value'] as Map<String, dynamic>? ?? {};
             final devInfo = val['DevInfo'] as Map<String, dynamic>? ?? {};
             updated = _applyProbeResult(

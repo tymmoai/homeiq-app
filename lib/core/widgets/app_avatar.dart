@@ -63,9 +63,9 @@ class AppAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCircle = borderRadius == null;
-    final effectiveBorderRadius = isCircle 
-        ? BorderRadius.circular(size / 2) 
-      : (borderRadius ?? BorderRadius.circular(AppDimensions.radiusSmall));
+    final effectiveBorderRadius = isCircle
+        ? BorderRadius.circular(size / 2)
+        : (borderRadius ?? BorderRadius.circular(AppDimensions.radiusSmall));
 
     Widget avatarWidget = Container(
       width: size,
@@ -80,10 +80,7 @@ class AppAvatar extends StatelessWidget {
               )
             : null,
         image: imageUrl != null && imageUrl!.isNotEmpty
-            ? DecorationImage(
-                image: NetworkImage(imageUrl!),
-                fit: BoxFit.cover,
-              )
+            ? DecorationImage(image: NetworkImage(imageUrl!), fit: BoxFit.cover)
             : null,
       ),
       child: imageUrl == null || imageUrl!.isEmpty
@@ -91,7 +88,7 @@ class AppAvatar extends StatelessWidget {
               child: Text(
                 _getInitials(name),
                 style: TextStyle(
-                color: textColor ?? AppColors.white,
+                  color: textColor ?? AppColors.white,
                   fontSize: size * 0.4,
                   fontWeight: FontWeight.w600,
                 ),
@@ -105,11 +102,7 @@ class AppAvatar extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           avatarWidget,
-          Positioned(
-            right: -2,
-            bottom: -2,
-            child: badge!,
-          ),
+          Positioned(right: -2, bottom: -2, child: badge!),
         ],
       );
     }
@@ -127,7 +120,7 @@ class AppAvatar extends StatelessWidget {
 
   String _getInitials(String? name) {
     if (name == null || name.isEmpty) return '?';
-    
+
     final parts = name.trim().split(' ');
     if (parts.length >= 2) {
       return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
@@ -173,13 +166,18 @@ class AppAvatarGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total = imageUrls.length > names.length ? imageUrls.length : names.length;
+    final total = imageUrls.length > names.length
+        ? imageUrls.length
+        : names.length;
     final visible = total > maxVisible ? maxVisible : total;
     final remaining = total - visible;
 
     return SizedBox(
       height: size,
-      width: size + (visible - 1) * size * (1 - overlap) + (remaining > 0 ? size : 0),
+      width:
+          size +
+          (visible - 1) * size * (1 - overlap) +
+          (remaining > 0 ? size : 0),
       child: Stack(
         children: [
           for (var i = 0; i < visible; i++)

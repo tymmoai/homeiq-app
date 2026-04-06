@@ -183,10 +183,16 @@ class PaymentService {
 
     try {
       if (_stripePublishableKey == 'pk_test_YOUR_STRIPE_KEY') {
-        AppLogger.warning('Stripe publishable key not configured.', tag: 'PaymentService');
+        AppLogger.warning(
+          'Stripe publishable key not configured.',
+          tag: 'PaymentService',
+        );
       }
       if (_apiBaseUrl == 'https://api.yourdomain.com') {
-        AppLogger.warning('API base URL not configured.', tag: 'PaymentService');
+        AppLogger.warning(
+          'API base URL not configured.',
+          tag: 'PaymentService',
+        );
       }
       // TODO: Initialize Stripe
       // Stripe.publishableKey = _stripePublishableKey;
@@ -195,7 +201,11 @@ class PaymentService {
       _isInitialized = true;
       AppLogger.info('PaymentService initialized', tag: 'PaymentService');
     } on Object catch (e) {
-      AppLogger.error('PaymentService initialization failed: $e', tag: 'PaymentService', error: e);
+      AppLogger.error(
+        'PaymentService initialization failed: $e',
+        tag: 'PaymentService',
+        error: e,
+      );
       rethrow;
     }
   }
@@ -261,13 +271,19 @@ class PaymentService {
         expiryMonth: expiryMonth,
         expiryYear: expiryYear,
         isDefault: setAsDefault,
-        cardholderName: cardHolderName?.isNotEmpty == true ? cardHolderName : null,
+        cardholderName: cardHolderName?.isNotEmpty == true
+            ? cardHolderName
+            : null,
       );
 
       _savedPaymentMethods.add(newMethod);
       return newMethod;
     } on Object catch (e) {
-      AppLogger.error('Failed to add payment method: $e', tag: 'PaymentService', error: e);
+      AppLogger.error(
+        'Failed to add payment method: $e',
+        tag: 'PaymentService',
+        error: e,
+      );
       return null;
     }
   }
@@ -281,7 +297,11 @@ class PaymentService {
       _savedPaymentMethods.removeWhere((pm) => pm.id == paymentMethodId);
       return true;
     } on Object catch (e) {
-      AppLogger.error('Failed to remove payment method: $e', tag: 'PaymentService', error: e);
+      AppLogger.error(
+        'Failed to remove payment method: $e',
+        tag: 'PaymentService',
+        error: e,
+      );
       return false;
     }
   }
@@ -306,7 +326,11 @@ class PaymentService {
       }).toList();
       return true;
     } on Object catch (e) {
-      AppLogger.error('Failed to set default payment method: $e', tag: 'PaymentService', error: e);
+      AppLogger.error(
+        'Failed to set default payment method: $e',
+        tag: 'PaymentService',
+        error: e,
+      );
       return false;
     }
   }
@@ -337,7 +361,11 @@ class PaymentService {
         metadata: metadata,
       );
     } on Object catch (e) {
-      AppLogger.error('Failed to create payment intent: $e', tag: 'PaymentService', error: e);
+      AppLogger.error(
+        'Failed to create payment intent: $e',
+        tag: 'PaymentService',
+        error: e,
+      );
       return null;
     }
   }
@@ -408,7 +436,11 @@ class PaymentService {
 
       return PaymentResult.succeeded(completedIntent);
     } on Object catch (e) {
-      AppLogger.error('Payment processing failed: $e', tag: 'PaymentService', error: e);
+      AppLogger.error(
+        'Payment processing failed: $e',
+        tag: 'PaymentService',
+        error: e,
+      );
       return PaymentResult.failed('Payment failed: ${e.toString()}');
     }
   }
@@ -516,4 +548,3 @@ class PaymentService {
     }
   }
 }
-

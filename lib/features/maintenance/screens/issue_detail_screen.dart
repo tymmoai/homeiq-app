@@ -26,7 +26,8 @@ class IssueDetailScreen extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: AppColors.headerBackground,
-        statusBarIconBrightness: AppColors.headerBackground.computeLuminance() > 0.5
+        statusBarIconBrightness:
+            AppColors.headerBackground.computeLuminance() > 0.5
             ? Brightness.dark
             : Brightness.light,
         statusBarBrightness: AppColors.headerBackground.computeLuminance() > 0.5
@@ -34,39 +35,41 @@ class IssueDetailScreen extends StatelessWidget {
             : Brightness.dark,
       ),
       child: Scaffold(
-      backgroundColor: AppColors.backgroundGray50,
-      body: SafeArea(child: Column(
-        children: [
-          // Header
-          _buildHeader(context, status, isResolved),
-          // Content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(responsive.spacing(16)),
-              child: Column(
-                children: [
-                  _buildAssetInformation(context),
-                  SizedBox(height: responsive.spacing(16)),
-                  _buildServiceDetails(context),
-                  SizedBox(height: responsive.spacing(16)),
-                  _buildWarrantyClaim(context),
-                  SizedBox(height: responsive.spacing(16)),
-                  _buildProblemDescription(context),
-                  SizedBox(height: responsive.spacing(16)),
-                  _buildSolution(context),
-                  SizedBox(height: responsive.spacing(16)),
-                  _buildCostAndImpact(context),
-                  SizedBox(height: responsive.spacing(16)),
-                  _buildClaimProgress(context, isResolved),
-                ],
+        backgroundColor: AppColors.backgroundGray50,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // Header
+              _buildHeader(context, status, isResolved),
+              // Content
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(responsive.spacing(16)),
+                  child: Column(
+                    children: [
+                      _buildAssetInformation(context),
+                      SizedBox(height: responsive.spacing(16)),
+                      _buildServiceDetails(context),
+                      SizedBox(height: responsive.spacing(16)),
+                      _buildWarrantyClaim(context),
+                      SizedBox(height: responsive.spacing(16)),
+                      _buildProblemDescription(context),
+                      SizedBox(height: responsive.spacing(16)),
+                      _buildSolution(context),
+                      SizedBox(height: responsive.spacing(16)),
+                      _buildCostAndImpact(context),
+                      SizedBox(height: responsive.spacing(16)),
+                      _buildClaimProgress(context, isResolved),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              // Bottom Action Buttons
+              _buildBottomActions(context),
+            ],
           ),
-          // Bottom Action Buttons
-          _buildBottomActions(context),
-        ],
-      )),
-    ),
+        ),
+      ),
     );
   }
 
@@ -172,7 +175,9 @@ class IssueDetailScreen extends StatelessWidget {
                   color: isResolved
                       ? AppColors.successLight
                       : AppColors.backgroundGray100,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.radiusBadge,
+                  ),
                 ),
                 child: Text(
                   status,
@@ -191,7 +196,8 @@ class IssueDetailScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildInfoItem(context, 
+                child: _buildInfoItem(
+                  context,
                   'ASSET',
                   asset['name'] ?? 'N/A',
                   asset['model'] ?? '',
@@ -199,7 +205,8 @@ class IssueDetailScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: _buildPriorityBadge(context, 
+                child: _buildPriorityBadge(
+                  context,
                   issue['priority'] ?? issue['severity'] ?? 'Medium',
                 ),
               ),
@@ -209,14 +216,16 @@ class IssueDetailScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildInfoItem(context, 
+                child: _buildInfoItem(
+                  context,
                   'ISSUE TYPE',
                   issue['category'] ?? 'N/A',
                   null,
                 ),
               ),
               Expanded(
-                child: _buildInfoItem(context, 
+                child: _buildInfoItem(
+                  context,
                   'WARRANTY',
                   issue['warranty'] ?? 'Not Covered',
                   null,
@@ -230,7 +239,8 @@ class IssueDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoItem(BuildContext context, 
+  Widget _buildInfoItem(
+    BuildContext context,
     String label,
     String value,
     String? subtitle, {
@@ -267,7 +277,10 @@ class IssueDetailScreen extends StatelessWidget {
           SizedBox(height: responsive.spacing(2)),
           Text(
             subtitle,
-            style: TextStyle(color: AppColors.gray400, fontSize: responsive.fontSize(11)),
+            style: TextStyle(
+              color: AppColors.gray400,
+              fontSize: responsive.fontSize(11),
+            ),
           ),
         ],
       ],
@@ -293,7 +306,10 @@ class IssueDetailScreen extends StatelessWidget {
         ),
         SizedBox(height: responsive.spacing(4)),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+          padding: EdgeInsets.symmetric(
+            horizontal: responsive.spacing(8),
+            vertical: responsive.spacing(4),
+          ),
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -301,7 +317,11 @@ class IssueDetailScreen extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.circle, color: textColor, size: responsive.iconSize(8)),
+              Icon(
+                Icons.circle,
+                color: textColor,
+                size: responsive.iconSize(8),
+              ),
               SizedBox(width: responsive.spacing(4)),
               Text(
                 priority,
@@ -332,15 +352,20 @@ class IssueDetailScreen extends StatelessWidget {
         'icon': Icons.assignment_ind_outlined,
         'title': 'Under Review',
         'description': 'Issue is being reviewed by the team',
-        'date': issue['status']?.toLowerCase() != 'open' ? 'Complete' : 'Pending',
+        'date': issue['status']?.toLowerCase() != 'open'
+            ? 'Complete'
+            : 'Pending',
         'isCompleted': issue['status']?.toLowerCase() != 'open',
       },
       {
         'icon': Icons.engineering_outlined,
         'title': 'In Progress',
         'description': 'Work is actively being done on the issue',
-        'date': issue['status']?.toLowerCase() == 'in_progress' ? 'Active' : 'Pending',
-        'isCompleted': issue['status']?.toLowerCase() == 'in_progress' ||
+        'date': issue['status']?.toLowerCase() == 'in_progress'
+            ? 'Active'
+            : 'Pending',
+        'isCompleted':
+            issue['status']?.toLowerCase() == 'in_progress' ||
             issue['status']?.toLowerCase() == 'resolved' ||
             issue['status']?.toLowerCase() == 'closed',
       },
@@ -387,7 +412,8 @@ class IssueDetailScreen extends StatelessWidget {
             final index = entry.key;
             final step = entry.value;
             final isLast = index == steps.length - 1;
-            return _buildTimelineItem(context, 
+            return _buildTimelineItem(
+              context,
               icon: step['icon'] as IconData,
               title: step['title'] as String,
               description: step['description'] as String,
@@ -401,7 +427,8 @@ class IssueDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTimelineItem(BuildContext context, {
+  Widget _buildTimelineItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String description,
@@ -420,9 +447,7 @@ class IssueDetailScreen extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: isCompleted
-                    ? AppColors.primary
-                    : AppColors.gray200,
+                color: isCompleted ? AppColors.primary : AppColors.gray200,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -435,9 +460,7 @@ class IssueDetailScreen extends StatelessWidget {
               Container(
                 width: 2,
                 height: 50,
-                color: isCompleted
-                    ? AppColors.primary
-                    : AppColors.gray200,
+                color: isCompleted ? AppColors.primary : AppColors.gray200,
               ),
           ],
         ),
@@ -494,7 +517,8 @@ class IssueDetailScreen extends StatelessWidget {
   }
 
   // ignore: unused_element
-  Widget _buildProgressStep(BuildContext context, {
+  Widget _buildProgressStep(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required String date,
@@ -512,7 +536,13 @@ class IssueDetailScreen extends StatelessWidget {
                 : AppColors.gray300,
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, color: isCompleted ? AppColors.textOnPrimary : AppColors.textSecondary, size: responsive.iconSize(20)),
+          child: Icon(
+            icon,
+            color: isCompleted
+                ? AppColors.textOnPrimary
+                : AppColors.textSecondary,
+            size: responsive.iconSize(20),
+          ),
         ),
         SizedBox(height: responsive.spacing(8)),
         Text(
@@ -580,7 +610,8 @@ class IssueDetailScreen extends StatelessWidget {
 
   Widget _buildSolution(BuildContext context) {
     final responsive = ResponsiveUtils(context);
-    final isResolved = (issue['status']?.toString().toLowerCase() == 'resolved' ||
+    final isResolved =
+        (issue['status']?.toString().toLowerCase() == 'resolved' ||
         issue['status']?.toString().toLowerCase() == 'closed');
     final resolvedAt = issue['resolvedAt']?.toString();
     // Only show this section when resolved or when there's meaningful content
@@ -620,7 +651,7 @@ class IssueDetailScreen extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          if (resolvedAt != null) ...[  
+          if (resolvedAt != null) ...[
             SizedBox(height: responsive.spacing(8)),
             Text(
               'Resolved on: ${_formatDate(resolvedAt)}',
@@ -676,10 +707,19 @@ class IssueDetailScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: responsive.spacing(16)),
-          _buildDetailRow(context, 'Serial Number', asset['serialNumber'] ?? 'N/A'),
-          _buildDetailRow(context, 'Purchase Date', asset['purchaseDate'] ?? 'N/A'),
+          _buildDetailRow(
+            context,
+            'Serial Number',
+            asset['serialNumber'] ?? 'N/A',
+          ),
+          _buildDetailRow(
+            context,
+            'Purchase Date',
+            asset['purchaseDate'] ?? 'N/A',
+          ),
           _buildDetailRow(context, 'Location', asset['location'] ?? 'N/A'),
-          _buildDetailRow(context, 
+          _buildDetailRow(
+            context,
             'Current Health',
             '${asset['health'] ?? '0'}/10',
             valueColor: AssetDetailColors.primaryDark,
@@ -716,14 +756,24 @@ class IssueDetailScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: responsive.spacing(16)),
-          _buildDetailRow(context, 'Severity',
+          _buildDetailRow(
+            context,
+            'Severity',
             _capitalized(issue['severity']?.toString() ?? 'Medium'),
             valueColor: _severityColor(issue['severity']?.toString()),
           ),
-          _buildDetailRow(context, 'Reported On',
-            _formatDate(issue['date']?.toString() ?? issue['createdAt']?.toString())),
-          _buildDetailRow(context, 'Last Updated',
-            _formatDate(issue['updatedAt']?.toString())),
+          _buildDetailRow(
+            context,
+            'Reported On',
+            _formatDate(
+              issue['date']?.toString() ?? issue['createdAt']?.toString(),
+            ),
+          ),
+          _buildDetailRow(
+            context,
+            'Last Updated',
+            _formatDate(issue['updatedAt']?.toString()),
+          ),
         ],
       ),
     );
@@ -738,8 +788,20 @@ class IssueDetailScreen extends StatelessWidget {
     if (iso == null || iso.isEmpty) return 'N/A';
     final dt = DateTime.tryParse(iso);
     if (dt == null) return iso;
-    const months = ['Jan','Feb','Mar','Apr','May','Jun',
-                    'Jul','Aug','Sep','Oct','Nov','Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
   }
 
@@ -748,15 +810,21 @@ class IssueDetailScreen extends StatelessWidget {
 
   static Color _severityColor(String? severity) {
     switch (severity?.toLowerCase()) {
-      case 'critical': return AppColors.errorDark;
-      case 'high':     return AssetDetailColors.errorColor;
-      case 'medium':   return AppColors.warningDark;
-      case 'low':      return AppColors.successDark;
-      default:         return AppColors.gray600;
+      case 'critical':
+        return AppColors.errorDark;
+      case 'high':
+        return AssetDetailColors.errorColor;
+      case 'medium':
+        return AppColors.warningDark;
+      case 'low':
+        return AppColors.successDark;
+      default:
+        return AppColors.gray600;
     }
   }
 
-  Widget _buildDetailRow(BuildContext context, 
+  Widget _buildDetailRow(
+    BuildContext context,
     String label,
     String value, {
     Color? labelColor,
@@ -812,7 +880,10 @@ class IssueDetailScreen extends StatelessWidget {
           Expanded(
             child: OutlinedButton.icon(
               onPressed: () => _downloadIssueReport(context),
-              icon: Icon(Icons.file_download_outlined, size: responsive.iconSize(20)),
+              icon: Icon(
+                Icons.file_download_outlined,
+                size: responsive.iconSize(20),
+              ),
               label: const Text('Download'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AssetDetailColors.primaryDark,

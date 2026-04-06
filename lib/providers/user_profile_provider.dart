@@ -70,7 +70,9 @@ class UserProfile {
     final parts = <String>[];
     if (address.trim().isNotEmpty) parts.add(address.trim());
     if (aptUnit.trim().isNotEmpty) parts.add('Apt ${aptUnit.trim()}');
-    if (city.trim().isNotEmpty || usState.trim().isNotEmpty || zipCode.trim().isNotEmpty) {
+    if (city.trim().isNotEmpty ||
+        usState.trim().isNotEmpty ||
+        zipCode.trim().isNotEmpty) {
       final cityStateZip = <String>[];
       if (city.trim().isNotEmpty) cityStateZip.add(city.trim());
       if (usState.trim().isNotEmpty) cityStateZip.add(usState.trim());
@@ -108,8 +110,9 @@ class UserProfile {
       city: city ?? this.city,
       usState: usState ?? this.usState,
       zipCode: zipCode ?? this.zipCode,
-      profileImagePath:
-          clearProfileImage ? null : (profileImagePath ?? this.profileImagePath),
+      profileImagePath: clearProfileImage
+          ? null
+          : (profileImagePath ?? this.profileImagePath),
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -118,9 +121,9 @@ class UserProfile {
 /// Provides the current [UserProfile] across the app.
 final userProfileProvider =
     StateNotifierProvider<UserProfileNotifier, UserProfile>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return UserProfileNotifier(prefs);
-});
+      final prefs = ref.watch(sharedPreferencesProvider);
+      return UserProfileNotifier(prefs);
+    });
 
 /// Manages user profile state and persists changes via SharedPreferences.
 class UserProfileNotifier extends StateNotifier<UserProfile> {
@@ -177,7 +180,8 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
     if (name != null) await _prefs.setString(_nameKey, name);
     if (email != null) await _prefs.setString(_emailKey, email);
     if (phone != null) await _prefs.setString(_phoneKey, phone);
-    if (countryCode != null) await _prefs.setString(_countryCodeKey, countryCode);
+    if (countryCode != null)
+      await _prefs.setString(_countryCodeKey, countryCode);
     if (address != null) await _prefs.setString(_addressKey, address);
     if (aptUnit != null) await _prefs.setString(_aptUnitKey, aptUnit);
     if (city != null) await _prefs.setString(_cityKey, city);
@@ -224,7 +228,9 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
         // Store avatarUrl in profileImagePath so ProfileAvatar can detect it.
         // ProfileAvatar checks if the value starts with 'http' to decide
         // between Image.network and Image.file.
-        profileImagePath: (avatarUrl != null && avatarUrl.isNotEmpty) ? avatarUrl : null,
+        profileImagePath: (avatarUrl != null && avatarUrl.isNotEmpty)
+            ? avatarUrl
+            : null,
         createdAt: createdAt.isNotEmpty ? createdAt : null,
       );
 
@@ -239,13 +245,8 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
   ///
   /// Only fields supported by the backend schema are sent (name, phone, avatarUrl).
   /// Throws on backend error so callers can surface the error to the user.
-  Future<void> saveToBackend({
-    required String name,
-    String? phone,
-  }) async {
-    final body = <String, dynamic>{
-      'name': name,
-    };
+  Future<void> saveToBackend({required String name, String? phone}) async {
+    final body = <String, dynamic>{'name': name};
     if (phone != null && phone.isNotEmpty) body['phone'] = phone;
 
     await ApiClient().put('/users/me', body: body);

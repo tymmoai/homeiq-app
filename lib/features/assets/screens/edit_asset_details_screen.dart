@@ -39,22 +39,26 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
     super.initState();
     final a = widget.asset;
 
-    _nameController =
-        TextEditingController(text: a['name']?.toString() ?? '');
-    _brandController =
-        TextEditingController(text: a['brand']?.toString() ?? '');
-    _modelController =
-        TextEditingController(text: a['model']?.toString() ?? '');
+    _nameController = TextEditingController(text: a['name']?.toString() ?? '');
+    _brandController = TextEditingController(
+      text: a['brand']?.toString() ?? '',
+    );
+    _modelController = TextEditingController(
+      text: a['model']?.toString() ?? '',
+    );
     _serialController = TextEditingController(
       text: a['serial']?.toString() ?? a['serialNumber']?.toString() ?? '',
     );
-    _locationController =
-        TextEditingController(text: a['location']?.toString() ?? '');
+    _locationController = TextEditingController(
+      text: a['location']?.toString() ?? '',
+    );
 
     // Purchase date - prefer full ISO date (purchasedAt), fall back to formatted text or year
     var purchaseDateText = '';
     final purchasedAtIso = a['purchasedAt']?.toString();
-    if (purchasedAtIso != null && purchasedAtIso.isNotEmpty && purchasedAtIso != 'null') {
+    if (purchasedAtIso != null &&
+        purchasedAtIso.isNotEmpty &&
+        purchasedAtIso != 'null') {
       try {
         final parsed = DateTime.parse(purchasedAtIso);
         _selectedPurchaseDate = parsed;
@@ -84,8 +88,7 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
     _purchaseDateController = TextEditingController(text: purchaseDateText);
 
     // Warranty expiry
-    final rawWarrantyExpiry =
-        a['warrantyEndDate'] ?? a['warrantyExpiresAt'];
+    final rawWarrantyExpiry = a['warrantyEndDate'] ?? a['warrantyExpiresAt'];
     String warrantyStr = '';
     if (rawWarrantyExpiry != null) {
       final parsed = DateTime.tryParse(rawWarrantyExpiry.toString());
@@ -98,10 +101,12 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
     }
     _warrantyExpiryController = TextEditingController(text: warrantyStr);
 
-    _manufacturerController =
-        TextEditingController(text: a['manufacturer']?.toString() ?? '');
-    _colorController =
-        TextEditingController(text: a['productColor']?.toString() ?? '');
+    _manufacturerController = TextEditingController(
+      text: a['manufacturer']?.toString() ?? '',
+    );
+    _colorController = TextEditingController(
+      text: a['productColor']?.toString() ?? '',
+    );
   }
 
   @override
@@ -120,8 +125,18 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
@@ -156,7 +171,8 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
   Future<void> _pickWarrantyExpiry(ResponsiveUtils responsive) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedWarrantyExpiry ??
+      initialDate:
+          _selectedWarrantyExpiry ??
           DateTime.now().add(const Duration(days: 365)),
       firstDate: DateTime(1990),
       lastDate: DateTime(DateTime.now().year + 20),
@@ -198,7 +214,7 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
     if (_selectedPurchaseDate != null) {
       // Send full purchase date as UTC ISO string for consistent backend storage
       // Construct UTC date from the year/month/day
-      final purchaseGmt = _selectedPurchaseDate!.isUtc 
+      final purchaseGmt = _selectedPurchaseDate!.isUtc
           ? _selectedPurchaseDate!
           : DateTime.utc(
               _selectedPurchaseDate!.year,
@@ -214,7 +230,7 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
       // Ensure warranty date is sent as UTC ISO string for consistent backend storage
       // If the selected date is already in UTC (from parse), use it directly
       // Otherwise, construct a UTC date from the year/month/day values
-      final gmt = _selectedWarrantyExpiry!.isUtc 
+      final gmt = _selectedWarrantyExpiry!.isUtc
           ? _selectedWarrantyExpiry!
           : DateTime.utc(
               _selectedWarrantyExpiry!.year,
@@ -420,8 +436,9 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
                         height: responsive.spacing(24.0),
                         width: responsive.spacing(24.0),
                         child: const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                           strokeWidth: 2,
                         ),
                       )
@@ -445,7 +462,10 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
   }
 
   Widget _sectionHeader(
-      String title, ResponsiveUtils responsive, Color primaryColor) {
+    String title,
+    ResponsiveUtils responsive,
+    Color primaryColor,
+  ) {
     return Padding(
       padding: EdgeInsets.only(top: responsive.spacing(24.0)),
       child: Row(
@@ -538,19 +558,13 @@ class _EditAssetDetailsScreenState extends State<EditAssetDetailsScreen> {
               borderRadius: BorderRadius.circular(
                 responsive.borderRadius(10.0),
               ),
-              borderSide: BorderSide(
-                color: AppColors.divider,
-                width: 1,
-              ),
+              borderSide: BorderSide(color: AppColors.divider, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 responsive.borderRadius(10.0),
               ),
-              borderSide: BorderSide(
-                color: primaryColor,
-                width: 2,
-              ),
+              borderSide: BorderSide(color: primaryColor, width: 2),
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: responsive.spacing(4.0),

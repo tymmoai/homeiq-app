@@ -42,7 +42,9 @@ class InputValidator {
   static bool isValidEmail(String email) {
     if (email.isEmpty) return false; // ← SonarQube will check: is this tested?
 
-    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
     return emailRegex.hasMatch(email);
   }
 

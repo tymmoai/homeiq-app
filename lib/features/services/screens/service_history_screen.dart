@@ -299,7 +299,9 @@ class _ServiceHistoryScreenState extends State<ServiceHistoryScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: badgeBg,
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusBadge,
+                          ),
                         ),
                         child: Text(
                           service['status'] as String,

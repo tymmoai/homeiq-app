@@ -1,0 +1,77 @@
+# ============================================================
+# CI Pipeline — HomeIQ Flutter App
+# Runs on: every PR and every push to main / develop
+#
+# WHAT IT DOES:
+#   1. flutter pub get (install packages)
+#   2. flutter analyze --fatal-infos (Dart's equivalent of ESLint — 0 issues required)
+#   3. flutter test --coverage (unit + widget tests)
+#   4. SonarCloud scan (uploads coverage + static analysis)
+#
+# NOTE: Flutter does NOT use ESLint or Playwright.
+#   - ESLint equivalent → flutter analyze (Dart analyzer + flutter_lints)
+#   - Playwright equivalent → flutter integration_test (runs on device/emulator)
+#     Integration tests are NOT run in CI here because they need an emulator.
+#     They run locally before pushing, or in a separate scheduled workflow.
+# ============================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  analyze-and-test:
+    name: Analyze · Test · Sonar
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout full history (SonarCloud needs git blame) ─
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Setup Flutter ──────────────────────────────────────
+      # flutter-version must match your pubspec.yaml sdk constraint (^3.10.0)
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.0'
+          channel: stable
+          cache: true   # caches ~/.pub-cache between runs
+
+      # ── 3. Install dependencies ───────────────────────────────
+      - name: Install dependencies
+        run: flutter pub get
+
+      # ── 4. flutter analyze (= ESLint for Dart) ───────────────
+      # --fatal-infos means even INFO level issues will fail the build
+      # This enforces the "0 issues" rule from our conventions
+      - name: Analyze (flutter analyze)
+        run: flutter analyze --fatal-infos
+
+      # ── 5. Run tests with coverage ────────────────────────────
+      # Generates coverage/lcov.info → consumed by SonarCloud
+      - name: Run tests
+        run: flutter test --coverage
+
+      # ── 6. SonarCloud scan ───────────────────────────────────
+      # Sends coverage + Dart static analysis to SonarCloud
+      # Requires the sonar-flutter plugin in your SonarCloud org
+      - name: SonarCloud scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY_APP }}
+            -Dsonar.sources=lib
+            -Dsonar.tests=test
+            -Dsonar.flutter.coverage.reportPath=coverage/lcov.info

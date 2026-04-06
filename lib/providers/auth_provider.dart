@@ -69,14 +69,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (pendingToken != null) {
         _prefs.remove(pendingInviteTokenKey); // fire-and-forget
         _ref.read(pendingInviteTokenProvider.notifier).state = pendingToken;
-        debugPrint('[Auth] 🔗 Cold-start invite token restored — will redirect to accept-invite');
+        debugPrint(
+          '[Auth] 🔗 Cold-start invite token restored — will redirect to accept-invite',
+        );
       }
 
       state = AuthState.authenticated;
       debugPrint('[Auth] ✅ User is authenticated (restored from storage)');
       // Refresh user profile from backend on every app restart.
       _ref.read(userProfileProvider.notifier).loadFromBackend().ignore();
-    } else {      // Check for a cold-start pending invite even when not authenticated.
+    } else {
+      // Check for a cold-start pending invite even when not authenticated.
       // DeepLinkService persists action + email to SharedPreferences when the
       // context isn’t ready (app launched cold by tapping the invite link).
       final pendingToken = _prefs.getString(pendingInviteTokenKey);
@@ -93,7 +96,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
         debugPrint(
           '[Auth] 🔗 Cold-start invite: routing to $action screen (email: $email)',
         );
-      }      state = AuthState.unauthenticated;
+      }
+      state = AuthState.unauthenticated;
       debugPrint('[Auth] ⬚ User is unauthenticated');
     }
   }
@@ -130,7 +134,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // synchronously right before the auth state change.
       _prefs.remove(pendingInviteTokenKey);
       _ref.read(pendingInviteTokenProvider.notifier).state = pendingToken;
-      debugPrint('[Auth] 🔗 Pending invite token found — will redirect to accept-invite');
+      debugPrint(
+        '[Auth] 🔗 Pending invite token found — will redirect to accept-invite',
+      );
     }
 
     state = AuthState.authenticated;

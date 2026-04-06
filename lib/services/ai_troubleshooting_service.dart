@@ -34,11 +34,19 @@ class AiTroubleshootingService {
       final data = (raw['data'] ?? raw) as Map<String, dynamic>;
       return (data['issues'] as List).cast<String>();
     } on ApiException catch (e) {
-      AppLogger.error('Failed to generate issue options: ${e.message}', tag: 'AiTroubleshooting', error: e);
+      AppLogger.error(
+        'Failed to generate issue options: ${e.message}',
+        tag: 'AiTroubleshooting',
+        error: e,
+      );
       // Return fallback options
       return _getFallbackIssues(assetName);
     } on Object catch (e) {
-      AppLogger.error('Unexpected error generating issues: $e', tag: 'AiTroubleshooting', error: e);
+      AppLogger.error(
+        'Unexpected error generating issues: $e',
+        tag: 'AiTroubleshooting',
+        error: e,
+      );
       return _getFallbackIssues(assetName);
     }
   }

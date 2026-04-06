@@ -9,34 +9,26 @@ class AppLogger {
 
   /// Log debug message
   static void debug(String message, {String? tag}) {
-    developer.log(
-      message,
-      name: tag ?? _tag,
-      level: 500,
-    );
+    developer.log(message, name: tag ?? _tag, level: 500);
   }
 
   /// Log info message
   static void info(String message, {String? tag}) {
-    developer.log(
-      message,
-      name: tag ?? _tag,
-      level: 800,
-    );
+    developer.log(message, name: tag ?? _tag, level: 800);
   }
 
   /// Log warning
   static void warning(String message, {String? tag, Object? error}) {
-    developer.log(
-      message,
-      name: tag ?? _tag,
-      level: 900,
-      error: error,
-    );
+    developer.log(message, name: tag ?? _tag, level: 900, error: error);
   }
 
   /// Log error
-  static void error(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
+  static void error(
+    String message, {
+    String? tag,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
     developer.log(
       message,
       name: tag ?? _tag,
@@ -47,7 +39,12 @@ class AppLogger {
   }
 
   /// Log API call
-  static void api(String method, String url, {int? statusCode, String? response}) {
+  static void api(
+    String method,
+    String url, {
+    int? statusCode,
+    String? response,
+  }) {
     developer.log(
       'API $method $url ${statusCode != null ? "- $statusCode" : ""}',
       name: '$_tag.API',
@@ -55,11 +52,7 @@ class AppLogger {
     );
 
     if (response != null) {
-      developer.log(
-        'Response: $response',
-        name: '$_tag.API',
-        level: 500,
-      );
+      developer.log('Response: $response', name: '$_tag.API', level: 500);
     }
   }
 

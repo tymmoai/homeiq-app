@@ -29,13 +29,39 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   String _formatDefaultDate() {
     final tomorrow = DateTime.now().add(const Duration(days: 1));
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${days[tomorrow.weekday - 1]}, ${months[tomorrow.month - 1]} ${tomorrow.day}, ${tomorrow.year}';
   }
 
   /// Format a DateTime to short "Mon DD" format.
   String _formatShortDate(DateTime date) {
-    final months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${months[date.month - 1]} ${date.day}';
   }
 
@@ -63,10 +89,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: AppColors.headerForeground,
-          ),
+          icon: Icon(Icons.arrow_back, color: AppColors.headerForeground),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -238,7 +261,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.backgroundGray100,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Text(
                         scheduledTime,
@@ -344,7 +369,11 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                                 ),
                               ),
                               SizedBox(width: responsive.spacing(6)),
-                              Icon(Icons.circle, color: AppColors.success, size: responsive.iconSize(8)),
+                              Icon(
+                                Icons.circle,
+                                color: AppColors.success,
+                                size: responsive.iconSize(8),
+                              ),
                             ],
                           ),
                           SizedBox(height: responsive.spacing(4)),
@@ -433,13 +462,17 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     _ServiceStep(
                       title: 'Booking Created',
                       subtitle: 'Service request submitted',
-                      date: _formatShortDate(DateTime.now().subtract(const Duration(days: 1))),
+                      date: _formatShortDate(
+                        DateTime.now().subtract(const Duration(days: 1)),
+                      ),
                       active: true,
                     ),
                     _ServiceStep(
                       title: 'Technician Assigned',
                       subtitle: 'Michael Anderson assigned',
-                      date: _formatShortDate(DateTime.now().subtract(const Duration(days: 1))),
+                      date: _formatShortDate(
+                        DateTime.now().subtract(const Duration(days: 1)),
+                      ),
                       active: true,
                     ),
                     const _ServiceStep(
@@ -555,7 +588,9 @@ class _RescheduleDrawerState extends State<_RescheduleDrawer> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.spacing(20),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -566,7 +601,9 @@ class _RescheduleDrawerState extends State<_RescheduleDrawer> {
                             padding: EdgeInsets.all(responsive.spacing(8)),
                             decoration: BoxDecoration(
                               color: AppColors.primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                              borderRadius: BorderRadius.circular(
+                                AppDimensions.radiusBadge,
+                              ),
                             ),
                             child: Icon(
                               Icons.event_repeat,
@@ -610,10 +647,14 @@ class _RescheduleDrawerState extends State<_RescheduleDrawer> {
                             Row(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(responsive.spacing(8)),
+                                  padding: EdgeInsets.all(
+                                    responsive.spacing(8),
+                                  ),
                                   decoration: BoxDecoration(
                                     color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                    borderRadius: BorderRadius.circular(
+                                      AppDimensions.radiusBadge,
+                                    ),
                                   ),
                                   child: Icon(
                                     Icons.calendar_today,
@@ -659,10 +700,14 @@ class _RescheduleDrawerState extends State<_RescheduleDrawer> {
                               Row(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(responsive.spacing(8)),
+                                    padding: EdgeInsets.all(
+                                      responsive.spacing(8),
+                                    ),
                                     decoration: BoxDecoration(
                                       color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                      borderRadius: BorderRadius.circular(
+                                        AppDimensions.radiusBadge,
+                                      ),
                                     ),
                                     child: Icon(
                                       Icons.access_time,
@@ -804,7 +849,9 @@ class _RescheduleDrawerState extends State<_RescheduleDrawer> {
                                 color: isSelected
                                     ? AppColors.primary
                                     : AppColors.white,
-                                borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                borderRadius: BorderRadius.circular(
+                                  AppDimensions.radiusBadge,
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: AppColors.shadowDark,
@@ -850,9 +897,15 @@ class _RescheduleDrawerState extends State<_RescheduleDrawer> {
                                   Navigator.of(context).pop();
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary.withValues(alpha: 0.08),
+                                  backgroundColor: AppColors.primary.withValues(
+                                    alpha: 0.08,
+                                  ),
                                   foregroundColor: AppColors.primary,
-                                  side: BorderSide(color: AppColors.primary.withValues(alpha: 0.3)),
+                                  side: BorderSide(
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.3,
+                                    ),
+                                  ),
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 14,
                                   ),

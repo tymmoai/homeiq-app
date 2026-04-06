@@ -191,7 +191,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ? SystemUiOverlayStyle.dark
             : SystemUiOverlayStyle.light,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: AppColors.headerForeground, size: responsive.iconSize(20)),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.headerForeground,
+            size: responsive.iconSize(20),
+          ),
           onPressed: () => context.pop(),
         ),
         title: Column(
@@ -232,7 +236,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
           if (!_isLoading)
             IconButton(
-              icon: Icon(Icons.refresh, color: AppColors.headerForeground, size: responsive.iconSize(20)),
+              icon: Icon(
+                Icons.refresh,
+                color: AppColors.headerForeground,
+                size: responsive.iconSize(20),
+              ),
               onPressed: _loadFromBackend,
               tooltip: 'Refresh',
             ),
@@ -244,7 +252,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
           : _notifications.isEmpty
           ? _buildEmptyState()
           : ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(16), vertical: responsive.spacing(12)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(16),
+                vertical: responsive.spacing(12),
+              ),
               itemCount: sectionOrder.length,
               itemBuilder: (context, sectionIndex) {
                 final section = sectionOrder[sectionIndex];
@@ -304,7 +315,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
           SizedBox(height: responsive.spacing(8)),
           Text(
             'You\'re all caught up!',
-            style: TextStyle(fontSize: responsive.fontSize(14), color: Colors.grey.shade500),
+            style: TextStyle(
+              fontSize: responsive.fontSize(14),
+              color: Colors.grey.shade500,
+            ),
           ),
         ],
       ),
@@ -382,9 +396,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     child: Icon(
                       icon,
                       size: responsive.iconSize(25),
-                      color: isRead
-                          ? Colors.grey.shade600
-                          : AppColors.primary,
+                      color: isRead ? Colors.grey.shade600 : AppColors.primary,
                     ),
                   ),
                   // Unread dot on top right of icon

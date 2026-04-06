@@ -186,8 +186,8 @@ class PaymentMethodSelectorState extends State<PaymentMethodSelector> {
       cardHolderName: _cardHolderName,
       walletMode: _walletMode,
       bankRoutingNumber: _bankRoutingNumber,
-        bankAccountNumber: _bankAccountNumber,
-        bankAccountType: _bankAccountType,
+      bankAccountNumber: _bankAccountNumber,
+      bankAccountType: _bankAccountType,
       walletProvider: _walletProvider,
       installmentMonths: _installmentMonths,
     );
@@ -252,7 +252,8 @@ class PaymentMethodSelectorState extends State<PaymentMethodSelector> {
     if (trimmed.length != 9) return false;
     // ABA routing number checksum validation
     final digits = trimmed.split('').map(int.parse).toList();
-    final checksum = (3 * (digits[0] + digits[3] + digits[6]) +
+    final checksum =
+        (3 * (digits[0] + digits[3] + digits[6]) +
             7 * (digits[1] + digits[4] + digits[7]) +
             (digits[2] + digits[5] + digits[8])) %
         10;
@@ -1155,7 +1156,11 @@ class PaymentMethodSelectorState extends State<PaymentMethodSelector> {
             responsive.heightBox(8.0),
             Row(
               children: [
-                Icon(Icons.shield_outlined, size: responsive.iconSize(14.0), color: AppColors.success),
+                Icon(
+                  Icons.shield_outlined,
+                  size: responsive.iconSize(14.0),
+                  color: AppColors.success,
+                ),
                 responsive.widthBox(6.0),
                 Expanded(
                   child: Text(

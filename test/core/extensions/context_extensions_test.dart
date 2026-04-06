@@ -74,8 +74,7 @@ void main() {
         expect(capturedSize.height, greaterThan(0));
       });
 
-      testWidgets('context.mediaQuery returns MediaQueryData',
-          (tester) async {
+      testWidgets('context.mediaQuery returns MediaQueryData', (tester) async {
         late MediaQueryData capturedMq;
         await tester.pumpWidget(
           MaterialApp(
@@ -105,8 +104,9 @@ void main() {
         expect(capturedPadding, isA<EdgeInsets>());
       });
 
-      testWidgets('context.platformBrightness returns Brightness',
-          (tester) async {
+      testWidgets('context.platformBrightness returns Brightness', (
+        tester,
+      ) async {
         late Brightness capturedBrightness;
         await tester.pumpWidget(
           MaterialApp(
@@ -126,8 +126,9 @@ void main() {
     // Snackbar helpers
     // ─────────────────────────────────────────────────────────────────────
     group('snackbar helpers', () {
-      testWidgets('showSnackBar displays a snackbar with message',
-          (tester) async {
+      testWidgets('showSnackBar displays a snackbar with message', (
+        tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -149,8 +150,9 @@ void main() {
         expect(find.text('Hello Test'), findsOneWidget);
       });
 
-      testWidgets('showErrorSnackBar displays an error snackbar',
-          (tester) async {
+      testWidgets('showErrorSnackBar displays an error snackbar', (
+        tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -172,8 +174,9 @@ void main() {
         expect(find.text('Error!'), findsOneWidget);
       });
 
-      testWidgets('showSuccessSnackBar displays a success snackbar',
-          (tester) async {
+      testWidgets('showSuccessSnackBar displays a success snackbar', (
+        tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(

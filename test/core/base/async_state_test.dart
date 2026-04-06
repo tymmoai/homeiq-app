@@ -230,15 +230,17 @@ void main() {
         expect(result, 'loading');
       });
 
-      test('calls orElse when loading handler is not provided for AsyncLoading',
-          () {
-        const state = AsyncState<int>.loading();
-        final result = state.maybeWhen(
-          data: (d) => 'data:$d',
-          orElse: () => 'fallback',
-        );
-        expect(result, 'fallback');
-      });
+      test(
+        'calls orElse when loading handler is not provided for AsyncLoading',
+        () {
+          const state = AsyncState<int>.loading();
+          final result = state.maybeWhen(
+            data: (d) => 'data:$d',
+            orElse: () => 'fallback',
+          );
+          expect(result, 'fallback');
+        },
+      );
 
       test('calls data handler when provided for AsyncData', () {
         const state = AsyncState<int>.data(7);
@@ -267,15 +269,17 @@ void main() {
         expect(result, 'error:bad');
       });
 
-      test('calls orElse when error handler is not provided for AsyncError',
-          () {
-        const state = AsyncState<int>.error('bad');
-        final result = state.maybeWhen(
-          loading: () => 'loading',
-          orElse: () => 'fallback',
-        );
-        expect(result, 'fallback');
-      });
+      test(
+        'calls orElse when error handler is not provided for AsyncError',
+        () {
+          const state = AsyncState<int>.error('bad');
+          final result = state.maybeWhen(
+            loading: () => 'loading',
+            orElse: () => 'fallback',
+          );
+          expect(result, 'fallback');
+        },
+      );
     });
   });
 }

@@ -9,10 +9,7 @@ import '../../../core/widgets/app_dialogs.dart';
 class AddPaymentMethodForm extends StatefulWidget {
   final Function(Map<String, dynamic>)? onPaymentMethodAdded;
 
-  const AddPaymentMethodForm({
-    super.key,
-    this.onPaymentMethodAdded,
-  });
+  const AddPaymentMethodForm({super.key, this.onPaymentMethodAdded});
 
   @override
   State<AddPaymentMethodForm> createState() => _AddPaymentMethodFormState();
@@ -25,7 +22,7 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
   final _cardHolderController = TextEditingController();
   final _expiryController = TextEditingController();
   final _cvvController = TextEditingController();
-  
+
   bool _isDefault = false;
   bool _isLoading = false;
 

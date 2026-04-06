@@ -10,7 +10,7 @@ class NetworkDetector {
   static NetworkDetector get instance => _instance;
 
   final Connectivity _connectivity = Connectivity();
-  
+
   StreamController<bool>? _connectionStreamController;
   StreamSubscription<List<ConnectivityResult>>? _subscription;
 
@@ -24,17 +24,17 @@ class NetworkDetector {
   }
 
   void _startListening() {
-    _subscription = _connectivity.onConnectivityChanged.listen(
-      (List<ConnectivityResult> results) async {
-        final isConnected = await _checkConnectivity(results);
-        _connectionStreamController?.add(isConnected);
-        
-        AppLogger.info(
-          'Network status changed: ${isConnected ? "Connected" : "Disconnected"}',
-          tag: 'Network',
-        );
-      },
-    );
+    _subscription = _connectivity.onConnectivityChanged.listen((
+      List<ConnectivityResult> results,
+    ) async {
+      final isConnected = await _checkConnectivity(results);
+      _connectionStreamController?.add(isConnected);
+
+      AppLogger.info(
+        'Network status changed: ${isConnected ? "Connected" : "Disconnected"}',
+        tag: 'Network',
+      );
+    });
 
     // Check initial status
     checkConnection().then((isConnected) {

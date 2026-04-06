@@ -63,7 +63,8 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
           if (problemBox != null) {
             scrollPosition =
                 problemBox.localToGlobal(Offset.zero).dy +
-                _scrollController.offset - 100;
+                _scrollController.offset -
+                100;
           }
         }
       } else if (_dateController.text.trim().isEmpty) {
@@ -73,7 +74,8 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
           if (dateBox != null) {
             scrollPosition =
                 dateBox.localToGlobal(Offset.zero).dy +
-                _scrollController.offset - 100;
+                _scrollController.offset -
+                100;
           }
         }
       }
@@ -170,14 +172,20 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
   /// Derive warranty type from asset name
   String _getWarrantyType() {
     final type = (widget.asset['name']?.toString() ?? '').toLowerCase();
-    if (type.contains('refrigerator') || type.contains('fridge')) return 'Parts & Labor';
-    if (type.contains('tv') || type.contains('television')) return '1-Year Limited';
-    if (type.contains('ac') || type.contains('air conditioner')) return '5-Year Limited';
-    if (type.contains('microwave') || type.contains('oven')) return 'Lifetime Limited';
-    if (type.contains('washer') || type.contains('washing')) return 'Parts & Labor';
+    if (type.contains('refrigerator') || type.contains('fridge'))
+      return 'Parts & Labor';
+    if (type.contains('tv') || type.contains('television'))
+      return '1-Year Limited';
+    if (type.contains('ac') || type.contains('air conditioner'))
+      return '5-Year Limited';
+    if (type.contains('microwave') || type.contains('oven'))
+      return 'Lifetime Limited';
+    if (type.contains('washer') || type.contains('washing'))
+      return 'Parts & Labor';
     if (type.contains('dishwasher')) return '2-Year Limited';
     if (type.contains('dryer')) return 'Parts Limited';
-    if (type.contains('water heater') || type.contains('heater')) return '6-Year Limited';
+    if (type.contains('water heater') || type.contains('heater'))
+      return '6-Year Limited';
     return 'Standard Warranty';
   }
 
@@ -187,16 +195,31 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
     if (endDateStr == null) return 'N/A';
     final dt = DateTime.tryParse(endDateStr);
     if (dt == null) return endDateStr;
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
   }
 
   Widget _buildForm(String assetName) {
     final warranty = widget.asset['warranty']?.toString() ?? '';
     final warrantyEndDateStr = widget.asset['warrantyEndDate']?.toString();
-    final bool isExpired = warranty.toLowerCase() == 'expired' ||
+    final bool isExpired =
+        warranty.toLowerCase() == 'expired' ||
         (warrantyEndDateStr != null &&
-            (DateTime.tryParse(warrantyEndDateStr)?.isBefore(DateTime.now()) ?? false));
+            (DateTime.tryParse(warrantyEndDateStr)?.isBefore(DateTime.now()) ??
+                false));
 
     return SingleChildScrollView(
       controller: _scrollController,
@@ -229,13 +252,19 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                       Container(
                         padding: EdgeInsets.all(responsive.spacing(16)),
                         decoration: BoxDecoration(
-                          color: isExpired ? AppColors.errorSoft : AppColors.gray100,
+                          color: isExpired
+                              ? AppColors.errorSoft
+                              : AppColors.gray100,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
-                          isExpired ? Icons.shield_outlined : Icons.shield_outlined,
+                          isExpired
+                              ? Icons.shield_outlined
+                              : Icons.shield_outlined,
                           size: responsive.iconSize(32),
-                          color: isExpired ? AppColors.error : AppColors.gray700,
+                          color: isExpired
+                              ? AppColors.error
+                              : AppColors.gray700,
                         ),
                       ),
                       SizedBox(width: responsive.spacing(16)),
@@ -271,7 +300,7 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                   ),
                 ),
                 SizedBox(height: responsive.spacing(24)),
-                
+
                 // Coverage Details Card — uses actual asset data
                 Container(
                   padding: EdgeInsets.all(responsive.spacing(20)),
@@ -285,7 +314,9 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: isExpired ? AppColors.errorBorder : AppColors.gray300,
+                      color: isExpired
+                          ? AppColors.errorBorder
+                          : AppColors.gray300,
                     ),
                   ),
                   child: Column(
@@ -297,7 +328,9 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                             width: 32,
                             height: 32,
                             decoration: BoxDecoration(
-                              color: isExpired ? AppColors.error : AppColors.gray400,
+                              color: isExpired
+                                  ? AppColors.error
+                                  : AppColors.gray400,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -312,16 +345,23 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                             style: TextStyle(
                               fontSize: responsive.fontSize(14),
                               fontWeight: FontWeight.bold,
-                              color: isExpired ? AppColors.errorDark : AppColors.textPrimary,
+                              color: isExpired
+                                  ? AppColors.errorDark
+                                  : AppColors.textPrimary,
                             ),
                           ),
                           if (isExpired) ...[
                             SizedBox(width: responsive.spacing(8)),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(2)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: responsive.spacing(8),
+                                vertical: responsive.spacing(2),
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.errorLight,
-                                borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                borderRadius: BorderRadius.circular(
+                                  AppDimensions.radiusBadge,
+                                ),
                               ),
                               child: Text(
                                 'EXPIRED',
@@ -342,7 +382,9 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                       SizedBox(height: responsive.spacing(8)),
                       _buildCoverageItem(
                         'Status',
-                        isExpired ? 'Expired — Not Covered' : 'Active — Full Replacement',
+                        isExpired
+                            ? 'Expired — Not Covered'
+                            : 'Active — Full Replacement',
                       ),
                     ],
                   ),
@@ -466,7 +508,9 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: AppColors.primary,
                                   side: BorderSide(
-                                    color: AppColors.primary.withValues(alpha: 0.5),
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.5,
+                                    ),
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 24,
@@ -500,7 +544,10 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                                   ),
                                   TextButton.icon(
                                     onPressed: _pickFiles,
-                                    icon: Icon(Icons.add, size: responsive.iconSize(16)),
+                                    icon: Icon(
+                                      Icons.add,
+                                      size: responsive.iconSize(16),
+                                    ),
                                     label: const Text('Add More'),
                                     style: TextButton.styleFrom(
                                       foregroundColor: AppColors.primary,
@@ -563,21 +610,24 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                                                             stackTrace,
                                                           ) {
                                                             return Container(
-                                                              color:
-                                                                  AppColors.backgroundGray200,
+                                                              color: AppColors
+                                                                  .backgroundGray200,
                                                               child: const Icon(
                                                                 Icons
                                                                     .description,
-                                                                color: AppColors.grayMedium,
+                                                                color: AppColors
+                                                                    .grayMedium,
                                                               ),
                                                             );
                                                           },
                                                     )
                                                   : Container(
-                                                      color: AppColors.backgroundGray200,
+                                                      color: AppColors
+                                                          .backgroundGray200,
                                                       child: const Icon(
                                                         Icons.description,
-                                                        color: AppColors.grayMedium,
+                                                        color: AppColors
+                                                            .grayMedium,
                                                       ),
                                                     ),
                                             ),
@@ -789,7 +839,9 @@ class _UpgradeReplaceScreenState extends State<UpgradeReplaceScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: AppColors.textOnPrimary,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
                       elevation: 0,
                     ),
                     child: _submitting

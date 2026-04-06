@@ -147,14 +147,16 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
         ),
         SizedBox(height: responsive.spacing(12)),
         // Full Name - No border, shadow container
-        _buildShadowTextField(context, 
+        _buildShadowTextField(
+          context,
           label: 'Full Name',
           text: deliveryAddress['name'] ?? '',
           onChanged: onNameChanged,
         ),
         SizedBox(height: responsive.spacing(16)),
         // Phone - No border, shadow container
-        _buildShadowTextField(context, 
+        _buildShadowTextField(
+          context,
           label: 'Cell Number',
           text: deliveryAddress['phone'] ?? '',
           keyboardType: TextInputType.phone,
@@ -162,7 +164,8 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
         ),
         SizedBox(height: responsive.spacing(16)),
         // Street Address - No border, shadow container
-        _buildShadowTextField(context, 
+        _buildShadowTextField(
+          context,
           label: 'Street Address',
           text: deliveryAddress['street'] ?? '',
           onChanged: onStreetChanged,
@@ -172,7 +175,8 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: _buildShadowTextField(context, 
+              child: _buildShadowTextField(
+                context,
                 label: 'City',
                 text: deliveryAddress['city'] ?? '',
                 onChanged: onCityChanged,
@@ -181,7 +185,8 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
             SizedBox(width: responsive.spacing(12)),
             Expanded(
               flex: 1,
-              child: _buildShadowTextField(context, 
+              child: _buildShadowTextField(
+                context,
                 label: 'State',
                 text: deliveryAddress['state'] ?? '',
                 onChanged: onStateChanged,
@@ -190,7 +195,8 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
             SizedBox(width: responsive.spacing(12)),
             Expanded(
               flex: 1,
-              child: _buildShadowTextField(context, 
+              child: _buildShadowTextField(
+                context,
                 label: 'ZIP',
                 text: deliveryAddress['zip'] ?? '',
                 keyboardType: TextInputType.number,
@@ -216,7 +222,11 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.local_shipping, size: responsive.iconSize(18), color: Colors.grey.shade600),
+              Icon(
+                Icons.local_shipping,
+                size: responsive.iconSize(18),
+                color: Colors.grey.shade600,
+              ),
               SizedBox(width: responsive.spacing(8)),
               Expanded(
                 child: Column(
@@ -268,7 +278,10 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
             ),
             child: Text(
               'Confirm Address & Continue',
-              style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: responsive.fontSize(16),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -276,7 +289,8 @@ class CombinedOrderConfirmationWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildShadowTextField(BuildContext context, {
+  Widget _buildShadowTextField(
+    BuildContext context, {
     required String label,
     required String text,
     required ValueChanged<String> onChanged,

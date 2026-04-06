@@ -35,7 +35,8 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
     final purchaseYear = widget.asset['purchaseYear'];
 
     // Use enriched warranty details from ChatGPT/barcode when available
-    final warrantyDetailsMap = widget.asset['warrantyDetails'] as Map<String, dynamic>?;
+    final warrantyDetailsMap =
+        widget.asset['warrantyDetails'] as Map<String, dynamic>?;
 
     final isExpired =
         warranty.toLowerCase() == 'expired' || _isDateExpired(warrantyEndDate);
@@ -45,7 +46,9 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
     final enrichedDuration = warrantyDetailsMap?['duration']?.toString() ?? '';
     final enrichedCoverage = warrantyDetailsMap?['coverage']?.toString() ?? '';
     final warrantyType = enrichedType.isNotEmpty
-        ? (enrichedDuration.isNotEmpty ? '$enrichedType ($enrichedDuration)' : enrichedType)
+        ? (enrichedDuration.isNotEmpty
+              ? '$enrichedType ($enrichedDuration)'
+              : enrichedType)
         : _getWarrantyType(assetName, brand);
     final warrantyNumber = _getWarrantyNumber(brand, purchaseYear);
     final startDate = _getStartDate(purchaseDate, purchaseYear);
@@ -101,9 +104,7 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
                       style: TextStyle(
                         fontSize: responsive.fontSize(12),
                         fontWeight: FontWeight.w600,
-                        color: isExpired
-                            ? AppColors.error
-                            : AppColors.primary,
+                        color: isExpired ? AppColors.error : AppColors.primary,
                       ),
                     ),
                   ),
@@ -155,7 +156,9 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
                                   ),
                                   decoration: BoxDecoration(
                                     color: AppColors.infoBackground,
-                                    borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                    borderRadius: BorderRadius.circular(
+                                      AppDimensions.radiusBadge,
+                                    ),
                                     border: Border.all(
                                       color: AppColors.infoLight,
                                     ),
@@ -509,10 +512,7 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
                                     isExpired ? 'N/A - Expired' : 'Unlimited',
                                     isItalic: isExpired,
                                   ),
-                                  Divider(
-                                    height: 1,
-                                    color: AppColors.border,
-                                  ),
+                                  Divider(height: 1, color: AppColors.border),
                                   _buildDetailRow(
                                     responsive,
                                     'Transferable',
@@ -793,7 +793,9 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.warningYellowBg,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.warningYellowBorder),
+                        border: Border.all(
+                          color: AppColors.warningYellowBorder,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -894,9 +896,7 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
               fontWeight: FontWeight.w600,
               color:
                   valueColor ??
-                  (isExpired
-                      ? AppColors.error
-                      : AppColors.slate900),
+                  (isExpired ? AppColors.error : AppColors.slate900),
             ),
           ),
         ],
@@ -928,9 +928,7 @@ class _WarrantyDetailScreenState extends State<WarrantyDetailScreen> {
             style: TextStyle(
               fontSize: responsive.fontSize(12),
               fontWeight: FontWeight.w700,
-              color: isItalic
-                  ? AppColors.slate400
-                  : AppColors.slate900,
+              color: isItalic ? AppColors.slate400 : AppColors.slate900,
               fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
             ),
           ),

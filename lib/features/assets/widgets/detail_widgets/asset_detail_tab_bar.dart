@@ -34,12 +34,7 @@ class AssetDetailTabBar extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.border,
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: AppColors.border, width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -67,9 +62,7 @@ class AssetDetailTabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodyMedium.copyWith(
                     fontSize: responsive.fontSize(14.0),
-                    fontWeight: isSelected
-                        ? FontWeight.w700
-                        : FontWeight.w500,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                     color: isSelected
                         ? AppColors.primary
                         : AppColors.textSecondary,

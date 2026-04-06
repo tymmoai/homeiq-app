@@ -20,7 +20,8 @@ class ServiceSubcategoryScreen extends ConsumerStatefulWidget {
       _ServiceSubcategoryScreenState();
 }
 
-class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScreen> {
+class _ServiceSubcategoryScreenState
+    extends ConsumerState<ServiceSubcategoryScreen> {
   ResponsiveUtils get responsive => ResponsiveUtils(context);
   Map<String, dynamic>? _selectedService;
 
@@ -106,7 +107,10 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
   Widget _buildHeader(BuildContext context) {
     // Header style exactly same as Assembly step1 - stepper + close button only
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(16)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(20),
+        vertical: responsive.spacing(16),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -133,7 +137,7 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
     // Single step indicator (step 1 of multi-step flow) - same as Assembly
     const int totalSteps = 5;
     int currentStep = 1;
-    
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: List.generate(totalSteps, (index) {
@@ -155,7 +159,8 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
                   ),
                 ),
               ),
-              if (index < totalSteps - 1) SizedBox(width: responsive.spacing(4)),
+              if (index < totalSteps - 1)
+                SizedBox(width: responsive.spacing(4)),
             ],
           ),
         );
@@ -239,7 +244,9 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
                     if (isViewer) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Viewers cannot book services. Contact the home owner to update your permissions.'),
+                          content: Text(
+                            'Viewers cannot book services. Contact the home owner to update your permissions.',
+                          ),
                           backgroundColor: Colors.orange,
                           duration: Duration(seconds: 3),
                         ),
@@ -257,8 +264,9 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
                   }
                 : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  isEnabled ? AppColors.primary : AppColors.gray300,
+              backgroundColor: isEnabled
+                  ? AppColors.primary
+                  : AppColors.gray300,
               foregroundColor: AppColors.textOnPrimary,
               disabledBackgroundColor: AppColors.gray300,
               disabledForegroundColor: AppColors.gray500,
@@ -266,7 +274,10 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
             ),
             child: Text(
               'Continue',
-              style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: responsive.fontSize(16),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -274,4 +285,3 @@ class _ServiceSubcategoryScreenState extends ConsumerState<ServiceSubcategoryScr
     );
   }
 }
-

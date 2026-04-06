@@ -42,7 +42,8 @@ class AppValidators {
     }
 
     final phoneRegex = RegExp(r'^\+?[\d\s\-\(\)]+$');
-    if (!phoneRegex.hasMatch(value) || value.replaceAll(RegExp(r'[\s\-\(\)]'), '').length < 10) {
+    if (!phoneRegex.hasMatch(value) ||
+        value.replaceAll(RegExp(r'[\s\-\(\)]'), '').length < 10) {
       return 'Please enter a valid phone number';
     }
 
@@ -64,7 +65,11 @@ class AppValidators {
   }
 
   /// Validate minimum length
-  static String? minLength(String? value, int length, {String fieldName = 'This field'}) {
+  static String? minLength(
+    String? value,
+    int length, {
+    String fieldName = 'This field',
+  }) {
     if (value == null || value.isEmpty) {
       return '$fieldName is required';
     }
@@ -77,7 +82,11 @@ class AppValidators {
   }
 
   /// Validate maximum length
-  static String? maxLength(String? value, int length, {String fieldName = 'This field'}) {
+  static String? maxLength(
+    String? value,
+    int length, {
+    String fieldName = 'This field',
+  }) {
     if (value != null && value.length > length) {
       return '$fieldName must not exceed $length characters';
     }
@@ -234,7 +243,9 @@ class AppValidators {
   }
 
   /// Combine multiple validators
-  static String? Function(String?) combine(List<String? Function(String?)> validators) {
+  static String? Function(String?) combine(
+    List<String? Function(String?)> validators,
+  ) {
     return (String? value) {
       for (final validator in validators) {
         final error = validator(value);

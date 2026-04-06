@@ -152,10 +152,14 @@ class _CombinedPaymentWidgetState extends State<CombinedPaymentWidget> {
                     ],
             ),
             child: ElevatedButton(
-              onPressed: (widget.isProcessing || !_paymentSelected) ? null : _onConfirmPressed,
+              onPressed: (widget.isProcessing || !_paymentSelected)
+                  ? null
+                  : _onConfirmPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.4),
+                disabledBackgroundColor: AppColors.primary.withValues(
+                  alpha: 0.4,
+                ),
                 foregroundColor: AppColors.textOnPrimary,
                 elevation: 0,
               ),
@@ -165,7 +169,9 @@ class _CombinedPaymentWidgetState extends State<CombinedPaymentWidget> {
                       height: 24,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.textOnPrimary),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.textOnPrimary,
+                        ),
                       ),
                     )
                   : Text(

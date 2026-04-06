@@ -75,7 +75,11 @@ abstract class BaseNotifier<T> extends StateNotifier<AsyncState<T>> {
       final result = await operation();
       if (mounted) setData(result);
     } on Object catch (e, st) {
-      AppLogger.error('$runtimeType: operation failed', error: e, stackTrace: st);
+      AppLogger.error(
+        '$runtimeType: operation failed',
+        error: e,
+        stackTrace: st,
+      );
       if (mounted) setError(_errorMessage(e), e);
     }
   }
@@ -96,7 +100,11 @@ abstract class BaseNotifier<T> extends StateNotifier<AsyncState<T>> {
         failure: (f) => setError(f.message),
       );
     } on Object catch (e, st) {
-      AppLogger.error('$runtimeType: operation failed', error: e, stackTrace: st);
+      AppLogger.error(
+        '$runtimeType: operation failed',
+        error: e,
+        stackTrace: st,
+      );
       if (mounted) setError(_errorMessage(e), e);
     }
   }

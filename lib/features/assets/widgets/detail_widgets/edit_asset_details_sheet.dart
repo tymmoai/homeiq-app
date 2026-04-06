@@ -40,23 +40,24 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
   late final TextEditingController _manufacturerController;
   late final TextEditingController _colorController;
 
-
   @override
   void initState() {
     super.initState();
     final a = widget.asset;
 
-    _nameController =
-        TextEditingController(text: a['name']?.toString() ?? '');
-    _brandController =
-        TextEditingController(text: a['brand']?.toString() ?? '');
-    _modelController =
-        TextEditingController(text: a['model']?.toString() ?? '');
+    _nameController = TextEditingController(text: a['name']?.toString() ?? '');
+    _brandController = TextEditingController(
+      text: a['brand']?.toString() ?? '',
+    );
+    _modelController = TextEditingController(
+      text: a['model']?.toString() ?? '',
+    );
     _serialController = TextEditingController(
       text: a['serial']?.toString() ?? a['serialNumber']?.toString() ?? '',
     );
-    _locationController =
-        TextEditingController(text: a['location']?.toString() ?? '');
+    _locationController = TextEditingController(
+      text: a['location']?.toString() ?? '',
+    );
 
     // Purchase date — stored as year int or displayable string
     final rawPurchaseDate = a['purchaseDate'] ?? a['purchaseYear'];
@@ -71,8 +72,7 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
     }
 
     // Warranty expiry — ISO string or display string
-    final rawWarrantyExpiry =
-        a['warrantyEndDate'] ?? a['warrantyExpiresAt'];
+    final rawWarrantyExpiry = a['warrantyEndDate'] ?? a['warrantyExpiresAt'];
     String warrantyStr = '';
     if (rawWarrantyExpiry != null) {
       final parsed = DateTime.tryParse(rawWarrantyExpiry.toString());
@@ -85,10 +85,12 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
     }
     _warrantyExpiryController = TextEditingController(text: warrantyStr);
 
-    _manufacturerController =
-        TextEditingController(text: a['manufacturer']?.toString() ?? '');
-    _colorController =
-        TextEditingController(text: a['productColor']?.toString() ?? '');
+    _manufacturerController = TextEditingController(
+      text: a['manufacturer']?.toString() ?? '',
+    );
+    _colorController = TextEditingController(
+      text: a['productColor']?.toString() ?? '',
+    );
   }
 
   @override
@@ -107,20 +109,30 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.year}';
   }
 
   ThemeData _datePickerTheme(BuildContext ctx) => Theme.of(ctx).copyWith(
-        colorScheme: ColorScheme.light(
-          primary: AssetDetailColors.primaryDark,
-          onPrimary: Colors.white,
-          surface: Colors.white,
-          onSurface: Colors.black,
-        ),
-      );
+    colorScheme: ColorScheme.light(
+      primary: AssetDetailColors.primaryDark,
+      onPrimary: Colors.white,
+      surface: Colors.white,
+      onSurface: Colors.black,
+    ),
+  );
 
   Future<void> _pickPurchaseDate() async {
     final DateTime? picked = await showDatePicker(
@@ -143,7 +155,8 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
   Future<void> _pickWarrantyExpiry() async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedWarrantyExpiry ??
+      initialDate:
+          _selectedWarrantyExpiry ??
           DateTime.now().add(const Duration(days: 365)),
       firstDate: DateTime(1990),
       lastDate: DateTime(DateTime.now().year + 20),
@@ -174,8 +187,7 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
       updates['purchaseYear'] = _selectedPurchaseDate!.year;
     }
     if (_selectedWarrantyExpiry != null) {
-      updates['warrantyExpiresAt'] =
-          _selectedWarrantyExpiry!.toIso8601String();
+      updates['warrantyExpiresAt'] = _selectedWarrantyExpiry!.toIso8601String();
       updates['warrantyEndDate'] = _selectedWarrantyExpiry!.toIso8601String();
     }
     widget.onSave(updates);
@@ -185,30 +197,30 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
   // ── UI helpers ───────────────────────────────────────────────────────────
 
   Widget _sectionHeader(String title) => Padding(
-        padding: const EdgeInsets.only(top: 24, bottom: 12),
-        child: Row(
-          children: [
-            Container(
-              width: 3,
-              height: 16,
-              decoration: BoxDecoration(
-                color: AssetDetailColors.primaryDark,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: AssetDetailColors.primaryDark,
-                letterSpacing: 0.8,
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.only(top: 24, bottom: 12),
+    child: Row(
+      children: [
+        Container(
+          width: 3,
+          height: 16,
+          decoration: BoxDecoration(
+            color: AssetDetailColors.primaryDark,
+            borderRadius: BorderRadius.circular(2),
+          ),
         ),
-      );
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: AssetDetailColors.primaryDark,
+            letterSpacing: 0.8,
+          ),
+        ),
+      ],
+    ),
+  );
 
   Widget _buildField({
     required TextEditingController controller,
@@ -236,10 +248,7 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
           decoration: BoxDecoration(
             color: AppColors.backgroundGray50,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: AssetDetailColors.borderColor,
-              width: 1,
-            ),
+            border: Border.all(color: AssetDetailColors.borderColor, width: 1),
           ),
           child: TextField(
             controller: controller,
@@ -254,14 +263,11 @@ class _EditAssetDetailsSheetState extends State<EditAssetDetailsSheet> {
             decoration: InputDecoration(
               hintText: hint ?? label,
               hintStyle: TextStyle(
-                color: AssetDetailColors.textSecondary
-                    .withValues(alpha: 0.55),
+                color: AssetDetailColors.textSecondary.withValues(alpha: 0.55),
                 fontSize: 14,
               ),
               prefixIcon: Padding(
-                padding: EdgeInsets.only(
-                  top: maxLines > 1 ? 12 : 0,
-                ),
+                padding: EdgeInsets.only(top: maxLines > 1 ? 12 : 0),
                 child: Icon(
                   icon,
                   size: 18,

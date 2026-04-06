@@ -51,8 +51,9 @@ class MaintenancePartsCheckoutPaymentScreen extends StatelessWidget {
           if (result != null && result.success) {
             final trackingId =
                 'TRK-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
-            final expectedDelivery =
-                DateTime.now().add(const Duration(days: 6));
+            final expectedDelivery = DateTime.now().add(
+              const Duration(days: 6),
+            );
 
             context.push(
               '/maintenance/parts-order-confirmation',
@@ -81,7 +82,9 @@ class MaintenancePartsCheckoutPaymentScreen extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildFlowAppBar(
-      BuildContext context, dynamic responsive) {
+    BuildContext context,
+    dynamic responsive,
+  ) {
     return AppBar(
       backgroundColor: AppColors.white,
       elevation: 0,

@@ -36,7 +36,7 @@ class UnifiedPaymentContent extends StatefulWidget {
 
 class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
   final _paymentService = PaymentService();
-  
+
   // Minimum amount required for installment payments ($100)
   static const double _minInstallmentAmount = 100.0;
 
@@ -117,7 +117,9 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
     if (_selectedPaymentType == PaymentType.wallet) {
       if (_walletMode == WalletMode.bank) {
         if (_bankRoutingNumber.trim().isEmpty) {
-          setState(() => _bankRoutingError = 'Please enter your routing number');
+          setState(
+            () => _bankRoutingError = 'Please enter your routing number',
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('Please enter your routing number'),
@@ -127,7 +129,9 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
           return;
         }
         if (!_isValidRoutingNumber(_bankRoutingNumber)) {
-          setState(() => _bankRoutingError = 'Enter a valid 9-digit routing number');
+          setState(
+            () => _bankRoutingError = 'Enter a valid 9-digit routing number',
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('Enter a valid 9-digit routing number'),
@@ -137,7 +141,9 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
           return;
         }
         if (_bankAccountNumber.trim().isEmpty) {
-          setState(() => _bankAccountError = 'Please enter your account number');
+          setState(
+            () => _bankAccountError = 'Please enter your account number',
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('Please enter your account number'),
@@ -147,7 +153,10 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
           return;
         }
         if (!_isValidAccountNumber(_bankAccountNumber)) {
-          setState(() => _bankAccountError = 'Enter a valid account number (8-17 digits)');
+          setState(
+            () => _bankAccountError =
+                'Enter a valid account number (8-17 digits)',
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('Enter a valid account number'),
@@ -328,7 +337,8 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
     if (trimmed.length != 9) return false;
     // ABA routing number checksum validation
     final digits = trimmed.split('').map(int.parse).toList();
-    final checksum = (3 * (digits[0] + digits[3] + digits[6]) +
+    final checksum =
+        (3 * (digits[0] + digits[3] + digits[6]) +
             7 * (digits[1] + digits[4] + digits[7]) +
             (digits[2] + digits[5] + digits[8])) %
         10;
@@ -411,8 +421,12 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
           subtitle: _orderSummaryTotal() >= _minInstallmentAmount
               ? '\$${(_orderSummaryTotal() / _installmentMonths).toStringAsFixed(0)}/month for $_installmentMonths months'
               : 'Available for orders \$${_minInstallmentAmount.toStringAsFixed(0)}+',
-          badge: _orderSummaryTotal() >= _minInstallmentAmount ? 'Optional' : 'Not Available',
-          badgeColor: _orderSummaryTotal() >= _minInstallmentAmount ? AppColors.warningOrange : AppColors.gray400,
+          badge: _orderSummaryTotal() >= _minInstallmentAmount
+              ? 'Optional'
+              : 'Not Available',
+          badgeColor: _orderSummaryTotal() >= _minInstallmentAmount
+              ? AppColors.warningOrange
+              : AppColors.gray400,
         ),
       ],
     );
@@ -470,25 +484,31 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
     required Color badgeColor,
   }) {
     final isSelected = _selectedPaymentType == type;
-    final isInstallmentDisabled = type == PaymentType.installment && _orderSummaryTotal() < _minInstallmentAmount;
+    final isInstallmentDisabled =
+        type == PaymentType.installment &&
+        _orderSummaryTotal() < _minInstallmentAmount;
 
     return GestureDetector(
-      onTap: isInstallmentDisabled ? () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Installment plans are available for orders \$${_minInstallmentAmount.toStringAsFixed(0)} or more'),
-            backgroundColor: AppColors.error,
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      } : () {
-        setState(() {
-          _selectedPaymentType = type;
-          if (type == PaymentType.card) {
-            _showNewCardForm = false;
-          }
-        });
-      },
+      onTap: isInstallmentDisabled
+          ? () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Installment plans are available for orders \$${_minInstallmentAmount.toStringAsFixed(0)} or more',
+                  ),
+                  backgroundColor: AppColors.error,
+                  duration: const Duration(seconds: 3),
+                ),
+              );
+            }
+          : () {
+              setState(() {
+                _selectedPaymentType = type;
+                if (type == PaymentType.card) {
+                  _showNewCardForm = false;
+                }
+              });
+            },
       child: Opacity(
         opacity: isInstallmentDisabled ? 0.5 : 1.0,
         child: Container(
@@ -502,89 +522,91 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
             ),
             boxShadow: [
               BoxShadow(
-              color: AppColors.shadowDark,
-              blurRadius: responsive.spacing(8.0),
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: responsive.spacing(20.0),
-              height: responsive.spacing(20.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.border,
-                  width: 1.5,
-                ),
-                color: Colors.transparent,
+                color: AppColors.shadowDark,
+                blurRadius: responsive.spacing(8.0),
+                offset: const Offset(0, 2),
               ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: responsive.spacing(8.0),
-                        height: responsive.spacing(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primary,
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: responsive.spacing(20.0),
+                height: responsive.spacing(20.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isSelected ? AppColors.primary : AppColors.border,
+                    width: 1.5,
+                  ),
+                  color: Colors.transparent,
+                ),
+                child: isSelected
+                    ? Center(
+                        child: Container(
+                          width: responsive.spacing(8.0),
+                          height: responsive.spacing(8.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.primary,
+                          ),
                         ),
+                      )
+                    : null,
+              ),
+              responsive.widthBox(12.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(15.0),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary,
                       ),
-                    )
-                  : null,
-            ),
-            responsive.widthBox(12.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(15.0),
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
                     ),
-                  ),
-                  responsive.heightBox(2.0),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(13.0),
-                      color: AppColors.textSecondary,
+                    responsive.heightBox(2.0),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(13.0),
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: responsive.spacing(8.0),
-                vertical: responsive.spacing(4.0),
-              ),
-              decoration: BoxDecoration(
-                color: badgeColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(
-                  responsive.borderRadius(12.0),
+                  ],
                 ),
               ),
-              child: Text(
-                badge,
-                style: TextStyle(
-                  fontSize: responsive.fontSize(10.0),
-                  fontWeight: FontWeight.w600,
-                  color: badgeColor.withValues(alpha: 0.9),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsive.spacing(8.0),
+                  vertical: responsive.spacing(4.0),
+                ),
+                decoration: BoxDecoration(
+                  color: badgeColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(
+                    responsive.borderRadius(12.0),
+                  ),
+                ),
+                child: Text(
+                  badge,
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(10.0),
+                    fontWeight: FontWeight.w600,
+                    color: badgeColor.withValues(alpha: 0.9),
+                  ),
                 ),
               ),
-            ),
-            responsive.widthBox(6.0),
-            Icon(
-              isSelected ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: AppColors.textSecondary,
-            ),
-          ],
-        ),
+              responsive.widthBox(6.0),
+              Icon(
+                isSelected
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+                color: AppColors.textSecondary,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -767,32 +789,32 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
     if (_selectedPaymentType == null) {
       return false;
     }
-    
+
     switch (_selectedPaymentType!) {
       case PaymentType.card:
         if (_showNewCardForm) {
           // New card must have all details filled and be valid
-          return _isCardValid && 
-                 _cardNumber != null && 
-                 _expiryMonth != null && 
-                 _expiryYear != null && 
-                 _cvc != null && 
-                 _cardHolderName != null;
+          return _isCardValid &&
+              _cardNumber != null &&
+              _expiryMonth != null &&
+              _expiryYear != null &&
+              _cvc != null &&
+              _cardHolderName != null;
         } else {
           // Saved card must be selected
           return _selectedMethodId != null && _selectedMethodId!.isNotEmpty;
         }
-      
+
       case PaymentType.wallet:
         if (_walletMode == WalletMode.bank) {
           // Bank account must have routing and account number
-          return _bankRoutingNumber.trim().length == 9 && 
-                 _bankAccountNumber.trim().length >= 8;
+          return _bankRoutingNumber.trim().length == 9 &&
+              _bankAccountNumber.trim().length >= 8;
         } else {
           // Wallet app must be selected
           return _walletProvider.isNotEmpty;
         }
-      
+
       case PaymentType.installment:
         // Installments are valid if duration is selected (always true when type selected)
         return true;
@@ -814,56 +836,62 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
             shadowColor: AppColors.shadowHeavy,
             borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
             child: ElevatedButton(
-              onPressed: canPay && !_isProcessing 
-                ? _processPayment 
-                : () {
-                    // Show specific message based on payment state
-                    if (_selectedPaymentType == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please select a payment method to continue'),
-                          backgroundColor: AppColors.error,
-                          duration: Duration(seconds: 3),
-                        ),
-                      );
-                    } else if (_selectedPaymentType == PaymentType.card) {
-                      if (_showNewCardForm && !_isCardValid) {
+              onPressed: canPay && !_isProcessing
+                  ? _processPayment
+                  : () {
+                      // Show specific message based on payment state
+                      if (_selectedPaymentType == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Please fill in all card details'),
+                            content: Text(
+                              'Please select a payment method to continue',
+                            ),
                             backgroundColor: AppColors.error,
                             duration: Duration(seconds: 3),
                           ),
                         );
-                      } else if (!_showNewCardForm && (_selectedMethodId == null || _selectedMethodId!.isEmpty)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please select a card'),
-                            backgroundColor: AppColors.error,
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
+                      } else if (_selectedPaymentType == PaymentType.card) {
+                        if (_showNewCardForm && !_isCardValid) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please fill in all card details'),
+                              backgroundColor: AppColors.error,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        } else if (!_showNewCardForm &&
+                            (_selectedMethodId == null ||
+                                _selectedMethodId!.isEmpty)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select a card'),
+                              backgroundColor: AppColors.error,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        }
+                      } else if (_selectedPaymentType == PaymentType.wallet) {
+                        if (_walletMode == WalletMode.bank) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please fill in bank account details',
+                              ),
+                              backgroundColor: AppColors.error,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select a wallet app'),
+                              backgroundColor: AppColors.error,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        }
                       }
-                    } else if (_selectedPaymentType == PaymentType.wallet) {
-                      if (_walletMode == WalletMode.bank) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please fill in bank account details'),
-                            backgroundColor: AppColors.error,
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please select a wallet app'),
-                            backgroundColor: AppColors.error,
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      }
-                    }
-                  },
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 disabledBackgroundColor: AppColors.primary.withValues(
@@ -878,7 +906,9 @@ class _UnifiedPaymentContentState extends State<UnifiedPaymentContent> {
                       height: responsive.spacing(24.0),
                       child: const CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.white,
+                        ),
                       ),
                     )
                   : Text(

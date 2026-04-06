@@ -18,19 +18,16 @@ class ApiService {
   }
 
   Map<String, String> get _headers => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Client-Type': 'app',
-        if (_accessToken != null) 'Authorization': 'Bearer $_accessToken',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'X-Client-Type': 'app',
+    if (_accessToken != null) 'Authorization': 'Bearer $_accessToken',
+  };
 
   Future<Map<String, dynamic>> get(String endpoint) async {
     try {
       final response = await http
-          .get(
-            Uri.parse('${AppConfig.apiUrl}$endpoint'),
-            headers: _headers,
-          )
+          .get(Uri.parse('${AppConfig.apiUrl}$endpoint'), headers: _headers)
           .timeout(AppConfig.apiTimeout);
 
       return _handleResponse(response);
@@ -80,10 +77,7 @@ class ApiService {
   Future<Map<String, dynamic>> delete(String endpoint) async {
     try {
       final response = await http
-          .delete(
-            Uri.parse('${AppConfig.apiUrl}$endpoint'),
-            headers: _headers,
-          )
+          .delete(Uri.parse('${AppConfig.apiUrl}$endpoint'), headers: _headers)
           .timeout(AppConfig.apiTimeout);
 
       return _handleResponse(response);
@@ -99,9 +93,7 @@ class ApiService {
       }
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
-      throw Exception(
-        'API error: ${response.statusCode} - ${response.body}',
-      );
+      throw Exception('API error: ${response.statusCode} - ${response.body}');
     }
   }
 }

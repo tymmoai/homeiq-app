@@ -204,7 +204,11 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
             shape: BoxShape.circle,
             color: _primaryColor.withValues(alpha: 0.1),
           ),
-          child: Icon(Icons.home, size: responsive.iconSize(40.0), color: _primaryColor),
+          child: Icon(
+            Icons.home,
+            size: responsive.iconSize(40.0),
+            color: _primaryColor,
+          ),
         ),
         SizedBox(height: responsive.spacing(24.0)),
         Text(
@@ -288,7 +292,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: _primaryColor,
                 foregroundColor: AppColors.white,
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -319,7 +325,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.textSecondary,
                 side: BorderSide(color: AppColors.gray300),
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -409,7 +417,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: _primaryColor,
                 foregroundColor: AppColors.white,
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -440,7 +450,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.textSecondary,
                 side: BorderSide(color: AppColors.gray300),
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -468,7 +480,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: _primaryColor,
                 foregroundColor: AppColors.white,
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -490,7 +504,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: OutlinedButton.styleFrom(
                 foregroundColor: _primaryColor,
                 side: BorderSide(color: _primaryColor),
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -529,7 +545,11 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
             shape: BoxShape.circle,
             color: _primaryColor.withValues(alpha: 0.1),
           ),
-          child: Icon(Icons.home, size: responsive.iconSize(40.0), color: _primaryColor),
+          child: Icon(
+            Icons.home,
+            size: responsive.iconSize(40.0),
+            color: _primaryColor,
+          ),
         ),
         SizedBox(height: responsive.spacing(24.0)),
         Text(
@@ -606,7 +626,11 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
                 Divider(color: AppColors.gray300, height: 20),
                 Row(
                   children: [
-                    const Icon(Icons.warning_amber, size: 18, color: AppColors.error),
+                    const Icon(
+                      Icons.warning_amber,
+                      size: 18,
+                      color: AppColors.error,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -635,7 +659,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: _primaryColor,
                 foregroundColor: AppColors.white,
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -666,7 +692,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.textSecondary,
                 side: BorderSide(color: AppColors.gray300),
-                padding: EdgeInsets.symmetric(vertical: responsive.spacing(16.0)),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsive.spacing(16.0),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

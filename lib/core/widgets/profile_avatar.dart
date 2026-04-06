@@ -50,7 +50,8 @@ class ProfileAvatar extends ConsumerWidget {
     Widget imageWidget;
     if (profile.hasProfileImage) {
       final path = profile.profileImagePath!;
-      final isNetwork = path.startsWith('http://') || path.startsWith('https://');
+      final isNetwork =
+          path.startsWith('http://') || path.startsWith('https://');
       if (isNetwork) {
         imageWidget = Image.network(
           path,
@@ -79,10 +80,7 @@ class ProfileAvatar extends ConsumerWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: backgroundColor),
       clipBehavior: Clip.antiAlias,
       child: imageWidget,
     );

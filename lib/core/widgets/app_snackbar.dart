@@ -199,35 +199,39 @@ class AppBottomSheet {
             textAlign: TextAlign.center,
           ),
           responsive.heightBox(AppDimensions.spacing16),
-          
+
           // Options
-          ...options.map((option) => ListTile(
-                leading: option.icon != null
-                    ? Icon(
-                        option.icon,
-                        color: option.textColor ?? AppColors.iconPrimary,
-                        size: responsive.iconSize(AppDimensions.iconSizeMedium),
-                      )
-                    : null,
-                title: Text(
-                  option.title,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: responsive.fontSize(16.0),
-                    color: option.textColor ?? AppColors.textPrimary,
-                  ),
+          ...options.map(
+            (option) => ListTile(
+              leading: option.icon != null
+                  ? Icon(
+                      option.icon,
+                      color: option.textColor ?? AppColors.iconPrimary,
+                      size: responsive.iconSize(AppDimensions.iconSizeMedium),
+                    )
+                  : null,
+              title: Text(
+                option.title,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontSize: responsive.fontSize(16.0),
+                  color: option.textColor ?? AppColors.textPrimary,
                 ),
-                onTap: () {
-                  Navigator.pop(context, option.value);
-                },
-              )),
-          
+              ),
+              onTap: () {
+                Navigator.pop(context, option.value);
+              },
+            ),
+          ),
+
           // Cancel button
           if (showCancel) ...[
             responsive.heightBox(AppDimensions.spacing8),
             OutlinedButton(
               onPressed: () => Navigator.pop(context),
               style: OutlinedButton.styleFrom(
-                padding: responsive.padding(vertical: AppDimensions.paddingMedium),
+                padding: responsive.padding(
+                  vertical: AppDimensions.paddingMedium,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                     responsive.borderRadius(AppDimensions.radiusMedium),

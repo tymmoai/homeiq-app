@@ -132,7 +132,9 @@ class MountingBookingFlow extends StatelessWidget {
               onClose: onClose,
               estimatedDurationText: _estimatedDuration(formData),
               totalItemCount: formData.totalItemCount,
-              serviceName: selected.isNotEmpty ? selected.toLowerCase() : 'mounting',
+              serviceName: selected.isNotEmpty
+                  ? selected.toLowerCase()
+                  : 'mounting',
             );
 
           // ── Step 6: Service Address (with edit / change) ──

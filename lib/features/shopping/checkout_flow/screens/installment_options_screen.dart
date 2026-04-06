@@ -1,4 +1,4 @@
-﻿import 'dart:math';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -11,7 +11,8 @@ class InstallmentOptionsScreen extends StatefulWidget {
   const InstallmentOptionsScreen({super.key, required this.totalAmount});
 
   @override
-  State<InstallmentOptionsScreen> createState() => _InstallmentOptionsScreenState();
+  State<InstallmentOptionsScreen> createState() =>
+      _InstallmentOptionsScreenState();
 }
 
 class _InstallmentOptionsScreenState extends State<InstallmentOptionsScreen> {
@@ -39,7 +40,8 @@ class _InstallmentOptionsScreenState extends State<InstallmentOptionsScreen> {
       'interestRate': 12.0,
       'monthlyAmount': _calculateInstallment(widget.totalAmount, 12.0, 6),
       'totalAmount':
-          _calculateInstallment(widget.totalAmount, 12.0, 6) * 6.0 + 99.0, // with fee
+          _calculateInstallment(widget.totalAmount, 12.0, 6) * 6.0 +
+          99.0, // with fee
       'processingFee': 99.0,
       'description': '12% annual interest',
     },
@@ -49,7 +51,8 @@ class _InstallmentOptionsScreenState extends State<InstallmentOptionsScreen> {
       'interestRate': 13.0,
       'monthlyAmount': _calculateInstallment(widget.totalAmount, 13.0, 9),
       'totalAmount':
-          _calculateInstallment(widget.totalAmount, 13.0, 9) * 9.0 + 149.0, // with fee
+          _calculateInstallment(widget.totalAmount, 13.0, 9) * 9.0 +
+          149.0, // with fee
       'processingFee': 149.0,
       'description': '13% annual interest',
     },
@@ -59,21 +62,25 @@ class _InstallmentOptionsScreenState extends State<InstallmentOptionsScreen> {
       'interestRate': 15.0,
       'monthlyAmount': _calculateInstallment(widget.totalAmount, 15.0, 12),
       'totalAmount':
-          _calculateInstallment(widget.totalAmount, 15.0, 12) * 12.0 + 199.0, // with fee
+          _calculateInstallment(widget.totalAmount, 15.0, 12) * 12.0 +
+          199.0, // with fee
       'processingFee': 199.0,
       'description': '15% annual interest',
     },
   ];
 
   // Calculate installment using reducing balance method
-  double _calculateInstallment(double principal, double annualRate, int months) {
+  double _calculateInstallment(
+    double principal,
+    double annualRate,
+    int months,
+  ) {
     if (annualRate == 0) return principal / months;
 
     final monthlyRate = annualRate / (12 * 100);
     final compoundFactor = pow(1 + monthlyRate, months);
     final installmentAmount =
-        (principal * monthlyRate * compoundFactor) /
-        (compoundFactor - 1);
+        (principal * monthlyRate * compoundFactor) / (compoundFactor - 1);
     return installmentAmount;
   }
 
@@ -170,8 +177,10 @@ class _InstallmentOptionsScreenState extends State<InstallmentOptionsScreen> {
 
                   // Installment Plans List
                   ..._installmentPlans.map(
-                    (plan) =>
-                        _buildInstallmentPlanTile(responsive: responsive, plan: plan),
+                    (plan) => _buildInstallmentPlanTile(
+                      responsive: responsive,
+                      plan: plan,
+                    ),
                   ),
 
                   // Info Card

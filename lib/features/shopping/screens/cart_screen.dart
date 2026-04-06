@@ -559,10 +559,6 @@ class _CartScreenState extends State<CartScreen> {
     }
 
     // Fallback generic icon
-    return Icon(
-      Icons.kitchen,
-      color: CartScreen._textSecondary,
-      size: 48,
-    );
+    return Icon(Icons.kitchen, color: CartScreen._textSecondary, size: 48);
   }
 }

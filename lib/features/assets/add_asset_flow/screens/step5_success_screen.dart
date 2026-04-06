@@ -394,7 +394,9 @@ class Step5SuccessScreen extends StatelessWidget {
       );
     }
     if (formData.isWifiDiscovered) {
-      items.add(const _StatusItem('WiFi network confirmed', Icons.wifi_rounded));
+      items.add(
+        const _StatusItem('WiFi network confirmed', Icons.wifi_rounded),
+      );
     }
 
     return Container(

@@ -140,7 +140,11 @@ class _MaintenancePartsOrderScreenState
         _isLoading = false;
       });
     } on Object catch (e) {
-      AppLogger.error('Error generating parts: $e', tag: 'PartsOrder', error: e);
+      AppLogger.error(
+        'Error generating parts: $e',
+        tag: 'PartsOrder',
+        error: e,
+      );
       setState(() {
         _error = 'Unable to load parts. Please try again.';
         _isLoading = false;
@@ -385,12 +389,16 @@ class _MaintenancePartsOrderScreenState
                                             ),
                                           ),
                                           if (part.description != null) ...[
-                                            SizedBox(height: responsive.spacing(4)),
+                                            SizedBox(
+                                              height: responsive.spacing(4),
+                                            ),
                                             Text(
                                               part.description!,
                                               style: TextStyle(
-                                                fontSize: responsive.fontSize(12),
-                                              color: AppColors.gray600,
+                                                fontSize: responsive.fontSize(
+                                                  12,
+                                                ),
+                                                color: AppColors.gray600,
                                               ),
                                             ),
                                           ],
@@ -498,11 +506,11 @@ class _MaintenancePartsOrderScreenState
                                         vertical: responsive.spacing(2),
                                       ),
                                       decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.shadow,
+                                        color: AppColors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColors.shadow,
                                             blurRadius: 8,
                                             offset: const Offset(0, 2),
                                           ),

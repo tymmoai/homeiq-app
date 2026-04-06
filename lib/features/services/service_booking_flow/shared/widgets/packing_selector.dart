@@ -67,7 +67,8 @@ class _PackingSelectorState extends State<PackingSelector> {
   @override
   void initState() {
     super.initState();
-    _selectedPacking = widget.formData.furnitureType; // Reuse field for packing choice
+    _selectedPacking =
+        widget.formData.furnitureType; // Reuse field for packing choice
   }
 
   @override
@@ -137,7 +138,9 @@ class _PackingSelectorState extends State<PackingSelector> {
                               ),
                               child: Icon(
                                 option['icon'] as IconData,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(24),
                               ),
                             ),
@@ -161,10 +164,15 @@ class _PackingSelectorState extends State<PackingSelector> {
                                       if (tag.isNotEmpty) ...[
                                         SizedBox(width: responsive.wp(2)),
                                         Container(
-                                          padding: responsive.padding(horizontal: 8, vertical: 2),
+                                          padding: responsive.padding(
+                                            horizontal: 8,
+                                            vertical: 2,
+                                          ),
                                           decoration: BoxDecoration(
                                             color: tag == 'Recommended'
-                                                ? AppColors.primary.withValues(alpha: 0.1)
+                                                ? AppColors.primary.withValues(
+                                                    alpha: 0.1,
+                                                  )
                                                 : AppColors.warningLight,
                                             borderRadius: BorderRadius.circular(
                                               responsive.borderRadius(10),

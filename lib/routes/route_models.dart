@@ -187,10 +187,7 @@ class UpgradeBuyNewParams {
   final Map<String, dynamic> asset;
   final int tradeInValue;
 
-  const UpgradeBuyNewParams({
-    required this.asset,
-    this.tradeInValue = 0,
-  });
+  const UpgradeBuyNewParams({required this.asset, this.tradeInValue = 0});
 
   factory UpgradeBuyNewParams.fromMap(Map<String, dynamic> map) {
     return UpgradeBuyNewParams(
@@ -282,8 +279,8 @@ class CheckoutPaymentParams {
       product: map['product'] as Map<String, dynamic>,
       tradeInValue: map['tradeInValue'] as int? ?? 0,
       quantity: map['quantity'] as int? ?? 1,
-      address: (map['address'] as Map<String, dynamic>?)
-              ?.cast<String, String>() ??
+      address:
+          (map['address'] as Map<String, dynamic>?)?.cast<String, String>() ??
           {},
     );
   }
@@ -335,8 +332,8 @@ class CheckoutConfirmationParams {
       tradeInTotal: (map['tradeInTotal'] as num?)?.toDouble() ?? 0.0,
       tax: (map['tax'] as num?)?.toDouble() ?? 0.0,
       totalAmount: (map['totalAmount'] as num?)?.toDouble() ?? 0.0,
-      address: (map['address'] as Map<String, dynamic>?)
-              ?.cast<String, String>() ??
+      address:
+          (map['address'] as Map<String, dynamic>?)?.cast<String, String>() ??
           {},
       trackingId: map['trackingId'] as String? ?? '',
       expectedDelivery: map['expectedDelivery'] as String? ?? '',
@@ -406,8 +403,8 @@ class CheckoutSuccessParams {
       tradeInTotal: (map['tradeInTotal'] as num?)?.toDouble(),
       tax: (map['tax'] as num?)?.toDouble(),
       totalAmount: (map['totalAmount'] as num?)?.toDouble(),
-      address:
-          (map['address'] as Map<String, dynamic>?)?.cast<String, String>(),
+      address: (map['address'] as Map<String, dynamic>?)
+          ?.cast<String, String>(),
       paymentMethod: map['paymentMethod'] as String?,
       fromUpgradeFlow: map['fromUpgradeFlow'] as bool? ?? false,
       asset: map['asset'] as Map<String, dynamic>?,
@@ -516,9 +513,7 @@ class LifestyleBookingParams {
     );
   }
 
-  Map<String, dynamic> toMap() => {
-    'preSelectedService': preSelectedService,
-  };
+  Map<String, dynamic> toMap() => {'preSelectedService': preSelectedService};
 }
 
 /// Parameters for the buy new asset screen.

@@ -196,7 +196,9 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
       );
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to fetch issue options: ${response.statusCode}');
+        throw Exception(
+          'Failed to fetch issue options: ${response.statusCode}',
+        );
       }
 
       final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -210,10 +212,16 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
         _isLoading = false;
       });
     } on Object catch (e) {
-      AppLogger.error('Issue generation error: $e', tag: 'AiFixProblem', error: e);
+      AppLogger.error(
+        'Issue generation error: $e',
+        tag: 'AiFixProblem',
+        error: e,
+      );
       setState(() {
         _isLoading = false;
-        _issueOptions.addAll(AiFixFallbackData.getIssueOptions(_asset, _assetName));
+        _issueOptions.addAll(
+          AiFixFallbackData.getIssueOptions(_asset, _assetName),
+        );
       });
     }
   }
@@ -341,10 +349,14 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
             title: s['title'] as String? ?? '',
             description: s['description'] as String? ?? '',
             instructions: List<String>.from(s['instructions'] ?? []),
-            safetyNote: (s['safety'] as String?)?.isEmpty == true ? null : s['safety'] as String?,
+            safetyNote: (s['safety'] as String?)?.isEmpty == true
+                ? null
+                : s['safety'] as String?,
             duration: s['duration'] as String?,
             riskLevel: s['risk'] as String?,
-            toolsNeeded: s['tools'] != null ? List<String>.from(s['tools']) : null,
+            toolsNeeded: s['tools'] != null
+                ? List<String>.from(s['tools'])
+                : null,
           ),
         );
       }
@@ -357,7 +369,10 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
       final finalSteps = parsedSteps.length < 3
           ? [
               ...parsedSteps,
-              ...AiFixFallbackData.getDiySteps(_asset, _assetName).take(3 - parsedSteps.length),
+              ...AiFixFallbackData.getDiySteps(
+                _asset,
+                _assetName,
+              ).take(3 - parsedSteps.length),
             ]
           : parsedSteps.take(3).toList();
 
@@ -372,7 +387,9 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
         _isLoading = false;
         _diySteps.clear();
         _currentDiyStepIndex = 0;
-        _diySteps.addAll(AiFixFallbackData.getDiySteps(_asset, _assetName).take(3));
+        _diySteps.addAll(
+          AiFixFallbackData.getDiySteps(_asset, _assetName).take(3),
+        );
         _currentStep = _AiStep.diyGuide;
       });
     }
@@ -462,9 +479,7 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
               ),
             // Loading overlay for DIY steps generation
             if (_isLoading && _currentStep == _AiStep.solution)
-              const Positioned.fill(
-                child: AiFixLoadingOverlay(),
-              ),
+              const Positioned.fill(child: AiFixLoadingOverlay()),
           ],
         ),
       ),
@@ -882,9 +897,16 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
                   reminderName: _assetDisplayName,
                   expectedDelivery: _expectedDelivery,
                 );
-                AppLogger.info('Parts order saved: $_trackingId', tag: 'AiFixProblem');
+                AppLogger.info(
+                  'Parts order saved: $_trackingId',
+                  tag: 'AiFixProblem',
+                );
               } on Object catch (e) {
-                AppLogger.warning('Failed to save parts order: $e', tag: 'AiFixProblem', error: e);
+                AppLogger.warning(
+                  'Failed to save parts order: $e',
+                  tag: 'AiFixProblem',
+                  error: e,
+                );
               }
 
               setState(() {
@@ -1152,9 +1174,16 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
                   specialRequirements:
                       'Technician: ${_selectedTechnician?.name ?? "TBD"} | Dispatch: $_dispatchId',
                 );
-                AppLogger.info('Technician booking saved: $_bookingId', tag: 'AiFixProblem');
+                AppLogger.info(
+                  'Technician booking saved: $_bookingId',
+                  tag: 'AiFixProblem',
+                );
               } on Object catch (e) {
-                AppLogger.warning('Failed to save technician booking: $e', tag: 'AiFixProblem', error: e);
+                AppLogger.warning(
+                  'Failed to save technician booking: $e',
+                  tag: 'AiFixProblem',
+                  error: e,
+                );
               }
 
               setState(() {
@@ -1227,9 +1256,16 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
                   reminderName: _assetDisplayName,
                   expectedDelivery: _expectedDelivery,
                 );
-                AppLogger.info('Combined: parts order saved: $_trackingId', tag: 'AiFixProblem');
+                AppLogger.info(
+                  'Combined: parts order saved: $_trackingId',
+                  tag: 'AiFixProblem',
+                );
               } on Object catch (e) {
-                AppLogger.warning('Combined: failed to save parts order: $e', tag: 'AiFixProblem', error: e);
+                AppLogger.warning(
+                  'Combined: failed to save parts order: $e',
+                  tag: 'AiFixProblem',
+                  error: e,
+                );
               }
 
               // 2) Save technician booking
@@ -1262,7 +1298,10 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
                   specialRequirements:
                       'Technician: ${_selectedTechnician?.name ?? "TBD"} | Dispatch: $_dispatchId',
                 );
-                AppLogger.info('Combined: technician booking saved: $_bookingId', tag: 'AiFixProblem');
+                AppLogger.info(
+                  'Combined: technician booking saved: $_bookingId',
+                  tag: 'AiFixProblem',
+                );
               } on Object catch (e) {
                 AppLogger.warning(
                   'Combined: failed to save technician booking: $e',
@@ -1402,10 +1441,16 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
         timeout: const Duration(seconds: 20),
       );
 
-      AppLogger.debug('Parts API response status: ${response.statusCode}', tag: 'AiFixProblem');
+      AppLogger.debug(
+        'Parts API response status: ${response.statusCode}',
+        tag: 'AiFixProblem',
+      );
 
       if (response.statusCode != 200) {
-        AppLogger.error('Parts API error body: ${response.body}', tag: 'AiFixProblem');
+        AppLogger.error(
+          'Parts API error body: ${response.body}',
+          tag: 'AiFixProblem',
+        );
         throw Exception('Failed to fetch parts: ${response.statusCode}');
       }
 
@@ -1481,7 +1526,11 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
         _currentStep = _AiStep.partsComparison;
       });
     } on Object catch (e) {
-      AppLogger.error('Parts generation error: $e', tag: 'AiFixProblem', error: e);
+      AppLogger.error(
+        'Parts generation error: $e',
+        tag: 'AiFixProblem',
+        error: e,
+      );
       // On error, use asset-specific fallback data
       if (_parts.isEmpty) {
         _parts.addAll(AiFixFallbackData.getPartsDemoData(_asset, _assetName));

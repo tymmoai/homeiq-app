@@ -40,15 +40,15 @@ class DeepLinkService {
     _navigatorKey = navigatorKey;
 
     // Handle cold-start deep link (app launched by tapping the email link).
-    _appLinks.getInitialLink().then((uri) {
-      if (uri != null) _handleUri(uri);
-    }).catchError((_) {});
+    _appLinks
+        .getInitialLink()
+        .then((uri) {
+          if (uri != null) _handleUri(uri);
+        })
+        .catchError((_) {});
 
     // Handle deep links received while the app is already running.
-    _subscription = _appLinks.uriLinkStream.listen(
-      _handleUri,
-      onError: (_) {},
-    );
+    _subscription = _appLinks.uriLinkStream.listen(_handleUri, onError: (_) {});
   }
 
   void dispose() {

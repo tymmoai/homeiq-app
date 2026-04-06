@@ -18,7 +18,11 @@ class SignInScreen extends StatefulWidget {
   final String? prefilledEmail;
   final bool isFromInvite;
 
-  const SignInScreen({super.key, this.prefilledEmail, this.isFromInvite = false});
+  const SignInScreen({
+    super.key,
+    this.prefilledEmail,
+    this.isFromInvite = false,
+  });
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -217,45 +221,44 @@ class _SignInScreenState extends State<SignInScreen> {
                         SizedBox(height: screenHeight * 0.06),
 
                         // ── Invite context banner ─────────────────────────────
-                        if (widget.isFromInvite) ...
-                          [
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 14,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.08),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppColors.primary.withOpacity(0.3),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.mail_outline,
-                                    color: AppColors.primary,
-                                    size: 20,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      'You\'ve been invited to HomeIQ.\nSign in to accept the invitation.',
-                                      style: TextStyle(
-                                        fontSize: responsive.fontSize(13),
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.4,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                        if (widget.isFromInvite) ...[
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.primary.withOpacity(0.3),
                               ),
                             ),
-                            SizedBox(height: responsive.spacing(20)),
-                          ],
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.mail_outline,
+                                  color: AppColors.primary,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    'You\'ve been invited to HomeIQ.\nSign in to accept the invitation.',
+                                    style: TextStyle(
+                                      fontSize: responsive.fontSize(13),
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: responsive.spacing(20)),
+                        ],
 
                         // Title
                         Text(
@@ -310,7 +313,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             autocorrect: false,
                             decoration: InputDecoration(
                               hintText: 'Enter your email address',
-                              hintStyle: const TextStyle(color: AppColors.gray400),
+                              hintStyle: const TextStyle(
+                                color: AppColors.gray400,
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide.none,

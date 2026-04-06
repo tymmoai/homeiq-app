@@ -36,7 +36,8 @@ class ProtectionPlanService {
     try {
       final prefs = await _preferences;
       final plansJson = prefs.getString(_plansKey) ?? '{}';
-      final Map<String, dynamic> plans = jsonDecode(plansJson) as Map<String, dynamic>;
+      final Map<String, dynamic> plans =
+          jsonDecode(plansJson) as Map<String, dynamic>;
 
       plans[assetId] = {
         'assetId': assetId,
@@ -54,23 +55,32 @@ class ProtectionPlanService {
       };
 
       await prefs.setString(_plansKey, jsonEncode(plans));
-      AppLogger.info('ProtectionPlanService: Saved plan "$planName" for asset $assetId', tag: 'ProtectionPlan');
+      AppLogger.info(
+        'ProtectionPlanService: Saved plan "$planName" for asset $assetId',
+        tag: 'ProtectionPlan',
+      );
 
       // Fire-and-forget: sync to backend (non-fatal)
-      unawaited(_syncActivePlanToBackend(
-        assetId: assetId,
-        planName: planName,
-        billingPeriod: billingPeriod,
-        price: price,
-        priceLabel: priceLabel,
-        coverageStart: coverageStart,
-        coverageEnd: coverageEnd,
-        deductible: deductible,
-        provider: provider ?? AppStrings.appName,
-        features: features ?? [],
-      ));
+      unawaited(
+        _syncActivePlanToBackend(
+          assetId: assetId,
+          planName: planName,
+          billingPeriod: billingPeriod,
+          price: price,
+          priceLabel: priceLabel,
+          coverageStart: coverageStart,
+          coverageEnd: coverageEnd,
+          deductible: deductible,
+          provider: provider ?? AppStrings.appName,
+          features: features ?? [],
+        ),
+      );
     } on Object catch (e) {
-      AppLogger.error('ProtectionPlanService: Error saving plan: $e', tag: 'ProtectionPlan', error: e);
+      AppLogger.error(
+        'ProtectionPlanService: Error saving plan: $e',
+        tag: 'ProtectionPlan',
+        error: e,
+      );
     }
   }
 
@@ -79,7 +89,8 @@ class ProtectionPlanService {
     try {
       final prefs = await _preferences;
       final plansJson = prefs.getString(_plansKey) ?? '{}';
-      final Map<String, dynamic> plans = jsonDecode(plansJson) as Map<String, dynamic>;
+      final Map<String, dynamic> plans =
+          jsonDecode(plansJson) as Map<String, dynamic>;
 
       if (plans.containsKey(assetId)) {
         final plan = plans[assetId] as Map<String, dynamic>;
@@ -93,7 +104,11 @@ class ProtectionPlanService {
       // SharedPreferences miss — fall back to backend (covers reinstall / new device)
       return _fetchPlanFromBackend(assetId);
     } on Object catch (e) {
-      AppLogger.error('ProtectionPlanService: Error getting plan: $e', tag: 'ProtectionPlan', error: e);
+      AppLogger.error(
+        'ProtectionPlanService: Error getting plan: $e',
+        tag: 'ProtectionPlan',
+        error: e,
+      );
       return null;
     }
   }
@@ -143,19 +158,22 @@ class ProtectionPlanService {
         'coverageEnd': coverageEndRaw,
         'deductible': planData['deductible']?.toString(),
         'provider': planData['provider']?.toString() ?? AppStrings.appName,
-        'features': (planData['features'] as List?)
+        'features':
+            (planData['features'] as List?)
                 ?.map((e) => e.toString())
                 .toList() ??
             <String>[],
         'purchasedAt':
-            planData['createdAt']?.toString() ?? DateTime.now().toIso8601String(),
+            planData['createdAt']?.toString() ??
+            DateTime.now().toIso8601String(),
         'isActive': true,
       };
 
       // Persist to local cache so subsequent reads are instant.
       final prefs = await _preferences;
       final plansJson = prefs.getString(_plansKey) ?? '{}';
-      final Map<String, dynamic> plans = jsonDecode(plansJson) as Map<String, dynamic>;
+      final Map<String, dynamic> plans =
+          jsonDecode(plansJson) as Map<String, dynamic>;
       plans[assetId] = normalised;
       await prefs.setString(_plansKey, jsonEncode(plans));
 
@@ -205,12 +223,20 @@ class ProtectionPlanService {
     try {
       final prefs = await _preferences;
       final plansJson = prefs.getString(_plansKey) ?? '{}';
-      final Map<String, dynamic> plans = jsonDecode(plansJson) as Map<String, dynamic>;
+      final Map<String, dynamic> plans =
+          jsonDecode(plansJson) as Map<String, dynamic>;
       plans.remove(assetId);
       await prefs.setString(_plansKey, jsonEncode(plans));
-      AppLogger.info('ProtectionPlanService: Removed plan for asset $assetId', tag: 'ProtectionPlan');
+      AppLogger.info(
+        'ProtectionPlanService: Removed plan for asset $assetId',
+        tag: 'ProtectionPlan',
+      );
     } on Object catch (e) {
-      AppLogger.error('ProtectionPlanService: Error removing plan: $e', tag: 'ProtectionPlan', error: e);
+      AppLogger.error(
+        'ProtectionPlanService: Error removing plan: $e',
+        tag: 'ProtectionPlan',
+        error: e,
+      );
     }
   }
 
@@ -236,22 +262,31 @@ class ProtectionPlanService {
       if (homeId == null || homeId.isEmpty) return;
 
       final api = ApiClient();
-      await api.post('/protection-plans', body: {
-        'homeId': homeId,
-        'assetId': assetId,
-        'planName': planName,
-        'provider': provider,
-        'billingPeriod': billingPeriod,
-        'price': price,
-        'priceLabel': priceLabel,
-        'deductible': deductible,
-        'features': features,
-        'coverageStart': coverageStart.toIso8601String(),
-        'coverageEnd': coverageEnd.toIso8601String(),
-      });
-      AppLogger.info('ProtectionPlanService: Synced plan "$planName" to backend', tag: 'ProtectionPlan');
+      await api.post(
+        '/protection-plans',
+        body: {
+          'homeId': homeId,
+          'assetId': assetId,
+          'planName': planName,
+          'provider': provider,
+          'billingPeriod': billingPeriod,
+          'price': price,
+          'priceLabel': priceLabel,
+          'deductible': deductible,
+          'features': features,
+          'coverageStart': coverageStart.toIso8601String(),
+          'coverageEnd': coverageEnd.toIso8601String(),
+        },
+      );
+      AppLogger.info(
+        'ProtectionPlanService: Synced plan "$planName" to backend',
+        tag: 'ProtectionPlan',
+      );
     } on Object catch (e) {
-      AppLogger.warning('ProtectionPlanService: Backend sync failed (non-fatal): $e', tag: 'ProtectionPlan');
+      AppLogger.warning(
+        'ProtectionPlanService: Backend sync failed (non-fatal): $e',
+        tag: 'ProtectionPlan',
+      );
     }
   }
 

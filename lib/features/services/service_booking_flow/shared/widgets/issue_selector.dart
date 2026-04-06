@@ -134,7 +134,9 @@ class _IssueSelectorState extends State<IssueSelector> {
                 ),
                 responsive.heightBox(12),
                 ...widget.issues.map((issue) {
-                  final isSelected = widget.formData.selectedItems.containsKey(issue.name);
+                  final isSelected = widget.formData.selectedItems.containsKey(
+                    issue.name,
+                  );
                   return Padding(
                     padding: responsive.padding(bottom: 10),
                     child: GestureDetector(
@@ -162,7 +164,9 @@ class _IssueSelectorState extends State<IssueSelector> {
                               ),
                               child: Icon(
                                 issue.icon,
-                                color: isSelected ? AppColors.primary : AppColors.gray600,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(20),
                               ),
                             ),
@@ -197,7 +201,9 @@ class _IssueSelectorState extends State<IssueSelector> {
                               style: TextStyle(
                                 fontSize: responsive.fontSize(14),
                                 fontWeight: FontWeight.w600,
-                                color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.textPrimary,
                               ),
                             ),
                             SizedBox(width: responsive.wp(2)),
@@ -205,7 +211,9 @@ class _IssueSelectorState extends State<IssueSelector> {
                               isSelected
                                   ? Icons.check_box_rounded
                                   : Icons.check_box_outline_blank_rounded,
-                              color: isSelected ? AppColors.primary : AppColors.gray400,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.gray400,
                               size: responsive.iconSize(22),
                             ),
                           ],
@@ -245,7 +253,9 @@ class _IssueSelectorState extends State<IssueSelector> {
                           children: [
                             Icon(
                               urgency['icon'] as IconData,
-                              color: isUrgencySelected ? urgColor : AppColors.gray500,
+                              color: isUrgencySelected
+                                  ? urgColor
+                                  : AppColors.gray500,
                               size: responsive.iconSize(22),
                             ),
                             SizedBox(width: responsive.wp(3)),
@@ -314,7 +324,10 @@ class _IssueSelectorState extends State<IssueSelector> {
                     maxLines: 4,
                     decoration: InputDecoration(
                       hintText: 'Please describe the issue in detail...',
-                      hintStyle: const TextStyle(fontSize: 14, color: AppColors.gray400),
+                      hintStyle: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.gray400,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,

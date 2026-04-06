@@ -36,9 +36,11 @@ class _TodaysTasksContentState extends State<TodaysTasksContent> {
       final reminders = await MaintenanceService.getAllReminders();
       // Show overdue tasks first, then upcoming — limit to 4 to stay concise.
       final actionable = reminders
-          .where((r) =>
-              r.status == ReminderStatus.overdue ||
-              r.status == ReminderStatus.upcoming)
+          .where(
+            (r) =>
+                r.status == ReminderStatus.overdue ||
+                r.status == ReminderStatus.upcoming,
+          )
           .toList();
 
       // Sort: overdue first (by due date asc), then upcoming (by due date asc)
@@ -93,8 +95,11 @@ class _TodaysTasksContentState extends State<TodaysTasksContent> {
   String _dueDateLabel(Reminder task) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final dueDay =
-        DateTime(task.dueDate.year, task.dueDate.month, task.dueDate.day);
+    final dueDay = DateTime(
+      task.dueDate.year,
+      task.dueDate.month,
+      task.dueDate.day,
+    );
     final diff = dueDay.difference(today).inDays;
 
     if (task.status == ReminderStatus.overdue) {
@@ -128,8 +133,9 @@ class _TodaysTasksContentState extends State<TodaysTasksContent> {
       return const SizedBox.shrink();
     }
 
-    final completedCount =
-        _tasks.where((t) => _locallyCompleted.contains(t.id)).length;
+    final completedCount = _tasks
+        .where((t) => _locallyCompleted.contains(t.id))
+        .length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,14 +254,13 @@ class _TodaysTasksContentState extends State<TodaysTasksContent> {
                               _dueDateLabel(task),
                               style: TextStyle(
                                 fontSize: responsive.fontSize(13),
-                                color:
-                                    task.status == ReminderStatus.overdue
-                                        ? AppColors.error
-                                        : AppColors.textLight,
+                                color: task.status == ReminderStatus.overdue
+                                    ? AppColors.error
+                                    : AppColors.textLight,
                                 fontWeight:
                                     task.status == ReminderStatus.overdue
-                                        ? FontWeight.w600
-                                        : FontWeight.w400,
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
                               ),
                             ),
                             SizedBox(width: responsive.spacing(12)),

@@ -22,7 +22,8 @@ class ChatGPTProductInfo {
   final String? category; // High-level category hint (Appliances, Electronics)
   final String? subCategory; // Sub-category hint
   final bool isGenericUrl; // True if QR code was a generic marketing link
-  final String? message; // Message from ChatGPT (e.g., guidance when generic URL)
+  final String?
+  message; // Message from ChatGPT (e.g., guidance when generic URL)
 
   const ChatGPTProductInfo({
     required this.brand,
@@ -76,7 +77,10 @@ class ChatGPTProductInfo {
 
   static String? _nullableStr(dynamic val) {
     final s = (val ?? '').toString().trim();
-    if (s.isEmpty || s.toLowerCase() == 'unknown' || s.toLowerCase() == 'n/a' || s == '-') {
+    if (s.isEmpty ||
+        s.toLowerCase() == 'unknown' ||
+        s.toLowerCase() == 'n/a' ||
+        s == '-') {
       return null;
     }
     return s;
@@ -158,7 +162,8 @@ class ChatGPTProductLookupService {
 
         // Check if backend could identify the product
         if (content['identified'] == false) {
-          final msg = content['message'] as String? ??
+          final msg =
+              content['message'] as String? ??
               'Could not identify this product. Please enter details manually.';
           return ChatGPTProductResult.error(msg);
         }
@@ -206,5 +211,4 @@ class ChatGPTProductLookupService {
       );
     }
   }
-
 }

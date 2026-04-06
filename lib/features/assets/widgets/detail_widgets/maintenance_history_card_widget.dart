@@ -114,20 +114,14 @@ Widget buildMaintenanceHistoryCard({
                   const SizedBox(height: 4),
                   Text(
                     assetName,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     isCompleted
                         ? 'Scheduled: ${formatDate(scheduledDate)} Done: ${formatDate(completedDate)}'
                         : 'Scheduled: ${formatDate(scheduledDate)}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   ),
                 ],
               ),
@@ -227,18 +221,12 @@ Widget _buildMaintenanceActionButton({
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 12),
         elevation: 0,
-        textStyle: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (icon != null) ...[
-            Icon(icon, size: 18),
-            const SizedBox(width: 6),
-          ],
+          if (icon != null) ...[Icon(icon, size: 18), const SizedBox(width: 6)],
           Text(label),
         ],
       ),
@@ -253,18 +241,12 @@ Widget _buildMaintenanceActionButton({
           ? BorderSide(color: Colors.grey.shade300, width: 1)
           : BorderSide.none,
       elevation: 0,
-      textStyle: const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.w600,
-      ),
+      textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (icon != null) ...[
-          Icon(icon, size: 18),
-          const SizedBox(width: 6),
-        ],
+        if (icon != null) ...[Icon(icon, size: 18), const SizedBox(width: 6)],
         Text(label),
       ],
     ),

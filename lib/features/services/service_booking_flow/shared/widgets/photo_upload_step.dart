@@ -105,7 +105,9 @@ class _PhotoUploadStepState extends State<PhotoUploadStep> {
                     padding: responsive.padding(vertical: 40),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(responsive.borderRadius(16)),
+                      borderRadius: BorderRadius.circular(
+                        responsive.borderRadius(16),
+                      ),
                       border: Border.all(
                         color: AppColors.primary.withValues(alpha: 0.3),
                         width: 2,
@@ -205,7 +207,9 @@ class _PhotoUploadStepState extends State<PhotoUploadStep> {
                                 child: Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    color: AppColors.error.withValues(alpha: 0.9),
+                                    color: AppColors.error.withValues(
+                                      alpha: 0.9,
+                                    ),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
@@ -230,7 +234,9 @@ class _PhotoUploadStepState extends State<PhotoUploadStep> {
                   padding: responsive.padding(all: 14),
                   decoration: BoxDecoration(
                     color: AppColors.infoBackground,
-                    borderRadius: BorderRadius.circular(responsive.borderRadius(10)),
+                    borderRadius: BorderRadius.circular(
+                      responsive.borderRadius(10),
+                    ),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

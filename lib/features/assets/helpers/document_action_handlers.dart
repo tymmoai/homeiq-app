@@ -138,10 +138,7 @@ void showDeleteDocumentDialog({
       ),
       content: Text(
         'Are you sure you want to delete this document? This action cannot be undone.',
-        style: TextStyle(
-          fontSize: 14,
-          color: AssetDetailColors.textSecondary,
-        ),
+        style: TextStyle(fontSize: 14, color: AssetDetailColors.textSecondary),
       ),
       actions: [
         TextButton(

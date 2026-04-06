@@ -210,9 +210,7 @@ class AppDialog {
             ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             child: Text(buttonText),
           ),
         ],
@@ -241,9 +239,7 @@ class AppDialog {
         actions: [
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.success,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.success),
             child: Text(buttonText),
           ),
         ],
@@ -260,9 +256,7 @@ class AppDialog {
     return await showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (context) => Dialog(
-        child: child,
-      ),
+      builder: (context) => Dialog(child: child),
     );
   }
 }

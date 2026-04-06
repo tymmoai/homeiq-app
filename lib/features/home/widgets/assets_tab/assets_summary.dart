@@ -14,7 +14,8 @@ class AssetsSummary extends StatelessWidget {
     final avgHealthScore =
         allAssets.fold<double>(
           0,
-          (sum, asset) => sum + ((asset['healthScore'] as num?) ?? 8.0).toDouble(),
+          (sum, asset) =>
+              sum + ((asset['healthScore'] as num?) ?? 8.0).toDouble(),
         ) /
         (allAssets.isEmpty ? 1 : allAssets.length);
     final goodStatus = allAssets.where((a) {

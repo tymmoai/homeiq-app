@@ -139,7 +139,9 @@ class _InstallationTypeSelectorState extends State<InstallationTypeSelector> {
                               ),
                               child: Icon(
                                 type['icon'] as IconData,
-                                color: isSelected ? typeColor : AppColors.gray600,
+                                color: isSelected
+                                    ? typeColor
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(26),
                               ),
                             ),
@@ -169,7 +171,10 @@ class _InstallationTypeSelectorState extends State<InstallationTypeSelector> {
                                   if (tag.isNotEmpty) ...[
                                     SizedBox(height: responsive.hp(0.5)),
                                     Container(
-                                      padding: responsive.padding(horizontal: 8, vertical: 3),
+                                      padding: responsive.padding(
+                                        horizontal: 8,
+                                        vertical: 3,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: typeColor.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(
@@ -190,8 +195,11 @@ class _InstallationTypeSelectorState extends State<InstallationTypeSelector> {
                               ),
                             ),
                             if (isSelected)
-                              Icon(Icons.check_circle, color: AppColors.primary,
-                                size: responsive.iconSize(22)),
+                              Icon(
+                                Icons.check_circle,
+                                color: AppColors.primary,
+                                size: responsive.iconSize(22),
+                              ),
                           ],
                         ),
                       ),

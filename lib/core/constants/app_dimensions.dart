@@ -60,7 +60,7 @@ class AppDimensions {
   // Card Dimensions
   static const double cardElevation = 0.0; // We use shadows instead
   static const double cardPadding = 16.0;
-  static const double cardRadius = 16.0;  // SquareTrade: 15-20px rounded cards
+  static const double cardRadius = 16.0; // SquareTrade: 15-20px rounded cards
 
   // Input Field Dimensions
   static const double inputHeight = 48.0;
@@ -100,4 +100,3 @@ class AppDimensions {
   static const double fontL = 18.0;
   static const double fontXl = 20.0;
 }
-

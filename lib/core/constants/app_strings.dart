@@ -45,8 +45,10 @@ class AppStrings {
   static const String planUltimate = 'Ultimate';
 
   /// Provider identifier used in data models (lowercase appName)
-  static const String brandProvider = 'brandsmartusa'; // keep stable for API / data layer
-  static const String brandProviderUpper = 'BRANDSMARTUSA'; // keep stable for API / data layer
+  static const String brandProvider =
+      'brandsmartusa'; // keep stable for API / data layer
+  static const String brandProviderUpper =
+      'BRANDSMARTUSA'; // keep stable for API / data layer
 
   /// Plan slugs used in data models (keep stable for API / data layer)
   static const String planEssentialSlug = 'brandsmartusa-essential';
@@ -94,7 +96,8 @@ class AppStrings {
   static const String protectionPlanExpired =
       'Your appliance $protectionPlanLower has expired';
   static const String comprehensivePlansDescription =
-      'comprehensive $protectionPlanLower' 's';
+      'comprehensive $protectionPlanLower'
+      's';
 
   // ══════════════════════════════════════════════════════════════════════════
   //  COMMON ACTIONS
@@ -169,4 +172,3 @@ class AppStrings {
   static const String totalAmountNotProvided = 'Total amount not provided';
   static String routeError(String error) => 'Error: $error';
 }
-

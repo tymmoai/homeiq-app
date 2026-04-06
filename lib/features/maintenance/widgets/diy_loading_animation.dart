@@ -53,17 +53,19 @@ class _DIYLoadingAnimationState extends State<DIYLoadingAnimation>
       vsync: this,
       duration: const Duration(milliseconds: 1600),
     )..repeat(reverse: true);
-    _pulseScale = Tween<double>(begin: 0.95, end: 1.05).animate(
-      CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
-    );
+    _pulseScale = Tween<double>(
+      begin: 0.95,
+      end: 1.05,
+    ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
 
     _progress = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 14),
     )..forward();
-    _progressVal = Tween<double>(begin: 0, end: 0.92).animate(
-      CurvedAnimation(parent: _progress, curve: Curves.easeOutCubic),
-    );
+    _progressVal = Tween<double>(
+      begin: 0,
+      end: 0.92,
+    ).animate(CurvedAnimation(parent: _progress, curve: Curves.easeOutCubic));
 
     _textCycle = AnimationController(
       vsync: this,
@@ -227,10 +229,7 @@ class _DIYLoadingAnimationState extends State<DIYLoadingAnimation>
 
           Text(
             'This may take a few seconds',
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.textHint,
-            ),
+            style: TextStyle(fontSize: 12, color: AppColors.textHint),
           ),
         ],
       ),

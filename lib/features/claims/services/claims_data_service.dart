@@ -265,25 +265,28 @@ class ClaimsDataService {
   /// Get claims filtered by status category
   static List<Claim> getActiveClaims() {
     return getAllClaims()
-        .where((c) =>
-            c.status == ClaimStatus.submitted ||
-            c.status == ClaimStatus.underReview ||
-            c.status == ClaimStatus.approved ||
-            c.status == ClaimStatus.inProgress)
+        .where(
+          (c) =>
+              c.status == ClaimStatus.submitted ||
+              c.status == ClaimStatus.underReview ||
+              c.status == ClaimStatus.approved ||
+              c.status == ClaimStatus.inProgress,
+        )
         .toList();
   }
 
   static List<Claim> getResolvedClaims() {
     return getAllClaims()
-        .where((c) =>
-            c.status == ClaimStatus.resolved || c.status == ClaimStatus.closed)
+        .where(
+          (c) =>
+              c.status == ClaimStatus.resolved ||
+              c.status == ClaimStatus.closed,
+        )
         .toList();
   }
 
   static List<Claim> getDeniedClaims() {
-    return getAllClaims()
-        .where((c) => c.status == ClaimStatus.denied)
-        .toList();
+    return getAllClaims().where((c) => c.status == ClaimStatus.denied).toList();
   }
 
   /// Get claims for a specific asset
@@ -297,10 +300,12 @@ class ClaimsDataService {
     return {
       'total': all.length,
       'active': all
-          .where((c) =>
-              c.status != ClaimStatus.resolved &&
-              c.status != ClaimStatus.denied &&
-              c.status != ClaimStatus.closed)
+          .where(
+            (c) =>
+                c.status != ClaimStatus.resolved &&
+                c.status != ClaimStatus.denied &&
+                c.status != ClaimStatus.closed,
+          )
           .length,
       'resolved': all.where((c) => c.status == ClaimStatus.resolved).length,
       'denied': all.where((c) => c.status == ClaimStatus.denied).length,

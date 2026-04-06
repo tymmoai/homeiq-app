@@ -31,16 +31,19 @@ class HomeApiService {
     int? yearBuilt,
     int? sqft,
   }) async {
-    final response = await _api.post('/homes', body: {
-      if (name != null && name.isNotEmpty) 'name': name,
-      'address': address,
-      'city': city,
-      'state': state,
-      'zip': zip,
-      'country': country,
-      'yearBuilt': ?yearBuilt,
-      'sqft': ?sqft,
-    });
+    final response = await _api.post(
+      '/homes',
+      body: {
+        if (name != null && name.isNotEmpty) 'name': name,
+        'address': address,
+        'city': city,
+        'state': state,
+        'zip': zip,
+        'country': country,
+        'yearBuilt': ?yearBuilt,
+        'sqft': ?sqft,
+      },
+    );
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     return HomeDto.fromJson(body['data'] as Map<String, dynamic>);
   }

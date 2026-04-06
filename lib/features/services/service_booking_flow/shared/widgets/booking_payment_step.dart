@@ -66,10 +66,9 @@ class _BookingPaymentStepState extends State<BookingPaymentStep> {
         orElse: () => const ServiceItem(name: '', price: 0, icon: Icons.error),
       );
       if (item.name.isNotEmpty) {
-        items.add(OrderSummaryItem(
-          label: '$name x$qty',
-          amount: item.price * qty,
-        ));
+        items.add(
+          OrderSummaryItem(label: '$name x$qty', amount: item.price * qty),
+        );
       }
     });
 
@@ -86,7 +85,9 @@ class _BookingPaymentStepState extends State<BookingPaymentStep> {
 
     // Add service fee
     if (widget.serviceFee > 0) {
-      items.add(OrderSummaryItem(label: 'Service Fee', amount: widget.serviceFee));
+      items.add(
+        OrderSummaryItem(label: 'Service Fee', amount: widget.serviceFee),
+      );
     }
 
     if (items.isEmpty) {
@@ -201,31 +202,33 @@ class _BookingPaymentStepState extends State<BookingPaymentStep> {
             ),
           ),
           SizedBox(height: responsive.hp(1.5)),
-          ..._orderSummaryItems.map((item) => Padding(
-                padding: responsive.padding(vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.label,
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(14),
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      '\$${item.amount.toStringAsFixed(2)}',
+          ..._orderSummaryItems.map(
+            (item) => Padding(
+              padding: responsive.padding(vertical: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      item.label,
                       style: TextStyle(
                         fontSize: responsive.fontSize(14),
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textPrimary,
+                        color: AppColors.textSecondary,
                       ),
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                  Text(
+                    '\$${item.amount.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(14),
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Divider(height: responsive.hp(2), color: AppColors.gray200),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -287,7 +290,11 @@ class _BookingPaymentStepState extends State<BookingPaymentStep> {
       ),
       child: Row(
         children: [
-          Icon(Icons.check_circle, color: AppColors.success, size: responsive.iconSize(24)),
+          Icon(
+            Icons.check_circle,
+            color: AppColors.success,
+            size: responsive.iconSize(24),
+          ),
           SizedBox(width: responsive.wp(3)),
           Expanded(
             child: Column(

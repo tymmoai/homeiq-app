@@ -30,22 +30,35 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     if (widget.isEdit && widget.existingAddress != null) {
       // Parse existing address if editing
-      final addressParts = widget.existingAddress!['address']?.split(', ') ?? [];
-      _nameController = TextEditingController(text: widget.existingAddress!['name']);
-      _phoneController = TextEditingController(text: widget.existingAddress!['phone']);
-      _streetController = TextEditingController(text: addressParts.isNotEmpty ? addressParts[0] : '');
-      
+      final addressParts =
+          widget.existingAddress!['address']?.split(', ') ?? [];
+      _nameController = TextEditingController(
+        text: widget.existingAddress!['name'],
+      );
+      _phoneController = TextEditingController(
+        text: widget.existingAddress!['phone'],
+      );
+      _streetController = TextEditingController(
+        text: addressParts.isNotEmpty ? addressParts[0] : '',
+      );
+
       if (addressParts.length > 1) {
         final cityStateParts = addressParts[1].split(', ');
-        _cityController = TextEditingController(text: cityStateParts.isNotEmpty ? cityStateParts[0] : '');
-        
+        _cityController = TextEditingController(
+          text: cityStateParts.isNotEmpty ? cityStateParts[0] : '',
+        );
+
         if (addressParts.length > 2) {
           final stateZipParts = addressParts[2].split(' ');
-          _stateController = TextEditingController(text: stateZipParts.isNotEmpty ? stateZipParts[0] : '');
-          _zipController = TextEditingController(text: stateZipParts.length > 1 ? stateZipParts[1] : '');
+          _stateController = TextEditingController(
+            text: stateZipParts.isNotEmpty ? stateZipParts[0] : '',
+          );
+          _zipController = TextEditingController(
+            text: stateZipParts.length > 1 ? stateZipParts[1] : '',
+          );
         } else {
           _stateController = TextEditingController();
           _zipController = TextEditingController();
@@ -152,7 +165,8 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
       final addressData = {
         'name': _nameController.text.trim(),
         'phone': _phoneController.text.trim(),
-        'address': '${_streetController.text.trim()}, ${_cityController.text.trim()}, ${_stateController.text.trim().toUpperCase()} ${_zipController.text.trim()}',
+        'address':
+            '${_streetController.text.trim()}, ${_cityController.text.trim()}, ${_stateController.text.trim().toUpperCase()} ${_zipController.text.trim()}',
       };
       Navigator.pop(context, addressData);
     }
@@ -196,10 +210,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
             color: AppColors.gray600,
             fontWeight: FontWeight.w500,
           ),
-          errorStyle: TextStyle(
-            fontSize: responsive.fontSize(12),
-            height: 0.8,
-          ),
+          errorStyle: TextStyle(fontSize: responsive.fontSize(12), height: 0.8),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
@@ -283,7 +294,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                     ],
                   ),
                   SizedBox(height: responsive.spacing(16)),
-                  
+
                   // Phone Number
                   _buildShadowField(
                     controller: _phoneController,
@@ -296,7 +307,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                     ],
                   ),
                   SizedBox(height: responsive.spacing(16)),
-                  
+
                   // Street Address
                   _buildShadowField(
                     controller: _streetController,
@@ -305,7 +316,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                     keyboardType: TextInputType.streetAddress,
                   ),
                   SizedBox(height: responsive.spacing(16)),
-                  
+
                   // City
                   _buildShadowField(
                     controller: _cityController,
@@ -317,7 +328,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                     ],
                   ),
                   SizedBox(height: responsive.spacing(16)),
-                  
+
                   // State and ZIP in a row
                   Row(
                     children: [
@@ -329,9 +340,14 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                           validator: _validateState,
                           keyboardType: TextInputType.text,
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z]')),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[A-Za-z]'),
+                            ),
                             LengthLimitingTextInputFormatter(2),
-                            TextInputFormatter.withFunction((oldValue, newValue) {
+                            TextInputFormatter.withFunction((
+                              oldValue,
+                              newValue,
+                            ) {
                               return newValue.copyWith(
                                 text: newValue.text.toUpperCase(),
                               );
@@ -359,7 +375,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
               ),
             ),
           ),
-          
+
           // Save Button positioned at 3% from bottom
           Positioned(
             left: 20,
@@ -380,7 +396,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.textOnPrimary,
-                  padding: EdgeInsets.symmetric(vertical: responsive.spacing(16)),
+                  padding: EdgeInsets.symmetric(
+                    vertical: responsive.spacing(16),
+                  ),
                   elevation: 0,
                 ),
                 child: Text(

@@ -48,10 +48,12 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
   Future<void> _loadClaims() async {
     final claims = await ClaimsService.getAllClaims();
     // Filter out invalid test claims with generic names
-    final validClaims = claims.where((claim) => 
-      claim.assetName != 'Unknown Asset' && 
-      claim.assetName.isNotEmpty
-    ).toList();
+    final validClaims = claims
+        .where(
+          (claim) =>
+              claim.assetName != 'Unknown Asset' && claim.assetName.isNotEmpty,
+        )
+        .toList();
     if (mounted) {
       setState(() {
         _allClaims = validClaims;
@@ -69,16 +71,21 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
     switch (tabIndex) {
       case 1:
         return _allClaims
-            .where((c) => [
-                  ClaimStatus.submitted,
-                  ClaimStatus.underReview,
-                  ClaimStatus.approved,
-                  ClaimStatus.inProgress,
-                ].contains(c.status))
+            .where(
+              (c) => [
+                ClaimStatus.submitted,
+                ClaimStatus.underReview,
+                ClaimStatus.approved,
+                ClaimStatus.inProgress,
+              ].contains(c.status),
+            )
             .toList();
       case 2:
         return _allClaims
-            .where((c) => [ClaimStatus.resolved, ClaimStatus.closed].contains(c.status))
+            .where(
+              (c) =>
+                  [ClaimStatus.resolved, ClaimStatus.closed].contains(c.status),
+            )
             .toList();
       case 3:
         return _allClaims.where((c) => c.status == ClaimStatus.denied).toList();
@@ -128,8 +135,12 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
               indicatorColor: AppColors.headerForeground,
               indicatorWeight: 3,
               labelColor: AppColors.headerForeground,
-              unselectedLabelColor: AppColors.headerForeground.withValues(alpha: 0.6),
-              labelPadding: EdgeInsets.symmetric(horizontal: responsive.spacing(16)),
+              unselectedLabelColor: AppColors.headerForeground.withValues(
+                alpha: 0.6,
+              ),
+              labelPadding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(16),
+              ),
               labelStyle: TextStyle(
                 fontSize: responsive.fontSize(14),
                 fontWeight: FontWeight.w600,
@@ -194,10 +205,7 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
               color: AppColors.textHint,
             ),
             SizedBox(height: responsive.spacing(16)),
-            Text(
-              messages[tabIndex],
-              style: AppTextStyles.h4,
-            ),
+            Text(messages[tabIndex], style: AppTextStyles.h4),
             SizedBox(height: responsive.spacing(8)),
             Text(
               subtitles[tabIndex],
@@ -315,7 +323,8 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
                   Row(
                     children: [
                       // Claim Type Chip
-                      _buildChip(context, 
+                      _buildChip(
+                        context,
                         claim.getClaimTypeIcon(),
                         claim.getClaimTypeLabel(),
                         AppColors.primary,
@@ -323,12 +332,15 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
                       ),
                       SizedBox(width: responsive.spacing(8)),
                       // Coverage Chip
-                      _buildChip(context, 
+                      _buildChip(
+                        context,
                         claim.isCovered
                             ? Icons.verified_outlined
                             : Icons.info_outline,
                         claim.isCovered ? 'Covered' : 'Not Covered',
-                        claim.isCovered ? AppColors.primary : AppColors.textSecondary,
+                        claim.isCovered
+                            ? AppColors.primary
+                            : AppColors.textSecondary,
                         claim.isCovered
                             ? AppColors.primary05
                             : AppColors.surfaceVariant,
@@ -358,7 +370,9 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.primary05,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -408,13 +422,14 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(10), vertical: responsive.spacing(4)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(10),
+        vertical: responsive.spacing(4),
+      ),
       decoration: BoxDecoration(
         color: badgeBg,
         borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-        border: Border.all(
-          color: badgeColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: badgeColor.withValues(alpha: 0.3)),
       ),
       child: Text(
         claim.getStatusLabel(),
@@ -428,10 +443,19 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
     );
   }
 
-  Widget _buildChip(BuildContext context, IconData icon, String label, Color color, Color bgColor) {
+  Widget _buildChip(
+    BuildContext context,
+    IconData icon,
+    String label,
+    Color color,
+    Color bgColor,
+  ) {
     final responsive = ResponsiveUtils(context);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(8),
+        vertical: responsive.spacing(4),
+      ),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -462,10 +486,7 @@ class _MyClaimsScreenState extends State<MyClaimsScreen>
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Claim Progress',
-              style: AppTextStyles.captionBold,
-            ),
+            Text('Claim Progress', style: AppTextStyles.captionBold),
             Text(
               '${(claim.getProgress() * 100).toInt()}%',
               style: TextStyle(
@@ -580,9 +601,7 @@ class _ClaimDetailSheet extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: AppColors.border),
-        ),
+        border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -600,10 +619,7 @@ class _ClaimDetailSheet extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: responsive.spacing(4)),
-                    Text(
-                      claim.title,
-                      style: AppTextStyles.h4,
-                    ),
+                    Text(claim.title, style: AppTextStyles.h4),
                   ],
                 ),
               ),
@@ -640,13 +656,14 @@ class _ClaimDetailSheet extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(12), vertical: responsive.spacing(6)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(12),
+        vertical: responsive.spacing(6),
+      ),
       decoration: BoxDecoration(
         color: badgeBg,
         borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-        border: Border.all(
-          color: badgeColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: badgeColor.withValues(alpha: 0.3)),
       ),
       child: Text(
         claim.getStatusLabel(),
@@ -662,7 +679,8 @@ class _ClaimDetailSheet extends StatelessWidget {
 
   // ---- Asset Section ----
   Widget _buildAssetSection(BuildContext context) {
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       'Asset Information',
       Icons.inventory_2_outlined,
       child: Column(
@@ -680,7 +698,8 @@ class _ClaimDetailSheet extends StatelessWidget {
   // ---- Claim Overview ----
   Widget _buildClaimOverview(BuildContext context) {
     final responsive = ResponsiveUtils(context);
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       'Claim Overview',
       Icons.description_outlined,
       child: Column(
@@ -689,15 +708,9 @@ class _ClaimDetailSheet extends StatelessWidget {
           _buildDetailRow('Category', claim.issueCategory),
           _buildDetailRow('Type', claim.getClaimTypeLabel()),
           SizedBox(height: responsive.spacing(8)),
-          Text(
-            'Description',
-            style: AppTextStyles.captionBold,
-          ),
+          Text('Description', style: AppTextStyles.captionBold),
           SizedBox(height: responsive.spacing(4)),
-          Text(
-            claim.description,
-            style: AppTextStyles.bodyMedium,
-          ),
+          Text(claim.description, style: AppTextStyles.bodyMedium),
         ],
       ),
     );
@@ -705,7 +718,8 @@ class _ClaimDetailSheet extends StatelessWidget {
 
   // ---- Coverage Section ----
   Widget _buildCoverageSection(BuildContext context) {
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       'Coverage Details',
       Icons.shield_outlined,
       child: Column(
@@ -729,7 +743,8 @@ class _ClaimDetailSheet extends StatelessWidget {
 
   // ---- Technician Section ----
   Widget _buildTechnicianSection(BuildContext context) {
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       'Service Details',
       Icons.engineering_outlined,
       child: Column(
@@ -744,23 +759,27 @@ class _ClaimDetailSheet extends StatelessWidget {
 
   // ---- Timeline Section ----
   Widget _buildTimelineSection(BuildContext context) {
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       'Claim Progress',
       Icons.timeline,
       child: Column(
         children: [
-          _buildTimelineStep(context, 
+          _buildTimelineStep(
+            context,
             'Submitted',
             claim.formatDate(claim.submittedAt),
             true,
             isFirst: true,
           ),
-          _buildTimelineStep(context, 
+          _buildTimelineStep(
+            context,
             'Under Review',
             claim.formatDate(claim.reviewedAt),
             claim.reviewedAt != null,
           ),
-          _buildTimelineStep(context, 
+          _buildTimelineStep(
+            context,
             claim.status == ClaimStatus.denied ? 'Denied' : 'Approved',
             claim.status == ClaimStatus.denied
                 ? claim.formatDate(claim.closedAt)
@@ -768,12 +787,14 @@ class _ClaimDetailSheet extends StatelessWidget {
             claim.approvedAt != null || claim.status == ClaimStatus.denied,
             isError: claim.status == ClaimStatus.denied,
           ),
-          _buildTimelineStep(context, 
+          _buildTimelineStep(
+            context,
             'In Progress',
             claim.formatDate(claim.inProgressAt),
             claim.inProgressAt != null,
           ),
-          _buildTimelineStep(context, 
+          _buildTimelineStep(
+            context,
             'Resolved',
             claim.formatDate(claim.resolvedAt),
             claim.resolvedAt != null,
@@ -784,7 +805,8 @@ class _ClaimDetailSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildTimelineStep(BuildContext context, 
+  Widget _buildTimelineStep(
+    BuildContext context,
     String title,
     String date,
     bool isCompleted, {
@@ -796,8 +818,8 @@ class _ClaimDetailSheet extends StatelessWidget {
     final color = isError
         ? AppColors.error
         : isCompleted
-            ? AppColors.primary
-            : AppColors.border;
+        ? AppColors.primary
+        : AppColors.border;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -807,12 +829,7 @@ class _ClaimDetailSheet extends StatelessWidget {
           width: 24,
           child: Column(
             children: [
-              if (!isFirst)
-                Container(
-                  width: 2,
-                  height: 12,
-                  color: color,
-                ),
+              if (!isFirst) Container(width: 2, height: 12, color: color),
               Container(
                 width: 12,
                 height: 12,
@@ -849,14 +866,18 @@ class _ClaimDetailSheet extends StatelessWidget {
                 Text(
                   title,
                   style: isCompleted
-                      ? AppTextStyles.labelSmall.copyWith(fontWeight: FontWeight.w600)
+                      ? AppTextStyles.labelSmall.copyWith(
+                          fontWeight: FontWeight.w600,
+                        )
                       : AppTextStyles.bodySmallSecondary,
                 ),
                 Text(
                   date,
                   style: isCompleted
                       ? AppTextStyles.bodySmallSecondary
-                      : AppTextStyles.caption.copyWith(color: AppColors.textHint),
+                      : AppTextStyles.caption.copyWith(
+                          color: AppColors.textHint,
+                        ),
                 ),
               ],
             ),
@@ -871,7 +892,8 @@ class _ClaimDetailSheet extends StatelessWidget {
     final responsive = ResponsiveUtils(context);
     final isDenied = claim.status == ClaimStatus.denied;
 
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       isDenied ? 'Denial Reason' : 'Resolution',
       isDenied ? Icons.cancel_outlined : Icons.check_circle_outline,
       child: Column(
@@ -887,9 +909,7 @@ class _ClaimDetailSheet extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.all(responsive.spacing(12)),
             decoration: BoxDecoration(
-              color: isDenied
-                  ? AppColors.errorLight
-                  : AppColors.surfaceVariant,
+              color: isDenied ? AppColors.errorLight : AppColors.surfaceVariant,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
@@ -905,7 +925,8 @@ class _ClaimDetailSheet extends StatelessWidget {
   // ---- Cost Section ----
   Widget _buildCostSection(BuildContext context) {
     final responsive = ResponsiveUtils(context);
-    return _buildSection(context, 
+    return _buildSection(
+      context,
       'Cost & Payment',
       Icons.attach_money,
       child: Column(
@@ -958,7 +979,12 @@ class _ClaimDetailSheet extends StatelessWidget {
   }
 
   // ---- Shared Section Builder ----
-  Widget _buildSection(BuildContext context, String title, IconData icon, {required Widget child}) {
+  Widget _buildSection(
+    BuildContext context,
+    String title,
+    IconData icon, {
+    required Widget child,
+  }) {
     final responsive = ResponsiveUtils(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -967,10 +993,7 @@ class _ClaimDetailSheet extends StatelessWidget {
           children: [
             Icon(icon, size: responsive.iconSize(18), color: AppColors.primary),
             SizedBox(width: responsive.spacing(8)),
-            Text(
-              title,
-              style: AppTextStyles.h5,
-            ),
+            Text(title, style: AppTextStyles.h5),
           ],
         ),
         SizedBox(height: responsive.spacing(10)),
@@ -996,10 +1019,7 @@ class _ClaimDetailSheet extends StatelessWidget {
         children: [
           SizedBox(
             width: 120,
-            child: Text(
-              label,
-              style: AppTextStyles.captionBold,
-            ),
+            child: Text(label, style: AppTextStyles.captionBold),
           ),
           Expanded(
             child: Text(

@@ -67,10 +67,7 @@ class BookingReviewDetailRow extends StatelessWidget {
 class BookingReviewOrderDetailsCard extends StatelessWidget {
   final ServiceBookingFormData formData;
 
-  const BookingReviewOrderDetailsCard({
-    super.key,
-    required this.formData,
-  });
+  const BookingReviewOrderDetailsCard({super.key, required this.formData});
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +97,9 @@ class BookingReviewOrderDetailsCard extends StatelessWidget {
           BookingReviewDetailRow(
             label: 'Date:',
             value: formData.selectedDate != null
-                ? DateFormat('EEEE, MMMM d, yyyy')
-                    .format(formData.selectedDate!)
+                ? DateFormat(
+                    'EEEE, MMMM d, yyyy',
+                  ).format(formData.selectedDate!)
                 : '',
             showDivider: true,
           ),

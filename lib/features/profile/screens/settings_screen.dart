@@ -27,9 +27,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   String? _errorMessage;
 
   // Password controllers
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   // Mock user preferences - shared across app while the app is running
   // so that changes feel global after saving.
@@ -50,10 +52,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       'advanceNoticeDays': 7,
     },
     'language': 'en',
-    'dateTimeFormat': {
-      'dateFormat': 'MM/DD/YYYY',
-      'timeFormat': '12h',
-    },
+    'dateTimeFormat': {'dateFormat': 'MM/DD/YYYY', 'timeFormat': '12h'},
     'defaultHomeId': '',
   };
 
@@ -279,8 +278,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.primary,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
-                      side: BorderSide(color: AppColors.primary.withValues(alpha: 0.5)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
+                      side: BorderSide(
+                        color: AppColors.primary.withValues(alpha: 0.5),
+                      ),
                     ),
                     child: const Text('Cancel'),
                   ),
@@ -292,7 +295,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: AppColors.textOnPrimary,
-                      padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: responsive.spacing(14),
+                      ),
                       elevation: 0,
                     ),
                     child: _isSaving
@@ -301,7 +306,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.white,
+                              ),
                             ),
                           )
                         : Row(
@@ -316,7 +323,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
               ],
             ),
-           
           ],
         ),
       ),
@@ -383,7 +389,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         children: [
           Row(
             children: [
-              Icon(icon, size: responsive.iconSize(20), color: AppColors.primary),
+              Icon(
+                icon,
+                size: responsive.iconSize(20),
+                color: AppColors.primary,
+              ),
               SizedBox(width: responsive.spacing(12)),
               Text(
                 title,
@@ -444,7 +454,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Widget _buildHealthScoreThresholdSection() {
-    final threshold = (_preferences['healthScoreThreshold'] as num?)?.toDouble() ?? 6.0;
+    final threshold =
+        (_preferences['healthScoreThreshold'] as num?)?.toDouble() ?? 6.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -485,7 +496,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             SizedBox(width: responsive.spacing(16)),
             Container(
               width: 60,
-              padding: EdgeInsets.symmetric(vertical: responsive.spacing(8), horizontal: responsive.spacing(12)),
+              padding: EdgeInsets.symmetric(
+                vertical: responsive.spacing(8),
+                horizontal: responsive.spacing(12),
+              ),
               decoration: BoxDecoration(
                 color: AppColors.backgroundGray100,
                 borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -542,10 +556,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   },
                   borderRadius: BorderRadius.circular(8),
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: responsive.spacing(10)),
+                    padding: EdgeInsets.symmetric(
+                      vertical: responsive.spacing(10),
+                    ),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : AppColors.surface,
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                      color: isSelected
+                          ? AppColors.primary.withValues(alpha: 0.1)
+                          : AppColors.surface,
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusBadge,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.shadowLight,
@@ -558,8 +578,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       '$dayValue ${dayValue == 1 ? 'Day' : 'Days'}',
                       style: TextStyle(
                         fontSize: responsive.fontSize(14),
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                        color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w500,
+                        color: isSelected
+                            ? AppColors.primary
+                            : AppColors.textPrimary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -609,11 +633,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
         ),
         SizedBox(height: responsive.spacing(8)),
-        _buildSimpleDropdown(
-          value: value,
-          items: items,
-          onChanged: onChanged,
-        ),
+        _buildSimpleDropdown(value: value, items: items, onChanged: onChanged),
       ],
     );
   }
@@ -655,7 +675,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       onSelected: onChanged,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(12)),
+        padding: EdgeInsets.symmetric(
+          horizontal: responsive.spacing(14),
+          vertical: responsive.spacing(12),
+        ),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
@@ -675,7 +698,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 items.firstWhere((item) => item == value, orElse: () => value),
                 style: TextStyle(
                   fontSize: responsive.fontSize(14),
-                  color: value.isEmpty ? AppColors.textSecondary : AppColors.textPrimary,
+                  color: value.isEmpty
+                      ? AppColors.textSecondary
+                      : AppColors.textPrimary,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -700,7 +725,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                 ),
                 if (item == value)
-                  Icon(Icons.check, size: responsive.iconSize(18), color: AppColors.primary),
+                  Icon(
+                    Icons.check,
+                    size: responsive.iconSize(18),
+                    color: AppColors.primary,
+                  ),
               ],
             ),
           );
@@ -758,18 +787,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         // Current theme indicator
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          padding: EdgeInsets.symmetric(horizontal: responsive.spacing(14), vertical: responsive.spacing(10)),
+          padding: EdgeInsets.symmetric(
+            horizontal: responsive.spacing(14),
+            vertical: responsive.spacing(10),
+          ),
           decoration: BoxDecoration(
-            color: (currentPreset.brightness == Brightness.dark
-                    ? const Color(0xFF263238)
-                    : currentPreset.primary)
-                .withValues(alpha: 0.08),
+            color:
+                (currentPreset.brightness == Brightness.dark
+                        ? const Color(0xFF263238)
+                        : currentPreset.primary)
+                    .withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: (currentPreset.brightness == Brightness.dark
-                      ? const Color(0xFF263238)
-                      : currentPreset.primary)
-                  .withValues(alpha: 0.25),
+              color:
+                  (currentPreset.brightness == Brightness.dark
+                          ? const Color(0xFF263238)
+                          : currentPreset.primary)
+                      .withValues(alpha: 0.25),
             ),
           ),
           child: Row(
@@ -780,10 +814,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: (currentPreset.brightness == Brightness.dark
-                            ? const Color(0xFF263238)
-                            : currentPreset.primary)
-                        .withValues(alpha: 0.3),
+                    color:
+                        (currentPreset.brightness == Brightness.dark
+                                ? const Color(0xFF263238)
+                                : currentPreset.primary)
+                            .withValues(alpha: 0.3),
                     width: 1,
                   ),
                 ),
@@ -797,11 +832,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             : currentPreset.primary,
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        color: currentPreset.accent,
-                      ),
-                    ),
+                    Expanded(child: Container(color: currentPreset.accent)),
                   ],
                 ),
               ),
@@ -840,28 +871,29 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         decoration: BoxDecoration(
           color: isSelected
               ? (preset.brightness == Brightness.dark
-                  ? const Color(0xFF263238).withValues(alpha: 0.12)
-                  : preset.primary.withValues(alpha: 0.08))
+                    ? const Color(0xFF263238).withValues(alpha: 0.12)
+                    : preset.primary.withValues(alpha: 0.08))
               : AppColors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
                 ? (preset.brightness == Brightness.dark
-                    ? const Color(0xFF263238)
-                    : preset.primary)
+                      ? const Color(0xFF263238)
+                      : preset.primary)
                 : AppColors.border,
             width: isSelected ? 2.5 : 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: (preset.brightness == Brightness.dark
-                            ? const Color(0xFF263238)
-                            : preset.primary)
-                        .withValues(alpha: 0.25),
+                    color:
+                        (preset.brightness == Brightness.dark
+                                ? const Color(0xFF263238)
+                                : preset.primary)
+                            .withValues(alpha: 0.25),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ]
               : [],
         ),
@@ -877,18 +909,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 border: Border.all(
                   color: isSelected
                       ? (preset.brightness == Brightness.dark
-                          ? const Color(0xFF263238)
-                          : preset.primary)
+                            ? const Color(0xFF263238)
+                            : preset.primary)
                       : Colors.grey.shade300,
                   width: isSelected ? 2.5 : 1.5,
                 ),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: (preset.brightness == Brightness.dark
-                                  ? const Color(0xFF263238)
-                                  : preset.primary)
-                              .withValues(alpha: 0.3),
+                          color:
+                              (preset.brightness == Brightness.dark
+                                      ? const Color(0xFF263238)
+                                      : preset.primary)
+                                  .withValues(alpha: 0.3),
                           blurRadius: 6,
                           offset: const Offset(0, 2),
                         ),
@@ -916,9 +949,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     top: 0,
                     bottom: 0,
                     width: 19,
-                    child: Container(
-                      color: preset.accent,
-                    ),
+                    child: Container(color: preset.accent),
                   ),
                   if (isSelected)
                     Center(
@@ -929,16 +960,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           border: Border.all(
-                              color: preset.brightness == Brightness.dark
-                                  ? const Color(0xFF263238)
-                                  : preset.primary,
-                              width: 1.5),
-                        ),
-                        child: Icon(Icons.check,
                             color: preset.brightness == Brightness.dark
                                 ? const Color(0xFF263238)
                                 : preset.primary,
-                            size: 8),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.check,
+                          color: preset.brightness == Brightness.dark
+                              ? const Color(0xFF263238)
+                              : preset.primary,
+                          size: 8,
+                        ),
                       ),
                     ),
                 ],
@@ -955,8 +989,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 color: isSelected
                     ? (preset.brightness == Brightness.dark
-                        ? const Color(0xFF263238)
-                        : preset.primary)
+                          ? const Color(0xFF263238)
+                          : preset.primary)
                     : AppColors.textSecondary,
               ),
             ),
@@ -1074,16 +1108,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (isSelected)
-                    Icon(Icons.check_circle, size: responsive.iconSize(14), color: AppColors.primary),
+                    Icon(
+                      Icons.check_circle,
+                      size: responsive.iconSize(14),
+                      color: AppColors.primary,
+                    ),
                   if (isSelected) SizedBox(width: responsive.spacing(4)),
                   Text(
                     label,
                     style: TextStyle(
                       fontSize: responsive.fontSize(12),
-                      fontWeight:
-                          isSelected ? FontWeight.w700 : FontWeight.w500,
-                      color:
-                          isSelected ? AppColors.primary : AppColors.textSecondary,
+                      fontWeight: isSelected
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
                     ),
                   ),
                 ],
@@ -1105,12 +1145,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     try {
       // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
-      
+
       setState(() {
         _isSaving = false;
         _successMessage = 'Settings saved successfully!';
       });
-      
+
       Future.delayed(const Duration(seconds: 3), () {
         if (mounted) {
           setState(() {
@@ -1125,5 +1165,4 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       });
     }
   }
-
 }

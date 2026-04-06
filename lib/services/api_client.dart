@@ -231,14 +231,16 @@ class ApiClient {
       if (refreshToken == null || refreshToken.isEmpty) return false;
 
       final uri = Uri.parse('${EnvironmentConfig.apiV1Url}/auth/refresh');
-      final response = await http.post(
-        uri,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Client-Type': 'app',
-        },
-        body: jsonEncode({'refreshToken': refreshToken}),
-      ).timeout(_defaultTimeout);
+      final response = await http
+          .post(
+            uri,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Client-Type': 'app',
+            },
+            body: jsonEncode({'refreshToken': refreshToken}),
+          )
+          .timeout(_defaultTimeout);
 
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
@@ -248,9 +250,15 @@ class ApiClient {
           final newRefreshToken = data['refreshToken'] as String?;
           if (newAccessToken != null) {
             _authToken = newAccessToken;
-            await storage.write(key: 'auth_access_token', value: newAccessToken);
+            await storage.write(
+              key: 'auth_access_token',
+              value: newAccessToken,
+            );
             if (newRefreshToken != null) {
-              await storage.write(key: 'auth_refresh_token', value: newRefreshToken);
+              await storage.write(
+                key: 'auth_refresh_token',
+                value: newRefreshToken,
+              );
             }
             AppLogger.info('Token refreshed successfully', tag: 'API');
             return true;

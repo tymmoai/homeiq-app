@@ -66,10 +66,7 @@ class _AppErrorBoundaryState extends State<AppErrorBoundary> {
         return widget.errorBuilder!(_error!, _stackTrace);
       }
 
-      return _DefaultErrorWidget(
-        error: _error!,
-        onReset: _reset,
-      );
+      return _DefaultErrorWidget(error: _error!, onReset: _reset);
     }
 
     return widget.child;
@@ -80,10 +77,7 @@ class _DefaultErrorWidget extends StatelessWidget {
   final Object error;
   final VoidCallback onReset;
 
-  const _DefaultErrorWidget({
-    required this.error,
-    required this.onReset,
-  });
+  const _DefaultErrorWidget({required this.error, required this.onReset});
 
   @override
   Widget build(BuildContext context) {

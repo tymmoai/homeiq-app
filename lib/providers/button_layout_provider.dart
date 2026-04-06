@@ -19,9 +19,9 @@ const _prefsKey = 'button_layout_mode';
 /// Provides the current [ButtonLayoutMode] and persists changes.
 final buttonLayoutProvider =
     StateNotifierProvider<ButtonLayoutNotifier, ButtonLayoutMode>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return ButtonLayoutNotifier(prefs);
-});
+      final prefs = ref.watch(sharedPreferencesProvider);
+      return ButtonLayoutNotifier(prefs);
+    });
 
 class ButtonLayoutNotifier extends StateNotifier<ButtonLayoutMode> {
   final SharedPreferences _prefs;
@@ -63,7 +63,6 @@ extension ButtonLayoutRadius on ButtonLayoutMode {
   }
 
   /// Rounded rectangle shape for buttons.
-  RoundedRectangleBorder get buttonShape => RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(buttonRadius),
-      );
+  RoundedRectangleBorder get buttonShape =>
+      RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonRadius));
 }

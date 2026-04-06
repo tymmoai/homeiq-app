@@ -46,9 +46,7 @@ class PaymentScreen extends StatelessWidget {
   }
 
   static List<OrderSummaryItem> _defaultOrderSummary(double amount) {
-    return [
-      OrderSummaryItem(label: 'Service', amount: amount),
-    ];
+    return [OrderSummaryItem(label: 'Service', amount: amount)];
   }
 
   @override
@@ -72,7 +70,9 @@ class PaymentScreen extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildDefaultBlueAppBar(
-      BuildContext context, ResponsiveUtils responsive) {
+    BuildContext context,
+    ResponsiveUtils responsive,
+  ) {
     return AppBar(
       backgroundColor: AppColors.primary,
       elevation: 0,

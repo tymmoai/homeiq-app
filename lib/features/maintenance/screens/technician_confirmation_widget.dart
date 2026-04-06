@@ -148,7 +148,10 @@ class _TechnicianConfirmationWidgetState
                                 ),
                               ],
                               border: isSelected
-                                  ? Border.all(color: AppColors.primary, width: 2)
+                                  ? Border.all(
+                                      color: AppColors.primary,
+                                      width: 2,
+                                    )
                                   : null,
                             ),
                             child: Row(
@@ -169,23 +172,29 @@ class _TechnicianConfirmationWidgetState
                                             ),
                                           ),
                                           if (isSelected) ...[
-                                            SizedBox(width: responsive.spacing(8)),
+                                            SizedBox(
+                                              width: responsive.spacing(8),
+                                            ),
                                             Container(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 2,
-                                              ),
+                                                    horizontal: 8,
+                                                    vertical: 2,
+                                                  ),
                                               decoration: BoxDecoration(
                                                 color: AppColors.primary
                                                     .withValues(alpha: 0.1),
                                                 borderRadius:
-                                                    BorderRadius.circular(AppDimensions.radiusBadge),
+                                                    BorderRadius.circular(
+                                                      AppDimensions.radiusBadge,
+                                                    ),
                                               ),
                                               child: Text(
                                                 'Selected',
                                                 style: TextStyle(
-                                                  fontSize: responsive.fontSize(11),
+                                                  fontSize: responsive.fontSize(
+                                                    11,
+                                                  ),
                                                   fontWeight: FontWeight.w600,
                                                   color: AppColors.primary,
                                                 ),
@@ -206,10 +215,14 @@ class _TechnicianConfirmationWidgetState
                                       SizedBox(height: responsive.spacing(8)),
                                       Row(
                                         children: [
-                                          Icon(Icons.phone_outlined,
-                                              size: responsive.iconSize(16),
-                                              color: AppColors.gray600),
-                                          SizedBox(width: responsive.spacing(6)),
+                                          Icon(
+                                            Icons.phone_outlined,
+                                            size: responsive.iconSize(16),
+                                            color: AppColors.gray600,
+                                          ),
+                                          SizedBox(
+                                            width: responsive.spacing(6),
+                                          ),
                                           Text(
                                             address['phone'] ?? 'N/A',
                                             style: TextStyle(
@@ -264,7 +277,10 @@ class _TechnicianConfirmationWidgetState
             ),
             // Add New Address Button
             Container(
-              padding: EdgeInsets.symmetric(horizontal: responsive.spacing(20), vertical: responsive.spacing(16)),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsive.spacing(20),
+                vertical: responsive.spacing(16),
+              ),
               decoration: BoxDecoration(
                 color: AppColors.background,
                 boxShadow: [
@@ -285,12 +301,17 @@ class _TechnicianConfirmationWidgetState
                   icon: Icon(Icons.add, size: responsive.iconSize(20)),
                   label: Text(
                     'Add New Address',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.textOnPrimary,
-                    padding: EdgeInsets.symmetric(vertical: responsive.spacing(14)),
+                    padding: EdgeInsets.symmetric(
+                      vertical: responsive.spacing(14),
+                    ),
                     elevation: 0,
                   ),
                 ),
@@ -330,8 +351,6 @@ class _TechnicianConfirmationWidgetState
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -410,7 +429,11 @@ class _TechnicianConfirmationWidgetState
                           SizedBox(height: responsive.spacing(4)),
                           Row(
                             children: [
-                              Icon(Icons.star, size: responsive.iconSize(16), color: AppColors.warningGold),
+                              Icon(
+                                Icons.star,
+                                size: responsive.iconSize(16),
+                                color: AppColors.warningGold,
+                              ),
                               SizedBox(width: responsive.spacing(4)),
                               Text(
                                 tech.rating.toStringAsFixed(1),
@@ -440,7 +463,9 @@ class _TechnicianConfirmationWidgetState
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.success.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusBadge,
+                        ),
                       ),
                       child: Text(
                         '\$${tech.fee.toStringAsFixed(2)}',
@@ -568,7 +593,10 @@ class _TechnicianConfirmationWidgetState
                   ),
                 ),
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: responsive.spacing(8), vertical: responsive.spacing(4)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsive.spacing(8),
+                    vertical: responsive.spacing(4),
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -613,8 +641,11 @@ class _TechnicianConfirmationWidgetState
                 SizedBox(height: responsive.spacing(8)),
                 Row(
                   children: [
-                    Icon(Icons.phone_outlined,
-                        size: responsive.iconSize(16), color: AppColors.gray600),
+                    Icon(
+                      Icons.phone_outlined,
+                      size: responsive.iconSize(16),
+                      color: AppColors.gray600,
+                    ),
                     SizedBox(width: responsive.spacing(6)),
                     Text(
                       selectedAddress['phone'] ?? 'N/A',
@@ -628,7 +659,9 @@ class _TechnicianConfirmationWidgetState
               ],
             ),
           ),
-          SizedBox(height: responsive.spacing(80)), // Bottom spacing for floating button
+          SizedBox(
+            height: responsive.spacing(80),
+          ), // Bottom spacing for floating button
         ],
       ),
     );

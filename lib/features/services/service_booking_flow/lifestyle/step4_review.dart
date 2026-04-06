@@ -216,9 +216,7 @@ class _LifestyleStep4ReviewState extends State<LifestyleStep4Review> {
       padding: responsive.padding(all: 20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(
-          responsive.borderRadius(12),
-        ),
+        borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
@@ -490,9 +488,7 @@ class _LifestyleStep4ReviewState extends State<LifestyleStep4Review> {
       padding: responsive.padding(all: 16),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(
-          responsive.borderRadius(12),
-        ),
+        borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
@@ -557,11 +553,7 @@ class _LifestyleStep4ReviewState extends State<LifestyleStep4Review> {
           ),
           GestureDetector(
             onTap: widget.onBack,
-            child: Icon(
-              Icons.close,
-              color: AppColors.textPrimary,
-              size: 24,
-            ),
+            child: Icon(Icons.close, color: AppColors.textPrimary, size: 24),
           ),
         ],
       ),

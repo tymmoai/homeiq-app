@@ -26,5 +26,6 @@ class PendingInviteNavData {
   const PendingInviteNavData({required this.action, required this.email});
 }
 
-final pendingInviteNavDataProvider =
-    StateProvider<PendingInviteNavData?>((ref) => null);
+final pendingInviteNavDataProvider = StateProvider<PendingInviteNavData?>(
+  (ref) => null,
+);

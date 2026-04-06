@@ -39,44 +39,44 @@ class AppChip extends StatelessWidget {
     this.selected = false,
     this.onTap,
     this.avatar,
-  })  : onDelete = null,
-        backgroundColor = null,
-        selectedBackgroundColor = null,
-        textColor = null,
-        selectedTextColor = null,
-        padding = null,
-        borderRadius = null,
-        border = null;
+  }) : onDelete = null,
+       backgroundColor = null,
+       selectedBackgroundColor = null,
+       textColor = null,
+       selectedTextColor = null,
+       padding = null,
+       borderRadius = null,
+       border = null;
 
   const AppChip.choice({
     super.key,
     required this.label,
     required this.selected,
     required this.onTap,
-  })  : onDelete = null,
-        avatar = null,
-        backgroundColor = null,
-        selectedBackgroundColor = null,
-        textColor = null,
-        selectedTextColor = null,
-        padding = null,
-        borderRadius = null,
-        border = null;
+  }) : onDelete = null,
+       avatar = null,
+       backgroundColor = null,
+       selectedBackgroundColor = null,
+       textColor = null,
+       selectedTextColor = null,
+       padding = null,
+       borderRadius = null,
+       border = null;
 
   const AppChip.deletable({
     super.key,
     required this.label,
     required this.onDelete,
     this.avatar,
-  })  : selected = false,
-        onTap = null,
-        backgroundColor = null,
-        selectedBackgroundColor = null,
-        textColor = null,
-        selectedTextColor = null,
-        padding = null,
-        borderRadius = null,
-        border = null;
+  }) : selected = false,
+       onTap = null,
+       backgroundColor = null,
+       selectedBackgroundColor = null,
+       textColor = null,
+       selectedTextColor = null,
+       padding = null,
+       borderRadius = null,
+       border = null;
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +92,29 @@ class AppChip extends StatelessWidget {
       color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(borderRadius ?? AppDimensions.radiusBadge),
+        borderRadius: BorderRadius.circular(
+          borderRadius ?? AppDimensions.radiusBadge,
+        ),
         child: Container(
-          padding: padding ?? const EdgeInsets.symmetric(
-            horizontal: AppDimensions.spacing12,
-            vertical: AppDimensions.spacing4,
-          ),
+          padding:
+              padding ??
+              const EdgeInsets.symmetric(
+                horizontal: AppDimensions.spacing12,
+                vertical: AppDimensions.spacing4,
+              ),
           decoration: BoxDecoration(
             color: effectiveBackgroundColor,
-            borderRadius: BorderRadius.circular(borderRadius ?? AppDimensions.radiusBadge),
-            border: border as BoxBorder? ?? Border.all(
-              color: selected ? (selectedBackgroundColor ?? AppColors.primary) : AppColors.border,
-              width: 1,
+            borderRadius: BorderRadius.circular(
+              borderRadius ?? AppDimensions.radiusBadge,
             ),
+            border:
+                border as BoxBorder? ??
+                Border.all(
+                  color: selected
+                      ? (selectedBackgroundColor ?? AppColors.primary)
+                      : AppColors.border,
+                  width: 1,
+                ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

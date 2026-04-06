@@ -60,7 +60,10 @@ class ProtectionPlanPaymentScreen extends StatelessWidget {
           } else if (result != null && !result.success) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(result.errorMessage ?? 'Payment was not completed. Please try again or use a different payment method.'),
+                content: Text(
+                  result.errorMessage ??
+                      'Payment was not completed. Please try again or use a different payment method.',
+                ),
                 backgroundColor: AppColors.error,
               ),
             );

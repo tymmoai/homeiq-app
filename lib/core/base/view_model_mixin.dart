@@ -11,7 +11,7 @@ import '../utils/logger.dart';
 /// ```dart
 /// class _MyScreenState extends State<MyScreen> with ViewModelMixin {
 ///   String? _data;
-///   
+///
 ///   @override
 ///   void initState() {
 ///     super.initState();
@@ -62,7 +62,11 @@ mixin ViewModelMixin<T extends StatefulWidget> on State<T> {
       if (onError != null) {
         onError(e, st);
       } else {
-        AppLogger.error('${widget.runtimeType}: async operation failed', error: e, stackTrace: st);
+        AppLogger.error(
+          '${widget.runtimeType}: async operation failed',
+          error: e,
+          stackTrace: st,
+        );
       }
       return null;
     } finally {

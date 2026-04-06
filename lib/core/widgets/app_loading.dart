@@ -27,7 +27,9 @@ class AppLoadingOverlay extends StatelessWidget {
               child: Card(
                 elevation: 8,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.radiusMedium,
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(AppDimensions.paddingLarge),
@@ -35,7 +37,9 @@ class AppLoadingOverlay extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.primary,
+                        ),
                       ),
                       if (message != null) ...[
                         const SizedBox(height: AppDimensions.spacing16),
@@ -64,11 +68,7 @@ class AppLoadingIndicator extends StatelessWidget {
   final double? size;
   final Color? color;
 
-  const AppLoadingIndicator({
-    super.key,
-    this.size,
-    this.color,
-  });
+  const AppLoadingIndicator({super.key, this.size, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +77,7 @@ class AppLoadingIndicator extends StatelessWidget {
         width: size ?? AppDimensions.iconSizeLarge,
         height: size ?? AppDimensions.iconSizeLarge,
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(
-            color ?? AppColors.primary,
-          ),
+          valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.primary),
           strokeWidth: 3,
         ),
       ),
@@ -91,10 +89,7 @@ class AppLoadingIndicator extends StatelessWidget {
 class AppInlineLoader extends StatelessWidget {
   final String message;
 
-  const AppInlineLoader({
-    super.key,
-    required this.message,
-  });
+  const AppInlineLoader({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -129,10 +124,7 @@ class AppInlineLoader extends StatelessWidget {
 class AppFullScreenLoader extends StatelessWidget {
   final String? message;
 
-  const AppFullScreenLoader({
-    super.key,
-    this.message,
-  });
+  const AppFullScreenLoader({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -181,9 +173,7 @@ class AppButtonLoader extends StatelessWidget {
       height: size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          color ?? AppColors.white,
-        ),
+        valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.white),
       ),
     );
   }

@@ -87,9 +87,7 @@ class BookingLocationStep extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.home_outlined,
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.gray600,
+                      color: isSelected ? AppColors.primary : AppColors.gray600,
                       size: 24,
                     ),
                   ),
@@ -118,8 +116,12 @@ class BookingLocationStep extends StatelessWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    AppDimensions.radiusBadge,
+                                  ),
                                 ),
                                 child: Text(
                                   'Default',
@@ -158,7 +160,11 @@ class BookingLocationStep extends StatelessWidget {
                       color: isSelected ? AppColors.primary : AppColors.white,
                     ),
                     child: isSelected
-                        ? const Icon(Icons.check, size: 14, color: AppColors.white)
+                        ? const Icon(
+                            Icons.check,
+                            size: 14,
+                            color: AppColors.white,
+                          )
                         : null,
                   ),
                 ],
@@ -195,7 +201,10 @@ class BookingLocationStep extends StatelessWidget {
             controller: roomDetailsController,
             decoration: InputDecoration(
               hintText: 'e.g., Living room, 2nd floor, Apt 4B',
-              hintStyle: const TextStyle(color: AppColors.gray400, fontSize: 14),
+              hintStyle: const TextStyle(
+                color: AppColors.gray400,
+                fontSize: 14,
+              ),
               prefixIcon: Icon(
                 Icons.meeting_room_outlined,
                 color: AppColors.primary,

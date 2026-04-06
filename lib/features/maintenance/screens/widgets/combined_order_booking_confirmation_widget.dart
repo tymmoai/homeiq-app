@@ -63,7 +63,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
     }
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: responsive.spacing(4), vertical: responsive.spacing(24)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsive.spacing(4),
+        vertical: responsive.spacing(24),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -83,7 +86,11 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.check, size: responsive.iconSize(40), color: Colors.white),
+            child: Icon(
+              Icons.check,
+              size: responsive.iconSize(40),
+              color: Colors.white,
+            ),
           ),
           SizedBox(height: responsive.spacing(24)),
           // Title
@@ -161,7 +168,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Tracking ID:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       trackingId ?? '-',
@@ -180,7 +190,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Order Total:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       '\$${partsTotal.toStringAsFixed(2)}',
@@ -199,7 +212,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Expected Delivery:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       expectedDelivery ?? 'TBD',
@@ -239,7 +255,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Booking ID:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       bookingId ?? '-',
@@ -264,7 +283,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Technician:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     SizedBox(width: responsive.spacing(12)),
                     Flexible(
@@ -308,7 +330,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Visit Date:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -349,7 +374,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Service Address:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     SizedBox(width: responsive.spacing(12)),
                     Expanded(
@@ -375,7 +403,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Contact:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Expanded(
                       child: Text(
@@ -403,7 +434,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Technician Fee:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       '\$${techFee.toStringAsFixed(2)}',
@@ -422,7 +456,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Tax (8%):',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       '\$${techTax.toStringAsFixed(2)}',
@@ -441,7 +478,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Technician Total:',
-                      style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.slate500),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14),
+                        color: AppColors.slate500,
+                      ),
                     ),
                     Text(
                       '\$${techTotal.toStringAsFixed(2)}',
@@ -540,7 +580,11 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.info_outline, size: responsive.iconSize(20), color: Colors.blue.shade600),
+                Icon(
+                  Icons.info_outline,
+                  size: responsive.iconSize(20),
+                  color: Colors.blue.shade600,
+                ),
                 SizedBox(width: responsive.spacing(12)),
                 Expanded(
                   child: Text(
@@ -606,7 +650,10 @@ class CombinedOrderBookingConfirmationWidget extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () => context.push('/active-services'),
-              icon: Icon(Icons.home_repair_service, size: responsive.iconSize(18)),
+              icon: Icon(
+                Icons.home_repair_service,
+                size: responsive.iconSize(18),
+              ),
               label: Text(
                 'View Active Services',
                 style: TextStyle(

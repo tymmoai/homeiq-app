@@ -29,9 +29,7 @@ class AssetDetailHeader extends StatelessWidget {
         vertical: AppDimensions.paddingSmall,
       ),
       decoration: BoxDecoration(
-        color: isScrolledDown
-            ? AppColors.surface
-            : Colors.transparent,
+        color: isScrolledDown ? AppColors.surface : Colors.transparent,
         boxShadow: isScrolledDown
             ? [
                 BoxShadow(
@@ -56,15 +54,13 @@ class AssetDetailHeader extends StatelessWidget {
             constraints: const BoxConstraints(),
           ),
           responsive.widthBox(AppDimensions.spacing12),
-          
+
           // Asset Name
           Expanded(
             child: Text(
               assetName,
               style: AppTextStyles.h4.copyWith(
-                fontSize: responsive.fontSize(
-                  isScrolledDown ? 16.0 : 18.0,
-                ),
+                fontSize: responsive.fontSize(isScrolledDown ? 16.0 : 18.0),
                 color: AppColors.textPrimary,
               ),
               maxLines: 1,

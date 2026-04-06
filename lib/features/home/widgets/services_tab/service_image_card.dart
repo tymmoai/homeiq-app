@@ -6,10 +6,7 @@ import '../../../../utils/responsive_utils.dart';
 class ServiceImageCard extends StatelessWidget {
   final Map<String, dynamic> service;
 
-  const ServiceImageCard({
-    super.key,
-    required this.service,
-  });
+  const ServiceImageCard({super.key, required this.service});
 
   @override
   Widget build(BuildContext context) {

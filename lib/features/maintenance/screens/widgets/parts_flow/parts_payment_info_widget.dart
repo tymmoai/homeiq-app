@@ -53,7 +53,10 @@ class PartsPaymentInfoWidget extends StatelessWidget {
         SizedBox(height: responsive.spacing(8)),
         Text(
           'Select payment method',
-          style: TextStyle(fontSize: responsive.fontSize(14), color: AppColors.textSecondary),
+          style: TextStyle(
+            fontSize: responsive.fontSize(14),
+            color: AppColors.textSecondary,
+          ),
         ),
         SizedBox(height: responsive.spacing(24)),
 
@@ -91,9 +94,7 @@ class PartsPaymentInfoWidget extends StatelessWidget {
                   ),
                   child: Icon(
                     Icons.credit_card,
-                    color: !useNewCard
-                        ? AppColors.primary
-                        : AppColors.gray600,
+                    color: !useNewCard ? AppColors.primary : AppColors.gray600,
                     size: responsive.iconSize(24),
                   ),
                 ),
@@ -127,7 +128,11 @@ class PartsPaymentInfoWidget extends StatelessWidget {
                     color: !useNewCard ? AppColors.primary : Colors.white,
                   ),
                   child: !useNewCard
-                      ? Icon(Icons.check, size: responsive.iconSize(14), color: AppColors.textOnPrimary)
+                      ? Icon(
+                          Icons.check,
+                          size: responsive.iconSize(14),
+                          color: AppColors.textOnPrimary,
+                        )
                       : null,
                 ),
               ],
@@ -252,12 +257,17 @@ class PartsPaymentInfoWidget extends StatelessWidget {
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.textOnPrimary),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.textOnPrimary,
+                      ),
                     ),
                   )
                 : Text(
                     'Confirm Payment',
-                    style: TextStyle(fontSize: responsive.fontSize(16), fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(16),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
           ),
         ),

@@ -372,7 +372,9 @@ class _Step1TypeSelectionScreenState extends State<Step1TypeSelectionScreen> {
         child: ElevatedButton(
           onPressed: isValid ? widget.onNext : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: isValid ? AppColors.primary : AppColors.gray300.withValues(alpha: 0.3),
+            backgroundColor: isValid
+                ? AppColors.primary
+                : AppColors.gray300.withValues(alpha: 0.3),
             foregroundColor: Colors.white,
             elevation: 0,
             padding: EdgeInsets.zero,
@@ -388,7 +390,9 @@ class _Step1TypeSelectionScreenState extends State<Step1TypeSelectionScreen> {
             style: TextStyle(
               fontSize: responsive.fontSize(16),
               fontWeight: FontWeight.w600,
-              color: isValid ? Colors.white : AppColors.textSecondary.withValues(alpha: 0.5),
+              color: isValid
+                  ? Colors.white
+                  : AppColors.textSecondary.withValues(alpha: 0.5),
             ),
           ),
         ),

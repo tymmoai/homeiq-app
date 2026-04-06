@@ -71,10 +71,7 @@ class AiFixFallbackData {
   }
 
   /// Get fallback root cause analysis text when API call fails
-  static String getSolution(
-    Map<String, dynamic> asset,
-    String assetName,
-  ) {
+  static String getSolution(Map<String, dynamic> asset, String assetName) {
     final assetType =
         (asset['type'] as String?)?.toLowerCase() ?? assetName.toLowerCase();
     if (assetType.contains('refrigerator') || assetType.contains('fridge')) {

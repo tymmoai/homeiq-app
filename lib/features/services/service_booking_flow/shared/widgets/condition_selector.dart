@@ -160,7 +160,9 @@ class _ConditionSelectorState extends State<ConditionSelector> {
                               ),
                               child: Icon(
                                 cond['icon'] as IconData,
-                                color: isSelected ? condColor : AppColors.gray600,
+                                color: isSelected
+                                    ? condColor
+                                    : AppColors.gray600,
                                 size: responsive.iconSize(24),
                               ),
                             ),
@@ -190,7 +192,10 @@ class _ConditionSelectorState extends State<ConditionSelector> {
                                   if (multiplier > 1.0) ...[
                                     SizedBox(height: responsive.hp(0.5)),
                                     Container(
-                                      padding: responsive.padding(horizontal: 8, vertical: 3),
+                                      padding: responsive.padding(
+                                        horizontal: 8,
+                                        vertical: 3,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: condColor.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(
@@ -211,8 +216,11 @@ class _ConditionSelectorState extends State<ConditionSelector> {
                               ),
                             ),
                             if (isSelected)
-                              Icon(Icons.check_circle, color: AppColors.primary,
-                                size: responsive.iconSize(22)),
+                              Icon(
+                                Icons.check_circle,
+                                color: AppColors.primary,
+                                size: responsive.iconSize(22),
+                              ),
                           ],
                         ),
                       ),
