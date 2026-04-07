@@ -483,6 +483,26 @@ class _DeviceCard extends StatelessWidget {
         return Icons.computer;
       case 'phone':
         return Icons.smartphone;
+      case 'lg thinq appliance':
+      case 'ge appliance':
+      case 'bsh appliance':
+      case 'whirlpool appliance':
+      case 'smart appliance':
+      case 'washing machine':
+      case 'dryer':
+      case 'refrigerator':
+      case 'dishwasher':
+      case 'oven & range':
+      case 'microwave':
+        return Icons.kitchen;
+      case 'ac unit':
+        return Icons.ac_unit;
+      case 'robot vacuum':
+        return Icons.cleaning_services;
+      case 'air purifier':
+        return Icons.air;
+      case 'smart thermostat':
+        return Icons.thermostat;
       default:
         return Icons.devices;
     }

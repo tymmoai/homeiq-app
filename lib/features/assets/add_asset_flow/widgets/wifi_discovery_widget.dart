@@ -594,7 +594,7 @@ class _WifiDiscoveryWidgetState extends State<WifiDiscoveryWidget>
           Expanded(
             child: Text(
               'Make sure your phone is on the same WiFi as your smart devices — '
-              'this scan will find TVs, speakers, printers, cameras, and more.',
+              'this scan will find fridges, washers, dryers, ovens, ACs, TVs, speakers, cameras, and more.',
               style: TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
@@ -802,6 +802,8 @@ class _DeviceCard extends StatelessWidget {
         return Icons.tablet_rounded;
       case IconCategory.gameConsole:
         return Icons.sports_esports_rounded;
+      case IconCategory.appliance:
+        return Icons.kitchen_rounded;
       case IconCategory.generic:
         return Icons.devices_rounded;
     }
@@ -1004,6 +1006,8 @@ class _ConfirmDeviceDialog extends StatelessWidget {
         return Icons.tablet_rounded;
       case IconCategory.gameConsole:
         return Icons.sports_esports_rounded;
+      case IconCategory.appliance:
+        return Icons.kitchen_rounded;
       case IconCategory.generic:
         return Icons.devices_rounded;
     }

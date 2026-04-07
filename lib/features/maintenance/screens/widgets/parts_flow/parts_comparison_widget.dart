@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/widgets/expandable_text_widget.dart';
 import '../../../../../utils/responsive_utils.dart';
 import '../../ai_fix_models.dart';
@@ -11,6 +10,8 @@ class PartsComparisonWidget extends StatelessWidget {
   final List<PartOption> parts;
   final Set<int> selectedPartsIndexes;
   final double encompassTotal;
+  // marconeTotal, localTotal, selectedProvider, showComparison, onSelectProvider,
+  // onShowComparison are kept for API compatibility but are no longer displayed.
   final double marconeTotal;
   final double localTotal;
   final String selectedProvider;
@@ -129,7 +130,7 @@ class PartsComparisonWidget extends StatelessWidget {
         ),
         SizedBox(height: responsive.spacing(16)),
         Container(
-          padding: EdgeInsets.all(responsive.spacing(12)),
+          padding: EdgeInsets.all(responsive.spacing(14)),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -141,20 +142,45 @@ class PartsComparisonWidget extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
+          child: Row(
             children: [
-              _buildProviderRow(
-                context,
-                'Encompass',
-                encompassTotal,
-                'Recommended',
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Encompass',
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(13),
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                  ),
+                ),
               ),
-              if (showComparison) ...[
-                const Divider(height: 16),
-                _buildProviderRow(context, 'Marcone', marconeTotal, null),
-                const Divider(height: 16),
-                _buildProviderRow(context, 'Reliable Parts', localTotal, null),
-              ],
+              SizedBox(width: responsive.spacing(8)),
+              Text(
+                'Parts Provider',
+                style: TextStyle(
+                  fontSize: responsive.fontSize(13),
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                encompassTotal > 0
+                    ? '\$${encompassTotal.toStringAsFixed(0)}'
+                    : '--',
+                style: TextStyle(
+                  fontSize: responsive.fontSize(15),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
             ],
           ),
         ),
@@ -184,101 +210,6 @@ class PartsComparisonWidget extends StatelessWidget {
         // Bottom spacing for floating button
         SizedBox(height: responsive.spacing(80)),
       ],
-    );
-  }
-
-  Widget _buildProviderRow(
-    BuildContext context,
-    String name,
-    double total,
-    String? tag,
-  ) {
-    final responsive = ResponsiveUtils(context);
-    final isSelected = selectedProvider == name;
-    final isEncompass = name == 'Encompass';
-    return InkWell(
-      onTap: () => onSelectProvider(name),
-      child: Row(
-        children: [
-          Icon(
-            isSelected
-                ? Icons.radio_button_checked
-                : Icons.radio_button_unchecked,
-            size: responsive.iconSize(18),
-            color: isSelected ? AppColors.primary : AppColors.textSecondary,
-          ),
-          SizedBox(width: responsive.spacing(8)),
-          Expanded(
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(13),
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (tag != null) ...[
-                  SizedBox(width: responsive.spacing(6)),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(
-                        AppDimensions.radiusBadge,
-                      ),
-                    ),
-                    child: Text(
-                      'Recommended',
-                      style: TextStyle(
-                        fontSize: responsive.fontSize(10),
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          Text(
-            total > 0 ? '\$${total.toStringAsFixed(0)}' : '--',
-            style: TextStyle(
-              fontSize: responsive.fontSize(13),
-              fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          if (isEncompass && !showComparison) ...[
-            SizedBox(width: responsive.spacing(8)),
-            TextButton(
-              onPressed: onShowComparison,
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                'Compare',
-                style: TextStyle(
-                  fontSize: responsive.fontSize(12),
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
     );
   }
 }

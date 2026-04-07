@@ -88,6 +88,14 @@ const portFingerprintMap = <int, PortHint>{
   5001: PortHint('Synology NAS', 85),
   8291: PortHint('MikroTik Router', 92),
   55443: PortHint('Eufy Camera', 88),
+  // ── Home Appliance Ports ──────────────────────────────────────────────
+  2878: PortHint('LG ThinQ Appliance', 90),
+  7676: PortHint('LG Smart Device', 72),
+  7677: PortHint('LG ThinQ Appliance', 82),
+  6000: PortHint('LG Smart Device', 65),
+  8900: PortHint('Smart Appliance', 60),
+  55000: PortHint('GE Appliance', 72),
+  4999: PortHint('Robot Vacuum', 65),
 };
 
 /// Produce human-readable port labels for UI display.
@@ -332,6 +340,91 @@ final _hostnamePatterns = <_HostnamePattern>[
     'Printer',
     '',
   ),
+
+  // ── US Smart Home Appliances ─────────────────────────────────────────────
+  // DHCP hostnames assigned by appliance firmware often include type/brand words.
+  // Samsung Family Hub: "Samsung-RF23M8570SG", LG ThinQ: "LG-WM4000HWA"
+  // GE SmartHQ: "GE-GFW850SPNRS", Whirlpool: "Whirlpool-WFW6620HC", etc.
+  _HostnamePattern(
+    RegExp(r'refriger|fridge|family.?hub', caseSensitive: false),
+    'Refrigerator',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'washer|washing.?machine|front.?load|top.?load', caseSensitive: false),
+    'Washer',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'\bdryer\b|gas.?dryer|elec.?dryer', caseSensitive: false),
+    'Dryer',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'dishwash', caseSensitive: false),
+    'Dishwasher',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'\boven\b|\brange\b|\bstove\b|\bcooktop\b', caseSensitive: false),
+    'Range / Stove',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'microwave', caseSensitive: false),
+    'Microwave',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'\bfreezer\b', caseSensitive: false),
+    'Freezer',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'hvac|air.?cond|heat.?pump', caseSensitive: false),
+    'HVAC System',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'water.?heat|waterheater|econet', caseSensitive: false),
+    'Water Heater',
+    '',
+  ),
+  _HostnamePattern(
+    RegExp(r'roomba|irobot|robovac', caseSensitive: false),
+    'Robot Vacuum',
+    'iRobot',
+  ),
+  _HostnamePattern(
+    RegExp(r'thinq', caseSensitive: false),
+    'LG Appliance',
+    'LG',
+  ),
+  _HostnamePattern(
+    RegExp(r'smarthq', caseSensitive: false),
+    'GE Appliance',
+    'GE Appliances',
+  ),
+  _HostnamePattern(
+    RegExp(r'home.?connect', caseSensitive: false),
+    'BSH Appliance',
+    'BSH (Bosch/Siemens)',
+  ),
+  _HostnamePattern(
+    RegExp(r'icomfort', caseSensitive: false),
+    'HVAC System',
+    'Lennox',
+  ),
+  _HostnamePattern(
+    RegExp(r'comfortlink|nexia', caseSensitive: false),
+    'HVAC System',
+    'Trane',
+  ),
+  _HostnamePattern(
+    RegExp(r'infinity.?touch|infinitytouch', caseSensitive: false),
+    'HVAC System',
+    'Carrier',
+  ),
 ];
 
 // ─── mDNS service type → device identification ─────────────────────────────
@@ -364,6 +457,32 @@ const _mdnsDeviceMap = <String, _MdnsHint>{
   '_workstation._tcp': _MdnsHint('Linux / Mac Computer', '', 68),
   '_smb._tcp': _MdnsHint('NAS / File Server', '', 65),
   '_matter._tcp': _MdnsHint('Matter Smart Device', '', 72),
+
+  // ── US Smart Appliance mDNS service types ──────────────────────────────
+  '_samsung-connect._tcp': _MdnsHint('Samsung Appliance', 'Samsung', 85),
+  '_smartthings._tcp': _MdnsHint('SmartThings Device', 'Samsung', 80),
+  '_thinq._tcp': _MdnsHint('LG ThinQ Appliance', 'LG', 92),
+  '_thinq2._tcp': _MdnsHint('LG ThinQ Appliance', 'LG', 92),
+  '_lge-tv._tcp': _MdnsHint('LG Smart TV', 'LG', 90),
+  '_smarthq._tcp': _MdnsHint('GE Appliance', 'GE Appliances', 88),
+  '_ge-appliance._tcp': _MdnsHint('GE Appliance', 'GE Appliances', 88),
+  '_homeconnect._tcp': _MdnsHint('BSH Appliance', 'Bosch', 90),
+  '_home-connect._tcp': _MdnsHint('BSH Appliance', 'Bosch', 90),
+  '_miele._tcp': _MdnsHint('Miele Appliance', 'Miele', 90),
+  '_whirlpool._tcp': _MdnsHint('Whirlpool Appliance', 'Whirlpool', 88),
+  '_roomba._tcp': _MdnsHint('Robot Vacuum', 'iRobot', 92),
+  '_irobot._tcp': _MdnsHint('Robot Vacuum', 'iRobot', 92),
+  '_robot._tcp': _MdnsHint('Robot Vacuum', '', 72),
+  '_roborock._tcp': _MdnsHint('Robot Vacuum', 'Roborock', 90),
+  '_dyson_mqtt._tcp': _MdnsHint('Dyson Device', 'Dyson', 90),
+  '_dyson._tcp': _MdnsHint('Dyson Device', 'Dyson', 88),
+  '_ecobee._tcp': _MdnsHint('Smart Thermostat', 'Ecobee', 90),
+  '_nest._tcp': _MdnsHint('Smart Thermostat', 'Google Nest', 90),
+  '_sensibo._tcp': _MdnsHint('Air Conditioner', 'Sensibo', 88),
+  '_airassistant._tcp': _MdnsHint('Air Purifier', '', 72),
+  '_econet._tcp': _MdnsHint('Water Heater', 'Rheem', 88),
+  '_icomfort._tcp': _MdnsHint('HVAC System', 'Lennox', 88),
+  '_matter._udp': _MdnsHint('Matter Smart Device', '', 72),
 };
 
 // ─── Main fingerprint function ──────────────────────────────────────────────
@@ -468,13 +587,51 @@ FingerprintResult fingerprintDevice({
     }
   }
 
-  // ─ 5. SSDP UPnP data (+25 for TV/printer/router) ────────────────────
+  // ─ 5. SSDP UPnP data (+25 for TV/printer/router, +30 for appliance) ────
   final ssdpStr =
       '${ssdpModelName ?? ''} ${ssdpModelNumber ?? ''} '
               '${ssdpFriendlyName ?? ''} ${ssdpManufacturer ?? ''}'
           .toLowerCase();
   if (ssdpStr.trim().isNotEmpty) {
-    if (ssdpStr.contains('tv') ||
+    // ── Home Appliances — check BEFORE generic TV/router entries ────────
+    bool _ssdpMatch(RegExp re) => re.hasMatch(ssdpStr);
+    if (_ssdpMatch(RegExp(r'wash(ing|er)|washing.machine|laundry'))) {
+      deviceType = 'Washing Machine';
+      reasoning.add('SSDP "${ssdpFriendlyName ?? ssdpModelName}" → Washing Machine');
+      score += 30;
+    } else if (_ssdpMatch(RegExp(r'dryer|tumble.dry|drying.machine'))) {
+      deviceType = 'Dryer';
+      reasoning.add('SSDP → Dryer');
+      score += 30;
+    } else if (_ssdpMatch(RegExp(r'refriger|fridge|freezer|family.hub'))) {
+      deviceType = 'Refrigerator';
+      reasoning.add('SSDP "${ssdpFriendlyName ?? ssdpModelName}" → Refrigerator');
+      score += 30;
+    } else if (_ssdpMatch(RegExp(r'dish.?wash'))) {
+      deviceType = 'Dishwasher';
+      reasoning.add('SSDP → Dishwasher');
+      score += 30;
+    } else if (_ssdpMatch(RegExp(r'\boven\b|range|cooktop|stove'))) {
+      deviceType = 'Oven / Range';
+      reasoning.add('SSDP → Oven / Range');
+      score += 30;
+    } else if (ssdpStr.contains('microwave')) {
+      deviceType = 'Microwave';
+      reasoning.add('SSDP → Microwave');
+      score += 30;
+    } else if (_ssdpMatch(RegExp(r'air.cond|aircondition|hvac|heat.pump|ac.unit'))) {
+      deviceType = 'Air Conditioner';
+      reasoning.add('SSDP → Air Conditioner');
+      score += 28;
+    } else if (_ssdpMatch(RegExp(r'robot.vac|roomba|robovac|vacuum.clean'))) {
+      deviceType = 'Robot Vacuum';
+      reasoning.add('SSDP → Robot Vacuum');
+      score += 30;
+    } else if (_ssdpMatch(RegExp(r'air.purif|purifier|air.clean'))) {
+      deviceType = 'Air Purifier';
+      reasoning.add('SSDP → Air Purifier');
+      score += 28;
+    } else if (ssdpStr.contains('tv') ||
         ssdpStr.contains('television') ||
         ssdpStr.contains('bravia')) {
       deviceType = 'Smart TV';
@@ -573,6 +730,104 @@ FingerprintResult fingerprintDevice({
     }
   }
 
+  // ─ 6b. US Home Appliance brand + SSDP/mDNS/hostname signals ─────────
+  // Smart appliances (Samsung Family Hub, LG ThinQ, Whirlpool, GE SmartHQ,
+  // Electrolux, Miele, iRobot) don't open standard TCP ports but advertise
+  // via UPnP/SSDP and mDNS. We detect them by combining MAC vendor with
+  // any available name/model signals.
+  {
+    const applianceMfrs = [
+      'whirlpool', 'ge appliances', 'maytag', 'kitchenaid', 'ge appliance',
+      'electrolux', 'frigidaire', 'haier', 'midea', 'miele',
+      'bsh', 'sub-zero', 'wolf', 'rheem', 'a.o. smith', 'ao smith',
+      'carrier', 'trane', 'lennox', 'irobot', 'smartthings',
+    ];
+    final isApplianceBrand =
+        applianceMfrs.any((m) => macLower.contains(m));
+    // Also detect Samsung/LG when not phone/TV (no Android TTL, no port 8001)
+    final isSamsungAppliance = macLower.contains('samsung') &&
+        !osGuess.contains('Linux / Android') &&
+        !openPorts.contains(8001) &&
+        deviceType != 'Samsung Smart TV' &&
+        deviceType != 'Android Phone';
+    final isLgAppliance = macLower.contains('lg') &&
+        deviceType == 'Unknown';
+
+    if (isApplianceBrand || isSamsungAppliance || isLgAppliance) {
+      // Build combined signal from all available SSDP + hostname fields
+      final allSignals = [
+        ssdpFriendlyName,
+        ssdpModelName,
+        ssdpModelNumber,
+        ssdpManufacturer,
+        hostname,
+        netbiosName,
+        currentCategory,
+      ].whereType<String>().join(' ').toLowerCase();
+
+      final applianceKeywords = <String, String>{
+        'refriger': 'Refrigerator',
+        'fridge': 'Refrigerator',
+        'family hub': 'Refrigerator',
+        'french door': 'Refrigerator',
+        'side-by-side': 'Refrigerator',
+        'washer': 'Washer',
+        'washing': 'Washer',
+        'front load': 'Washer',
+        'top load': 'Washer',
+        'laundry': 'Washer',
+        'dryer': 'Dryer',
+        'dishwash': 'Dishwasher',
+        'oven': 'Oven / Range',
+        'range': 'Range / Stove',
+        'stove': 'Range / Stove',
+        'cooktop': 'Cooktop',
+        'microwave': 'Microwave',
+        'freezer': 'Freezer',
+        'hvac': 'HVAC System',
+        'air cond': 'Air Conditioner',
+        'heat pump': 'Heat Pump',
+        'furnace': 'Furnace',
+        'water heat': 'Water Heater',
+        'econet': 'Water Heater',
+        'roomba': 'Robot Vacuum',
+        'irobot': 'Robot Vacuum',
+        'thinq': 'LG Appliance',
+        'smarthq': 'GE Appliance',
+        'icomfort': 'HVAC System',
+        'comfortlink': 'HVAC System',
+        'infinity': 'HVAC System',
+      };
+
+      for (final entry in applianceKeywords.entries) {
+        if (allSignals.contains(entry.key)) {
+          deviceType = entry.value;
+          if (isSamsungAppliance && brandGuess.isEmpty) brandGuess = 'Samsung';
+          if (isLgAppliance && brandGuess.isEmpty) brandGuess = 'LG';
+          reasoning.add(
+            'Appliance brand + signal "${entry.key}" → ${entry.value}',
+          );
+          score += 30;
+          break;
+        }
+      }
+
+      // If brand is known appliance but type still unresolved, mark as Smart Appliance
+      if ((deviceType == 'Unknown' || deviceType.isEmpty) &&
+          (isApplianceBrand || isSamsungAppliance || isLgAppliance)) {
+        final brandName = isSamsungAppliance
+            ? 'Samsung'
+            : isLgAppliance
+                ? 'LG'
+                : (manufacturer ?? '');
+        deviceType = '$brandName Appliance';
+        if (brandGuess.isEmpty) brandGuess = brandName;
+        reasoning.add('Known appliance brand "$brandName" → Smart Appliance');
+        score += 15;
+      }
+    }
+  }
+
   // ─ 7. Port combination rules (high-confidence overrides) ─────────────
   if (openPorts.contains(62078)) {
     deviceType = 'iPhone / iPad';
@@ -647,6 +902,37 @@ FingerprintResult fingerprintDevice({
     deviceType = 'Home Assistant Hub';
     reasoning.add('Home Assistant port 8123 → Smart Home Hub');
     score += 30;
+  }
+
+  // ─ 7b. Appliance port rules (+18–30) ──────────────────────────────────
+  if (openPorts.contains(2878)) {
+    deviceType = 'LG ThinQ Appliance';
+    brandGuess = 'LG';
+    reasoning.add('LG ThinQ local API port 2878 → LG ThinQ Smart Appliance');
+    score += 30;
+  }
+  if (openPorts.contains(7677) || openPorts.contains(7676)) {
+    if (deviceType == 'Unknown' || deviceType.isEmpty) {
+      deviceType = 'LG ThinQ Appliance';
+      brandGuess = 'LG';
+    }
+    reasoning.add('LG IoT port ${openPorts.contains(7677) ? 7677 : 7676} → LG Smart Device');
+    score += 22;
+  }
+  if (openPorts.contains(55000)) {
+    if (deviceType == 'Unknown' || deviceType.isEmpty) {
+      deviceType = 'GE Appliance';
+      brandGuess = 'GE Appliances';
+    }
+    reasoning.add('GE WiFi module port 55000 → GE Smart Appliance');
+    score += 22;
+  }
+  if (openPorts.contains(4999)) {
+    if (deviceType == 'Unknown' || deviceType.isEmpty) {
+      deviceType = 'Robot Vacuum';
+    }
+    reasoning.add('Port 4999 → iRobot / Roborock robot vacuum relay');
+    score += 18;
   }
 
   // ─ 8. SNMP sysDescr ─────────────────────────────────────────────────

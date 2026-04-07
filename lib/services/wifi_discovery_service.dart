@@ -377,35 +377,108 @@ class WifiDevice {
     // ── Home appliances (smart / connected) ──────────────────────────────
     if (raw.contains('washing') ||
         dn.contains('washing') ||
-        hn.contains('washing')) {
+        hn.contains('washing') ||
+        cat.contains('washer') ||
+        cat == 'washer') {
       return 'Washing Machine';
     }
     if (raw.contains('dishwash') ||
         dn.contains('dishwash') ||
-        hn.contains('dishwash')) {
+        hn.contains('dishwash') ||
+        cat.contains('dishwasher')) {
       return 'Dishwasher';
     }
     if (raw.contains('refriger') ||
         raw.contains('fridge') ||
         dn.contains('fridge') ||
-        hn.contains('fridge')) {
+        hn.contains('fridge') ||
+        dn.contains('refriger') ||
+        hn.contains('refriger') ||
+        cat.contains('refrigerator') ||
+        cat.contains('family hub')) {
       return 'Fridge';
+    }
+    if (raw.contains('freezer') ||
+        dn.contains('freezer') ||
+        hn.contains('freezer') ||
+        cat == 'freezer') {
+      return 'Freezer';
     }
     if (raw.contains('aircond') ||
         raw.contains('air_cond') ||
         raw.contains('hvac') ||
+        raw.contains('air cond') ||
+        raw.contains('heat pump') ||
         dn.contains('aircond') ||
-        hn.contains('aircond')) {
-      return 'AC Unit';
+        hn.contains('aircond') ||
+        cat.contains('hvac') ||
+        cat.contains('air conditioner') ||
+        cat.contains('heat pump')) {
+      return 'AC / HVAC';
     }
-    if (raw.contains('dryer') || dn.contains('dryer') || hn.contains('dryer')) {
+    if (raw.contains('furnace') ||
+        dn.contains('furnace') ||
+        cat.contains('furnace') ||
+        cat.contains('boiler')) {
+      return 'Furnace';
+    }
+    if (raw.contains('water heat') ||
+        dn.contains('water heat') ||
+        hn.contains('water heat') ||
+        cat.contains('water heater') ||
+        cat.contains('econet')) {
+      return 'Water Heater';
+    }
+    if (raw.contains('dryer') ||
+        dn.contains('dryer') ||
+        hn.contains('dryer') ||
+        cat == 'dryer') {
       return 'Dryer';
     }
-    if (raw.contains('oven') || dn.contains('oven') || hn.contains('oven')) {
-      return 'Oven';
+    if (raw.contains('oven') ||
+        dn.contains('oven') ||
+        hn.contains('oven') ||
+        raw.contains('range') ||
+        dn.contains('range') ||
+        raw.contains('stove') ||
+        dn.contains('stove') ||
+        cat.contains('oven') ||
+        cat.contains('range') ||
+        cat.contains('stove')) {
+      return 'Oven / Range';
     }
-    if (raw.contains('microwave') || dn.contains('microwave')) {
+    if (raw.contains('microwave') ||
+        dn.contains('microwave') ||
+        cat.contains('microwave')) {
       return 'Microwave';
+    }
+    if (raw.contains('roomba') ||
+        dn.contains('roomba') ||
+        hn.contains('roomba') ||
+        raw.contains('irobot') ||
+        dn.contains('irobot') ||
+        cat.contains('robot vacuum')) {
+      return 'Robot Vacuum';
+    }
+    // Generic smart appliance fallback — shown when brand is known but type unclear
+    if (cat.contains('appliance') ||
+        cat.contains('thinq') ||
+        cat.contains('smarthq') ||
+        cat.contains('smartthings') ||
+        cat.contains('home connect') ||
+        cat.contains('miele') ||
+        cat.contains('whirlpool appliance') ||
+        cat.contains('bsh appliance')) {
+      final knownBrands = [
+        'Samsung', 'LG', 'Whirlpool', 'GE', 'Maytag', 'KitchenAid',
+        'Electrolux', 'Frigidaire', 'Haier', 'Miele', 'Bosch', 'Siemens',
+        'Midea', 'Rheem', 'Carrier', 'Trane', 'Lennox', 'iRobot',
+      ];
+      final matchedBrand = knownBrands.firstWhere(
+        (b) => mfr.toLowerCase().contains(b.toLowerCase()),
+        orElse: () => '',
+      );
+      return matchedBrand.isNotEmpty ? '$matchedBrand Appliance' : 'Smart Appliance';
     }
 
     // ── Computer / Laptop — MUST check before Phone so MacBooks aren't misclassified
@@ -497,6 +570,24 @@ class WifiDevice {
     }
     if (iconCategory == IconCategory.computer) {
       return 'Laptop';
+    }
+    // ── Home Appliance icon category ──────────────────────────────────────
+    if (iconCategory == IconCategory.appliance) {
+      // Try to refine from raw / device name
+      if (cat.contains('washing') || raw.contains('washing') || dn.contains('washing')) return 'Washing Machine';
+      if (cat.contains('dryer')   || raw.contains('dryer')   || dn.contains('dryer'))   return 'Dryer';
+      if (cat.contains('refriger') || cat.contains('fridge') ||
+          raw.contains('refriger') || raw.contains('fridge') || dn.contains('fridge'))  return 'Refrigerator';
+      if (cat.contains('dishwash') || raw.contains('dishwash') || dn.contains('dishwash')) return 'Dishwasher';
+      if (cat.contains('oven')  || cat.contains('range') || raw.contains('oven'))       return 'Oven / Range';
+      if (cat.contains('micro') || raw.contains('micro'))                                return 'Microwave';
+      if (cat.contains('air cond') || cat.contains('aircond') || cat.contains('hvac') ||
+          raw.contains('air cond')  || raw.contains('aircond') || raw.contains('hvac')) return 'AC Unit';
+      if (cat.contains('robot') || cat.contains('vacuum') || cat.contains('roomba') ||
+          raw.contains('robot') || raw.contains('vacuum') || dn.contains('roomba'))     return 'Robot Vacuum';
+      if (cat.contains('purif') || raw.contains('purif'))                                return 'Air Purifier';
+      if (cat.contains('thermostat'))                                                    return 'Thermostat';
+      return 'Smart Appliance';
     }
 
     // ── Router / Gateway ──────────────────────────────────────────────────
@@ -716,6 +807,7 @@ enum IconCategory {
   phone,
   tablet,
   gameConsole,
+  appliance,   // home appliances: washer, dryer, fridge, dishwasher, oven, AC, etc.
   generic,
 }
 
@@ -856,6 +948,33 @@ class WifiDiscoveryService {
       'Matter Smart Home Device',
       IconCategory.smartPlug,
     ),
+    // ── Home Appliances ───────────────────────────────────────────────────────
+    _MdnsServiceType('_thinq._tcp',         'LG ThinQ Appliance',   IconCategory.appliance),
+    _MdnsServiceType('_thinq2._tcp',        'LG ThinQ Appliance',   IconCategory.appliance),
+    _MdnsServiceType('_lge-tv._tcp',        'LG Smart TV',          IconCategory.tv),
+    _MdnsServiceType('_home-connect._tcp',  'BSH Appliance',        IconCategory.appliance),
+    _MdnsServiceType('_homeconnect._tcp',   'BSH Appliance',        IconCategory.appliance),
+    _MdnsServiceType('_ge-appliance._tcp',  'GE Appliance',         IconCategory.appliance),
+    _MdnsServiceType('_irobot._tcp',        'Robot Vacuum',         IconCategory.appliance),
+    _MdnsServiceType('_robot._tcp',         'Robot Vacuum',         IconCategory.appliance),
+    _MdnsServiceType('_roborock._tcp',      'Robot Vacuum',         IconCategory.appliance),
+    _MdnsServiceType('_dyson_mqtt._tcp',    'Dyson Device',         IconCategory.appliance),
+    _MdnsServiceType('_dyson._tcp',         'Dyson Device',         IconCategory.appliance),
+    _MdnsServiceType('_miele._tcp',         'Miele Appliance',      IconCategory.appliance),
+    _MdnsServiceType('_smartthings._tcp',   'SmartThings Hub',      IconCategory.generic),
+    _MdnsServiceType('_ecobee._tcp',        'Smart Thermostat',     IconCategory.thermostat),
+    _MdnsServiceType('_nest._tcp',          'Smart Thermostat',     IconCategory.thermostat),
+    _MdnsServiceType('_sensibo._tcp',       'Air Conditioner',      IconCategory.appliance),
+    _MdnsServiceType('_airassistant._tcp',  'Air Purifier',         IconCategory.appliance),
+    // ── Additional appliances (unique entries, no duplicates) ──────────────
+    _MdnsServiceType('_samsung-connect._tcp', 'Samsung Appliance',  IconCategory.appliance),
+    _MdnsServiceType('_smarthq._tcp',         'GE Appliance',       IconCategory.appliance),
+    _MdnsServiceType('_whirlpool._tcp',       'Whirlpool Appliance',IconCategory.appliance),
+    _MdnsServiceType('_roomba._tcp',          'Robot Vacuum',       IconCategory.appliance),
+    _MdnsServiceType('_econet._tcp',          'Water Heater',       IconCategory.appliance),
+    _MdnsServiceType('_icomfort._tcp',        'HVAC System',        IconCategory.thermostat),
+    _MdnsServiceType('_matter._udp',          'Matter Smart Device',IconCategory.smartPlug),
+    _MdnsServiceType('_smartenergy._tcp',     'Smart Energy Device',IconCategory.smartPlug),
   ];
 
   // Subnet scan ports — common smart device ports
@@ -959,6 +1078,14 @@ class WifiDiscoveryService {
     // ── Mobile device detection ───────────────────────────────────────
     5555, // Android Wireless ADB (wireless debugging — definitive Android signal)
     62078, // iOS Lockdown Service (iTunes pairing — exclusive to iPhone/iPad)
+    // ── Home Appliance Ports ──────────────────────────────────────────
+    2878,  // LG ThinQ local REST API (washers, fridges, ACs, dishwashers, ovens)
+    7676,  // LG Home IoT (older ThinQ protocol)
+    7677,  // LG ThinQ v2 local channel
+    6000,  // LG DLNA Smart Share
+    8900,  // SmartThings Hub local API / Whirlpool WConnected
+    55000, // GE Appliances WiFi module
+    4999,  // iRobot / Roborock relay
   ];
 
   // Logs
@@ -1736,6 +1863,66 @@ class WifiDiscoveryService {
               hnLower.contains('unifi')) {
             manufacturer = 'Ubiquiti';
           }
+          // ── Home Appliance Brand Extraction ──────────────────────────
+          if (hnLower.startsWith('thinq') || hnLower.contains('lg-thinq') || hnLower.contains('lgthinq')) {
+            manufacturer = 'LG';
+            category = 'LG ThinQ Appliance';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('roomba') || hnLower.contains('irobot')) {
+            manufacturer = 'iRobot';
+            category = 'Robot Vacuum';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('roborock')) {
+            manufacturer = 'Roborock';
+            category = 'Robot Vacuum';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('dyson')) {
+            manufacturer = 'Dyson';
+            category = 'Dyson Device';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('ecobee')) {
+            manufacturer = 'Ecobee';
+            category = 'Smart Thermostat';
+            icon = IconCategory.thermostat;
+          } else if (hnLower.startsWith('honeywell')) {
+            manufacturer = 'Honeywell';
+            category = 'Smart Thermostat';
+            icon = IconCategory.thermostat;
+          } else if (hnLower.startsWith('whirlpool')) {
+            manufacturer = 'Whirlpool';
+            category = 'Whirlpool Appliance';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('maytag')) {
+            manufacturer = 'Maytag';
+            category = 'Maytag Appliance';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('kitchenaid')) {
+            manufacturer = 'KitchenAid';
+            category = 'KitchenAid Appliance';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('gea-') || hnLower.contains('ge-appliance')) {
+            manufacturer = 'GE Appliances';
+            category = 'GE Appliance';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('bosch') || hnLower.contains('home-connect')) {
+            manufacturer = 'Bosch';
+            category = 'Bosch Appliance';
+            icon = IconCategory.appliance;
+          } else if (hnLower.startsWith('miele')) {
+            manufacturer = 'Miele';
+            category = 'Miele Appliance';
+            icon = IconCategory.appliance;
+          } else if (RegExp(r'^(wf|ww)\d', caseSensitive: false).hasMatch(hnLower)) {
+            if (manufacturer == 'Unknown') manufacturer = 'Samsung';
+            category = 'Washing Machine';
+            icon = IconCategory.appliance;
+          } else if (RegExp(r'^dv\d', caseSensitive: false).hasMatch(hnLower) && manufacturer == 'Samsung') {
+            category = 'Dryer';
+            icon = IconCategory.appliance;
+          } else if (RegExp(r'^(rf|rt)\d', caseSensitive: false).hasMatch(hnLower) && manufacturer == 'Samsung') {
+            category = 'Refrigerator';
+            icon = IconCategory.appliance;
+          }
         }
         if (deviceName.isEmpty) {
           deviceName = hostname;
@@ -1811,6 +1998,51 @@ class WifiDiscoveryService {
           category = 'Thermostat';
           icon = IconCategory.thermostat;
           score = 35;
+        } else if (mfr == 'lg electronics') {
+          // LG makes both phones AND appliances — we can't tell without more data
+          category = 'LG Smart Device';
+          icon = IconCategory.appliance;
+          score = 30;
+        } else if (mfr == 'whirlpool' || mfr == 'maytag' || mfr == 'kitchenaid') {
+          category = '${mfr[0].toUpperCase()}${mfr.substring(1)} Appliance';
+          icon = IconCategory.appliance;
+          score = 35;
+        } else if (mfr == 'irobot') {
+          category = 'Robot Vacuum';
+          icon = IconCategory.appliance;
+          score = 38;
+        } else if (mfr == 'dyson') {
+          category = 'Dyson Device';
+          icon = IconCategory.appliance;
+          score = 35;
+        } else if (mfr == 'nest labs') {
+          category = 'Smart Thermostat';
+          icon = IconCategory.thermostat;
+          score = 35;
+        } else if (mfr == 'ge appliances' || mfr == 'haier') {
+          category = '${mfr == 'haier' ? 'Haier' : 'GE'} Appliance';
+          icon = IconCategory.appliance;
+          score = 35;
+        } else if (mfr == 'bosch') {
+          category = 'Bosch Appliance';
+          icon = IconCategory.appliance;
+          score = 35;
+        } else if (mfr == 'miele') {
+          category = 'Miele Appliance';
+          icon = IconCategory.appliance;
+          score = 35;
+        } else if (mfr == 'shark') {
+          category = 'Robot Vacuum';
+          icon = IconCategory.appliance;
+          score = 35;
+        } else if (mfr == 'ring') {
+          category = 'Smart Doorbell / Camera';
+          icon = IconCategory.camera;
+          score = 35;
+        } else if (mfr == 'belkin') {
+          category = 'Smart Plug / Switch';
+          icon = IconCategory.smartPlug;
+          score = 32;
         }
       }
 
@@ -2648,6 +2880,12 @@ class WifiDiscoveryService {
     if (ports.contains(445) && !ports.contains(135)) return 'NAS / Storage';
     // ── DNS server (Pi-hole, router) ──────────────────────────────────
     if (ports.contains(53) && ports.contains(80)) return 'Router';
+    // ── Home Appliances ───────────────────────────────────────────────
+    if (ports.contains(2878) || ports.contains(7677)) return 'LG ThinQ Appliance';
+    if (ports.contains(7676)) return 'LG Smart Device';
+    if (ports.contains(55000)) return 'GE Appliance';
+    if (ports.contains(8900)) return 'Smart Appliance';
+    if (ports.contains(4999)) return 'Robot Vacuum';
     // ── Database / Infrastructure servers ─────────────────────────────
     if (ports.contains(3306) ||
         ports.contains(5432) ||
@@ -2690,6 +2928,13 @@ class WifiDiscoveryService {
     if (ports.contains(1400)) return IconCategory.speaker;
     if (ports.contains(8291) || ports.contains(8123) || ports.contains(10000)) {
       return IconCategory.router;
+    }
+    // ── Home appliance ports → appliance icon ─────────────────────────
+    if (ports.contains(2878) || ports.contains(7677) || ports.contains(7676)) {
+      return IconCategory.appliance;
+    }
+    if (ports.contains(55000) || ports.contains(8900) || ports.contains(4999)) {
+      return IconCategory.appliance;
     }
     // Windows, Linux, VNC, Mac, remote desktop → computer icon
     if (ports.contains(135) ||
