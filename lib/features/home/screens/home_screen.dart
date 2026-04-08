@@ -23,8 +23,9 @@ import '../../maintenance/screens/diy_maintenance_screen.dart';
 import '../../maintenance/services/maintenance_service.dart';
 import '../../maintenance/widgets/reminder_card.dart';
 import '../../services/screens/service_history_screen.dart';
-import '../../services/services/booking_service.dart';
+import '../../claims/models/claim_model.dart';
 import '../../shared/models/home_models.dart';
+import '../../../services/claims_service.dart';
 import '../../shared/models/maintenance_models.dart';
 import '../widgets/assets_tab/assets_header.dart';
 import '../widgets/assets_tab/assets_list.dart';
@@ -77,8 +78,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<Reminder> _completedMaintenanceReminders = [];
   bool _isLoadingMaintenance = false;
 
-  // User bookings state
-  List<ActiveService> _userBookings = [];
+  // User bookings state (kept for Services tab; not used on Home tab)
+  // Active claims state (warranty/protection plan claims)
+  List<Claim> _activeClaims = [];
 
   // Pending deliveries state
   List<PendingDelivery> _pendingDeliveries = [];
@@ -118,26 +120,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _homeScrollController.addListener(_onHomeScroll);
     // Load maintenance reminders
     _loadMaintenanceReminders();
-    // Load user bookings
-    _loadUserBookings();
+    // Load active warranty/protection claims
+    _loadActiveClaims();
     // Load pending deliveries from backend
     _loadPendingDeliveries();
     // Load real notifications from backend
     _loadNotifications();
   }
 
-  Future<void> _loadUserBookings() async {
+  Future<void> _loadActiveClaims() async {
     if (!mounted) return;
-
     try {
-      final bookings = await BookingService.getBookings();
+      final claims = await ClaimsService.getAllClaims();
+      final active = claims
+          .where(
+            (c) =>
+                // Include if it has a real asset name OR at least a title
+                (c.assetName.isNotEmpty && c.assetName != 'Unknown Asset' ||
+                    c.title.isNotEmpty) &&
+                [
+                  ClaimStatus.submitted,
+                  ClaimStatus.underReview,
+                  ClaimStatus.approved,
+                  ClaimStatus.inProgress,
+                ].contains(c.status),
+          )
+          .toList()
+          // Sort newest first
+        ..sort((a, b) => b.submittedAt.compareTo(a.submittedAt));
       if (mounted) {
         setState(() {
-          _userBookings = bookings;
+          _activeClaims = active;
         });
       }
     } on Object catch (e) {
-      debugPrint('Error loading user bookings: $e');
+      debugPrint('Error loading active claims: $e');
     }
   }
 
@@ -289,30 +306,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
       // ── Persist attached documents ────────────────────────────────────
       final rawDocs = asset['documentPaths'];
+      final rawTypes = asset['documentTypes'];
+      final docTypesList = rawTypes is List ? rawTypes : <dynamic>[];
       if (rawDocs is List && rawDocs.isNotEmpty) {
-        for (final rawPath in rawDocs) {
-          final filePath = rawPath.toString();
+        bool anyUploadFailed = false;
+        for (int docIdx = 0; docIdx < rawDocs.length; docIdx++) {
+          final filePath = rawDocs[docIdx].toString();
           final fileName = filePath.contains('/') || filePath.contains('\\')
               ? filePath.split(RegExp(r'[\\/]')).last
               : filePath;
-          // Infer document type from file name
-          final lname = fileName.toLowerCase();
+          // Use the user-selected document type; fall back to extension inference.
           final String docType;
-          if (lname.contains('warrant')) {
-            docType = 'warranty';
-          } else if (lname.contains('manual') || lname.contains('guide')) {
-            docType = 'manual';
-          } else if (lname.contains('receipt') || lname.contains('invoice')) {
-            docType = 'receipt';
-          } else if (lname.endsWith('.jpg') ||
-              lname.endsWith('.jpeg') ||
-              lname.endsWith('.png') ||
-              lname.endsWith('.heic')) {
-            docType = 'photo';
+          if (docIdx < docTypesList.length &&
+              docTypesList[docIdx] != null &&
+              docTypesList[docIdx].toString().isNotEmpty) {
+            docType = docTypesList[docIdx].toString();
           } else {
-            docType = 'other';
+            final lname = fileName.toLowerCase();
+            if (lname.endsWith('.jpg') ||
+                lname.endsWith('.jpeg') ||
+                lname.endsWith('.png') ||
+                lname.endsWith('.heic')) {
+              docType = 'photo';
+            } else {
+              docType = 'other';
+            }
           }
-          // Read file size if the file exists locally
+          // Read file size/mimeType if the file exists locally
           int? sizeBytes;
           String? mimeType;
           bool fileExists = false;
@@ -321,7 +341,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             fileExists = await file.exists();
             if (fileExists) {
               sizeBytes = await file.length();
-              final ext = lname.split('.').last;
+              final ext = fileName.toLowerCase().split('.').last;
               mimeType = switch (ext) {
                 'pdf' => 'application/pdf',
                 'jpg' || 'jpeg' => 'image/jpeg',
@@ -341,16 +361,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             continue;
           }
           try {
-            await AssetApiService.instance.addDocument(
+            // Upload binary so the backend stores the file and sets url in DB
+            await AssetApiService.instance.uploadDocumentFile(
               assetId: created.id,
+              filePath: filePath,
               name: fileName,
               type: docType,
-              mimeType: mimeType,
-              sizeBytes: sizeBytes,
             );
-          } on Object catch (e) {
-            debugPrint('Failed to record document $fileName: $e');
+          } on Object catch (uploadErr) {
+            debugPrint('File upload failed for $fileName: $uploadErr');
+            anyUploadFailed = true;
+            // Fallback: store the metadata record so the doc appears in the
+            // list — user can delete and re-upload from the asset detail.
+            try {
+              await AssetApiService.instance.addDocument(
+                assetId: created.id,
+                name: fileName,
+                type: docType,
+                mimeType: mimeType,
+                sizeBytes: sizeBytes,
+              );
+            } on Object catch (e) {
+              debugPrint('Failed to record document $fileName: $e');
+            }
           }
+        }
+        if (anyUploadFailed && mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'One or more documents could not be uploaded. '
+                'Delete them from the Documents tab and add again to view.',
+              ),
+              duration: Duration(seconds: 5),
+            ),
+          );
         }
       }
 
@@ -710,6 +755,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 // Reload maintenance data when Maintenance tab is selected
                 if (index == 4) {
                   _loadMaintenanceReminders();
+                }
+                // Reload active claims when Home tab is selected
+                if (index == 0) {
+                  _loadActiveClaims();
                 }
               });
             },
@@ -1200,12 +1249,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        final homeId = ref.watch(
-                                          selectedHomeIdProvider,
-                                        );
-                                        context.push(
-                                          '/active-services?homeId=$homeId',
-                                        );
+                                        context.push('/my-claims');
                                       },
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -1234,7 +1278,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ],
                                 ),
                                 SizedBox(height: responsive.spacing(16.0)),
-                                _buildActiveServicesHorizontalScroll(),
+                                _buildActiveClaimsScroll(),
                                 SizedBox(height: responsive.spacing(24.0)),
                                 _buildPendingDeliveriesSection(),
                                 SizedBox(height: responsive.spacing(24.0)),
@@ -3314,7 +3358,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   // Clear and reload data for new home
                   if (mounted) {
                     setState(() {
-                      _userBookings = [];
                       _pendingDeliveries = [];
                       _allMaintenanceReminders = [];
                       _completedMaintenanceReminders = [];
@@ -3323,7 +3366,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     // Reload all data for the new home
                     await Future.wait([
-                      _loadUserBookings(),
                       _loadPendingDeliveries(),
                       _loadMaintenanceReminders(),
                     ]);
@@ -3386,13 +3428,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(height: 18),
               const Text(
-                'No Home Added',
+                'Set Up Your Home First',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
               const Text(
-                'You need to add a home before you can add an asset.\n\nAssets are linked to a specific home in the database.',
+                'Before adding appliances, let\'s get your home set up. It only takes a few seconds!',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
@@ -3417,7 +3459,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: Text(
-                      'Cancel',
+                      'Not Now',
                       style: TextStyle(color: AppColors.primary),
                     ),
                   ),
@@ -3442,7 +3484,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text('Add Home'),
+                    child: const Text('Get Started'),
                   ),
                 ),
               ],
@@ -3543,58 +3585,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       MaterialPageRoute(
         builder: (context) => AddAssetFlowScreen(
           existingAssets: ref.read(assetsProvider).valueOrNull ?? [],
-          onAssetAdded: (asset) {
+          onAssetAdded: (asset) async {
             // Inject homeId so AssetDetailScreen can call issues/docs APIs immediately
             final assetWithHome = {...asset, 'homeId': homeId};
-            _persistNewAsset(assetWithHome, homeId);
-            setState(() {
-              _optimisticNewAssets.insert(0, assetWithHome);
-            });
+            await _persistNewAsset(assetWithHome, homeId);
+            if (mounted) {
+              setState(() {
+                _optimisticNewAssets.insert(0, assetWithHome);
+              });
+            }
           },
         ),
       ),
     );
   }
 
-  // Active Services Horizontal Scroll
-  Widget _buildActiveServicesHorizontalScroll() {
+  // Active Claims Horizontal Scroll (warranty/protection plan claims)
+  Widget _buildActiveClaimsScroll() {
     final responsive = ResponsiveUtils(context);
-    final homeId = ref.watch(selectedHomeIdProvider);
-
-    // Use only real user bookings — no mock data.
-    final filteredUserBookings = _userBookings
-        .where((b) => homeId == null || b.homeId == homeId)
-        .toList();
-    var services = [...filteredUserBookings];
 
     // Filter by search query
+    var claims = [..._activeClaims];
     if (_homeSearchQuery.isNotEmpty) {
-      services = services.where((service) {
-        final assetName = service.assetName.toLowerCase();
-        final issueSummary = service.issueSummary.toLowerCase();
-        final statusLabel = service.getStatusLabel().toLowerCase();
-        final technicianName = service.technicianName.toLowerCase();
-        final assetLocation = service.assetLocation.toLowerCase();
-        return assetName.contains(_homeSearchQuery) ||
-            issueSummary.contains(_homeSearchQuery) ||
-            statusLabel.contains(_homeSearchQuery) ||
-            technicianName.contains(_homeSearchQuery) ||
-            assetLocation.contains(_homeSearchQuery);
+      claims = claims.where((c) {
+        final q = _homeSearchQuery;
+        return c.assetName.toLowerCase().contains(q) ||
+            c.title.toLowerCase().contains(q) ||
+            c.claimNumber.toLowerCase().contains(q) ||
+            c.issueCategory.toLowerCase().contains(q);
       }).toList();
     }
 
-    // Limit to 2 items for home tab display
-    if (services.length > 2) {
-      services = services.take(2).toList();
-    }
+    // Cap at 3 on the home tab
+    if (claims.length > 3) claims = claims.take(3).toList();
 
-    if (services.isEmpty) {
+    if (claims.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: responsive.spacing(32)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.check_circle_outline,
@@ -3624,200 +3654,241 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     }
 
-    // Responsive card dimensions
+    // 1 claim: full-width single card
+    if (claims.length == 1) {
+      return GestureDetector(
+        onTap: () => context.push('/claim-detail', extra: claims.first),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: responsive.spacing(8),
+                offset: Offset(0, responsive.spacing(2)),
+              ),
+            ],
+          ),
+          child: _buildActiveClaimCard(claims.first, responsive, compact: false),
+        ),
+      );
+    }
+    // 2 claims: side-by-side equal-width cards
+    if (claims.length == 2) {
+      return Row(
+        children: [
+          Expanded(child: _buildClaimTappableCard(claims[0], responsive)),
+          SizedBox(width: responsive.spacing(12)),
+          Expanded(child: _buildClaimTappableCard(claims[1], responsive)),
+        ],
+      );
+    }
+
+    // 3 claims: horizontal scroll
     final cardWidth = responsive.isSmallMobile
-        ? 240.0
+        ? 220.0
         : responsive.isMediumMobile
-        ? 260.0
-        : 280.0;
-    final cardHeight = responsive.isSmallMobile ? 110.0 : 120.0;
+        ? 240.0
+        : 260.0;
+    const cardHeight = 130.0;
 
     return SizedBox(
       height: cardHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: services.length,
+        itemCount: claims.length,
         itemBuilder: (context, index) {
-          final service = services[index];
-          return Container(
-            width: cardWidth,
-            margin: EdgeInsets.only(
-              right: index < services.length - 1 ? responsive.spacing(12) : 0,
+          final claim = claims[index];
+          return GestureDetector(
+            onTap: () => context.push('/claim-detail', extra: claim),
+            child: Container(
+              width: cardWidth,
+              margin: EdgeInsets.only(
+                right: index < claims.length - 1
+                    ? responsive.spacing(12)
+                    : 0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                    BorderRadius.circular(responsive.borderRadius(12)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: responsive.spacing(8),
+                    offset: Offset(0, responsive.spacing(2)),
+                  ),
+                ],
+              ),
+              child: _buildActiveClaimCard(claim, responsive, compact: true),
             ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
-                  blurRadius: responsive.spacing(8),
-                  offset: Offset(0, responsive.spacing(2)),
-                ),
-              ],
-            ),
-            child: _buildActiveServiceCard(service),
           );
         },
       ),
     );
   }
 
-  // Helper method to get badge background color based on service status
-  Color _getStatusBadgeColor(ServiceStatus status) {
-    switch (status) {
-      case ServiceStatus.scheduled:
-        return AppColors.infoLight;
-      case ServiceStatus.inProgress:
-        return AppColors.warningBackground;
-      case ServiceStatus.completed:
-        return AppColors.successBackground;
-      case ServiceStatus.canceled:
-        return AppColors.errorLight;
-      default:
-        return AppColors.borderLight;
-    }
+  Widget _buildClaimTappableCard(Claim claim, ResponsiveUtils responsive) {
+    return GestureDetector(
+      onTap: () => context.push('/claim-detail', extra: claim),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: responsive.spacing(8),
+              offset: Offset(0, responsive.spacing(2)),
+            ),
+          ],
+        ),
+        child: _buildActiveClaimCard(claim, responsive, compact: true),
+      ),
+    );
   }
 
-  // Helper method to get badge text color based on service status
-  Color _getStatusBadgeTextColor(ServiceStatus status) {
-    switch (status) {
-      case ServiceStatus.scheduled:
-        return AppColors.info;
-      case ServiceStatus.inProgress:
-        return AppColors.warning;
-      case ServiceStatus.completed:
-        return AppColors.success;
-      case ServiceStatus.canceled:
-        return AppColors.error;
+  Widget _buildActiveClaimCard(Claim claim, ResponsiveUtils responsive, {bool compact = false}) {
+    Color statusColor;
+    switch (claim.status) {
+      case ClaimStatus.submitted:
+        statusColor = AppColors.info;
+      case ClaimStatus.underReview:
+        statusColor = AppColors.warning;
+      case ClaimStatus.approved:
+        statusColor = AppColors.success;
+      case ClaimStatus.inProgress:
+        statusColor = AppColors.primary;
       default:
-        return AppColors.textSecondary;
+        statusColor = AppColors.textSecondary;
     }
-  }
 
-  Widget _buildActiveServiceCard(ActiveService service) {
-    final responsive = ResponsiveUtils(context);
-    final displayTitle = '${service.assetName} ${service.issueCategory}';
-    final progress = service.getProgressPercent();
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          // Navigate to specific booking detail screen
-          context.push('/booking/${service.id}');
-        },
-        borderRadius: BorderRadius.circular(responsive.borderRadius(12)),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: responsive.spacing(14),
-            vertical: responsive.spacing(12),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+    final progress = claim.getProgress();
+
+    return Padding(
+      padding: EdgeInsets.all(responsive.spacing(compact ? 12 : 14)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // ── Row 1: status badge (left) + time elapsed (right) ──
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Title - matching screenshot style
-              Text(
-                displayTitle,
-                style: TextStyle(
-                  fontSize: responsive.fontSize(14),
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsive.spacing(8),
+                  vertical: responsive.spacing(3),
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                decoration: BoxDecoration(
+                  color: statusColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(responsive.borderRadius(20)),
+                ),
+                child: Text(
+                  claim.getStatusLabel(),
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(10),
+                    fontWeight: FontWeight.w700,
+                    color: statusColor,
+                    letterSpacing: 0.3,
+                  ),
+                ),
               ),
-
-              SizedBox(height: responsive.spacing(12)),
-
-              // Progress bar with percentage - always shown
-              Row(
-                children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        responsive.borderRadius(4),
-                      ),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        backgroundColor: AppColors.borderLight,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.warning, // Orange/amber progress bar
-                        ),
-                        minHeight: responsive.spacing(6),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: responsive.spacing(10)),
-                  Text(
-                    '${(progress * 100).round()}%',
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(12),
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: responsive.spacing(16)),
-
-              // Status and time row - matching screenshot layout
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Status badge
-                  Flexible(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: responsive.spacing(8),
-                        vertical: responsive.spacing(4),
-                      ),
-                      decoration: BoxDecoration(
-                        color: _getStatusBadgeColor(service.status),
-                        borderRadius: BorderRadius.circular(
-                          responsive.borderRadius(4),
-                        ),
-                        border: service.status == ServiceStatus.scheduled
-                            ? Border.all(color: AppColors.border)
-                            : null,
-                      ),
-                      child: Text(
-                        service.getStatusLabel(),
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(10),
-                          fontWeight: FontWeight.w600,
-                          color: _getStatusBadgeTextColor(service.status),
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-
-                  // Time
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        size: responsive.iconSize(14),
-                        color: AppColors.iconSecondary,
-                      ),
-                      SizedBox(width: responsive.spacing(4)),
-                      Text(
-                        service.getDisplayTime(),
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(12),
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              Text(
+                claim.getTimeElapsed(),
+                style: TextStyle(
+                  fontSize: responsive.fontSize(11),
+                  color: AppColors.textLight,
+                ),
               ),
             ],
           ),
-        ),
+          SizedBox(height: responsive.spacing(8)),
+          // ── Row 2: icon + asset name ──
+          Row(
+            children: [
+              Icon(
+                claim.getCategoryIcon(),
+                size: responsive.iconSize(14),
+                color: AppColors.primary,
+              ),
+              SizedBox(width: responsive.spacing(5)),
+              Expanded(
+                child: Text(
+                  claim.assetName.isNotEmpty ? claim.assetName : claim.title,
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(compact ? 13 : 14),
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: responsive.spacing(3)),
+          // ── Row 3: claim number (left) + category (right) ──
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                claim.claimNumber,
+                style: TextStyle(
+                  fontSize: responsive.fontSize(11),
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              if (claim.issueCategory.isNotEmpty)
+                Flexible(
+                  child: Text(
+                    claim.issueCategory,
+                    style: TextStyle(
+                      fontSize: responsive.fontSize(11),
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(height: responsive.spacing(10)),
+          // ── Progress bar ──
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Progress',
+                style: TextStyle(
+                  fontSize: responsive.fontSize(10),
+                  color: AppColors.textLight,
+                ),
+              ),
+              Text(
+                '${(progress * 100).toInt()}%',
+                style: TextStyle(
+                  fontSize: responsive.fontSize(10),
+                  fontWeight: FontWeight.w700,
+                  color: statusColor,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: responsive.spacing(4)),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 5,
+              backgroundColor: AppColors.border,
+              valueColor: AlwaysStoppedAnimation<Color>(statusColor),
+            ),
+          ),
+        ],
       ),
     );
   }

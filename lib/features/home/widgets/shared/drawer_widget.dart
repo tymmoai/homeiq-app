@@ -121,17 +121,6 @@ class DrawerWidget extends ConsumerWidget {
                       context.push('/orders');
                     },
                   ),
-                // My Claims — requires 'issues' service type
-                if (hasAccess('issues'))
-                  _buildDrawerItem(
-                    context,
-                    icon: Icons.assignment,
-                    title: 'My Claims',
-                    onTap: () {
-                      Navigator.pop(context);
-                      context.push('/my-claims');
-                    },
-                  ),
                 // My Services — requires 'bookings' service type
                 if (hasAccess('bookings'))
                   _buildDrawerItem(

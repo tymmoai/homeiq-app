@@ -277,7 +277,22 @@ class DocsTabWidget extends StatelessWidget {
                                     padding: EdgeInsets.all(
                                       responsive.spacing(12.0),
                                     ),
-                                    child: isLocalFile
+                                    child: imagePath.isEmpty
+                                        // No URL in DB (uploaded without file) — show placeholder
+                                        ? Container(
+                                            color:
+                                                AssetDetailColors.surfaceColor,
+                                            child: Center(
+                                              child: Icon(
+                                                Icons
+                                                    .insert_drive_file_outlined,
+                                                size: responsive.iconSize(40.0),
+                                                color: AssetDetailColors
+                                                    .textSecondary,
+                                              ),
+                                            ),
+                                          )
+                                        : isLocalFile
                                         ? Image.file(
                                             File(imagePath),
                                             fit: BoxFit.contain,
@@ -289,22 +304,60 @@ class DocsTabWidget extends StatelessWidget {
                                                 responsive.spacing(24.0),
                                             cacheWidth: 600,
                                             cacheHeight: 600,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                                  return Container(
+                                            errorBuilder: (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) {
+                                              return Container(
+                                                color: AssetDetailColors
+                                                    .surfaceColor,
+                                                child: Center(
+                                                  child: Icon(
+                                                    Icons.description,
+                                                    size: responsive
+                                                        .iconSize(40.0),
                                                     color: AssetDetailColors
-                                                        .surfaceColor,
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons.description,
-                                                        size: responsive
-                                                            .iconSize(40.0),
-                                                        color: AssetDetailColors
-                                                            .textSecondary,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
+                                                        .textSecondary,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : (imagePath.startsWith('http://') ||
+                                                imagePath.startsWith(
+                                                  'https://',
+                                                ))
+                                        ? Image.network(
+                                            imagePath,
+                                            fit: BoxFit.contain,
+                                            width:
+                                                constraints.maxWidth -
+                                                responsive.spacing(24.0),
+                                            height:
+                                                constraints.maxHeight -
+                                                responsive.spacing(24.0),
+                                            cacheWidth: 600,
+                                            cacheHeight: 600,
+                                            errorBuilder: (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) {
+                                              return Container(
+                                                color: AssetDetailColors
+                                                    .surfaceColor,
+                                                child: Center(
+                                                  child: Icon(
+                                                    Icons.description,
+                                                    size: responsive
+                                                        .iconSize(40.0),
+                                                    color: AssetDetailColors
+                                                        .textSecondary,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           )
                                         : Image.asset(
                                             imagePath,
@@ -317,22 +370,25 @@ class DocsTabWidget extends StatelessWidget {
                                                 responsive.spacing(24.0),
                                             cacheWidth: 600,
                                             cacheHeight: 600,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                                  return Container(
+                                            errorBuilder: (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) {
+                                              return Container(
+                                                color: AssetDetailColors
+                                                    .surfaceColor,
+                                                child: Center(
+                                                  child: Icon(
+                                                    Icons.description,
+                                                    size: responsive
+                                                        .iconSize(40.0),
                                                     color: AssetDetailColors
-                                                        .surfaceColor,
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons.description,
-                                                        size: responsive
-                                                            .iconSize(40.0),
-                                                        color: AssetDetailColors
-                                                            .textSecondary,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
+                                                        .textSecondary,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
                                   ),
                                 ),

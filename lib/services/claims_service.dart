@@ -167,28 +167,94 @@ class ClaimsService {
     final asset = json['asset'] as Map<String, dynamic>?;
     final plan = json['plan'] as Map<String, dynamic>?;
 
+    // Determine warranty/coverage status from plan dates
+    bool isCovered = false;
+    String warrantyStatus = 'Unknown';
+    String? planName;
+    if (plan != null) {
+      planName = plan['planName'] as String?;
+      final endDateStr = plan['endDate'] as String?;
+      final startDateStr = plan['startDate'] as String?;
+      final endDate = endDateStr != null ? DateTime.tryParse(endDateStr) : null;
+      final startDate =
+          startDateStr != null ? DateTime.tryParse(startDateStr) : null;
+      final now = DateTime.now();
+      if (endDate != null && startDate != null) {
+        if (now.isAfter(endDate)) {
+          warrantyStatus = 'Expired';
+          isCovered = false;
+        } else if (now.isBefore(startDate)) {
+          warrantyStatus = 'Not Started';
+          isCovered = false;
+        } else {
+          warrantyStatus = 'Active';
+          isCovered = true;
+        }
+      } else {
+        warrantyStatus = 'Active';
+        isCovered = true;
+      }
+    }
+
+    final title = json['title'] as String? ?? '';
+
     return Claim(
-      id: json['id'] ?? '',
-      claimNumber: json['claimNumber'] ?? '',
-      assetId: json['assetId'] ?? '',
-      assetName: asset?['name'] ?? '',
-      assetBrand: asset?['brand'] ?? '',
-      assetLocation: asset?['location'] ?? '',
-      assetType: asset?['category'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      issueCategory: json['title'] ?? '',
-      claimType: ClaimType.repair,
+      id: json['id'] as String? ?? '',
+      claimNumber: json['claimNumber'] as String? ?? '',
+      assetId: json['assetId'] as String? ?? '',
+      assetName: asset?['name'] as String? ?? '',
+      assetBrand: asset?['brand'] as String? ?? '',
+      assetLocation: asset?['location'] as String? ?? '',
+      assetType: asset?['category'] as String? ?? '',
+      title: title,
+      description: json['description'] as String? ?? '',
+      issueCategory: _deriveIssueCategory(title),
+      claimType: _deriveClaimType(title),
       status: status,
-      warrantyStatus: plan != null ? 'Covered' : 'Unknown',
-      planName: plan?['planName'],
-      isCovered: plan != null,
-      submittedAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
-      resolvedAt: json['updatedAt'] != null && status == ClaimStatus.resolved
-          ? DateTime.tryParse(json['updatedAt'])
+      warrantyStatus: warrantyStatus,
+      planName: planName,
+      isCovered: isCovered,
+      submittedAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+          DateTime.now(),
+      reviewedAt: status.index >= ClaimStatus.underReview.index
+          ? DateTime.tryParse(json['updatedAt'] as String? ?? '')
           : null,
-      resolutionNotes: json['resolutionNote'],
+      approvedAt: status.index >= ClaimStatus.approved.index
+          ? DateTime.tryParse(json['updatedAt'] as String? ?? '')
+          : null,
+      inProgressAt: status == ClaimStatus.inProgress
+          ? DateTime.tryParse(json['updatedAt'] as String? ?? '')
+          : null,
+      resolvedAt: status == ClaimStatus.resolved || status == ClaimStatus.closed
+          ? DateTime.tryParse(json['updatedAt'] as String? ?? '')
+          : null,
+      closedAt: status == ClaimStatus.denied || status == ClaimStatus.closed
+          ? DateTime.tryParse(json['updatedAt'] as String? ?? '')
+          : null,
+      resolutionNotes: json['resolutionNote'] as String?,
     );
+  }
+
+  /// Derive a clean issue category label from the backend claim title.
+  static String _deriveIssueCategory(String title) {
+    final t = title.toLowerCase();
+    if (t.contains('replacement')) return 'Replacement';
+    if (t.contains('repair')) return 'Repair';
+    if (t.contains('maintenance')) return 'Maintenance';
+    if (t.contains('leak') || t.contains('water')) return 'Water Issue';
+    if (t.contains('heat') || t.contains('cool')) return 'Temperature Issue';
+    if (t.contains('electric') || t.contains('power')) return 'Electrical';
+    if (t.contains('noise') || t.contains('vibrat')) return 'Noise Issue';
+    if (title.isNotEmpty) return title.replaceFirst(RegExp(r'(?i)^.*?claim.*?for\s+', caseSensitive: false), '').trim();
+    return 'Claim';
+  }
+
+  /// Derive ClaimType from the backend claim title.
+  static ClaimType _deriveClaimType(String title) {
+    final t = title.toLowerCase();
+    if (t.contains('replacement')) return ClaimType.replacement;
+    if (t.contains('maintenance')) return ClaimType.maintenance;
+    return ClaimType.repair;
   }
 
   /// Get all claims — backend first, local cache fallback

@@ -9,7 +9,7 @@ import 'step4_documents_screen.dart';
 import 'step5_success_screen.dart';
 
 class AddAssetFlowScreen extends StatefulWidget {
-  final Function(Map<String, dynamic>)? onAssetAdded;
+  final Future<void> Function(Map<String, dynamic>)? onAssetAdded;
 
   /// Already-saved assets for the current home — used for duplicate detection.
   final List<AssetDto> existingAssets;
@@ -200,12 +200,13 @@ class _AddAssetFlowScreenState extends State<AddAssetFlowScreen> {
     try {
       _buildAssetMap();
 
-      // Fire the callback so the parent (home_screen) persists to backend
+      // Await the callback so asset + documents are fully uploaded before
+      // showing the success screen (prevents docs tab from loading before URL is set)
       if (widget.onAssetAdded != null && _builtAssetMap != null) {
-        widget.onAssetAdded!(_builtAssetMap!);
+        await widget.onAssetAdded!(_builtAssetMap!);
       }
 
-      // Move to success screen
+      // Move to success screen only after everything is persisted
       setState(() {
         _isSaving = false;
         _currentStep = 5;

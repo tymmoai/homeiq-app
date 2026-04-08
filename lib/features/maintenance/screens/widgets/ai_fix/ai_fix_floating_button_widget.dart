@@ -25,8 +25,7 @@ class AiFixFloatingButtonWidget extends StatelessWidget {
 
   /// Whether the floating button should be shown for the given step
   static bool shouldShow(AiStep step) {
-    return step == AiStep.partsComparison ||
-        step == AiStep.partsOrderConfirmation ||
+    return step == AiStep.partsOrderConfirmation ||
         step == AiStep.technicianSelection ||
         step == AiStep.technicianTimeSlot ||
         step == AiStep.technicianConfirmation ||
@@ -36,8 +35,6 @@ class AiFixFloatingButtonWidget extends StatelessWidget {
 
   bool get _isEnabled {
     switch (currentStep) {
-      case AiStep.partsComparison:
-        return selectedPartsIndexes.isNotEmpty;
       case AiStep.partsOrderConfirmation:
         return true; // Address is pre-filled
       case AiStep.technicianSelection:
@@ -64,10 +61,6 @@ class AiFixFloatingButtonWidget extends StatelessWidget {
     final enabled = _isEnabled;
 
     switch (currentStep) {
-      case AiStep.partsComparison:
-        buttonText = 'Continue';
-        onPressed = () => onStepChange(AiStep.partsActionSelection);
-        break;
       case AiStep.partsOrderConfirmation:
         buttonText = 'Confirm Address & Continue';
         onPressed = () => onStepChange(AiStep.partsPaymentInfo);

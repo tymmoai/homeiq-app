@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
+
+import '../core/config/environment.dart';
 import '../models/api_models.dart';
 import 'api_client.dart';
 
@@ -192,6 +195,45 @@ class AssetApiService {
         'sizeBytes': ?sizeBytes,
       },
     );
+    final body = jsonDecode(response.body) as Map<String, dynamic>;
+    return body['data'] as Map<String, dynamic>;
+  }
+
+  /// Upload a document file to the backend via multipart form.
+  ///
+  /// Sends the file binary to `POST /api/v1/assets/:id/documents/upload`.
+  /// The backend saves the file, creates an AssetDocument record with a
+  /// public URL, and returns the created record.
+  Future<Map<String, dynamic>> uploadDocumentFile({
+    required String assetId,
+    required String filePath,
+    required String name,
+    String type = 'other',
+  }) async {
+    final uri = Uri.parse(
+      '${EnvironmentConfig.apiV1Url}/assets/$assetId/documents/upload',
+    );
+    final request = http.MultipartRequest('POST', uri);
+
+    final token = _api.authToken;
+    if (token != null && token.isNotEmpty) {
+      request.headers['Authorization'] = 'Bearer $token';
+    }
+    request.headers['X-Client-Type'] = 'app';
+
+    request.fields['name'] = name;
+    request.fields['type'] = type;
+    request.files.add(await http.MultipartFile.fromPath('file', filePath));
+
+    final streamed = await request.send().timeout(const Duration(seconds: 60));
+    final response = await http.Response.fromStream(streamed);
+
+    if (response.statusCode >= 400) {
+      throw Exception(
+        'Document upload failed (${response.statusCode}): ${response.body}',
+      );
+    }
+
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     return body['data'] as Map<String, dynamic>;
   }

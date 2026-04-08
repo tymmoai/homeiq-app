@@ -26,7 +26,9 @@ import '../features/authentication/screens/signup_screen.dart';
 // Authentication
 import '../features/authentication/screens/splash_screen.dart';
 // Claims
+import '../features/claims/screens/claim_detail_screen.dart';
 import '../features/claims/screens/my_claims_screen.dart';
+import '../features/claims/models/claim_model.dart';
 import '../features/home/screens/critical_alerts_screen.dart';
 // Home
 import '../features/home/screens/home_screen.dart';
@@ -263,13 +265,13 @@ class AppRouter {
               ),
               const SizedBox(height: 18),
               const Text(
-                'No Home Added',
+                'Set Up Your Home First 🏡',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
               const Text(
-                'You need to add a home before adding an asset.\n\nTap "Add Home" to set up your first home.',
+                'Before adding appliances, let\'s get your home set up. It only takes a few seconds!',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
@@ -299,7 +301,7 @@ class AppRouter {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: Text(
-                      'Go Back',
+                      'Not Now',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                       ),
@@ -376,7 +378,7 @@ class AppRouter {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text('Add Home'),
+                    child: const Text('Get Started'),
                   ),
                 ),
               ],
@@ -611,7 +613,7 @@ class AppRouter {
             );
           }
           return AddAssetFlowScreen(
-            onAssetAdded: (asset) {
+            onAssetAdded: (asset) async {
               // This route is a fallback; persistence is handled inside
               // the flow via the home-screen FAB path.  Navigate back.
               GoRouter.of(context).go('/home');
@@ -706,6 +708,15 @@ class AppRouter {
       path: '/my-claims',
       name: 'my-claims',
       builder: (context, state) => const MyClaimsScreen(),
+    ),
+    GoRoute(
+      path: '/claim-detail',
+      name: 'claim-detail',
+      builder: (context, state) {
+        final claim = state.extra as Claim?;
+        if (claim == null) return const MyClaimsScreen();
+        return ClaimDetailScreen(claim: claim);
+      },
     ),
 
     // ── Services (tab shortcut) ─────────────────────────────────────

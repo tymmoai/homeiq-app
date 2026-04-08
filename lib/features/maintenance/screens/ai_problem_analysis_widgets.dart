@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
@@ -973,132 +974,311 @@ class VoiceIconButton extends StatefulWidget {
 
 class _VoiceIconButtonState extends State<VoiceIconButton>
     with TickerProviderStateMixin {
-  ResponsiveUtils get responsive => ResponsiveUtils(context);
+  // ── Animation controllers ──────────────────────────────────────────────
   late AnimationController _pulseController;
-  late AnimationController _rippleController;
+  late AnimationController _ring1Controller;
+  late AnimationController _ring2Controller;
+  late AnimationController _ring3Controller;
   late Animation<double> _pulseAnimation;
-  late Animation<double> _rippleAnimation;
+  late Animation<double> _ring1Animation;
+  late Animation<double> _ring2Animation;
+  late Animation<double> _ring3Animation;
+
+  // ── State ─────────────────────────────────────────────────────────────
+  bool _isInitializing = false; // brief period while STT is setting up
   bool _isRecording = false;
+  double _soundLevel = 0.0; // 0.0–1.0 normalised sound level
+
+  // ── Speech-to-Text ─────────────────────────────────────────────────────
+  final SpeechToText _speech = SpeechToText();
+  bool _speechInitialized = false;
+
+  // ── Ring sizes ─────────────────────────────────────────────────────────
+  static const double _btnSize = 44.0;
 
   @override
   void initState() {
     super.initState();
+
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 700),
       vsync: this,
     );
-    _rippleController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
+    // Three rings staggered in phase so they all look independent
+    _ring1Controller = AnimationController(
+      duration: const Duration(milliseconds: 1100),
+      vsync: this,
+    );
+    _ring2Controller = AnimationController(
+      duration: const Duration(milliseconds: 1400),
+      vsync: this,
+    );
+    _ring3Controller = AnimationController(
+      duration: const Duration(milliseconds: 1700),
       vsync: this,
     );
 
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.12).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-
-    _rippleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _rippleController, curve: Curves.easeOut),
+    _ring1Animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _ring1Controller, curve: Curves.easeOut),
+    );
+    _ring2Animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _ring2Controller, curve: Curves.easeOut),
+    );
+    _ring3Animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _ring3Controller, curve: Curves.easeOut),
     );
   }
 
   @override
   void dispose() {
+    _speech.stop();
     _pulseController.dispose();
-    _rippleController.dispose();
+    _ring1Controller.dispose();
+    _ring2Controller.dispose();
+    _ring3Controller.dispose();
     super.dispose();
   }
 
-  Future<void> _handleVoiceInput() async {
-    setState(() {
-      _isRecording = true;
-    });
+  // ── Helpers ────────────────────────────────────────────────────────────
 
-    // Start animations
+  void _startAnimations() {
     _pulseController.repeat(reverse: true);
-    _rippleController.repeat();
+    _ring1Controller.repeat();
+    // Stagger ring 2 & 3 so they feel organic, not all starting together
+    Future<void>.delayed(const Duration(milliseconds: 350), () {
+      if (mounted && _isRecording) _ring2Controller.repeat();
+    });
+    Future<void>.delayed(const Duration(milliseconds: 700), () {
+      if (mounted && _isRecording) _ring3Controller.repeat();
+    });
+  }
 
-    // Simulate voice input
-    await Future.delayed(const Duration(seconds: 2));
+  void _stopAnimations() {
+    _pulseController
+      ..stop()
+      ..reset();
+    _ring1Controller
+      ..stop()
+      ..reset();
+    _ring2Controller
+      ..stop()
+      ..reset();
+    _ring3Controller
+      ..stop()
+      ..reset();
+  }
 
-    final exampleText =
-        'The ${widget.assetName} is making unusual noises and not functioning properly.';
-    widget.onVoiceInput(exampleText);
-
+  void _stopListening() {
+    _speech.stop();
+    if (!mounted) return;
     setState(() {
       _isRecording = false;
+      _soundLevel = 0.0;
     });
-    _pulseController.stop();
-    _rippleController.stop();
-    _pulseController.reset();
-    _rippleController.reset();
+    _stopAnimations();
+  }
+
+  Future<void> _startListening() async {
+    setState(() => _isInitializing = true);
+
+    // speech_to_text.initialize() handles mic + speech-recognition permissions
+    // internally on both Android and iOS — no double-prompt risk.
+    if (!_speechInitialized) {
+      _speechInitialized = await _speech.initialize(
+        onStatus: (status) {
+          // Platform signals "done" or "notListening" when it naturally stops
+          if ((status == 'done' || status == 'notListening') && _isRecording) {
+            _stopListening();
+          }
+        },
+        onError: (error) {
+          if (_isRecording) _stopListening();
+        },
+      );
+    }
+
+    if (!mounted) return;
+
+    if (!_speechInitialized) {
+      setState(() => _isInitializing = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Speech recognition is not available. '
+            'Please check your microphone permissions in Settings.',
+          ),
+          duration: Duration(seconds: 4),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isInitializing = false;
+      _isRecording = true;
+    });
+    _startAnimations();
+
+    await _speech.listen(
+      onResult: (result) {
+        if (!mounted) return;
+        if (result.recognizedWords.isNotEmpty) {
+          widget.onVoiceInput(result.recognizedWords);
+        }
+        // Auto-stop once the platform signals a final recognised result
+        if (result.finalResult) {
+          _stopListening();
+        }
+      },
+      onSoundLevelChange: (level) {
+        if (!mounted) return;
+        // Platform emits roughly –2 dB (silence) to +10 dB (loud speech)
+        final normalised = ((level + 2) / 12).clamp(0.0, 1.0);
+        setState(() => _soundLevel = normalised);
+      },
+      listenFor: const Duration(seconds: 60),
+      pauseFor: const Duration(seconds: 3), // auto-stops 3 s after silence
+      // omit localeId → uses device's active speech-recognition locale
+      listenOptions: SpeechListenOptions(partialResults: true),
+    );
+  }
+
+  Future<void> _handleVoiceInput() async {
+    if (_isInitializing) return; // swallow double-taps during setup
+    if (_isRecording) {
+      _stopListening();
+      return;
+    }
+    await _startListening();
+  }
+
+  // ── Animated ring helper ───────────────────────────────────────────────
+
+  Widget _buildRing(Animation<double> anim, Color color, double maxExpand) {
+    return AnimatedBuilder(
+      animation: anim,
+      builder: (_, __) {
+        final t = anim.value;
+        // Sound level makes rings expand further when user is actually speaking
+        final expand = maxExpand * (0.5 + _soundLevel * 0.5);
+        return Opacity(
+          opacity: (1.0 - t).clamp(0.0, 1.0),
+          child: Container(
+            width: _btnSize + expand * t,
+            height: _btnSize + expand * t,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: color, width: 2),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final responsive = ResponsiveUtils(context);
+
+    final Color activeColor = AppColors.errorMaterialAccent;
+    final Color idleColor = AppColors.primary;
+    final Color btnColor = _isInitializing
+        ? idleColor.withValues(alpha: 0.6)
+        : _isRecording
+            ? activeColor
+            : idleColor;
+
     return GestureDetector(
       onTap: _handleVoiceInput,
+      behavior: HitTestBehavior.opaque,
       child: SizedBox(
-        width: 40,
-        height: 40,
+        // Extra room for ripple rings so they don't clip the gesture detector
+        width: _btnSize + 40,
+        height: _btnSize + 40,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Ripple effect
-            if (_isRecording)
-              AnimatedBuilder(
-                animation: _rippleAnimation,
-                builder: (context, child) {
-                  return Container(
-                    width: 40 + (_rippleAnimation.value * 30),
-                    height: 40 + (_rippleAnimation.value * 30),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.primary.withValues(
-                          alpha: 1.0 - _rippleAnimation.value,
-                        ),
-                        width: 2,
-                      ),
-                    ),
-                  );
-                },
+            // ── Sound-reactive concentric rings (visible only while recording)
+            if (_isRecording) ...[
+              _buildRing(
+                _ring1Animation,
+                activeColor.withValues(alpha: 0.9),
+                36,
               ),
-            // Main button
+              _buildRing(
+                _ring2Animation,
+                activeColor.withValues(alpha: 0.6),
+                52,
+              ),
+              _buildRing(
+                _ring3Animation,
+                activeColor.withValues(alpha: 0.35),
+                68,
+              ),
+            ],
+
+            // ── Main circular button ───────────────────────────────────────
             AnimatedBuilder(
               animation: _pulseAnimation,
-              builder: (context, child) {
+              builder: (_, __) {
                 return Transform.scale(
                   scale: _isRecording ? _pulseAnimation.value : 1.0,
                   child: Container(
-                    width: 40,
-                    height: 40,
+                    width: _btnSize,
+                    height: _btnSize,
                     decoration: BoxDecoration(
-                      color: _isRecording
-                          ? AppColors.errorMaterialAccent
-                          : AppColors.primary,
+                      color: btnColor,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color:
-                              (_isRecording
-                                      ? AppColors.errorMaterialAccent
-                                      : AppColors.primary)
-                                  .withValues(alpha: _isRecording ? 0.5 : 0.2),
-                          blurRadius: _isRecording ? 12 : 8,
+                          color: btnColor.withValues(
+                            alpha: _isRecording ? 0.55 : 0.25,
+                          ),
+                          blurRadius: _isRecording
+                              ? 14 + _soundLevel * 10
+                              : 8,
                           spreadRadius: _isRecording ? 2 : 0,
                         ),
                       ],
                     ),
-                    child: Icon(
-                      _isRecording ? Icons.mic : Icons.mic_none,
-                      color: Colors.white,
-                      size: responsive.iconSize(20),
-                    ),
+                    child: _isInitializing
+                        // Spinner while permissions are being requested / STT inits
+                        ? Padding(
+                            padding: const EdgeInsets.all(11),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : Icon(
+                            _isRecording ? Icons.mic : Icons.mic_none,
+                            color: Colors.white,
+                            size: responsive.iconSize(20),
+                          ),
                   ),
                 );
               },
             ),
+
+            // ── "Listening…" label below the button ───────────────────────
+            if (_isRecording)
+              Positioned(
+                bottom: 0,
+                child: Text(
+                  'Listening…',
+                  style: TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w600,
+                    color: activeColor,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

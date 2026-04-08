@@ -226,6 +226,84 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
     }
   }
 
+  /// Returns true when [description] appears relevant to this asset,
+  /// or when there is nothing to validate (empty description).
+  ///
+  /// Uses keyword overlap between the description and the asset name /
+  /// issue options to detect clearly off-topic voice/text input.
+  bool _isDescriptionRelevantToAsset(String description) {
+    final trimmed = description.trim();
+    if (trimmed.isEmpty) return true;
+
+    const stopWords = {
+      'is', 'are', 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at',
+      'to', 'for', 'of', 'with', 'by', 'from', 'not', 'it', 'my', 'i',
+      'very', 'making', 'having', 'get', 'getting', 'does', 'do', 'its',
+      'this', 'that', 'when', 'sometimes', 'there', 'has', 'have', 'just',
+      'been', 'be', 'was', 'were', 'will', 'would', 'could', 'should',
+      'may', 'might', 'can', 'seem', 'feels', 'feel', 'like', 'also',
+      'now', 'still', 'keeps', 'keep', 'lot', 'always', 'never', 'both',
+      'right', 'left', 'up', 'down', 'all', 'any', 'some', 'no', 'about',
+    };
+
+    Set<String> tokenize(String s) => s
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9\s]'), ' ')
+        .split(RegExp(r'\s+'))
+        .where((w) => w.length > 2 && !stopWords.contains(w))
+        .toSet();
+
+    // Build a relevant keyword corpus from asset name + type + all issue options
+    final corpus = <String>{
+      ...tokenize(_assetDisplayName),
+      ...tokenize(_assetName),
+      for (final issue in _issueOptions) ...tokenize(issue),
+    };
+
+    final descWords = tokenize(trimmed);
+    // Too few meaningful words — skip validation (user still typing / very brief)
+    if (descWords.length < 3) return true;
+
+    return descWords.intersection(corpus).isNotEmpty;
+  }
+
+  /// Validates that the user's description is relevant to the current asset
+  /// before running AI diagnosis. Shows a confirmation dialog when the
+  /// description appears unrelated, letting the user correct or proceed anyway.
+  void _validateAndGenerateSolution() {
+    if (_additionalDescription.trim().isNotEmpty &&
+        !_isDescriptionRelevantToAsset(_additionalDescription)) {
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Description Mismatch'),
+          content: Text(
+            "Your description doesn't seem to be about your "
+            "$_assetDisplayName.\n\n"
+            "For the most accurate AI diagnosis, please describe an issue "
+            "with your $_assetDisplayName. Would you like to edit it or "
+            "continue anyway?",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Edit Description'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                _generateSolution();
+              },
+              child: const Text('Continue Anyway'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    _generateSolution();
+  }
+
   Future<void> _generateSolution() async {
     if (_selectedIssues.isEmpty && _additionalDescription.trim().isEmpty) {
       return;
@@ -660,7 +738,7 @@ class _AiFixProblemScreenState extends State<AiFixProblemScreen> {
           additionalDescription: _additionalDescription,
           descriptionController: _descriptionController,
           isLoading: _isLoading,
-          onGenerateSolution: _generateSolution,
+          onGenerateSolution: _validateAndGenerateSolution,
           onIssueToggle: (issue) {
             setState(() {
               if (_selectedIssues.contains(issue)) {

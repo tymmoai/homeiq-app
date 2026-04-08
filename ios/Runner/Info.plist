@@ -58,6 +58,10 @@
 	</dict>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>HomeIQ scans your local Wi-Fi network to identify home appliances, TVs, printers and smart devices so you can manage them all in one place.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone so you can describe your issue using voice input for AI diagnosis.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We use speech recognition to transcribe your voice description of the issue for accurate AI diagnosis.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

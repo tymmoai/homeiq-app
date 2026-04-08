@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../features/claims/models/claim_model.dart';
 import '../../../providers/home_selection_provider.dart';
 import '../../../services/claims_service.dart';
 import '../../../utils/responsive_utils.dart';
@@ -29,6 +30,7 @@ class _ReplacementClaimScreenState
   DateTime? _selectedDate;
   final List<File> _images = [];
   final ImagePicker _picker = ImagePicker();
+  Claim? _createdClaim;
 
   @override
   void dispose() {
@@ -77,8 +79,8 @@ class _ReplacementClaimScreenState
 
   Future<void> _submitClaim() async {
     if (_formKey.currentState!.validate() && _selectedDate != null) {
-      // Save claim to ClaimsService
-      await ClaimsService.saveReplacementClaim(
+      // Save claim to ClaimsService (backend + local fallback)
+      final claim = await ClaimsService.saveReplacementClaim(
         assetName: widget.asset['name'] ?? 'Unknown Asset',
         assetId: widget.asset['id'] ?? 'unknown',
         assetBrand: widget.asset['brand'] ?? '',
@@ -88,6 +90,8 @@ class _ReplacementClaimScreenState
             ? _descriptionController.text.trim()
             : 'Replacement claim for ${widget.asset['name'] ?? 'asset'}. Inspection scheduled for ${_selectedDate != null ? "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}" : "selected date"}.',
       );
+
+      setState(() => _createdClaim = claim);
 
       // Show success dialog
       if (mounted) {
@@ -136,7 +140,13 @@ class _ReplacementClaimScreenState
                   child: ElevatedButton(
                     onPressed: () {
                       context.pop(); // Close dialog
-                      context.pop(); // Go back to previous screen
+                      if (_createdClaim != null) {
+                        // Replace this screen with the claim detail screen
+                        context.pop(); // Pop claim form
+                        context.push('/claim-detail', extra: _createdClaim);
+                      } else {
+                        context.pop(); // Just go back
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
@@ -145,7 +155,7 @@ class _ReplacementClaimScreenState
                       ),
                     ),
                     child: Text(
-                      'Done',
+                      'View Claim Details',
                       style: TextStyle(
                         fontSize: responsive.fontSize(15),
                         fontWeight: FontWeight.w600,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,6 +33,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  final ScrollController _scrollController = ScrollController();
+
   // Mock user preferences - shared across app while the app is running
   // so that changes feel global after saving.
   static final Map<String, dynamic> _preferences = {
@@ -61,6 +63,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -95,6 +98,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         centerTitle: false,
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         padding: EdgeInsets.all(responsive.spacing(20)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,48 +223,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   },
                 ),
                 SizedBox(height: responsive.spacing(12)),
-                _buildHealthScoreThresholdSection(),
-                SizedBox(height: responsive.spacing(4)),
                 _buildAdvanceNoticeSection(),
-              ],
-            ),
-            SizedBox(height: responsive.spacing(8)),
-            // Language & Region Section
-            _buildSectionCard(
-              icon: Icons.language,
-              title: 'Language & Region',
-              children: [
-                _buildLanguageDropdown(),
-                SizedBox(height: responsive.spacing(10)),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildDateTimeFormatDropdown(
-                        label: 'Date Format',
-                        value: _preferences['dateFormat'] ?? 'MM/DD/YYYY',
-                        items: const ['MM/DD/YYYY', 'DD/MM/YYYY'],
-                        onChanged: (value) {
-                          setState(() {
-                            _preferences['dateFormat'] = value;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(width: responsive.spacing(10)),
-                    Expanded(
-                      child: _buildDateTimeFormatDropdown(
-                        label: 'Time Format',
-                        value: _preferences['timeFormat'] ?? '12h',
-                        items: const ['12h', '24h'],
-                        onChanged: (value) {
-                          setState(() {
-                            _preferences['timeFormat'] = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
             SizedBox(height: responsive.spacing(15)),
@@ -446,75 +409,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         Switch(
           value: value,
           onChanged: onChanged,
-          activeThumbColor: AppColors.primary,
-          activeTrackColor: AppColors.primary.withValues(alpha: 0.4),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHealthScoreThresholdSection() {
-    final threshold =
-        (_preferences['healthScoreThreshold'] as num?)?.toDouble() ?? 6.0;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Appliance Health Alert Level',
-          style: TextStyle(
-            fontSize: responsive.fontSize(14),
-            fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        SizedBox(height: responsive.spacing(4)),
-        Text(
-          'Get alerts when appliance health falls below this level',
-          style: TextStyle(
-            fontSize: responsive.fontSize(12),
-            color: AppColors.textSecondary,
-          ),
-        ),
-        SizedBox(height: responsive.spacing(12)),
-        Row(
-          children: [
-            Expanded(
-              child: Slider(
-                value: threshold,
-                min: 0,
-                max: 10,
-                divisions: 20,
-                label: '$threshold/10',
-                activeColor: AppColors.primary,
-                onChanged: (value) {
-                  setState(() {
-                    _preferences['healthScoreThreshold'] = value;
-                  });
-                },
-              ),
-            ),
-            SizedBox(width: responsive.spacing(16)),
-            Container(
-              width: 60,
-              padding: EdgeInsets.symmetric(
-                vertical: responsive.spacing(8),
-                horizontal: responsive.spacing(12),
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.backgroundGray100,
-                borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-              ),
-              child: Text(
-                '$threshold/10',
-                style: TextStyle(
-                  fontSize: responsive.fontSize(16),
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
         ),
       ],
     );
@@ -566,13 +460,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       borderRadius: BorderRadius.circular(
                         AppDimensions.radiusBadge,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.shadowLight,
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.primary
+                            : AppColors.border,
+                        width: isSelected ? 1.5 : 1.0,
+                      ),
                     ),
                     child: Text(
                       '$dayValue ${dayValue == 1 ? 'Day' : 'Days'}',
@@ -596,148 +489,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ],
     );
   }
-
-  Widget _buildLanguageDropdown() {
-    return _buildDropdownField(
-      label: 'Language',
-      value: _preferences['language'] as String? ?? 'en',
-      items: const [
-        {'value': 'en', 'label': 'English'},
-        {'value': 'hi', 'label': 'Hindi'},
-        {'value': 'es', 'label': 'Spanish'},
-        {'value': 'fr', 'label': 'French'},
-      ],
-      onChanged: (value) {
-        setState(() {
-          _preferences['language'] = value;
-        });
-      },
-    );
-  }
-
-  Widget _buildDateTimeFormatDropdown({
-    required String label,
-    required String value,
-    required List<String> items,
-    required Function(String) onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: responsive.fontSize(14),
-            fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        SizedBox(height: responsive.spacing(8)),
-        _buildSimpleDropdown(value: value, items: items, onChanged: onChanged),
-      ],
-    );
-  }
-
-  Widget _buildDropdownField({
-    required String label,
-    required String value,
-    required List<Map<String, String>> items,
-    required Function(String) onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: responsive.fontSize(14),
-            fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        SizedBox(height: responsive.spacing(8)),
-        _buildSimpleDropdown(
-          value: value,
-          items: items.map((item) => item['value']!).toList(),
-          onChanged: onChanged,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSimpleDropdown({
-    required String value,
-    required List<String> items,
-    required Function(String) onChanged,
-  }) {
-    return PopupMenuButton<String>(
-      initialValue: value,
-      onSelected: onChanged,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(
-          horizontal: responsive.spacing(14),
-          vertical: responsive.spacing(12),
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppDimensions.radiusBadge),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.shadowLight,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                items.firstWhere((item) => item == value, orElse: () => value),
-                style: TextStyle(
-                  fontSize: responsive.fontSize(14),
-                  color: value.isEmpty
-                      ? AppColors.textSecondary
-                      : AppColors.textPrimary,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Icon(Icons.keyboard_arrow_down, color: AppColors.textPrimary),
-          ],
-        ),
-      ),
-      itemBuilder: (context) {
-        return items.map((item) {
-          return PopupMenuItem<String>(
-            value: item,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    item,
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(14),
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ),
-                if (item == value)
-                  Icon(
-                    Icons.check,
-                    size: responsive.iconSize(18),
-                    color: AppColors.primary,
-                  ),
-              ],
-            ),
-          );
-        }).toList();
-      },
-    );
-  }
-
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   //  THEME PICKER
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1150,6 +901,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         _isSaving = false;
         _successMessage = 'Settings saved successfully!';
       });
+
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
 
       Future.delayed(const Duration(seconds: 3), () {
         if (mounted) {

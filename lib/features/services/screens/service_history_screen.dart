@@ -285,7 +285,7 @@ class _ServiceHistoryScreenState extends State<ServiceHistoryScreen> {
                       ),
                       SizedBox(height: responsive.spacing(4.0)),
                       Text(
-                        '${service['category']} â€¢ ${service['date']}',
+                        '${service['category']} • ${service['date']}',
                         style: TextStyle(
                           fontSize: responsive.fontSize(14.0),
                           color: AppColors.textSecondary,

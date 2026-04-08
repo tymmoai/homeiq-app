@@ -84,6 +84,9 @@ dependencies:
   # Deep Links (email invite links → app)
   app_links: ^6.3.3
 
+  # Voice Input / Speech-to-Text
+  speech_to_text: ^7.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

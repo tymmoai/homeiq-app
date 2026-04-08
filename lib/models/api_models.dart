@@ -354,6 +354,7 @@ class AssetDto {
 
     return {
       'id': id,
+      'homeId': homeId,
       'name': name,
       'brand': brand ?? 'Unknown',
       'type': category,

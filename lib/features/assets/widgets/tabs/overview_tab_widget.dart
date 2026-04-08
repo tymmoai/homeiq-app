@@ -90,7 +90,10 @@ class OverviewTabWidget extends StatelessWidget {
     );
     final location = (asset['location'] ?? '').toString();
     final warranty = asset['warranty']?.toString() ?? 'Unknown';
-    final warrantyEndDate = asset['warrantyEndDate']?.toString();
+    // Prefer warrantyEndDate; fall back to warrantyExpiresAt (both set by the edit sheet)
+    final _rawEnd1 = asset['warrantyEndDate']?.toString().trim() ?? '';
+    final _rawEnd2 = asset['warrantyExpiresAt']?.toString().trim() ?? '';
+    final warrantyEndDate = _rawEnd1.isNotEmpty ? _rawEnd1 : (_rawEnd2.isNotEmpty ? _rawEnd2 : null);
     final currentYear = DateTime.now().year;
     final rawPurchaseYear = asset['purchaseYear'];
 
@@ -980,7 +983,7 @@ class OverviewTabWidget extends StatelessWidget {
               _buildDetailRow(
                 responsive,
                 'Coverage',
-                '$startDate — ${hasActiveProtectionPlan ? _formatIsoDate(endDate) : endDate}',
+                '${_formatDateToMonthYear(startDate)} — ${_formatDateToMonthYear(endDate)}',
                 valueColor: isWarrantyExpired ? AppColors.error : null,
               ),
               Divider(
@@ -1186,9 +1189,34 @@ class OverviewTabWidget extends StatelessWidget {
 
   String _formatStartDate(String? purchaseDate, int purchaseYear) {
     if (purchaseDate != null && purchaseDate.isNotEmpty) {
+      // If stored as an ISO string, convert to "Month Year"
+      final parsed = DateTime.tryParse(purchaseDate);
+      if (parsed != null) {
+        const months = [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        ];
+        return '${months[parsed.month - 1]} ${parsed.year}';
+      }
       return purchaseDate;
     }
     return 'Jan $purchaseYear';
+  }
+
+  /// Formats any date string to "Month Year" (e.g. "Feb 2027").
+  /// Accepts ISO format (2027-02-17T…) or already-formatted strings.
+  /// Returns the original string unchanged for "N/A" or unparseable values.
+  String _formatDateToMonthYear(String date) {
+    if (date.isEmpty || date == 'N/A') return date;
+    final parsed = DateTime.tryParse(date);
+    if (parsed != null) {
+      const months = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      ];
+      return '${months[parsed.month - 1]} ${parsed.year}';
+    }
+    return date;
   }
 
   /// Format ISO date string (e.g., "2027-02-17T00:00:00.000") to "Feb 17, 2027"

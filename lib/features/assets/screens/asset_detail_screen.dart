@@ -320,6 +320,7 @@ class _AssetDetailScreenState extends ConsumerState<AssetDetailScreen>
                   if (ext.isNotEmpty) ext.toUpperCase(),
                   if (sizeStr.isNotEmpty) sizeStr,
                 ].join(' • '),
+                'documentSize': sizeStr.isNotEmpty ? sizeStr : null,
                 'imagePath': d['url'] ?? '',
                 'type': d['type'] ?? 'other',
                 'mimeType': d['mimeType'],
@@ -345,30 +346,80 @@ class _AssetDetailScreenState extends ConsumerState<AssetDetailScreen>
   Future<void> _persistDocumentToBackend(Map<String, dynamic> newDoc) async {
     final assetId = widget.asset['id']?.toString() ?? '';
     if (assetId.isEmpty) return;
-    try {
-      const allowed = {
-        'warranty',
-        'manual',
-        'receipt',
-        'invoice',
-        'bill',
-        'photo',
-        'other',
-      };
-      final rawType = newDoc['type']?.toString().toLowerCase() ?? 'other';
-      final docType = allowed.contains(rawType) ? rawType : 'other';
-      await AssetApiService.instance.addDocument(
-        assetId: assetId,
-        name: newDoc['title']?.toString() ?? 'Document',
-        type: docType,
-        mimeType: newDoc['mimeType'] as String?,
-        sizeBytes: newDoc['sizeBytes'] as int?,
-      );
-      // Reload so backendId is populated and the list is in sync
-      await _loadDocsFromBackend();
-    } on Object catch (_) {
-      debugPrint('Failed to persist document to backend: \$e');
+
+    const allowed = {
+      'warranty',
+      'manual',
+      'receipt',
+      'invoice',
+      'bill',
+      'photo',
+      'other',
+    };
+    final rawType = newDoc['type']?.toString().toLowerCase() ?? 'other';
+    final docType = allowed.contains(rawType) ? rawType : 'other';
+    final localPath = newDoc['imagePath'] as String?;
+
+    bool backendSaved = false;
+
+    if (localPath != null && localPath.startsWith('/')) {
+      // File was picked from device — send the binary to the backend
+      try {
+        await AssetApiService.instance.uploadDocumentFile(
+          assetId: assetId,
+          filePath: localPath,
+          name: newDoc['title']?.toString() ?? 'Document',
+          type: docType,
+        );
+        backendSaved = true;
+      } on Object catch (e) {
+        debugPrint('File upload failed, saving metadata as fallback: $e');
+        // Fallback: save metadata-only record so the doc appears after restart
+        try {
+          await AssetApiService.instance.addDocument(
+            assetId: assetId,
+            name: newDoc['title']?.toString() ?? 'Document',
+            type: docType,
+            mimeType: newDoc['mimeType'] as String?,
+            sizeBytes: newDoc['sizeBytes'] as int?,
+          );
+          backendSaved = true;
+        } on Object catch (fallbackErr) {
+          debugPrint('Metadata fallback also failed: $fallbackErr');
+        }
+        // Inform the user the preview won't be available
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Document saved without preview. Check connection and re-upload for image.',
+              ),
+              duration: Duration(seconds: 4),
+            ),
+          );
+        }
+      }
+    } else {
+      // No local file — metadata-only record
+      try {
+        await AssetApiService.instance.addDocument(
+          assetId: assetId,
+          name: newDoc['title']?.toString() ?? 'Document',
+          type: docType,
+          mimeType: newDoc['mimeType'] as String?,
+          sizeBytes: newDoc['sizeBytes'] as int?,
+        );
+        backendSaved = true;
+      } on Object catch (e) {
+        debugPrint('Failed to persist document metadata: $e');
+      }
     }
+
+    // Reload only when something was actually saved so the list stays consistent
+    if (backendSaved) {
+      await _loadDocsFromBackend();
+    }
+    // If nothing was saved: keep the local entry visible for this session
   }
 
   /// Load issues for this asset from the backend API.

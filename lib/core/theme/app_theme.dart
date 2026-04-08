@@ -293,16 +293,20 @@ class AppTheme {
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return p.accent;
+            return Colors.white;
           }
-          return isDark ? const Color(0xFF555555) : AppColors.borderLight;
+          return isDark ? const Color(0xFF888888) : const Color(0xFFAAAAAA);
         }),
         trackColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return p.accentLight;
+            return p.primary;
           }
-          return p.border;
+          return isDark
+              ? const Color(0xFF444444)
+              : const Color(0xFFDDDDDD);
         }),
+        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+        trackOutlineWidth: WidgetStateProperty.all(0),
       ),
 
       // Checkbox Theme

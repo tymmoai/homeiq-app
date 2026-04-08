@@ -172,7 +172,6 @@ class _Step4DocumentsScreenState extends State<Step4DocumentsScreen> {
         final picker = ImagePicker();
         final image = await picker.pickImage(
           source: ImageSource.gallery,
-          imageQuality: 85,
         );
         if (image != null) {
           filePath = image.path;

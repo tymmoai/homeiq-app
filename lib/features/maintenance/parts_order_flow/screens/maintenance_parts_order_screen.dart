@@ -27,7 +27,6 @@ class _MaintenancePartsOrderScreenState
   String? _error;
   List<_Part> _parts = [];
   List<bool> _selectedParts = [];
-  bool _showComparison = false;
   int _subtotal = 0;
   Map<String, int> _providerTotals = {};
   // ignore: unused_field
@@ -200,36 +199,9 @@ class _MaintenancePartsOrderScreenState
       return sum +
           (_selectedParts[i] ? part.priceEncompass * part.quantity : 0);
     });
-
     setState(() {
       _subtotal = encTotal;
       _providerTotals = {'Encompass': encTotal};
-      if (_showComparison) {
-        final marcTotal = _parts.asMap().entries.fold(0, (sum, entry) {
-          final i = entry.key;
-          final part = entry.value;
-          return sum +
-              (_selectedParts[i] ? part.priceMarcone * part.quantity : 0);
-        });
-        final localTotal = _parts.asMap().entries.fold(0, (sum, entry) {
-          final i = entry.key;
-          final part = entry.value;
-          return sum +
-              (_selectedParts[i] ? part.priceLocal * part.quantity : 0);
-        });
-        _providerTotals = {
-          'Encompass': encTotal,
-          'Marcone': marcTotal,
-          'Reliable Parts': localTotal,
-        };
-      }
-    });
-  }
-
-  void _toggleComparison() {
-    setState(() {
-      _showComparison = !_showComparison;
-      _recalculateTotals();
     });
   }
 
@@ -434,37 +406,16 @@ class _MaintenancePartsOrderScreenState
                         ],
                       ),
                     ),
-                    SizedBox(height: responsive.spacing(24)),
-                    // Total Price section
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Price',
-                          style: TextStyle(
-                            fontSize: responsive.fontSize(16),
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        if (!_showComparison)
-                          TextButton(
-                            onPressed: _toggleComparison,
-                            child: Text(
-                              'Compare',
-                              style: TextStyle(
-                                fontSize: responsive.fontSize(14),
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(height: responsive.spacing(12)),
+                    SizedBox(height: responsive.spacing(20)),
+                    // Encompass provider summary
                     Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: responsive.spacing(14),
+                        vertical: responsive.spacing(12),
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.white,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.shadow,
@@ -473,128 +424,59 @@ class _MaintenancePartsOrderScreenState
                           ),
                         ],
                       ),
-                      child: Column(
+                      child: Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(responsive.spacing(16)),
-                            decoration: BoxDecoration(
-                              color: AppColors.backgroundGray50,
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(8),
-                              ),
-                              border: Border(
-                                bottom: BorderSide(color: AppColors.border),
-                              ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Encompass',
-                                      style: TextStyle(
-                                        fontSize: responsive.fontSize(14),
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.textPrimary,
-                                      ),
-                                    ),
-                                    SizedBox(width: responsive.spacing(8)),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: responsive.spacing(8),
-                                        vertical: responsive.spacing(2),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppColors.shadow,
-                                            blurRadius: 8,
-                                            offset: const Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Text(
-                                        'Recommended',
-                                        style: TextStyle(
-                                          fontSize: responsive.fontSize(10),
-                                          color: AppColors.textPrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  '\$${_providerTotals['Encompass'] ?? 0}',
-                                  style: TextStyle(
-                                    fontSize: responsive.fontSize(14),
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.textPrimary,
-                                  ),
-                                ),
-                              ],
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              'Encompass',
+                              style: TextStyle(
+                                fontSize: responsive.fontSize(12),
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
-                          if (_showComparison &&
-                              _providerTotals.containsKey('Marcone'))
-                            Container(
-                              padding: EdgeInsets.all(responsive.spacing(16)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Marcone',
-                                    style: TextStyle(
-                                      fontSize: responsive.fontSize(14),
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                  Text(
-                                    '\$${_providerTotals['Marcone']}',
-                                    style: TextStyle(
-                                      fontSize: responsive.fontSize(14),
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          SizedBox(width: responsive.spacing(8)),
+                          Text(
+                            'Authorized Parts Provider',
+                            style: TextStyle(
+                              fontSize: responsive.fontSize(13),
+                              color: AppColors.gray600,
                             ),
-                          if (_showComparison &&
-                              _providerTotals.containsKey('Reliable Parts'))
-                            Container(
-                              padding: EdgeInsets.all(responsive.spacing(16)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Reliable Parts',
-                                    style: TextStyle(
-                                      fontSize: responsive.fontSize(14),
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                  Text(
-                                    '\$${_providerTotals['Reliable Parts']}',
-                                    style: TextStyle(
-                                      fontSize: responsive.fontSize(14),
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                ],
+                          ),
+                          const Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Total',
+                                style: TextStyle(
+                                  fontSize: responsive.fontSize(11),
+                                  color: AppColors.gray500,
+                                ),
                               ),
-                            ),
+                              Text(
+                                '\$${_providerTotals['Encompass'] ?? 0}',
+                                style: TextStyle(
+                                  fontSize: responsive.fontSize(16),
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                    SizedBox(height: responsive.spacing(32)),
+                    SizedBox(height: responsive.spacing(20)),
                     // Buy Parts button
                     SizedBox(
                       width: double.infinity,
