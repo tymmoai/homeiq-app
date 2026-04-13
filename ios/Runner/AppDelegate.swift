@@ -4,7 +4,7 @@ import UIKit
 // ─────────────────────────────────────────────────────────────────────────────
 // AppDelegate — HomeIQ
 //
-// Platform channel: "com.tymmo.homeiq/wifi"
+// Platform channel: "com.301io.homeiq/wifi"
 //
 // Implements all 7 methods so iOS returns comparable results to Android:
 //   • acquireMulticastLock   → no-op on iOS (always returns true)
@@ -20,7 +20,7 @@ import UIKit
 @main
 @objc class AppDelegate: FlutterAppDelegate {
 
-    private let channelName = "com.tymmo.homeiq/wifi"
+    private let channelName = "com.301io.homeiq/wifi"
 
     override func application(
         _ application: UIApplication,

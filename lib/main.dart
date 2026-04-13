@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'core/config/environment.dart';
 import 'core/constants/app_colors.dart';
 import 'core/constants/app_dimensions.dart';
@@ -15,7 +14,6 @@ import 'routes/app_router.dart';
 import 'services/api_usage_tracker.dart';
 import 'services/deep_link_service.dart';
 import 'services/user_service.dart';
-// Note: goRouterProvider is defined in app_router.dart
 
 // Provider for SharedPreferences
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {

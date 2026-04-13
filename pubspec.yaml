@@ -75,6 +75,10 @@ dependencies:
   # File Operations
   url_launcher: ^6.3.1
   share_plus: ^10.1.2
+  path_provider: ^2.1.2
+  
+  # PDF Generation
+  pdf: ^3.11.0
   
   # WebView for embedded content (e.g. YouTube DIY videos)
   webview_flutter: ^4.8.0

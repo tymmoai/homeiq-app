@@ -30,10 +30,11 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   ResponsiveUtils get responsive => ResponsiveUtils(context);
-  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _focusNode = FocusNode();
   bool _isLoading = false;
+  bool _hasAttemptedValidation = false;
+  String? _emailError;
 
   @override
   void initState() {
@@ -41,6 +42,8 @@ class _SignInScreenState extends State<SignInScreen> {
     if (widget.prefilledEmail != null && widget.prefilledEmail!.isNotEmpty) {
       _emailController.text = widget.prefilledEmail!;
     }
+    // Listen for input changes to clear errors once user corrects the field
+    _emailController.addListener(_clearEmailErrorIfValid);
   }
 
   @override
@@ -50,8 +53,27 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
+  /// Clear email error only if it was shown AND the email is now valid
+  void _clearEmailErrorIfValid() {
+    if (_emailError == null || !_hasAttemptedValidation) return;
+    final email = _emailController.text.trim();
+    final error = email.isEmpty ? null : AppValidators.email(email);
+    if (error == null && _emailError != null) {
+      setState(() => _emailError = null);
+    }
+  }
+
+  /// Validate email field (called only on Send OTP button click)
+  bool _validateEmail() {
+    _hasAttemptedValidation = true;
+    final email = _emailController.text.trim();
+    final error = email.isEmpty ? 'Email is required' : AppValidators.email(email);
+    setState(() => _emailError = error);
+    return error == null;
+  }
+
   Future<void> _handleLogin() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_validateEmail()) return;
     setState(() => _isLoading = true);
 
     try {
@@ -205,9 +227,7 @@ class _SignInScreenState extends State<SignInScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: responsive.spacing(24)),
-          child: Form(
-            key: _formKey,
-            child: Column(
+          child: Column(
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -306,7 +326,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                             ],
                           ),
-                          child: TextFormField(
+                          child: TextField(
                             controller: _emailController,
                             focusNode: _focusNode,
                             keyboardType: TextInputType.emailAddress,
@@ -335,9 +355,18 @@ class _SignInScreenState extends State<SignInScreen> {
                                 vertical: 16,
                               ),
                             ),
-                            validator: AppValidators.email,
                           ),
                         ),
+                        if (_emailError != null) ...[
+                          SizedBox(height: responsive.spacing(8)),
+                          Text(
+                            _emailError!,
+                            style: TextStyle(
+                              color: Colors.red.shade700,
+                              fontSize: responsive.fontSize(12),
+                            ),
+                          ),
+                        ],
 
                         SizedBox(height: screenHeight * 0.06),
 
@@ -470,8 +499,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 }

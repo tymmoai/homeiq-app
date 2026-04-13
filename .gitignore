@@ -155,6 +155,11 @@ coverage/
 # Symbols
 app.*.symbols
 
+# SonarQube
+.scannerwork/
+.env.sonar
+sonar-app.log
+
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
 !**/ios/**/default.mode2v3

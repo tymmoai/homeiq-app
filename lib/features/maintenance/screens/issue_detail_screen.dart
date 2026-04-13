@@ -1,10 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
+import '../../../../services/pdf_generator_service.dart';
 import '../../../theme/asset_detail_colors.dart';
 import '../../../utils/responsive_utils.dart';
 
@@ -52,11 +54,11 @@ class IssueDetailScreen extends StatelessWidget {
                       _buildServiceDetails(context),
                       SizedBox(height: responsive.spacing(16)),
                       _buildWarrantyClaim(context),
-                      SizedBox(height: responsive.spacing(16)),
+                      SizedBox(height: responsive.spacing(0)),
                       _buildProblemDescription(context),
-                      SizedBox(height: responsive.spacing(16)),
+                      SizedBox(height: responsive.spacing(4)),
                       _buildSolution(context),
-                      SizedBox(height: responsive.spacing(16)),
+                      SizedBox(height: responsive.spacing(4)),
                       _buildCostAndImpact(context),
                       SizedBox(height: responsive.spacing(16)),
                       _buildClaimProgress(context, isResolved),
@@ -76,9 +78,9 @@ class IssueDetailScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context, String status, bool isResolved) {
     final responsive = ResponsiveUtils(context);
     return Container(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 8,
-        bottom: 12,
+      padding: const EdgeInsets.only(
+        top: 12,
+        bottom: 16,
         left: 16,
         right: 16,
       ),
@@ -98,7 +100,7 @@ class IssueDetailScreen extends StatelessWidget {
             onTap: () => context.pop(),
             child: Icon(
               Icons.arrow_back_ios,
-              color: AppColors.headerForeground,
+              color: Colors.white,
               size: responsive.iconSize(20),
             ),
           ),
@@ -106,23 +108,25 @@ class IssueDetailScreen extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   issue['title'] ?? 'Issue Details',
                   style: TextStyle(
-                    color: AppColors.headerForeground,
-                    fontSize: responsive.fontSize(20),
+                    color: Colors.white,
+                    fontSize: responsive.fontSize(18),
                     fontWeight: FontWeight.bold,
+                    height: 1.2,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: responsive.spacing(4)),
                 Text(
                   'Issue #${issue['id'] ?? '1'} • Reported on ${_formatDate(issue['date']?.toString() ?? issue['createdAt']?.toString())}',
                   style: TextStyle(
-                    color: AppColors.headerForeground.withValues(alpha: 0.8),
-                    fontSize: responsive.fontSize(13),
+                    color: Colors.white.withValues(alpha: 0.85),
+                    fontSize: responsive.fontSize(12),
+                    height: 1.2,
                   ),
                 ),
               ],
@@ -571,6 +575,7 @@ class IssueDetailScreen extends StatelessWidget {
   Widget _buildProblemDescription(BuildContext context) {
     final responsive = ResponsiveUtils(context);
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.all(responsive.spacing(16)),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -589,9 +594,9 @@ class IssueDetailScreen extends StatelessWidget {
           Text(
             'Problem Description',
             style: TextStyle(
+              fontSize: responsive.fontSize(16),
+              fontWeight: FontWeight.bold,
               color: AssetDetailColors.textPrimary,
-              fontSize: responsive.fontSize(14),
-              fontWeight: FontWeight.w600,
             ),
           ),
           SizedBox(height: responsive.spacing(8)),
@@ -600,7 +605,7 @@ class IssueDetailScreen extends StatelessWidget {
             style: TextStyle(
               color: AppColors.gray700,
               fontSize: responsive.fontSize(13),
-              height: 1.5,
+              height: 1.6,
             ),
           ),
         ],
@@ -916,95 +921,113 @@ class IssueDetailScreen extends StatelessWidget {
     );
   }
 
-  void _downloadIssueReport(BuildContext context) {
-    // Generate report text
-    _generateReportText();
-
-    // Show download confirmation
+  void _downloadIssueReport(BuildContext context) async {
+    // Show a persistent loading snackbar while generating
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Downloading issue report...'),
-        backgroundColor: AssetDetailColors.successColor,
-        duration: Duration(seconds: 2),
+        content: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: 12),
+            Text('Generating PDF...'),
+          ],
+        ),
+        duration: Duration(seconds: 30),
       ),
     );
 
-    // In a real implementation, you would:
-    // 1. Generate a PDF using pdf package
-    // 2. Save it to device storage
-    // 3. Show notification or open the file
-    // For now, we'll just show a success message
-    Future.delayed(const Duration(seconds: 1), () {
+    try {
+      final file = await PdfGeneratorService().generateIssueReportPdf(
+        issue: issue,
+        asset: asset,
+      );
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+      if (Platform.isAndroid) {
+        // Save to external storage — visible under Files > Internal storage > Android/data/…
+        final dir = await getExternalStorageDirectory();
+        final saveDir = dir ?? await getApplicationDocumentsDirectory();
+        final name =
+            'issue_report_${DateTime.now().millisecondsSinceEpoch}.pdf';
+        final saved = await file.copy('${saveDir.path}/$name');
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('PDF saved: ${saved.path}'),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'Share',
+                textColor: Colors.white,
+                onPressed: () => Share.shareXFiles(
+                  [XFile(saved.path, mimeType: 'application/pdf')],
+                  subject:
+                      'Issue Report - ${issue['title'] ?? 'Issue Details'}',
+                ),
+              ),
+            ),
+          );
+        }
+      } else {
+        // iOS — save to Files via share sheet
+        await Share.shareXFiles(
+          [XFile(file.path, mimeType: 'application/pdf')],
+          subject: 'Issue Report - ${issue['title'] ?? 'Issue Details'}',
+        );
+      }
+    } on Object catch (e) {
       if (context.mounted) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Report downloaded successfully'),
-            backgroundColor: AssetDetailColors.successColor,
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text('Failed to generate PDF: $e'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
           ),
         );
       }
-    });
+    }
   }
 
   void _shareIssueReport(BuildContext context) async {
-    // Generate report text
-    final reportText = _generateReportText();
-
-    // Share the report
     try {
-      await Share.share(
-        reportText,
-        subject: 'Issue Report - ${issue['title'] ?? 'Issue Details'}',
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Generating PDF for sharing...'),
+          duration: Duration(seconds: 2),
+        ),
       );
-    } on Object catch (_) {
+
+      final file = await PdfGeneratorService().generateIssueReportPdf(
+        issue: issue,
+        asset: asset,
+      );
+
+      if (context.mounted) {
+        await PdfGeneratorService.sharePdf(
+          file,
+          subject: 'Issue Report - ${issue['title'] ?? 'Issue Details'}',
+        );
+      }
+    } on Object catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Unable to share the report. Please try again.'),
-            backgroundColor: AssetDetailColors.errorColor,
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text('Failed to share PDF: $e'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
           ),
         );
       }
     }
-  }
-
-  String _generateReportText() {
-    final buffer = StringBuffer();
-    buffer.writeln('ISSUE REPORT');
-    buffer.writeln('=' * 40);
-    buffer.writeln();
-    buffer.writeln('Title: ${issue['title'] ?? 'N/A'}');
-    buffer.writeln('Claim #: ${issue['id'] ?? 'N/A'}');
-    buffer.writeln('Reported: ${issue['date'] ?? 'N/A'}');
-    buffer.writeln('Status: ${issue['status'] ?? 'N/A'}');
-    buffer.writeln();
-    buffer.writeln('ASSET INFORMATION');
-    buffer.writeln('-' * 40);
-    buffer.writeln('Asset: ${asset['name'] ?? 'N/A'}');
-    buffer.writeln('Model: ${asset['model'] ?? 'N/A'}');
-    buffer.writeln();
-    buffer.writeln('ISSUE DETAILS');
-    buffer.writeln('-' * 40);
-    buffer.writeln('Category: ${issue['category'] ?? 'N/A'}');
-    buffer.writeln(
-      'Priority: ${issue['priority'] ?? issue['severity'] ?? 'N/A'}',
-    );
-    buffer.writeln('Warranty: ${issue['warranty'] ?? 'N/A'}');
-    buffer.writeln();
-    buffer.writeln('PROBLEM DESCRIPTION');
-    buffer.writeln('-' * 40);
-    buffer.writeln(issue['description'] ?? 'No description available.');
-    buffer.writeln();
-    if (issue['solution'] != null) {
-      buffer.writeln('SOLUTION');
-      buffer.writeln('-' * 40);
-      buffer.writeln(issue['solution']);
-      buffer.writeln();
-    }
-    buffer.writeln('=' * 40);
-    buffer.writeln('Generated by ${AppStrings.appName} App');
-    return buffer.toString();
   }
 }

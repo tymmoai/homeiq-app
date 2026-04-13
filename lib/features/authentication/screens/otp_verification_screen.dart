@@ -33,7 +33,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _otpController = TextEditingController();
   final FocusNode _hiddenFocusNode = FocusNode();
   bool _isVerifying = false;
-  bool _hasAutoSubmitted = false; // Prevent double-submit on auto-verify
+  String? _otpError;
 
   // ── OTP Expiry Timer (10 minutes — matches server OTP_EXPIRY_MINUTES) ──
   static const int _otpExpirySeconds = 600; // 10 minutes
@@ -103,22 +103,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
   void _onOtpChanged() {
-    setState(() {});
-    if (_otpController.text.length == 6 &&
-        !_isVerifying &&
-        !_hasAutoSubmitted) {
-      _hasAutoSubmitted = true;
+    // Clear error if validation was attempted AND user has now entered 6 digits
+    if (_otpError != null && _otpController.text.length == 6) {
+      setState(() => _otpError = null);
+    } else {
+      setState(() {});
+    }
+
+    // Auto-submit when all 6 digits are entered
+    if (_otpController.text.length == 6 && !_isVerifying) {
       Future.delayed(const Duration(milliseconds: 300), () {
         if (mounted && _otpController.text.length == 6 && !_isVerifying) {
           _handleVerify();
-        } else {
-          _hasAutoSubmitted = false;
         }
       });
-    }
-    // Reset auto-submit flag if user deletes digits
-    if (_otpController.text.length < 6) {
-      _hasAutoSubmitted = false;
     }
   }
 
@@ -142,16 +140,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     final otp = _otpController.text;
     if (otp.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter the full 6-digit code'),
-          backgroundColor: AppColors.errorMaterialDark,
-        ),
-      );
+      setState(() => _otpError = 'Please enter the full 6-digit code');
       return;
     }
 
-    setState(() => _isVerifying = true);
+    setState(() {
+      _otpError = null;
+      _isVerifying = true;
+    });
     _hiddenFocusNode.unfocus();
 
     try {
@@ -184,7 +180,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if (!mounted) return;
       // Clear OTP and show error
       _otpController.clear();
-      _hasAutoSubmitted = false;
+      setState(() => _otpError = null);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString().replaceFirst('Exception: ', '')),
@@ -444,6 +440,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       ),
                     ),
                     SizedBox(height: responsive.spacing(24)),
+                    if (_otpError != null) ...[
+                      Center(
+                        child: Text(
+                          _otpError!,
+                          style: TextStyle(
+                            color: Colors.red.shade700,
+                            fontSize: responsive.fontSize(12),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: responsive.spacing(16)),
+                    ],
                     // Resend code
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

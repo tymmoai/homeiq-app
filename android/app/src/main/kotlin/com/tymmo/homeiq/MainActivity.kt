@@ -1,4 +1,4 @@
-package com.tymmo.homeiq
+package com.io301.homeiq
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -20,7 +20,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.tymmo.homeiq/wifi"
+    private val CHANNEL = "com.io301.homeiq/wifi"
     private var multicastLock: WifiManager.MulticastLock? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

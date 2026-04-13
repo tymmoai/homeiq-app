@@ -721,80 +721,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 hasAccess: hasMaintenanceAccess,
               )
             : _buildHomeTabWithFixedHeader(),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            border: Border(top: BorderSide(color: AppColors.border, width: 1)),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.shadow,
-                blurRadius: responsive.spacing(8.0),
-                offset: const Offset(0, -2),
-              ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _getBottomNavIndex(),
-            selectedItemColor: AppColors.primary,
-            unselectedItemColor: AppColors.textDisabled,
-            elevation: 0,
-            onTap: (index) {
-              setState(() {
-                // Map bottom nav index to actual tab index
-                // 0 -> Home (0), 1 -> Services (1), 2 -> AI (2), 3 -> Assets (3), 4 -> Maintenance (4)
-                if (index == 2) {
-                  _selectedNavIndex = 2; // AI Assistance
-                } else if (index < 2) {
-                  _selectedNavIndex = index;
-                } else {
-                  _selectedNavIndex = index; // Assets and Maintenance
-                }
-
-                // Reload maintenance data when Maintenance tab is selected
-                if (index == 4) {
-                  _loadMaintenanceReminders();
-                }
-                // Reload active claims when Home tab is selected
-                if (index == 0) {
-                  _loadActiveClaims();
-                }
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_outlined,
-                  size: responsive.iconSize(24.0),
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.build_outlined,
-                  size: responsive.iconSize(24.0),
-                ),
-                label: 'Services',
-              ),
-              const BottomNavigationBarItem(icon: SizedBox(), label: ''),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.inventory_2_outlined,
-                  size: responsive.iconSize(24.0),
-                ),
-                label: 'Assets',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_repair_service_outlined,
-                  size: responsive.iconSize(24.0),
-                ),
-                label: 'Maintenance',
-              ),
-            ],
-          ),
-        ),
+        bottomNavigationBar: _buildBottomNav(responsive: responsive),
         floatingActionButton: GestureDetector(
           onTap: () {
             setState(() {
@@ -834,11 +761,58 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  int _getBottomNavIndex() {
-    // Map actual tab index to bottom nav index
-    if (_selectedNavIndex == 2) return 2; // AI Assistance
-    if (_selectedNavIndex < 2) return _selectedNavIndex;
-    return _selectedNavIndex; // Assets (3) and Maintenance (4)
+  /// Builds the bottom nav. All 5 tabs are always visible.
+  /// Access restrictions are enforced inside each tab's content area.
+  Widget _buildBottomNav({required ResponsiveUtils responsive}) {
+
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        border: Border(top: BorderSide(color: AppColors.border, width: 1)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadow,
+            blurRadius: responsive.spacing(8.0),
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedNavIndex,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textDisabled,
+        elevation: 0,
+        onTap: (index) {
+          if (index == 2) return; // FAB placeholder
+          setState(() {
+            _selectedNavIndex = index;
+            if (index == 4) _loadMaintenanceReminders();
+            if (index == 0) _loadActiveClaims();
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined, size: responsive.iconSize(24.0)),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.build_outlined, size: responsive.iconSize(24.0)),
+            label: 'Services',
+          ),
+          const BottomNavigationBarItem(icon: SizedBox(), label: ''),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inventory_2_outlined, size: responsive.iconSize(24.0)),
+            label: 'Assets',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_repair_service_outlined, size: responsive.iconSize(24.0)),
+            label: 'Maintenance',
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns the address of the currently selected home, with full null safety.
@@ -1760,6 +1734,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         letterSpacing: -0.3,
                       ),
                     ),
+                    if (hasAccess)
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
@@ -2693,13 +2668,123 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         );
       },
-      loading: () => const SizedBox.shrink(),
-      error: (_, e) => const SizedBox.shrink(),
+      loading: () => Padding(
+        padding: EdgeInsets.only(bottom: responsive.spacing(12.0)),
+        child: Container(
+          padding: EdgeInsets.all(responsive.spacing(14.0)),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.35),
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              ),
+              SizedBox(width: responsive.spacing(12.0)),
+              Text(
+                'Checking invitations...',
+                style: TextStyle(
+                  fontSize: responsive.fontSize(14.0),
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      error: (error, stackTrace) => Padding(
+        padding: EdgeInsets.only(bottom: responsive.spacing(12.0)),
+        child: Container(
+          padding: EdgeInsets.all(responsive.spacing(14.0)),
+          decoration: BoxDecoration(
+            color: AppColors.error.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: AppColors.error.withValues(alpha: 0.35),
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.error.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.error_outline,
+                  color: AppColors.error,
+                  size: 20,
+                ),
+              ),
+              SizedBox(width: responsive.spacing(12.0)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Failed to load invitations',
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(14.0),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.error,
+                      ),
+                    ),
+                    Text(
+                      error.toString(),
+                      style: TextStyle(
+                        fontSize: responsive.fontSize(11.0),
+                        color: AppColors.error,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  color: AppColors.error,
+                  size: 20,
+                ),
+                onPressed: () => ref.refresh(myPendingInvitesProvider),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildNewUserWelcome() {
     final responsive = ResponsiveUtils(context);
+    final isOwner = ref.watch(selectedHomeIsOwnerProvider);
+    final grantedSvcAsync = ref.watch(grantedServiceTypesProvider);
+    final grantedSvc = grantedSvcAsync.valueOrNull;
+    final hasServicesAccess =
+        !grantedSvcAsync.hasValue ||
+        isOwner ||
+        (grantedSvc?.contains('bookings') ?? true);
     return Column(
       children: [
         SizedBox(height: responsive.spacing(20.0)),
@@ -2768,16 +2853,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               if (ref.watch(selectedHomeIsOwnerProvider))
                 SizedBox(height: responsive.spacing(12.0)),
-              _buildQuickAction(
-                icon: Icons.build_outlined,
-                title: 'Browse Services',
-                subtitle: 'Explore home and lifestyle services',
-                onTap: () {
-                  setState(() {
-                    _selectedNavIndex = 1; // Switch to Services tab
-                  });
-                },
-              ),
+              if (hasServicesAccess)
+                _buildQuickAction(
+                  icon: Icons.build_outlined,
+                  title: 'Browse Services',
+                  subtitle: 'Explore home and lifestyle services',
+                  onTap: () {
+                    setState(() {
+                      _selectedNavIndex = 1; // Switch to Services tab
+                    });
+                  },
+                ),
             ],
           ),
         ),
@@ -3336,7 +3422,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       builder: (BuildContext modalContext) {
         return SelectHomeBottomSheet(
           homes: homes
-              .map((h) => {'name': h.name, 'address': h.address})
+              .map((h) => {
+                'name': h.name,
+                'address': h.address,
+                'accessRole': h.accessRole,
+              })
               .toList(),
           selectedHomeName: selectedName,
           onSelect: (name) async {

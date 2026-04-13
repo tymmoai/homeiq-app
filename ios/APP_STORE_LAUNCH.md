@@ -1,6 +1,6 @@
 # Launching HomeIQ on the App Store (iOS)
 
-Your app is **one Flutter project** that builds for both **Google Play (Android)** and **App Store (iOS)**. The iOS bundle ID is set to **com.tymmo.homeiq** (same as Android package name).
+Your app is **one Flutter project** that builds for both **Google Play (Android)** and **App Store (iOS)**. The iOS bundle ID is set to **com.301io.homeiq** (same as Android package name).
 
 ---
 
@@ -27,7 +27,7 @@ Do these **on your Mac**:
    - In Xcode: select the **Runner** project → **Signing & Capabilities**.
    - Choose your **Team** (your Apple Developer account).
    - Ensure **Automatically manage signing** is checked.
-   - Bundle ID is already **com.tymmo.homeiq**.
+   - Bundle ID is already **com.301io.homeiq**.
 
 3. **Test on device or simulator**
    - Connect an iPhone or choose an iPhone simulator.

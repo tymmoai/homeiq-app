@@ -1480,6 +1480,7 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
     });
 
     // ── STEP 2: Lookup via Barcode API using extracted barcode or model ──
+    // (Barcode API returns product image URL via SerpAPI)
     LabelExtractionResult enrichedResult = result;
 
     final lookupBarcode = result.barcode.isNotEmpty ? result.barcode : null;
@@ -1817,6 +1818,15 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
     return true;
   }
 
+  /// Verify that extraction result has critical fields (brand, model, serial, or barcode).
+  /// This ensures we don't show success for images that weren't actually product labels.
+  bool _hasCriticalFields(LabelExtractionResult result) {
+    return result.brand.isNotEmpty ||
+        result.model.isNotEmpty ||
+        result.serial.isNotEmpty ||
+        result.barcode.isNotEmpty;
+  }
+
   /// Check category mismatch for barcode/enriched scan results.
   void _checkCategoryMismatchForEnriched(EnrichedScanResult result) {
     final detectedTypes = <String>[];
@@ -2011,6 +2021,7 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
 
     // Check if the model looks like a non-product (warranty plan, SKU, etc.)
     final modelLower = (model ?? '').toLowerCase();
+    final brandLower = (brand ?? '').toLowerCase();
     final titleLower = (widget.formData.productTitle ?? '').toLowerCase();
     final isNonProduct =
         modelLower.contains('\$') ||
@@ -2020,6 +2031,24 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
         RegExp(
           r'\b(protection plan|warranty|care\+?|applecare|geek squad)\b',
         ).hasMatch(titleLower);
+
+    // Skip image lookup when the model/brand are WiFi-discovered placeholders
+    // (e.g. brand="Device", model="Device at 192.168.x.x") — they produce random
+    // unrelated photos which is worse than showing no image at all.
+    final looksLikeNetworkDevice =
+        RegExp(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}').hasMatch(model ?? '') ||
+        RegExp(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}').hasMatch(brand ?? '') ||
+        (brandLower == 'device' &&
+            (modelLower.startsWith('device') ||
+                modelLower.startsWith('unknown') ||
+                modelLower.isEmpty));
+    if (looksLikeNetworkDevice) {
+      // Clear any image that may have been auto-set from a previous lookup
+      widget.formData.productImageUrl = null;
+      widget.formData.photoPath = null;
+      widget.onNext();
+      return;
+    }
 
     // Only skip lookup if we have a reliable image AND it's for an actual product (not a plan/warranty)
     if (!isNonProduct &&
@@ -2149,6 +2178,19 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
             widget.formData.enrichmentSource?.contains('barcode') == true ||
             widget.formData.enrichmentSource?.contains('serpapi') == true);
     if (!force && hasReliableImage) return;
+
+    // Don't fetch images for WiFi-discovered network devices — the brand/model
+    // are generic placeholders (e.g. "Device at 192.168.x.x") and will only
+    // return unrelated random photos.
+    final brandStr = (brand ?? '').toLowerCase();
+    if (RegExp(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}').hasMatch(model ?? '') ||
+        RegExp(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}').hasMatch(brand ?? '') ||
+        (brandStr == 'device' &&
+            (modelStr.startsWith('device') ||
+                modelStr.startsWith('unknown') ||
+                modelStr.isEmpty))) {
+      return;
+    }
 
     if ((brand == null || brand.isEmpty) &&
         (assetType == null || assetType.isEmpty)) {
@@ -2551,7 +2593,9 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
   Widget _buildLabelImageSection() {
     final isLoading = _isExtractingFromImage || _isLookingUp;
     final hasImageExtraction =
-        _labelExtractionResult != null && _labelExtractionResult!.isSuccess;
+        _labelExtractionResult != null &&
+        _labelExtractionResult!.isSuccess &&
+        _hasCriticalFields(_labelExtractionResult!);
     final hasEnrichedResult =
         _enrichedResult != null && _enrichedResult!.isSuccess;
     final isSuccess = hasImageExtraction || hasEnrichedResult;
@@ -2591,7 +2635,8 @@ class _Step2IdentifyScreenState extends State<Step2IdentifyScreen> {
         // ── Extraction Error ──
         if (!isLoading &&
             _labelExtractionResult != null &&
-            !_labelExtractionResult!.isSuccess)
+            (!_labelExtractionResult!.isSuccess ||
+                !_hasCriticalFields(_labelExtractionResult!)))
           _buildExtractionErrorCard(),
 
         // ── Scan Error ──

@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
 }
 
 // Load key.properties for release signing (do not commit real passwords).
@@ -14,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.tymmo.homeiq"
+    namespace = "com.io301.homeiq"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -28,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.tymmo.homeiq"
+        applicationId = "com.io301.homeiq"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

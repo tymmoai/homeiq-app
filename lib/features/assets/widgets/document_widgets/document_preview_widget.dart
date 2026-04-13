@@ -140,40 +140,39 @@ class DocumentPreviewWidget extends StatelessWidget {
         // Calculate reasonable cache dimensions to prevent memory issues
         const maxCacheDimension = 800;
 
-        return SizedBox(
-          width: constraints.maxWidth,
-          height: constraints.maxHeight,
-          child: isLocalFile
-              ? Image.file(
-                  File(imagePath),
-                  fit: BoxFit.contain,
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                  cacheWidth: maxCacheDimension,
-                  cacheHeight: maxCacheDimension,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Icon(
-                      Icons.broken_image,
-                      size: responsive.iconSize(56),
-                      color: AssetDetailColors.textSecondary,
+        return Center(
+          child: Container(
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
+            color: AssetDetailColors.backgroundColor,
+            child: isLocalFile
+                ? Image.file(
+                    File(imagePath),
+                    fit: BoxFit.contain,
+                    cacheWidth: maxCacheDimension,
+                    cacheHeight: maxCacheDimension,
+                    errorBuilder: (context, error, stackTrace) => Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        size: responsive.iconSize(56),
+                        color: AssetDetailColors.textSecondary,
+                      ),
+                    ),
+                  )
+                : Image.asset(
+                    imagePath,
+                    fit: BoxFit.contain,
+                    cacheWidth: maxCacheDimension,
+                    cacheHeight: maxCacheDimension,
+                    errorBuilder: (context, error, stackTrace) => Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        size: responsive.iconSize(56),
+                        color: AssetDetailColors.textSecondary,
+                      ),
                     ),
                   ),
-                )
-              : Image.asset(
-                  imagePath,
-                  fit: BoxFit.contain,
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                  cacheWidth: maxCacheDimension,
-                  cacheHeight: maxCacheDimension,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Icon(
-                      Icons.broken_image,
-                      size: responsive.iconSize(56),
-                      color: AssetDetailColors.textSecondary,
-                    ),
-                  ),
-                ),
+          ),
         );
       },
     );

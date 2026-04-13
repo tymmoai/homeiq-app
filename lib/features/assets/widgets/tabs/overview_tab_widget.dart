@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widgets/warranty_status_badge.dart';
 import '../../../../providers/warranty_status_provider.dart';
@@ -135,84 +134,6 @@ class OverviewTabWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Asset Score Card
-            Container(
-              padding: EdgeInsets.all(responsive.spacing(20.0)),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(
-                  responsive.borderRadius(12.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.shadow,
-                    blurRadius: responsive.spacing(8.0),
-                    offset: Offset(0, responsive.spacing(2.0)),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Asset Score',
-                        style: TextStyle(
-                          fontSize: responsive.fontSize(18.0),
-                          fontWeight: FontWeight.bold,
-                          color: AssetDetailColors.textPrimary,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: responsive.spacing(8.0),
-                          vertical: responsive.spacing(4.0),
-                        ),
-                        decoration: BoxDecoration(
-                          color: healthColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(
-                            AppDimensions.radiusBadge,
-                          ),
-                        ),
-                        child: Text(
-                          healthStatus,
-                          style: TextStyle(
-                            fontSize: responsive.fontSize(12.0),
-                            fontWeight: FontWeight.w600,
-                            color: healthColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: responsive.spacing(10.0)),
-                  Text(
-                    '${healthScore.toStringAsFixed(1)}/10',
-                    style: TextStyle(
-                      fontSize: responsive.fontSize(32.0),
-                      fontWeight: FontWeight.bold,
-                      color: AssetDetailColors.textPrimary,
-                    ),
-                  ),
-                  SizedBox(height: responsive.spacing(12.0)),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      responsive.borderRadius(4.0),
-                    ),
-                    child: LinearProgressIndicator(
-                      value: healthScore / 10,
-                      minHeight: responsive.spacing(8.0),
-                      backgroundColor: AssetDetailColors.borderColor,
-                      valueColor: AlwaysStoppedAnimation<Color>(healthColor),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: responsive.spacing(10.0)),
-
             // Asset Details
             Container(
               padding: EdgeInsets.all(responsive.spacing(20.0)),
@@ -924,49 +845,34 @@ class OverviewTabWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header row (non-clickable, just displays info)
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: responsive.iconSize(36.0),
-                height: responsive.iconSize(36.0),
-                decoration: BoxDecoration(
-                  color: AssetDetailColors.primaryDark.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(
-                    responsive.borderRadius(8.0),
-                  ),
-                ),
-                child: Icon(
-                  Icons.security,
-                  color: AssetDetailColors.primaryDark,
-                  size: responsive.iconSize(18.0),
-                ),
-              ),
-              SizedBox(width: responsive.spacing(10.0)),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
                       'Warranty & Protection Details',
                       style: TextStyle(
-                        fontSize: responsive.fontSize(14.0),
-                        fontWeight: FontWeight.w700,
+                        fontSize: responsive.fontSize(18.0),
+                        fontWeight: FontWeight.bold,
                         color: AppColors.textPrimary,
                       ),
                     ),
-                    SizedBox(height: responsive.spacing(1.0)),
-                    Text(
-                      brand,
-                      style: TextStyle(
-                        fontSize: responsive.fontSize(11.0),
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
+                  ),
+                  SizedBox(width: responsive.spacing(8.0)),
+                  WarrantyStatusBadge(status: computeWarrantyStatus(asset)),
+                ],
+              ),
+              SizedBox(height: responsive.spacing(2.0)),
+              Text(
+                brand,
+                style: TextStyle(
+                  fontSize: responsive.fontSize(13.0),
+                  color: AppColors.textSecondary,
                 ),
               ),
-              // Status badge
-              WarrantyStatusBadge(status: computeWarrantyStatus(asset)),
             ],
           ),
 

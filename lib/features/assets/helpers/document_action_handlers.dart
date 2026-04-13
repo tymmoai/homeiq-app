@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../services/document_download_service.dart';
 import '../../../../theme/asset_detail_colors.dart';
 import '../widgets/document_widgets/upload_document_sheet.dart';
 import 'asset_detail_helpers.dart';
@@ -16,33 +19,49 @@ Future<void> handleDocumentDownload({
   required String title,
 }) async {
   try {
-    // Check if it's a local file path
-    if (imagePath.startsWith('/') || imagePath.startsWith('file://')) {
-      final file = File(imagePath);
-      if (await file.exists()) {
-        if (!context.mounted) return;
-        // File exists - proceed with download
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Downloading $title...'),
-            backgroundColor: AssetDetailColors.primaryDark,
-            duration: const Duration(seconds: 1),
-          ),
-        );
+    late final List<int> bytes;
 
-        // Simulate download completion
-        await Future.delayed(const Duration(seconds: 1));
-
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$title downloaded successfully'),
-            backgroundColor: AssetDetailColors.successColor,
-            duration: const Duration(seconds: 2),
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      // Step 1 — download bytes with a spinner snackbar
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: const [
+              SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(width: 12),
+              Text('Downloading...'),
+            ],
           ),
-        );
-      } else {
-        // File doesn't exist
+          backgroundColor: AssetDetailColors.primaryDark,
+          duration: const Duration(seconds: 30),
+        ),
+      );
+
+      final response = await http.get(Uri.parse(imagePath)).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () => throw Exception('Download timeout'),
+      );
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).clearSnackBars();
+
+      if (response.statusCode != 200) {
+        throw Exception('HTTP ${response.statusCode}');
+      }
+
+      bytes = response.bodyBytes;
+    } else if (imagePath.startsWith('/') ||
+        imagePath.startsWith('file://')) {
+      final file = File(imagePath.replaceFirst('file://', ''));
+      if (!await file.exists()) {
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -51,35 +70,53 @@ Future<void> handleDocumentDownload({
             duration: const Duration(seconds: 2),
           ),
         );
+        return;
       }
+      bytes = await file.readAsBytes();
     } else {
-      // Asset file - show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Downloading $title...'),
-          backgroundColor: AssetDetailColors.primaryDark,
-          duration: const Duration(seconds: 1),
-        ),
-      );
-
-      await Future.delayed(const Duration(seconds: 1));
-
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('$title downloaded successfully'),
-          backgroundColor: AssetDetailColors.successColor,
+          content: Text('Cannot download: $title'),
+          backgroundColor: AssetDetailColors.errorColor,
           duration: const Duration(seconds: 2),
         ),
       );
+      return;
     }
+
+    if (!context.mounted) return;
+
+    // Step 2 — open the native "Save As" picker so user chooses location
+    final rawName = imagePath.split('/').last.split('?').first;
+    final fileName =
+        rawName.isNotEmpty ? rawName : '${title.replaceAll(' ', '_')}.pdf';
+
+    final savedPath = await FilePicker.platform.saveFile(
+      fileName: fileName,
+      bytes: Uint8List.fromList(bytes),
+    );
+
+    if (!context.mounted) return;
+
+    if (savedPath != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('✓ Saved: $fileName'),
+          backgroundColor: AssetDetailColors.successColor,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+    // If savedPath is null the user cancelled — do nothing
   } on Object catch (e) {
     if (!context.mounted) return;
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Error downloading: ${e.toString()}'),
+        content: Text('Download failed: $e'),
         backgroundColor: AssetDetailColors.errorColor,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -92,20 +129,63 @@ Future<void> handleDocumentShare({
   required String title,
 }) async {
   try {
-    // Check if it's a local file path
-    if (imagePath.startsWith('/') || imagePath.startsWith('file://')) {
+    // Check if it's a network URL
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      // Download the file first, then share it
+      final fileName = imagePath.split('/').last.split('?').first;
+      final cleanFileName = fileName.isNotEmpty ? fileName : title;
+
+      // Show downloading indicator
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Preparing to share $title...'),
+            backgroundColor: AssetDetailColors.primaryDark,
+            duration: const Duration(seconds: 1),
+          ),
+        );
+      }
+
+      // Download the file using DocumentDownloadService
+      final file = await DocumentDownloadService().downloadDocument(
+        url: imagePath,
+        fileName: cleanFileName,
+      );
+
+      if (!context.mounted) return;
+
+      // Share the downloaded file
+      await DocumentDownloadService().shareDocument(
+        file,
+        subject: title,
+      );
+    } else if (imagePath.startsWith('/') || imagePath.startsWith('file://')) {
+      // Local file path
       final file = File(imagePath);
       if (await file.exists()) {
-        await Share.shareXFiles([
-          XFile(file.path, name: title),
-        ], text: 'Sharing $title');
+        // Get the MIME type for proper sharing
+        final mimeType = DocumentDownloadService.getMimeType(imagePath);
+        await Share.shareXFiles(
+          [XFile(file.path, mimeType: mimeType)],
+          subject: title,
+          text: 'Sharing $title from BrandsMart App',
+        );
       } else {
-        // If file doesn't exist, try to share as text
-        await Share.share('$title - Document from BrandsMart App');
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File not found: $title'),
+            backgroundColor: AssetDetailColors.errorColor,
+            duration: const Duration(seconds: 2),
+          ),
+        );
       }
     } else {
-      // For asset images, share as text
-      await Share.share('$title - Document from BrandsMart App');
+      // Asset file - share as text only
+      await Share.share(
+        '$title - Document from BrandsMart App',
+        subject: title,
+      );
     }
   } on Object catch (e) {
     if (!context.mounted) return;

@@ -229,11 +229,9 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
         child: _isLoadingPreview && invite == null
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  left: responsive.spacing(16),
-                  right: responsive.spacing(16),
-                  top: 0,
-                  bottom: responsive.spacing(16),
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsive.spacing(16),
+                  vertical: responsive.spacing(16),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -316,13 +314,12 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
     required bool isAccepted,
     required bool emailMatch,
   }) {
-    final Color statusColor = (isExpired || isAccepted || !emailMatch)
-        ? AppColors.error
-        : AppColors.success;
+    final bool hasIssue = isExpired || isAccepted || !emailMatch;
+    final Color statusColor = hasIssue ? AppColors.error : AppColors.success;
     final String statusLabel = isExpired
         ? 'Expired'
         : isAccepted
-            ? 'Already Accepted'
+            ? 'Accepted'
             : !emailMatch
                 ? 'Wrong Account'
                 : 'Pending';
@@ -331,69 +328,77 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            _primaryColor,
-            _primaryColor.withValues(alpha: 0.85),
-          ],
+          colors: [_primaryColor, _primaryColor.withValues(alpha: 0.82)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(14),
       ),
-      padding: EdgeInsets.all(responsive.spacing(24)),
-      child: Column(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
         children: [
           // Avatar
           Container(
-            width: responsive.spacing(72),
-            height: responsive.spacing(72),
+            width: 46,
+            height: 46,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.white.withValues(alpha: 0.2),
+              color: AppColors.white.withValues(alpha: 0.18),
               border: Border.all(
-                color: AppColors.white.withValues(alpha: 0.5),
-                width: 2,
+                color: AppColors.white.withValues(alpha: 0.4),
+                width: 1.5,
               ),
             ),
             child: Center(
               child: Text(
                 inviterInitial,
                 style: TextStyle(
-                  fontSize: responsive.fontSize(28),
+                  fontSize: responsive.fontSize(18),
                   fontWeight: FontWeight.w800,
                   color: AppColors.white,
                 ),
               ),
             ),
           ),
-          SizedBox(height: responsive.spacing(14)),
-          Text(
-            inviterName,
-            style: TextStyle(
-              fontSize: responsive.fontSize(20),
-              fontWeight: FontWeight.w800,
-              color: AppColors.white,
+          const SizedBox(width: 12),
+          // Name + subtitle
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  inviterName,
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(15),
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.white,
+                    height: 1.2,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  'has invited you to their home',
+                  style: TextStyle(
+                    fontSize: responsive.fontSize(12),
+                    color: AppColors.white.withValues(alpha: 0.72),
+                    height: 1.2,
+                  ),
+                ),
+              ],
             ),
-            textAlign: TextAlign.center,
           ),
-          SizedBox(height: responsive.spacing(4)),
-          Text(
-            'has invited you to their home',
-            style: TextStyle(
-              fontSize: responsive.fontSize(13),
-              color: AppColors.white.withValues(alpha: 0.8),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: responsive.spacing(14)),
+          const SizedBox(width: 10),
           // Status pill
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
             decoration: BoxDecoration(
-              color: statusColor.withValues(alpha: 0.2),
+              color: statusColor.withValues(alpha: 0.18),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: statusColor.withValues(alpha: 0.6),
+                color: statusColor.withValues(alpha: 0.55),
                 width: 1,
               ),
             ),
@@ -401,18 +406,18 @@ class _AcceptInviteScreenState extends ConsumerState<AcceptInviteScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 7,
-                  height: 7,
+                  width: 6,
+                  height: 6,
                   decoration: BoxDecoration(
                     color: statusColor,
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: 5),
                 Text(
                   statusLabel,
                   style: TextStyle(
-                    fontSize: responsive.fontSize(12),
+                    fontSize: responsive.fontSize(11),
                     fontWeight: FontWeight.w600,
                     color: statusColor,
                   ),

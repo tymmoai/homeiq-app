@@ -51,8 +51,8 @@ class KeyRiskSectionWidget extends StatelessWidget {
           Text(
             'Key Risks',
             style: TextStyle(
-              fontSize: responsive.fontSize(17.0),
-              fontWeight: FontWeight.w700,
+              fontSize: responsive.fontSize(18.0),
+              fontWeight: FontWeight.bold,
               color: AssetDetailColors.textPrimary,
             ),
           ),

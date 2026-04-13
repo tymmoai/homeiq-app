@@ -547,38 +547,42 @@ Keep it super simple. Short sentences only. The steps MUST match the actual labe
             'Extract details from label image${assetType != null ? ' ($assetType)' : ''}',
       );
 
-      if (response.statusCode == 200) {
+      // ── Handle error responses with validation reasons ──
+      if (response.statusCode == 400) {
+        // Validation failed — image not a product label or couldn't extract anything
         final body = jsonDecode(response.body) as Map<String, dynamic>;
-        // Backend wraps in { success: true, data: { ... } }
-        final content = (body['data'] as Map<String, dynamic>?) ?? body;
-        final mfr = (content['manufacturer'] as String? ?? '').trim();
-        final mfgYear = (content['manufacturedYear'] as String? ?? '').trim();
-        final madeInVal = (content['madeIn'] as String? ?? '').trim();
-        // Barcode API enrichment fields (for mismatch detection only)
-        final productTitle = (content['productTitle'] as String?);
-        final productDescription = (content['productDescription'] as String?);
-        final productCategory = (content['productCategory'] as String?);
+        final errorMsg =
+            (body['message'] as String?) ?? 'Could not process this image.';
+        final validationReason =
+            (body['validationReason'] as String?) ?? 'unknown';
+        final confidence = (body['confidence'] as int?) ?? 0;
+
+        String userFriendlyMessage = errorMsg;
+
+        // Provide specific guidance based on validation failure reason
+        if (validationReason == 'not_a_product_label') {
+          userFriendlyMessage = 'This doesn\'t look like a product label. Please upload a photo of:\n\n'
+              '• The manufacturer\'s label or nameplate\n'
+              '• With model and serial number visible\n'
+              '• Usually on the back, side, or inside the appliance';
+        } else if (validationReason == 'no_readable_text') {
+          userFriendlyMessage = 'The label text is too blurry or unclear. Please try:\n\n'
+              '• Taking a closer photo\n'
+              '• Using better lighting\n'
+              '• Making the label fill most of the frame';
+        } else if (validationReason == 'no_critical_fields_found') {
+          userFriendlyMessage = 'Could not find any product information in this image. Please ensure the label shows:\n\n'
+              '• Brand or manufacturer name\n'
+              '• Model number\n'
+              '• Serial number\n\nTry uploading a clearer photo.';
+        }
+
         return LabelExtractionResult(
-          brand: (content['brand'] as String? ?? '').trim(),
-          model: (content['model'] as String? ?? '').trim(),
-          serial: (content['serial'] as String? ?? '').trim(),
-          barcode: (content['barcode'] as String? ?? '').trim(),
-          productType: (content['productType'] as String? ?? '').trim(),
-          manufacturer: mfr.isNotEmpty ? mfr : null,
-          manufacturedYear: mfgYear.isNotEmpty ? mfgYear : null,
-          madeIn: madeInVal.isNotEmpty ? madeInVal : null,
-          productTitle: (productTitle?.isNotEmpty == true)
-              ? productTitle
-              : null,
-          productDescription: (productDescription?.isNotEmpty == true)
-              ? productDescription
-              : null,
-          productCategory: (productCategory?.isNotEmpty == true)
-              ? productCategory
-              : null,
-          enrichmentSource: content['enrichmentSource'] as String? ?? 'chatgpt',
-          barcodeApiSuccess: content['barcodeApiSuccess'] as bool? ?? false,
-          isSuccess: true,
+          isSuccess: false,
+          errorMessage: userFriendlyMessage,
+          confidence: confidence,
+          extractionQuality: 'invalid',
+          isValidProductLabel: false,
         );
       } else if (response.statusCode == 401) {
         return LabelExtractionResult(
@@ -591,7 +595,7 @@ Keep it super simple. Short sentences only. The steps MUST match the actual labe
           errorMessage:
               'Our image reading service is temporarily unavailable. Please enter your product details manually.',
         );
-      } else {
+      } else if (response.statusCode != 200) {
         AppLogger.error(
           'Label analysis API error: ${response.statusCode} - ${response.body}',
           tag: 'ChatGPT',
@@ -599,9 +603,51 @@ Keep it super simple. Short sentences only. The steps MUST match the actual labe
         return LabelExtractionResult(
           isSuccess: false,
           errorMessage:
-              'We couldn\'t read your product label right now. Please try again or enter details manually.',
+              'We couldn\'t read your product label. Please try again or enter details manually.',
         );
       }
+
+      // ── Success response ──
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      final content = (body['data'] as Map<String, dynamic>?) ?? body;
+      
+      // Parse new validation fields
+      final confidence = (content['confidence'] as int?) ?? 0;
+      final extractionQuality = (content['extractionQuality'] as String?) ?? 'invalid';
+      final isValidProductLabel = (content['isValidProductLabel'] as bool?) ?? false;
+      final extractionWarning = (content['extractionWarning'] as String?);
+      
+      final mfr = (content['manufacturer'] as String? ?? '').trim();
+      final mfgYear = (content['manufacturedYear'] as String? ?? '').trim();
+      final madeInVal = (content['madeIn'] as String? ?? '').trim();
+      
+      // Barcode API enrichment fields
+      final productTitle = (content['productTitle'] as String?);
+      final productDescription = (content['productDescription'] as String?);
+      final productCategory = (content['productCategory'] as String?);
+      
+      return LabelExtractionResult(
+        brand: (content['brand'] as String? ?? '').trim(),
+        model: (content['model'] as String? ?? '').trim(),
+        serial: (content['serial'] as String? ?? '').trim(),
+        barcode: (content['barcode'] as String? ?? '').trim(),
+        productType: (content['productType'] as String? ?? '').trim(),
+        manufacturer: mfr.isNotEmpty ? mfr : null,
+        manufacturedYear: mfgYear.isNotEmpty ? mfgYear : null,
+        madeIn: madeInVal.isNotEmpty ? madeInVal : null,
+        productTitle: (productTitle?.isNotEmpty == true) ? productTitle : null,
+        productDescription:
+            (productDescription?.isNotEmpty == true) ? productDescription : null,
+        productCategory:
+            (productCategory?.isNotEmpty == true) ? productCategory : null,
+        enrichmentSource: content['enrichmentSource'] as String? ?? 'chatgpt',
+        barcodeApiSuccess: content['barcodeApiSuccess'] as bool? ?? false,
+        isSuccess: true,
+        confidence: confidence,
+        extractionQuality: extractionQuality,
+        isValidProductLabel: isValidProductLabel,
+        extractionWarning: extractionWarning,
+      );
     } on http.ClientException catch (_) {
       return LabelExtractionResult(
         isSuccess: false,
@@ -684,6 +730,19 @@ class LabelExtractionResult {
   /// True if Barcode API returned product data
   final bool barcodeApiSuccess;
 
+  // ── NEW: Validation and quality fields ──
+  /// 0-100 confidence score from AI analysis
+  final int confidence;
+  
+  /// Quality assessment: 'high', 'medium', 'low', 'invalid'
+  final String extractionQuality;
+  
+  /// Whether this appears to be an actual product label
+  final bool isValidProductLabel;
+  
+  /// Warning message if quality is low
+  final String? extractionWarning;
+
   LabelExtractionResult({
     this.brand = '',
     this.model = '',
@@ -704,6 +763,10 @@ class LabelExtractionResult {
     this.enrichmentSource = 'chatgpt',
     this.barcodeApiAttempted = false,
     this.barcodeApiSuccess = false,
+    this.confidence = 0,
+    this.extractionQuality = 'invalid',
+    this.isValidProductLabel = false,
+    this.extractionWarning,
   });
 
   /// Create a copy with Barcode API enrichment data merged in.
@@ -744,6 +807,10 @@ class LabelExtractionResult {
       enrichmentSource: barcodeApiSuccess ? 'merged' : 'chatgpt',
       barcodeApiAttempted: true,
       barcodeApiSuccess: barcodeApiSuccess,
+      confidence: confidence,
+      extractionQuality: extractionQuality,
+      isValidProductLabel: isValidProductLabel,
+      extractionWarning: extractionWarning,
     );
   }
 

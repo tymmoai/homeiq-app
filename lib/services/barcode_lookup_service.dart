@@ -320,7 +320,7 @@ class BarcodeLookupService {
       final response = await _apiClient.post(
         '/ai/resolve-product-image',
         body: payload,
-        timeout: const Duration(seconds: 8),
+        timeout: const Duration(seconds: 20),
       );
       if (response.statusCode == 200) {
         final data = json.decode(response.body);

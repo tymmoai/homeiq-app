@@ -523,6 +523,7 @@ class SelectHomeBottomSheet extends StatelessWidget {
                     ...homes.map((home) {
                       final name = home['name'] ?? '';
                       final address = home['address'] ?? '';
+                      final isShared = home['accessRole'] == 'family_member';
                       final isSelected = selectedHomeName == name;
 
                       return Padding(
@@ -595,11 +596,36 @@ class SelectHomeBottomSheet extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                  if (isShared)
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 6),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 7, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue.withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color: Colors.blue.withValues(
+                                                alpha: 0.4),
+                                            width: 1),
+                                      ),
+                                      child: const Text(
+                                        'Shared',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
                                   if (isSelected)
-                                    Icon(
-                                      Icons.check_circle,
-                                      color: headerColor,
-                                      size: 24,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4),
+                                      child: Icon(
+                                        Icons.check_circle,
+                                        color: headerColor,
+                                        size: 22,
+                                      ),
                                     ),
                                 ],
                               ),

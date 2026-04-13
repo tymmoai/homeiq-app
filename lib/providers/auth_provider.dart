@@ -7,6 +7,7 @@ import '../main.dart';
 import '../services/api_client.dart';
 import '../services/auth_api_service.dart';
 import '../services/deep_link_service.dart'; // pendingInviteTokenKey, pendingInviteActionKey, pendingInviteEmailKey
+import '../services/notification_service.dart';
 import 'data_providers.dart';
 import 'deep_link_provider.dart'; // pendingInviteTokenProvider, pendingInviteNavDataProvider, PendingInviteNavData
 import 'home_selection_provider.dart';
@@ -60,6 +61,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       ApiClient().setAuthToken(accessToken);
       // Wire up automatic logout on token refresh failure.
       ApiClient().onForceLogout = _handleForceLogout;
+
+      // Register FCM token for push notifications
+      _registerFCMToken();
 
       // Check for a pending invite token that was saved by DeepLinkService
       // during cold-start BEFORE the ProviderScope context was ready.
@@ -115,6 +119,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       DateTime.now().millisecondsSinceEpoch,
     );
 
+    // Register FCM token for push notifications
+    _registerFCMToken();
+
     // ── Invalidate all user-data providers so they re-fetch for THIS user.
     //    Must happen AFTER the token is set on ApiClient so the first fetch
     //    is authenticated. The providers lazy-rebuild on next widget read.
@@ -158,6 +165,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Clears auth state, tokens, and persisted data.
   Future<void> logout() async {
     try {
+      // Unregister FCM token before logging out
+      _unregisterFCMToken().catchError((_) {});
       await AuthApiService.instance.logout();
     } on Object catch (_) {
       // Ignore logout API errors — still clear local state.
@@ -192,5 +201,40 @@ class AuthNotifier extends StateNotifier<AuthState> {
   void _handleForceLogout() {
     debugPrint('[Auth] ⚠️ Force logout — token refresh failed');
     logout();
+  }
+
+  /// Register FCM token with backend for push notifications
+  Future<void> _registerFCMToken() async {
+    try {
+      final token = await NotificationService.instance.getToken();
+      if (token != null) {
+        await ApiClient().post(
+          '/notifications/fcm/register',
+          body: {
+            'token': token,
+            'platform': 'Android',
+          },
+        );
+        debugPrint('[Auth] 📱 FCM token registered with backend');
+      }
+    } on Object catch (e) {
+      debugPrint('[Auth] ⚠️ Failed to register FCM token: $e');
+    }
+  }
+
+  /// Unregister FCM token from backend on logout
+  Future<void> _unregisterFCMToken() async {
+    try {
+      final token = await NotificationService.instance.getToken();
+      if (token != null) {
+        await ApiClient().post(
+          '/notifications/fcm/unregister',
+          body: {'token': token},
+        );
+        debugPrint('[Auth] 📵 FCM token unregistered from backend');
+      }
+    } on Object catch (e) {
+      debugPrint('[Auth] ⚠️ Failed to unregister FCM token: $e');
+    }
   }
 }

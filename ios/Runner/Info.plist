@@ -68,10 +68,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.tymmo.homeiq</string>
+		<string>com.301io.homeiq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>homeiq</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>google-sign-in</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1098490859710-33k8ds4e2aiit87suto8hutf4aevt3k7</string>
 			</array>
 		</dict>
 	</array>

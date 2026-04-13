@@ -234,8 +234,8 @@ class AssetDetailCard extends StatelessWidget {
                                   // Status Badge
                                   Container(
                                     padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
+                                      horizontal: 6,
+                                      vertical: 3,
                                     ),
                                     decoration: BoxDecoration(
                                       color: statusBgColor,
@@ -244,13 +244,15 @@ class AssetDetailCard extends StatelessWidget {
                                       ),
                                     ),
                                     child: Text(
-                                      statusText.toUpperCase(),
+                                      statusText,
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 9,
                                         fontWeight: FontWeight.bold,
                                         color: statusTextColor,
-                                        letterSpacing: 0.5,
+                                        letterSpacing: 0.3,
                                       ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
@@ -306,49 +308,7 @@ class AssetDetailCard extends StatelessWidget {
                                   );
                                 },
                               ),
-                              const SizedBox(height: 12),
-                              // Health Section
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'HEALTH SCORE',
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.grey.shade600,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 0.5,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${healthScore.toStringAsFixed(1)}/10',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.textPrimary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  // Health Progress Bar
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: LinearProgressIndicator(
-                                      value: healthScore / 10,
-                                      minHeight: 6,
-                                      backgroundColor: Colors.grey.shade200,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        healthScoreColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+
                             ],
                           ),
                         ),

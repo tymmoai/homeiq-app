@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "1098490859710",
+    "project_id": "tymmo-ai",
+    "storage_bucket": ""
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098490859710:android:homeiq",
+        "android_client_info": {
+          "package_name": "com.io301.homeiq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098490859710-i59hut1mq2npqmpuhvlnmnann9qd8u7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.io301.homeiq",
+            "certificate_hash": "c3958fa62620f44cec8b12e348b3d1c1b5e13a2"
+          }
+        },
+        {
+          "client_id": "1098490859710-86u6ggtc8kfl763sqvsbcnokkangavcu.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1098490859710-cb75btvar7t23p6pm2qs32uo5nopjhkg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD..."
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098490859710-86u6ggtc8kfl763sqvsbcnokkangavcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

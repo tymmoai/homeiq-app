@@ -462,7 +462,7 @@ class _DIYMaintenanceScreenState extends State<DIYMaintenanceScreen> {
             ),
             SizedBox(height: responsive.spacing(2)),
             Text(
-              '${widget.reminder.assetName} â€¢ ${widget.reminder.assetLocation ?? 'Home'}',
+              '${widget.reminder.assetName} • ${widget.reminder.assetLocation ?? 'Home'}',
               style: TextStyle(
                 fontSize: responsive.fontSize(12),
                 color: Colors.white.withValues(alpha: 0.85),

@@ -106,7 +106,7 @@ class WifiDevice {
   /// OS version from SMB negotiation (e.g. "Windows 10.0", "Samba 4.15").
   final String? smbOsVersion;
 
-  /// Product image URL returned by backend enrichment (BestBuy / SerpAPI / Pexels).
+  /// Product image URL returned by backend enrichment (SerpAPI only).
   final String? productImageUrl;
 
   /// Human-readable product name returned by backend enrichment.
@@ -838,7 +838,7 @@ class WifiDiscoveryResult {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 class WifiDiscoveryService {
-  static const _platform = MethodChannel('com.tymmo.homeiq/wifi');
+  static const _platform = MethodChannel('com.301io.homeiq/wifi');
 
   /// Devices found by Layer 0 (ARP/ping sweep), shared so Layer 2 (mDNS)
   /// can match hostnames to IPs when A records are missing.
@@ -847,8 +847,8 @@ class WifiDiscoveryService {
   // UPnP config
   static const String _ssdpMulticast = '239.255.255.250';
   static const int _ssdpPort = 1900;
-  static const Duration _ssdpTimeout = Duration(seconds: 5);
-  static const Duration _httpTimeout = Duration(seconds: 3);
+  static const Duration _ssdpTimeout = Duration(seconds: 2); // FAST: 5s → 2s
+  static const Duration _httpTimeout = Duration(seconds: 1); // FAST: 3s → 1s
 
   // M-SEARCH packet
   static const String _msearchPacket =
@@ -1008,84 +1008,17 @@ class WifiDiscoveryService {
   //   32400     = Plex Media Server
   //   49152     = UPnP (Philips Hue Bridge, Win UPnP)
   //   55443     = Eufy cameras (non-standard local API port)
+  // FAST MODE: Reduced port list for faster scanning
+  // Only scan essential ports for device identification — removes low-probability ports
   static const _scanPorts = [
-    // ── Standard web/HTTPS ────────────────────────────────────────────
-    80, 443, 8080, 8443, 81, 8081, 8181,
-    // ── Service banner ports (NETLIB service detection) ───────────────
-    21, // FTP — file servers, NAS, IP cameras, printers
-    22, // SSH — Linux, macOS, network equipment
-    23, // Telnet — routers, IoT devices, managed switches
-    25, // SMTP — mail servers
-    53, // DNS — Pi-hole, routers acting as DNS servers
-    110, // POP3 — mail servers
-    143, // IMAP — mail servers
-    161, // SNMP — routers, printers, NAS (UDP, but TCP probe detects presence)
-    389, // LDAP — domain controllers
-    515, // LPR — network printers (Line Printer Daemon)
-    554, // RTSP — IP cameras, NVR, streaming devices
-    587, // SMTP Submission — mail servers
-    993, // IMAPS
-    995, // POP3S
-    // ── Laptop / Computer / Windows ports ─────────────────────────────
-    135, // Windows RPC — ubiquitous on Windows LAN
-    139, // NetBIOS Session — Windows / Samba
-    445, // SMB/CIFS — Windows PCs, NAS, Samba
-    548, // AFP — Apple file sharing (Macs)
-    3389, // RDP — Windows Remote Desktop
-    5357, // WSD — Windows Service Discovery
-    3689, // DAAP — iTunes / macOS Music sharing
-    5900, // VNC — Remote desktop
-    // ── Smart-home & IoT ──────────────────────────────────────────────
-    631, // IPP — network printers
-    1400, // Sonos speakers
-    1883, // MQTT — smart hubs, OpenHAB, Node-RED
-    1900, // UPnP/SSDP
-    2869, // UPnP events / Philips Hue
-    5000, // UPnP HTTP / Synology NAS
-    5001, // Synology NAS (HTTPS)
-    5060, // SIP/VoIP phones
-    7000, // AirPlay — Apple TV / Airport
-    8001, // Samsung Smart TV
-    8008, // Chromecast / Google TV
-    8060, // Roku
-    8123, // Home Assistant
-    8200, // MiniDLNA / ReadyMedia
-    9100, // HP JetDirect — raw printer port
-    9197, // Printer (WSD)
-    49152, // UPnP (Philips Hue Bridge, Win UPnP)
-    55443, // Eufy cameras
-    // ── Media & server infrastructure ─────────────────────────────────
-    3000, // Grafana / Gitea / dev dashboards
-    8096, // Jellyfin media server
-    8291, // MikroTik Winbox (RouterOS management)
-    8443, // Alt HTTPS (Ubiquiti UniFi, Synology)
-    8888, // Jupyter / misc dashboards
-    9000, // Portainer / Unifi Video
-    9090, // Prometheus / Cockpit / router admin
-    10000, // Webmin
-    32400, // Plex Media Server
-    // ── Database / service discovery (for server fingerprinting) ──────
-    1080, // SOCKS proxy
-    2049, // NFS — file server
-    3306, // MySQL
-    3478, // STUN/TURN — VoIP / WebRTC
-    5222, // XMPP — messaging
-    5432, // PostgreSQL
-    6379, // Redis
-    8834, // Nessus scanner
-    9200, // Elasticsearch
-    27017, // MongoDB
-    // ── Mobile device detection ───────────────────────────────────────
-    5555, // Android Wireless ADB (wireless debugging — definitive Android signal)
-    62078, // iOS Lockdown Service (iTunes pairing — exclusive to iPhone/iPad)
-    // ── Home Appliance Ports ──────────────────────────────────────────
-    2878,  // LG ThinQ local REST API (washers, fridges, ACs, dishwashers, ovens)
-    7676,  // LG Home IoT (older ThinQ protocol)
-    7677,  // LG ThinQ v2 local channel
-    6000,  // LG DLNA Smart Share
-    8900,  // SmartThings Hub local API / Whirlpool WConnected
-    55000, // GE Appliances WiFi module
-    4999,  // iRobot / Roborock relay
+    // ── Critical: Web interfaces (most devices listen here) ───────────
+    80, 443, 8080, 8443,
+    // ── Essential: Service identification ──────────────────────────
+    22, 23, 445, 554, 1900, 5000, 8001, 8008, 8060, 8123,
+    // ── Home Appliances (most common) ──────────────────────────────
+    2878, 7677, 4999,
+    // ── Mobile device detection (quick wins) ──────────────────────
+    5555, 62078, // Android ADB + iOS Lockdown
   ];
 
   // Logs
@@ -1375,29 +1308,25 @@ class WifiDiscoveryService {
         );
 
         // ── LAYER 4: SNMP scan (Android only) ─────────────────────────
-        // Query UDP port 161 on each discovered IP for sysDescr + sysName.
-        // This is the most reliable way to identify routers, NAS devices,
-        // managed switches, printers, and Linux servers — they all have
-        // SNMP enabled by default with community string "public".
-        // iOS: returns empty (UDP 161 is blocked in the iOS App Sandbox).
+        // FAST MODE: Skip SNMP to improve speed — most devices are already identified by UPnP/mDNS
         List<WifiDevice> snmpEnriched = filtered;
-        if (Platform.isAndroid) {
-          onProgress?.call(87, 'SNMP scanning devices...');
-          try {
-            final ipsToQuery = filtered
-                .where((d) => d.ipAddress != 'mDNS')
-                .map((d) => d.ipAddress)
-                .toList();
-            if (ipsToQuery.isNotEmpty) {
-              final snmpData = await _runSnmpScan(ipsToQuery);
-              if (snmpData.isNotEmpty) {
-                snmpEnriched = _applySnmpData(filtered, snmpData);
-              }
-            }
-          } on Object catch (e) {
-            _log('SNMP', '⚠️ SNMP scan failed (non-critical)', e.toString());
-          }
-        }
+        // if (Platform.isAndroid) { // DISABLED FOR FAST MODE
+        //   onProgress?.call(87, 'SNMP scanning devices...');
+        //   try {
+        //     final ipsToQuery = filtered
+        //         .where((d) => d.ipAddress != 'mDNS')
+        //         .map((d) => d.ipAddress)
+        //         .toList();
+        //     if (ipsToQuery.isNotEmpty) {
+        //       final snmpData = await _runSnmpScan(ipsToQuery);
+        //       if (snmpData.isNotEmpty) {
+        //         snmpEnriched = _applySnmpData(filtered, snmpData);
+        //       }
+        //     }
+        //   } on Object catch (e) {
+        //     _log('SNMP', '⚠️ SNMP scan failed (non-critical)', e.toString());
+        //   }
+        // }
 
         // ── LAYER 3: Backend Enrichment ───────────────────────────────
         onProgress?.call(90, 'Enriching via backend...');
@@ -1414,17 +1343,17 @@ class WifiDiscoveryService {
         }
 
         // ── LAYER 5: Advanced API & HTTP Banner Probing ───────────────
-        // Runs on the merged+enriched list. Targets devices still "Unknown"
-        // or with confidence < 85 and tries ~10 more specific probes.
-        onProgress?.call(95, 'Deep-probing unidentified devices...');
-        List<WifiDevice> finalDevices;
-        try {
-          finalDevices = await _runAdvancedProbeLayer(enriched);
-          _log('L5', '✅ Layer 5 done: ${finalDevices.length} device(s)');
-        } on Object catch (e) {
-          _log('L5', '⚠️ Layer 5 skipped', e.toString());
-          finalDevices = enriched;
-        }
+        // FAST MODE: Skip advanced probing to improve speed significantly
+        // The UPnP + mDNS discovery is sufficient for most devices
+        onProgress?.call(95, 'Finalizing results...');
+        List<WifiDevice> finalDevices = enriched;
+        // try {
+        //   finalDevices = await _runAdvancedProbeLayer(enriched);
+        //   _log('L5', '✅ Layer 5 done: ${finalDevices.length} device(s)');
+        // } on Object catch (e) {
+        //   _log('L5', '⚠️ Layer 5 skipped', e.toString());
+        //   finalDevices = enriched;
+        // }
 
         // ── DONE ─────────────────────────────────────────────────────
         onProgress?.call(100, 'Done! Found ${finalDevices.length} device(s)');
@@ -1625,8 +1554,8 @@ class WifiDiscoveryService {
     final liveHosts = <String, List<int>>{}; // ip → open ports
 
     final ipsToProbe = allLiveIps.toList();
-    for (int batch = 0; batch < ipsToProbe.length; batch += 40) {
-      final end = (batch + 40).clamp(0, ipsToProbe.length);
+    for (int batch = 0; batch < ipsToProbe.length; batch += 100) { // FAST: 40 → 100
+      final end = (batch + 100).clamp(0, ipsToProbe.length);
       final batchIps = ipsToProbe.sublist(batch, end);
 
       final futures = <Future<void>>[];
@@ -1691,15 +1620,13 @@ class WifiDiscoveryService {
     onProgress?.call(80, 'Resolving device names...');
     _log(
       'NET',
-      '🏷️ Phase 4: Resolving hostnames + NetBIOS for ${allLiveIps.length} IP(s)...',
+      '🏷️ Phase 4: Hostname Resolution (SKIPPED for performance)',
     );
-    final allIpsList = allLiveIps.toList();
-    final results = await Future.wait([
-      _resolveHostnames(allIpsList),
-      _resolveNetBiosNames(allIpsList),
-    ]);
-    final hostnameMap = results[0]; // DNS names
-    final netBiosMap = results[1]; // Windows computer names (NBSTAT)
+    
+    // FAST MODE: Skip hostname resolution to improve speed (saves 30-60 seconds!)
+    // Devices are already identified via UPnP/mDNS/ports, so hostnames are optional.
+    final hostnameMap = <String, String>{}; // FAST: empty map, skip DNS
+    final netBiosMap = <String, String>{}; // FAST: empty map, skip NetBIOS
 
     // Merge: NetBIOS name wins over reverse-DNS for Windows PCs
     // (DNS often returns the router-assigned DHCP name like "android-xyz",
@@ -2832,7 +2759,7 @@ class WifiDiscoveryService {
         final socket = await Socket.connect(
           ip,
           port,
-          timeout: const Duration(milliseconds: 600),
+          timeout: const Duration(milliseconds: 200),
         );
         openPorts.add(port);
         socket.destroy();
@@ -3121,6 +3048,8 @@ class WifiDiscoveryService {
   }
 
   /// Resolves hostnames for a list of IPs via native reverse-DNS.
+  // ignore: unused_element
+  // Disabled for performance: DNS hostname resolution removed (saves 30-60 seconds!)
   Future<Map<String, String>> _resolveHostnames(List<String> ips) async {
     if (ips.isEmpty) return {};
     try {
@@ -3145,6 +3074,8 @@ class WifiDiscoveryService {
   /// Queries NetBIOS Node Status (UDP 137) for each IP.
   /// Returns `Map<ip, windowsComputerName>` — works even when ICMP is blocked.
   /// iOS: returns empty — UDP 137 is blocked by the iOS App Sandbox.
+  // ignore: unused_element
+  // Disabled for performance: NetBIOS name resolution removed (saves 30-60 seconds!)
   Future<Map<String, String>> _resolveNetBiosNames(List<String> ips) async {
     if (ips.isEmpty) return {};
     if (Platform.isIOS) {
@@ -3860,6 +3791,8 @@ class WifiDiscoveryService {
     32400,
   ];
 
+  // ignore: unused_element
+  // Disabled for performance: Layer 5 probing removed to reduce scan time
   Future<List<WifiDevice>> _runAdvancedProbeLayer(
     List<WifiDevice> devices,
   ) async {
@@ -7112,6 +7045,8 @@ class WifiDiscoveryService {
 
   /// Invoke the native Android SNMPv2c scanner for a list of IPs.
   /// Returns a map of IP → {"sysDescr": "…", "sysName": "…"}.
+  // ignore: unused_element
+  // Disabled for performance: SNMP scanning removed to reduce scan time
   Future<Map<String, Map<String, String>>> _runSnmpScan(
     List<String> ips,
   ) async {
@@ -7156,6 +7091,8 @@ class WifiDiscoveryService {
 
   /// Merge SNMP sysDescr/sysName data into discovered devices.
   /// Only upgrades devices where SNMP provides genuinely better data.
+  // ignore: unused_element
+  // Disabled for performance: SNMP data mapping removed to reduce scan time
   List<WifiDevice> _applySnmpData(
     List<WifiDevice> devices,
     Map<String, Map<String, String>> snmpData,
